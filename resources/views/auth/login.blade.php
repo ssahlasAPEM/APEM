@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Login')
+
 <form class="form-signin" method="POST" action="/auth/login">
     {!! csrf_field() !!}
 

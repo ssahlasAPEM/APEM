@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Register')
+
 <form class="form-register" method="POST" action="/auth/register">
     {!! csrf_field() !!}
 
