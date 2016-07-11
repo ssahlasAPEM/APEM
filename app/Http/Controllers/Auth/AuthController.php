@@ -30,6 +30,17 @@ class AuthController extends Controller
      */
     protected $redirectPath = '/dashboard';
     protected $loginPath = '/';
+    protected $redirectAfterLogout = '/';
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function loginUsername()
+    {
+        return property_exists($this, 'username') ? $this->username : 'username';
+    }
 
     /**
      * Create a new authentication controller instance.
@@ -37,7 +48,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->middleware('guest', ['except' => ['logout', 'getLogout']]);
     }
 
     /**
@@ -49,24 +60,8 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'username' => 'required|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-        ]);
-    }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
         ]);
     }
 }

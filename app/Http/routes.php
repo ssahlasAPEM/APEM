@@ -22,14 +22,6 @@ Route::get('logout', 'Auth\AuthController@getLogout');
 
 /*
 |---------------------------------------------------------------------------
-| Registration
-|---------------------------------------------------------------------------
- */
-Route::get('register', 'Auth\AuthController@getRegister');
-Route::post('register', 'Auth\AuthController@postRegister');
-
-/*
-|---------------------------------------------------------------------------
 | Main Ember Application
 |---------------------------------------------------------------------------
  */

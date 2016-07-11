@@ -8,50 +8,40 @@ use Illuminate\Support\Facades\Hash;
  * Date: 7/8/16
  * Time: 1:00 PM
  */
-class AdminUserSeeder extends Seeder {
-
+class AdminUserSeeder extends Seeder
+{
 
     public function run()
     {
 
         $users = [
             [
-                'email'      => 'eric@curiousm.com',
-                'password'   => 'stardog182',
-                'first_name' => 'Eric',
-                'last_name'  => 'Meyer'
+                'username' => 'eric@curiousm.com',
+                'password' => 'stardog182'
             ],
 
             [
-                'email'      => 'andrew@curiousm.com',
-                'password'   => 'password',
-                'first_name' => 'Andrew',
-                'last_name'  => 'Engstrom'
+                'username' => 'andrew@curiousm.com',
+                'password' => 'password'
             ],
 
             [
-                'email'      => 'ralica@curiousm.com',
-                'password'   => 'password',
-                'first_name' => 'Ralica',
-                'last_name'  => 'Momchilova'
+                'username' => 'ralica@curiousm.com',
+                'password' => 'password'
             ],
 
             [
-                'email' => 'testharness@nodomain.tld',
-                'password' => 'X9Z2gPd9',
-                'first_name' => 'Test',
-                'last_name' => 'Harness'
+                'username' => 'TestHarness',
+                'password' => 'X9Z2gPd9'
             ]
         ];
 
-        DB::table( 'users' )->delete();
+        DB::table('users')->delete();
 
         foreach ($users as $userSeed) {
-            $user = new \App\User();
-            $user->email      = $userSeed['email'];
-            $user->password   = Hash::make($userSeed['password']);
-            $user->first_name = $userSeed['first_name'];
-            $user->last_name  = $userSeed['last_name'];
+            $user           = new \App\User();
+            $user->username = $userSeed['username'];
+            $user->password = Hash::make($userSeed['password']);
             $user->save();
         }
     }

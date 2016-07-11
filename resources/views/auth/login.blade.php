@@ -3,24 +3,24 @@
 @section('title', 'Login')
 
 @section('content')
-<title>NAO LOGIN TITLE TEXT</title>
-{!! csrf_field() !!}
-{!! Auth::user() !!}
 
-{!! Html::image('/images/corp-logo.PNG', 'APEM LOGO' , array('class' => 'apem-logo')) !!}
+    <title>NAO LOGIN TITLE TEXT</title>
+    {!! csrf_field() !!}
+    {!! Auth::user() !!}
 
-<div>NAO LOGIN TITLE TEXT</div>
+    {!! Html::image('/images/corp-logo.PNG', 'APEM LOGO' , array('class' => 'apem-logo')) !!}
 
-{!! Html::ul($errors->all(), array('class'=>'errors')) !!}
+    <div>NAO LOGIN TITLE TEXT</div>
 
-{!! Form::open(array('url' => 'signin','class'=>'form-inline')) !!}
+    {!! Html::ul($errors->all(), array('class'=>'errors')) !!}
 
-{!! Form::text('username', 'username', array('class' => 'form-control')) !!}
-<br>
-{!! Form::password('password', array('class' => 'form-control')) !!}
-<br>
-{!! Form::submit('Login Btn' , array('class' => 'btn btn-primary login-btn')) !!}
-{!! Form::close() !!}
+    {!! Form::open(array('url' => 'login','class'=>'form-inline')) !!}
 
+    {!! Form::text('username', old('username'), array('class' => 'form-control', 'placeholder'=>'Username')) !!}
+    <br>
+    {!! Form::password('password', array('class' => 'form-control', 'placeholder'=>'Password')) !!}
+    <br>
+    {!! Form::submit('Login Btn' , array('class' => 'btn btn-primary login-btn')) !!}
+    {!! Form::close() !!}
 
 @endsection
