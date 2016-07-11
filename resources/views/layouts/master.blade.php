@@ -10,7 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Latest compiled and minified CSS -->
-        {{-- !!HTML::style('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')!! --}}
+        {!!Html::style('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')!!}
 
         <!-- Icon Font -->
         {!!Html::style('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')!!}

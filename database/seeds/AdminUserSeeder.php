@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Database\Seeder;
 
 /**
  * Created by Curious Minds Media.
