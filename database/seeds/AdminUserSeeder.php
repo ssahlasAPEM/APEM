@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Created by Curious Minds Media.
@@ -48,7 +49,7 @@ class AdminUserSeeder extends Seeder {
         foreach ($users as $userSeed) {
             $user = new \App\User();
             $user->email      = $userSeed['email'];
-            $user->password   = $userSeed['password'];
+            $user->password   = Hash::make($userSeed['password']);
             $user->first_name = $userSeed['first_name'];
             $user->last_name  = $userSeed['last_name'];
             $user->save();

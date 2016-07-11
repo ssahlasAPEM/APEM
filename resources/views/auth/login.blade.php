@@ -6,7 +6,7 @@
 
     <form class="form-signin" method="POST" action="/login">
         {!! csrf_field() !!}
-    {!! Auth::user() !!}
+
         <img alt="APEM LOGO" />
         <h2 class="form-signin-heading">NAO LOGIN TITLE TEXT</h2>
         Email

@@ -11,11 +11,32 @@
 |
 */
 
-// Authentication routes...
+/*
+|---------------------------------------------------------------------------
+| Authentication
+|---------------------------------------------------------------------------
+ */
 Route::get('/', 'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');
 Route::get('logout', 'Auth\AuthController@getLogout');
 
-// Registration routes...
+/*
+|---------------------------------------------------------------------------
+| Registration
+|---------------------------------------------------------------------------
+ */
 Route::get('register', 'Auth\AuthController@getRegister');
 Route::post('register', 'Auth\AuthController@postRegister');
+
+/*
+|---------------------------------------------------------------------------
+| Main Ember Application
+|---------------------------------------------------------------------------
+ */
+Route::get(
+    'dashboard',
+    [
+        'as'   => 'dashboard',
+        'uses' => 'WebApp\ApplicationController@showApplication'
+    ]
+);
