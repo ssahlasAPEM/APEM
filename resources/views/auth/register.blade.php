@@ -1,29 +1,21 @@
 @extends('layouts.master')
 
-<form method="POST" action="/auth/register">
+<form class="form-register" method="POST" action="/auth/register">
     {!! csrf_field() !!}
 
-    <div>
-        Name
-        <input type="text" name="name" value="{{ old('name') }}">
-    </div>
-
-    <div>
-        Email
-        <input type="email" name="email" value="{{ old('email') }}">
-    </div>
-
-    <div>
-        Password
-        <input type="password" name="password">
-    </div>
-
-    <div>
-        Confirm Password
-        <input type="password" name="password_confirmation">
-    </div>
-
-    <div>
-        <button type="submit">Register</button>
-    </div>
+    <img alt="APEM LOGO" />
+    <h2 class="form-signin-heading">NAO LOGIN TITLE TEXT</h2>
+    Name
+    <input type="name" name="name" class="form-control" placeholder="name" required="" autofocus="" value="{{ old('name') }}">
+    <br>
+    Email
+    <input type="email" name="email" class="form-control" placeholder="email" required="" autofocus="" value="{{ old('email') }}">
+    <br>
+    Password
+    <input type="password" name="password" id="password" class="form-control" placeholder="password" required="">
+    <br>
+    Confirm Password
+    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="password" required="">
+    <br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 </form>
