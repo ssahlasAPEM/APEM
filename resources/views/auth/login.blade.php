@@ -7,7 +7,7 @@
 {!! csrf_field() !!}
 {!! Auth::user() !!}
 
-{!! Html::image('', 'APEM LOGO' , array('class' => 'apem-logo')) !!}
+{!! Html::image('/images/corp-logo.PNG', 'APEM LOGO' , array('class' => 'apem-logo')) !!}
 
 <div>NAO LOGIN TITLE TEXT</div>
 
