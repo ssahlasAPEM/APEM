@@ -15,7 +15,9 @@ class CreateFieldsTable extends Migration
         Schema::create('fields', function (Blueprint $table) {
             $table->increments('id');
             $table->string('label')->unique();
+            $table->string('name')->unique();
             $table->string('type');
+            $table->string('group');
             $table->string('value')->nullable();
             $table->text('options')->nullable();
             $table->boolean('required');
