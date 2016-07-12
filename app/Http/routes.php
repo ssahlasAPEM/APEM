@@ -32,3 +32,71 @@ Route::get(
         'uses' => 'WebApp\ApplicationController@showApplication'
     ]
 );
+
+/*
+|---------------------------------------------------------------------------
+| JSON Api
+|---------------------------------------------------------------------------
+ */
+Route::group(
+    ['middleware' => ['auth.jsonapi'], 'prefix' => 'api/v1'],
+    function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | Users
+        |--------------------------------------------------------------------------
+        */
+        Route::get(
+            'users/{id}/{relationshipType}',
+            [
+                'as'   => 'userRelations',
+                'uses' => 'JsonApi\UserController@relationships'
+            ]
+        );
+
+        Route::resource(
+            'users',
+            'JsonApi\UserController',
+            ['only' => ['index', 'show', 'store', 'update', 'destroy']]
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Fields
+        |--------------------------------------------------------------------------
+        */
+        Route::get(
+            'fields/{id}/{relationshipType}',
+            [
+                'as'   => 'fieldRelations',
+                'uses' => 'JsonApi\FieldController@relationships'
+            ]
+        );
+
+        Route::resource(
+            'fields',
+            'JsonApi\FieldController',
+            ['only' => ['index', 'show', 'store', 'update', 'destroy']]
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Opportunities
+        |--------------------------------------------------------------------------
+        */
+        Route::get(
+            'opportunities/{id}/{relationshipType}',
+            [
+                'as'   => 'opportunityRelations',
+                'uses' => 'JsonApi\OpportunityController@relationships'
+            ]
+        );
+
+        Route::resource(
+            'opportunities',
+            'JsonApi\OpportunityController',
+            ['only' => ['index', 'show', 'store', 'update', 'destroy']]
+        );
+    }
+);
