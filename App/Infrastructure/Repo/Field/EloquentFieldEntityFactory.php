@@ -11,7 +11,7 @@ use App\Core\Field\Model\Field;
 use App\Infrastructure\AbstractDomainEntityFactory;
 
 /**
- * Class EloquentUserEntityFactory
+ * Class EloquentFieldEntityFactory
  * @package App\Infrastructure\Repo\Field
  */
 class EloquentFieldEntityFactory extends AbstractDomainEntityFactory
