@@ -10,7 +10,7 @@
 use App\Core\Field\Model\Field;
 
 /**
- * Class UserResponseMacro
+ * Class FieldResponseMacro
  * @package App\Services\Api\Json\ResponseMacro
  */
 class FieldResponseMacro extends AbstractResponseMacro

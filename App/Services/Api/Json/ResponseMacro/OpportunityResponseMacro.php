@@ -1,14 +1,48 @@
-<?php
+<?php namespace App\Services\Api\Json\ResponseMacro;
+
 /**
  * Created by Curious Minds Media.
  * User: Andrew Engstrom (andrew@curiousm.com)
  * Date: 7/11/16
- * Time: 3:30 PM
+ * Time: 3:29 PM
  */
 
-namespace App\Services\Api\Json\ResponseMacro;
+use App\Core\Opportunity\Model\Opportunity;
+use Illuminate\Support\Facades\URL;
 
-class OpportunityResponseMacro
+/**
+ * Class OpportunityResponseMacro
+ * @package App\Services\Api\Json\ResponseMacro
+ */
+class OpportunityResponseMacro extends AbstractResponseMacro
 {
 
+    /**
+     * @return string
+     */
+    public function responseType()
+    {
+        return 'opportunity';
+    }
+
+    public function targetClass()
+    {
+        return Opportunity::class;
+    }
+
+    /**
+     * @param $serviceResponse
+     *
+     * @return \stdClass
+     */
+    protected function relationships($serviceResponse)
+    {
+        $relationships = new \stdClass();
+
+        $relationships->user                 = new \stdClass();
+        $relationships->user->links          = new \stdClass();
+        $relationships->user->links->related = URL::to('/') . "/api/v1/users/" . $serviceResponse->getUserId();
+
+        return $relationships;
+    }
 }
