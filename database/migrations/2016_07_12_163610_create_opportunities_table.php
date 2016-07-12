@@ -17,6 +17,7 @@ class CreateOpportunitiesTable extends Migration
             $table->integer('user_id')->unique();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -2,14 +2,13 @@
 
 use Exception;
 use App\Http\ErrorResponseFactory;
-
-//use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 /**
  * Class Handler
  * @package App\Exceptions
  */
-class Handler
+class Handler extends ExceptionHandler
 {
 
     /**
@@ -50,7 +49,7 @@ class Handler
         if (ErrorResponseFactory::isAppError($error)) {
             return response()->jsonAPIResponse(ErrorResponseFactory::makeErrorResponse($error));
         }
-dd($error);
+
         return parent::render($request, $error);
     }
 }

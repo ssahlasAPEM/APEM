@@ -17,11 +17,12 @@ class CreateFieldsTable extends Migration
             $table->string('label')->unique();
             $table->string('type');
             $table->string('value')->nullable();
-            $table->jsonb('options')->nullable();
+            $table->text('options')->nullable();
             $table->boolean('required');
             $table->boolean('visible');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

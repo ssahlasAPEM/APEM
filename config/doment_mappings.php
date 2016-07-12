@@ -44,13 +44,13 @@ return [
         'valueObjects' => [],
 
         'jsonToDomainEntity' => [
-            'created-at'      => ['CreatedDate', Flags::READONLY],
-            'updated-at'      => ['UpdatedDate', Flags::READONLY],
+            'created-at' => ['CreatedDate', Flags::READONLY],
+            'updated-at' => ['UpdatedDate', Flags::READONLY],
         ],
 
         'eloquentToDomainEntity' => [
-            'created_at'      => ['CreatedDate', Flags::READONLY],
-            'updated_at'      => ['UpdatedDate', Flags::READONLY],
+            'created_at' => ['CreatedDate', Flags::READONLY],
+            'updated_at' => ['UpdatedDate', Flags::READONLY],
         ],
     ],
 
@@ -58,13 +58,13 @@ return [
         'valueObjects' => [],
 
         'jsonToDomainEntity' => [
-            'username'    => ['Username', Flags::NONE],
-            'password'    => ['Password', Flags::WRITEONLY],
+            'username' => ['Username', Flags::NONE],
+            'password' => ['Password', Flags::WRITEONLY],
         ],
 
         'eloquentToDomainEntity' => [
-            'username'        => ['Username', Flags::NONE],
-            'password'        => ['Password', Flags::WRITEONLY],
+            'username' => ['Username', Flags::NONE],
+            'password' => ['Password', Flags::WRITEONLY],
         ],
 
         'objectDiscovery'     => [],
@@ -77,48 +77,30 @@ return [
         ],
 
         'jsonToDomainEntity' => [
-            'parent-id'      => ['ParentId', Flags::NONE],
-            'external-id'    => ['ExternalId', Flags::NONE],
-            'description'    => ['Description', Flags::NONE],
-            'duns-number'    => ['DunsNumber', Flags::NONE],
-            'name'           => ['Name', Flags::NONE],
-            'account-number' => ['AccountNumber', Flags::NONE],
-            'type'           => ['Type', Flags::NONE],
-            'annual-revenue' => ['AnnualRevenue', Flags::NONE],
-            'phone'          => ['Phone', Flags::NONE],
-            'stock-symbol'   => ['StockSymbol', Flags::NONE],
-            'url'            => ['Url', Flags::NONE],
-            'site'           => ['Site', Flags::NONE],
+            'label'    => ['Label', Flags::NONE],
+            'type'     => ['Type', Flags::NONE],
+            'value'    => ['Value', Flags::NONE],
+            'options'  => ['Options', Flags::NONE],
+            'required' => ['Required', Flags::NONE],
+            'visible'  => ['Visible', Flags::NONE],
         ],
 
         'eloquentToDomainEntity' => [
-            'id'             => ['Id', Flags::NONE],
-            'name'           => ['Name', Flags::NONE],
-            'url'            => ['Url', Flags::NONE],
-            'stock_symbol'   => ['StockSymbol', Flags::NONE],
-            'phone'          => ['Phone', Flags::NONE],
-            'annual_revenue' => ['AnnualRevenue', Flags::NONE],
-            'account_number' => ['AccountNumber', Flags::NONE],
-            'desc'           => ['Description', Flags::NONE],
-            'external_id'    => ['ExternalId', Flags::NONE],
-            'type'           => ['Type', Flags::NONE],
-            'parent_id'      => ['ParentId', Flags::NONE],
-            'duns_number'    => ['DunsNumber', Flags::NONE],
+            'label'    => ['Label', Flags::NONE],
+            'type'     => ['Type', Flags::NONE],
+            'value'    => ['Value', Flags::NONE],
+            'options'  => ['Options', Flags::NONE],
+            'required' => ['Required', Flags::NONE],
+            'visible'  => ['Visible', Flags::NONE],
         ],
 
         'objectDiscovery' => [
-            'parent-id'      => 'Parent Id',
-            'external-id'    => 'External Id',
-            'description'    => 'Description',
-            'duns-number'    => 'Duns Number',
-            'name'           => 'Name',
-            'account-number' => 'Account Number',
-            'type'           => 'Type',
-            'annual-revenue' => 'Annual Revenue',
-            'phone'          => 'Phone',
-            'stock-symbol'   => 'Stock Symbol',
-            'url'            => 'Url',
-            'site'           => 'Site',
+            'label'    => 'Label',
+            'type'     => 'Type',
+            'value'    => 'Value',
+            'options'  => 'Options',
+            'required' => 'Required',
+            'visible'  => 'Visible',
         ],
 
         'cascadeDeletes' => [
