@@ -1,6 +1,11 @@
-<?php
+<?php namespace App\Http\Controllers\Auth;
 
-namespace App\Http\Controllers\Auth;
+/**
+ * Created by Curious Minds Media.
+ * User: Andrew Engstrom (andrew@curiousm.com)
+ * Date: 7/11/16
+ * Time: 3:19 PM
+ */
 
 use App\User;
 use Validator;
