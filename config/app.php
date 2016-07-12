@@ -159,6 +159,10 @@ return [
         /*
          * Custom Service Providers...
          */
+        App\Providers\ApiServiceProvider::class,
+        App\Providers\UserServiceProvider::class,
+        App\Providers\FieldServiceProvider::class,
+        App\Providers\OpportunityServiceProvider::class,
         \Collective\Html\HtmlServiceProvider::class,
 
     ],
