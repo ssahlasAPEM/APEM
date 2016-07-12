@@ -1,26 +1,24 @@
-<?php
-
-namespace App\Exceptions;
+<?php namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Http\ErrorResponseFactory;
 
-class Handler extends ExceptionHandler
+//use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+
+/**
+ * Class Handler
+ * @package App\Exceptions
+ */
+class Handler
 {
+
     /**
      * A list of the exception types that should not be reported.
      *
      * @var array
      */
     protected $dontReport = [
-        AuthorizationException::class,
-        HttpException::class,
-        ModelNotFoundException::class,
-        ValidationException::class,
+        'Symfony\Component\HttpKernel\Exception\HttpException'
     ];
 
     /**
@@ -28,23 +26,31 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $error
+     *
      * @return void
      */
-    public function report(Exception $e)
+    public function report(Exception $error)
     {
-        parent::report($e);
+        //app('Bugsnag')->notifyException($error, []);
+        //return parent::report($error);
     }
 
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception               $error
+     *
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $e)
+    public function render($request, Exception $error)
     {
-        return parent::render($request, $e);
+        // To debug the backend, uncomment this line to get a full stack trace
+        if (ErrorResponseFactory::isAppError($error)) {
+            return response()->jsonAPIResponse(ErrorResponseFactory::makeErrorResponse($error));
+        }
+dd($error);
+        return parent::render($request, $error);
     }
 }
