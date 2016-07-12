@@ -35,7 +35,9 @@ class CreateFieldRequest extends Request
     {
         return [
             'data.attributes.label'    => 'required',
+            'data.attributes.name'     => 'required',
             'data.attributes.type'     => 'required',
+            'data.attributes.group'    => 'required',
             'data.attributes.value'    => 'sometimes',
             'data.attributes.options'  => 'sometimes',
             'data.attributes.required' => 'required',

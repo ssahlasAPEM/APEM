@@ -36,7 +36,9 @@ class UpdateFieldRequest extends Request
         return [
             'data.id'                  => 'required',
             'data.attributes.label'    => 'required',
+            'data.attributes.name'     => 'required',
             'data.attributes.type'     => 'required',
+            'data.attributes.group'    => 'required',
             'data.attributes.value'    => 'sometimes',
             'data.attributes.options'  => 'sometimes',
             'data.attributes.required' => 'required',
