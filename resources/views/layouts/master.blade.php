@@ -31,8 +31,8 @@
                 <!-- /END MAIN CONTENT -->
             </div>
 
-            <footer>
-                APEM Home | Help
+            <footer class="text-center center-block">
+              {{ HTML::link('#', 'APEM Home')}} |  {{ HTML::link('#', 'Help')}}
             </footer>
         </div>
     </body>
