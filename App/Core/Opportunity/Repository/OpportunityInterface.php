@@ -1,4 +1,5 @@
-<?php
+<?php namespace App\Core\Opportunity\Repository;
+
 /**
  * Created by Curious Minds Media.
  * User: Andrew Engstrom (andrew@curiousm.com)
@@ -6,9 +7,23 @@
  * Time: 3:34 PM
  */
 
-namespace App\Core\Opportunity\Repository;
+use App\Core\Shared\CrudInterface;
 
-class OpportunityInterface
+/**
+ * Interface OpportunityInterface
+ * @package App\Core\Opportunity\Repository
+ */
+interface OpportunityInterface extends CrudInterface
 {
-
+    /**
+     * Search by name paginated
+     *
+     * @param $limit
+     * @param $offset
+     * @param $name
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    public function searchByNamePaginated($limit, $offset, $name);
 }

@@ -17,7 +17,9 @@ class Field extends DomainEntity
 {
 
     private $label;
+    private $name;
     private $type;
+    private $group;
     private $value;
     private $options;
     private $required;
@@ -117,5 +119,37 @@ class Field extends DomainEntity
     public function setVisible($visible)
     {
         $this->visible = $visible;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * @param mixed $group
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
     }
 }
