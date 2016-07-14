@@ -8,6 +8,7 @@
  */
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class JsonApi
@@ -17,42 +18,25 @@ class JsonApi
 {
 
     /**
-     * The Security implementation
-     *
-     * @var Security
-     */
-    private $security;
-
-    /**
-     * JsonApiMiddleware constructor.
-     *
-     * @param SecurityServiceInterface $security
-     */
-    public function __construct( /* $security */ )
-    {
-
-        //$this->security = $security;
-    }
-
-    /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure                 $next
+     * @param  string|null              $guard
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
-        /*
-        if ($this->security->check() || env('APP_ENV') == 'testing') {
-            return $next($request);
+        if (Auth::guard($guard)->guest()) {
+            if ($request->ajax() || $request->wantsJson()) {
+                //$error = $this->makeJsonError('Not Authorized.');
+
+                //return response()->json($error, 401);
+            } else {
+                //return redirect()->guest('/');
+            }
         }
-
-        $error = $this->makeJsonError('Not Authorized.');
-
-        return response()->json($error, 401);
-        */
 
         return $next($request);
     }
