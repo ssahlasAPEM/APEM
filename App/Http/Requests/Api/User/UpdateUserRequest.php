@@ -34,9 +34,12 @@ class UpdateUserRequest extends Request
     public function rules()
     {
         return [
-            'data.id'                            => 'required',
-            'data.attributes.username'           => 'sometimes',
-            'data.attributes.password'           => 'sometimes'
+            'data.id'                          => 'required',
+            'data.attributes.username'         => 'sometimes',
+            'data.attributes.type'             => 'sometimes',
+            'data.attributes.active'           => 'sometimes',
+            'data.attributes.numOpportunities' => 'sometimes',
+            'data.attributes.password'         => 'sometimes'
         ];
     }
 }

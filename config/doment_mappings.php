@@ -58,13 +58,18 @@ return [
         'valueObjects' => [],
 
         'jsonToDomainEntity' => [
-            'username' => ['Username', Flags::NONE],
-            'password' => ['Password', Flags::WRITEONLY],
+            'username'          => ['Username', Flags::NONE],
+            'type'              => ['Type', Flags::NONE],
+            'active'            => ['Active', Flags::NONE],
+            'num-opportunities' => ['NumOpportunities', Flags::READONLY],
+            'password'          => ['Password', Flags::WRITEONLY],
         ],
 
         'eloquentToDomainEntity' => [
-            'username' => ['Username', Flags::NONE],
-            'password' => ['Password', Flags::WRITEONLY],
+            'username'          => ['Username', Flags::NONE],
+            'type'              => ['Type', Flags::NONE],
+            'active'            => ['Active', Flags::NONE],
+            'password'          => ['Password', Flags::WRITEONLY],
         ],
 
         'objectDiscovery'     => [],
@@ -73,8 +78,7 @@ return [
     ],
 
     Field::class => [
-        'valueObjects' => [
-        ],
+        'valueObjects' => [],
 
         'jsonToDomainEntity' => [
             'label'    => ['Label', Flags::NONE],
@@ -163,7 +167,7 @@ return [
             'date-lost'               => ['DateLost', Flags::NONE],
             'lost-to-whom'            => ['LostToWhom', Flags::NONE],
             'reason-for-loss'         => ['ReasonForLoss', Flags::NONE],
-            'comment-field'          => ['CommentField', Flags::NONE],
+            'comment-field'           => ['CommentField', Flags::NONE],
             'user-id'                 => ['UserId', Flags::NONE],
         ],
 

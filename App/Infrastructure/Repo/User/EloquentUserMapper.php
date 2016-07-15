@@ -26,7 +26,6 @@ class EloquentUserMapper extends AbstractEloquentMapper implements UserInterface
      * @var Model
      */
     private $user;
-    private $integration;
     protected $totalPages;
 
     /**

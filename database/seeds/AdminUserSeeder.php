@@ -17,22 +17,30 @@ class AdminUserSeeder extends Seeder
         $users = [
             [
                 'username' => 'eric@curiousm.com',
-                'password' => 'stardog182'
+                'password' => 'stardog182',
+                'type'     => 'Admin',
+                'active'   => true
             ],
 
             [
                 'username' => 'andrew@curiousm.com',
-                'password' => 'password'
+                'password' => 'password',
+                'type'     => 'Admin',
+                'active'   => true
             ],
 
             [
                 'username' => 'ralica@curiousm.com',
-                'password' => 'password'
+                'password' => 'password',
+                'type'     => 'Admin',
+                'active'   => true
             ],
 
             [
                 'username' => 'TestHarness',
-                'password' => 'X9Z2gPd9'
+                'password' => 'X9Z2gPd9',
+                'type'     => 'User',
+                'active'   => true
             ]
         ];
 
@@ -42,6 +50,8 @@ class AdminUserSeeder extends Seeder
             $user           = new \App\User();
             $user->username = $userSeed['username'];
             $user->password = Hash::make($userSeed['password']);
+            $user->type     = $userSeed['type'];
+            $user->active   = $userSeed['active'];
             $user->save();
         }
     }

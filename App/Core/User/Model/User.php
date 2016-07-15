@@ -18,6 +18,9 @@ class User extends DomainEntity
 {
 
     private $username;
+    private $type;
+    private $active;
+    private $numOpportunities;
     private $lastLogin;
     private $password;
 
@@ -67,5 +70,53 @@ class User extends DomainEntity
     public function setPassword($password)
     {
         $this->password = Hash::make($password);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumOpportunities()
+    {
+        return Opportunity::where('user_id','=',$this->getId())->count();
+    }
+
+    /**
+     *
+     */
+    public function setNumOpportunities()
+    {
+        $this->numOpportunities = Opportunity::where('user_id','=',$this->getId())->count();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param mixed $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 }

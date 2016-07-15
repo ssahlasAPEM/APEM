@@ -34,8 +34,11 @@ class CreateUserRequest extends Request
     public function rules()
     {
         return [
-            'data.attributes.username'           => 'sometimes',
-            'data.attributes.password'           => 'sometimes'
+            'data.attributes.username'         => 'sometimes',
+            'data.attributes.type'             => 'sometimes',
+            'data.attributes.active'           => 'sometimes',
+            'data.attributes.numOpportunities' => 'sometimes',
+            'data.attributes.password'         => 'sometimes'
         ];
     }
 }
