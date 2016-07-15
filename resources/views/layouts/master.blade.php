@@ -24,7 +24,7 @@
     </head>
 
     <body>
-        <div class="container">
+        <div class="container Absolute-Center is-Responsive">
             <div class="content">
                 <!-- MAIN CONTENT -->
                 @yield('content')
