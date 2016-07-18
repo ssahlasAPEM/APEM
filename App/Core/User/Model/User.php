@@ -8,6 +8,7 @@
  */
 
 use App\Core\DomainEntity;
+use App\Models\Opportunity;
 use Illuminate\Support\Facades\Hash;
 
 /**

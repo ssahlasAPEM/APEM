@@ -7,10 +7,12 @@
  * Time: 3:32 PM
  */
 
+
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 use App\Core\User\Repository\UserInterface;
 use App\Infrastructure\Repo\User\EloquentUserMapper;
-use App\User;
+
 
 /**
  * Class FieldServiceProvider

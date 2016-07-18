@@ -74,7 +74,6 @@ return [
 
         'objectDiscovery'     => [],
         'responseType'        => ['user', 'users'],
-        'doConcurrencyChecks' => false,
     ],
 
     Field::class => [
@@ -115,7 +114,6 @@ return [
         ],
 
         'responseType'        => ['field', 'fields'],
-        'doConcurrencyChecks' => false,
     ],
 
     Opportunity::class => [
@@ -272,6 +270,5 @@ return [
         ],
 
         'responseType'        => ['opportunity', 'opportunities'],
-        'doConcurrencyChecks' => false,
     ],
 ];
