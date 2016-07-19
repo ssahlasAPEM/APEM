@@ -35,9 +35,9 @@ class UpdateUserRequest extends Request
     {
         return [
             'data.id'                          => 'required',
-            'data.attributes.username'         => 'sometimes',
-            'data.attributes.type'             => 'sometimes',
-            'data.attributes.active'           => 'sometimes',
+            'data.attributes.username'         => 'required',
+            'data.attributes.type'             => 'required',
+            'data.attributes.active'           => 'required',
             'data.attributes.numOpportunities' => 'sometimes',
             'data.attributes.password'         => 'sometimes'
         ];
