@@ -13,6 +13,7 @@ use App\Http\Requests\Api\PaginatedListRequest;
 use App\Http\Requests\Api\User\CreateUserRequest;
 use App\Http\Requests\Api\User\UpdateUserRequest;
 use App\Services\Api\Json\V1\UserService;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class UserController
@@ -133,5 +134,18 @@ class UserController extends Controller
         $this->userService->delete($dbId);
 
         return response()->deletedJson();
+    }
+
+    /**
+     * Gets the current logged in user's information
+     * @return Response
+     * @internal param int $dbId
+     *
+     */
+    public function getLoggedInUser()
+    {
+        $response = $this->userService->find(Auth::user()->id);
+
+        return response()->jsonAPIResponse($response);
     }
 }

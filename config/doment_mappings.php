@@ -62,6 +62,7 @@ return [
             'type'              => ['Type', Flags::NONE],
             'active'            => ['Active', Flags::NONE],
             'num-opportunities' => ['NumOpportunities', Flags::READONLY],
+            'last-login'        => ['LastLogin', Flags::READONLY],
             'password'          => ['Password', Flags::WRITEONLY],
         ],
 
@@ -69,6 +70,7 @@ return [
             'username'          => ['Username', Flags::NONE],
             'type'              => ['Type', Flags::NONE],
             'active'            => ['Active', Flags::NONE],
+            'last_login'        => ['LastLogin', Flags::READONLY],
             'password'          => ['Password', Flags::WRITEONLY],
         ],
 

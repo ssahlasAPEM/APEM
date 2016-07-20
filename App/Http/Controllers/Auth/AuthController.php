@@ -8,6 +8,7 @@
  */
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
@@ -63,6 +64,12 @@ class AuthController extends Controller
         ];
 
         if(Auth::attempt($credentials, true)){
+
+            // Update the last logged in for the user...
+            $updateUser = User::where('id','=',Auth::user()->id)->first();
+            $updateUser->last_login = date('Y-m-d');
+            $updateUser->save();
+
             return redirect()->intended($this->redirectPath());
         } else {
             return back()->withInput();

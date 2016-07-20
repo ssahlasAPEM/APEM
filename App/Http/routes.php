@@ -35,6 +35,14 @@ Route::group(
         |--------------------------------------------------------------------------
         */
         Route::get(
+            'profiles',
+            [
+                'as'   => 'profiles',
+                'uses' => 'JsonApi\UserController@getLoggedInUser'
+            ]
+        );
+
+        Route::get(
             'users/{id}/{relationshipType}',
             [
                 'as'   => 'userRelations',
