@@ -26,7 +26,7 @@ Route::get('logout', 'Auth\AuthController@getLogout');
 |---------------------------------------------------------------------------
  */
 Route::group(
-    ['middleware' => ['auth.jsonapi'], 'prefix' => 'api/v1'],
+    ['middleware' => ['auth.api'], 'prefix' => 'api/v1'],
     function () {
 
         /*

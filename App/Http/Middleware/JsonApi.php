@@ -22,23 +22,26 @@ class JsonApi
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure                 $next
-     * @param  string|null              $guard
      *
      * @return mixed
+     * @internal param null|string $guard
+     *
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next)
     {
-        if (Auth::guard($guard)->guest()) {
-            if ($request->ajax() || $request->wantsJson()) {
-                //$error = $this->makeJsonError('Not Authorized.');
+        return Auth::basic('username') ?: $next($request);
 
-                //return response()->json($error, 401);
+        /*if (Auth::guard('api')->guest()) {
+            if ($request->ajax() || $request->wantsJson()) {
+                $error = $this->makeJsonError('Not Authorized.');
+
+                return response()->json($error, 401);
             } else {
-                //return redirect()->guest('/');
+                return redirect()->guest('/');
             }
         }
 
-        return $next($request);
+        return $next($request);*/
     }
 
     /**

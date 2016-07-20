@@ -10,6 +10,8 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class AuthController extends Controller
@@ -45,6 +47,20 @@ class AuthController extends Controller
     public function loginUsername()
     {
         return property_exists($this, 'username') ? $this->username : 'username';
+    }
+
+    public function postLogin(Request $request)
+    {
+        $credentials = [
+            'username' => $request->get('username'),
+            'password' => $request->get('password'),
+        ];
+
+        if(Auth::attempt($credentials, true)){
+            return redirect()->intended($this->redirectPath());
+        } else {
+            return back()->withInput();
+        }
     }
 
     /**

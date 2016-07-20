@@ -18,6 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('type');
             $table->boolean('active');
             $table->string('password');
+            $table->timestamp('last_login')->nullable();
+            $table->string('api_token', 60)->unique();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
