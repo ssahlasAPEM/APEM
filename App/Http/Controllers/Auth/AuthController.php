@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Validator;
 
 class AuthController extends Controller
@@ -39,6 +40,11 @@ class AuthController extends Controller
     protected $loginPath = '/';
     protected $redirectAfterLogout = '/';
 
+    public function __construct()
+    {
+        $this->middleware('guest', ['except' => ['logout', 'getLogout']]);
+    }
+
     /**
      * Get the login username to be used by the controller.
      *
@@ -63,13 +69,11 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Create a new authentication controller instance.
-     *
-     */
-    public function __construct()
+    public function getLogout()
     {
-        $this->middleware('guest', ['except' => ['logout', 'getLogout']]);
+        Auth::logout();
+        Session::flush();
+        return redirect('/');
     }
 
     /**

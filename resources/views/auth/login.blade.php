@@ -10,7 +10,7 @@
 
 <div class="row gray-border">
   <div class="">
-    {!! Html::image('/images/corp-logo.PNG', 'APEM LOGO' , array('class' => 'apem-logo center-block')) !!}
+    {!! Html::image('assets/images/corp-logo.PNG', 'APEM LOGO' , array('class' => 'apem-logo center-block')) !!}
 
 
 

@@ -29,9 +29,7 @@ class JsonApi
      */
     public function handle($request, Closure $next)
     {
-        return Auth::basic('username') ?: $next($request);
-
-        /*if (Auth::guard('api')->guest()) {
+        if (Auth::basic('username')) {
             if ($request->ajax() || $request->wantsJson()) {
                 $error = $this->makeJsonError('Not Authorized.');
 
@@ -41,7 +39,7 @@ class JsonApi
             }
         }
 
-        return $next($request);*/
+        return $next($request);
     }
 
     /**
