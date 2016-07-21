@@ -114,7 +114,7 @@ abstract class AbstractDomainEntityFactory
             }
 
             if ($flags & Flags::JSON) {
-                $val = json_decode($val, true);
+                //$val = json_decode($val, true);
             }
 
             $setter = 'set' . $suffix;

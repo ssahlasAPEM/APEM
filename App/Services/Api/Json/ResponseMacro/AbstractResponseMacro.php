@@ -70,6 +70,7 @@ abstract class AbstractResponseMacro
 
                 foreach ($includedResponse as $object) {
                     $responseMacro = $responseMacroFactory->getResponseMacro($object);
+
                     $object        = $responseMacro->mapAttributes($object);
                     array_push($included, $object);
                 }
@@ -140,9 +141,9 @@ abstract class AbstractResponseMacro
 
             // Commented out as this is the old code that generates
             // Blobs of the journey for the old front-end.
-            /*if ($flags & Flags::ADDITIONALPARSE) {
-                $val = $this->parseAdditional($val);
-            }*/
+            if ($flags & Flags::JSON) {
+                $val = json_decode($val);
+            }
 
             if (empty($val)) {
                 if (is_bool($val)) {
