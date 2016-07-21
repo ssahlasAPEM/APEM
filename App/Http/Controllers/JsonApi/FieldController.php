@@ -36,11 +36,11 @@ class FieldController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param PaginatedListRequest $request
+     * @param ListRequest $request
      *
      * @return Response
      */
-    public function index(PaginatedListRequest $request)
+    public function index(ListRequest $request)
     {
         $name = null;
 
@@ -54,11 +54,15 @@ class FieldController extends Controller
                 $request->get('page')
             );
         } elseif (!is_null($name)) {
-            $response = $this->fieldService->fetchPageByName(
-                $request->get('per_page'),
-                $request->get('page'),
-                $name
-            );
+            if (!is_null($request->get('per_page')) && !is_null($request->get('page'))) {
+                $response = $this->fieldService->fetchPageByName(
+                    $request->get('per_page'),
+                    $request->get('page'),
+                    $name
+                );
+            } else {
+                $response = $this->fieldService->fetchPage();
+            }
         }
 
         return response()->jsonAPIResponse($response);

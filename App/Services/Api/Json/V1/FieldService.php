@@ -64,7 +64,7 @@ class FieldService extends RESTFULService
      *
      * @return mixed
      */
-    public function fetchPage($limit, $offset)
+    public function fetchPage($limit = null, $offset = null)
     {
         try {
             if (is_null($limit) && is_null($offset)) {
