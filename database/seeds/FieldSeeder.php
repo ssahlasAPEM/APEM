@@ -372,7 +372,7 @@ class FieldSeeder extends Seeder
                 'type'     => 'dropdown',
                 'group'    => 'Estimated Value',
                 'value'    => null,
-                'options'  => null,
+                'options'  => "['0%','25%','50%','75%','100%']",
                 'required' => true,
                 'visible'  => true
             ],
