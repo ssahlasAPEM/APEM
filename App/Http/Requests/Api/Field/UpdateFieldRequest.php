@@ -35,14 +35,14 @@ class UpdateFieldRequest extends Request
     {
         return [
             'data.id'                  => 'required',
-            'data.attributes.label'    => 'required',
-            'data.attributes.name'     => 'required',
-            'data.attributes.type'     => 'required',
-            'data.attributes.group'    => 'required',
+            'data.attributes.label'    => 'sometimes',
+            'data.attributes.name'     => 'sometimes',
+            'data.attributes.type'     => 'sometimes',
+            'data.attributes.group'    => 'sometimes',
             'data.attributes.value'    => 'sometimes',
             'data.attributes.options'  => 'sometimes',
             'data.attributes.required' => 'required',
-            'data.attributes.visible'  => 'required'
+            'data.attributes.visible'  => 'sometimes'
         ];
     }
 }
