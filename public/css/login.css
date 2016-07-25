@@ -1,11 +1,19 @@
+body{
+    background-color: #e2eaf3;
+}
+
 .Absolute-Center {
   margin: auto;
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
 }
-
+.login-box{
+  box-shadow: 0 8px 6px -6px #bdc5ce;
+  border-radius: 6px;
+  background-color: white;
+}
 .Absolute-Center.is-Responsive {
-  width: 80%;
+  width: 35%;
   height: 50%;
   min-width: 320px;
   max-width: 700px;
@@ -14,6 +22,9 @@
   border: 1px solid #8e8d8d;
 }
 
+.gap1{
+  margin-top: 10px;
+}
 .gap5{
   margin-top: 50px;
 }
@@ -24,14 +35,35 @@
   margin-top: 40px;
 }
 .apem-logo{
-  padding: 40px;
+  padding: 16px;
+  width: 100%;
 }
 .login-btn{
-  border-radius:0;
+  background-color: #a9bfdb;
+  border: 1px solid #a9bfdb;
+  color:white;
+  /*border-radius:0;
   max-width: 200px;
   margin: 20px auto;
   background-color: transparent;
-  border: 1px solid #8e8d8d;
+  */
+}
+.user-input{
+  background: url(../assets/images/login-sprite.png) 6px 6px no-repeat;
+  background-size: 20px auto;
+}
+.pass-input{
+  background: url(../assets/images/login-sprite.png) 6px -22px no-repeat;
+  background-size: 20px auto;
+}
+.user-input, .pass-input{
+  padding-left: 30px;
+}
+.login-btn:hover, .login-btn:active, .login-btn:focus{
+  background-color: #a9bfdb;
+  border: 1px solid #a9bfdb;
+  color:white;
+  box-shadow: none;
 }
 .transparent-input{
   border:0 none;
