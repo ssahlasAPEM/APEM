@@ -49,15 +49,15 @@ body{
   */
 }
 .user-input{
-  background: url(../assets/images/login-sprite.png) 6px 6px no-repeat;
+  background: url(../assets/images/login-sprite.png) 12px 6px no-repeat;
   background-size: 20px auto;
 }
 .pass-input{
-  background: url(../assets/images/login-sprite.png) 6px -22px no-repeat;
+  background: url(../assets/images/login-sprite.png) 12px -22px no-repeat;
   background-size: 20px auto;
 }
 .user-input, .pass-input{
-  padding-left: 30px;
+  padding-left: 50px;
 }
 .login-btn:hover, .login-btn:active, .login-btn:focus{
   background-color: #a9bfdb;
