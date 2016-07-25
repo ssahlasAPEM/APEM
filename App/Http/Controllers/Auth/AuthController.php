@@ -63,10 +63,10 @@ class AuthController extends Controller
             'password' => $request->get('password'),
         ];
 
-        if(Auth::attempt($credentials, true)){
+        if (Auth::attempt($credentials, true)) {
 
             // Update the last logged in for the user...
-            $updateUser = User::where('id','=',Auth::user()->id)->first();
+            $updateUser             = User::where('id', '=', Auth::user()->id)->first();
             $updateUser->last_login = date('Y-m-d');
             $updateUser->save();
 
@@ -80,6 +80,7 @@ class AuthController extends Controller
     {
         Auth::logout();
         Session::flush();
+
         return redirect('/');
     }
 
@@ -94,9 +95,9 @@ class AuthController extends Controller
     {
         return Validator::make(
             $data, [
-            'username' => 'required|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-        ]
+                'username' => 'required|max:255|unique:users',
+                'password' => 'required|min:6|confirmed',
+            ]
         );
     }
 }

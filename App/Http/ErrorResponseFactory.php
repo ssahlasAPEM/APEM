@@ -31,7 +31,7 @@ class ErrorResponseFactory
     {
         $exceptionClass = get_class($exception);
 
-        $classes        = [
+        $classes = [
             ObjectNotFoundException::class,
             InvalidRequestException::class,
             MethodNotAllowedHttpException::class,
@@ -67,7 +67,7 @@ class ErrorResponseFactory
             case $exceptionClass === InvalidStreamException::class:
                 $meta = [
                     'stream-type' => $exception->streamType,
-                    'stream-id' => $exception->streamId
+                    'stream-id'   => $exception->streamId
                 ];
 
                 if ($exception->node) {

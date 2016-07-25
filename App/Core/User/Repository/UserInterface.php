@@ -15,6 +15,7 @@ use App\Core\Shared\CrudInterface;
  */
 interface UserInterface extends CrudInterface
 {
+
     /**
      * Search by name paginated
      *

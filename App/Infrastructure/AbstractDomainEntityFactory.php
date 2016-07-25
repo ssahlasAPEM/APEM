@@ -247,6 +247,7 @@ abstract class AbstractDomainEntityFactory
     {
         $domentMapping = config('doment_mappings')[ $this->targetClass() ][ $subKey ];
         $defaults      = config('doment_mappings')['default'][ $subKey ];
+
         return array_merge($defaults, $domentMapping);
     }
 

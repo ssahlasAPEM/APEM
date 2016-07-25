@@ -1,11 +1,11 @@
 <?php namespace App\Infrastructure;
 
-/**
- * Created by Curious Minds Media.
- * User: Andrew Engstrom (andrew@curiousm.com)
- * Date: 7/11/16
- * Time: 4:00 PM
- */
+    /**
+     * Created by Curious Minds Media.
+     * User: Andrew Engstrom (andrew@curiousm.com)
+     * Date: 7/11/16
+     * Time: 4:00 PM
+     */
 
 /**
  * An IdentityObjectField stores an array of comparisons to $field

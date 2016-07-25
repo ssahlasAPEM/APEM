@@ -28,11 +28,11 @@ abstract class AbstractEloquentPersistenceFactory extends AbstractPersistenceFac
     {
         // Using a lookup table to reduce the "cyclomatic complexity" warning on
         $factoryMap = [
-            User::class                =>
+            User::class        =>
                 'App\Infrastructure\Repo\User\EloquentUserPersistenceFactory',
-            Field::class               =>
+            Field::class       =>
                 'App\Infrastructure\Repo\Field\EloquentFieldPersistenceFactory',
-            Opportunity::class       =>
+            Opportunity::class =>
                 'App\Infrastructure\Repo\Opportunity\EloquentOpportunityPersistenceFactory'
         ];
 

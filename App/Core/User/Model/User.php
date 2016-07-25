@@ -78,7 +78,7 @@ class User extends DomainEntity
      */
     public function getNumOpportunities()
     {
-        return Opportunity::where('user_id','=',$this->getId())->count();
+        return Opportunity::where('user_id', '=', $this->getId())->count();
     }
 
     /**
@@ -86,7 +86,7 @@ class User extends DomainEntity
      */
     public function setNumOpportunities()
     {
-        $this->numOpportunities = Opportunity::where('user_id','=',$this->getId())->count();
+        $this->numOpportunities = Opportunity::where('user_id', '=', $this->getId())->count();
     }
 
     /**

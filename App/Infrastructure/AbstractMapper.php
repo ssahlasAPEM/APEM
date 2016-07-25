@@ -92,15 +92,16 @@ abstract class AbstractMapper implements CrudInterface
     }
 
     /**
-     * @param $model
+     * @param              $model
      * @param DomainEntity $object
-     * @param boolean $isUpdate
+     * @param boolean      $isUpdate
      *
      * @return mixed
      */
     public function doStoreMapping($model, DomainEntity $object, $isUpdate = false)
     {
         $entityFactory = $this->getFactory()->getDomainEntityFactory();
+
         return $entityFactory->doStoreMapping($model, $object, $isUpdate);
     }
 
@@ -127,7 +128,7 @@ abstract class AbstractMapper implements CrudInterface
 
     public function doConcurrencyChecks()
     {
-        return config('doment_mappings')[$this->targetClass()]['doConcurrencyChecks'];
+        return config('doment_mappings')[ $this->targetClass() ]['doConcurrencyChecks'];
     }
 
     /**

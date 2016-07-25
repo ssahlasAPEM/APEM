@@ -59,8 +59,8 @@ abstract class AbstractEloquentMapper extends AbstractMapper
         $object->setOwnerId($this->getOwnerId());
         $object->setLastUpdatedBy(session()->get('user.externalId'));
 
-        $model               = $this->getQueryModel();
-        $model               = $this->doStoreMapping($model, $object, false);
+        $model = $this->getQueryModel();
+        $model = $this->doStoreMapping($model, $object, false);
         $model->save();
 
         $obj = $this->createObject($model->toArray());
@@ -107,7 +107,7 @@ abstract class AbstractEloquentMapper extends AbstractMapper
             throw new ObjectNotFoundException($this->targetClass(), $object->getId());
         }
 
-        $model               = $this->doStoreMapping($model, $object, true);
+        $model = $this->doStoreMapping($model, $object, true);
         $model->save();
 
         $obj = $this->createObject($model->toArray());

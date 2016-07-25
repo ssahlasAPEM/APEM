@@ -99,8 +99,8 @@ abstract class RESTFULService
     public function fetchPage($limit, $offset)
     {
         try {
-            $limit          = intval($limit);
-            $offset         = intval($offset);
+            $limit  = intval($limit);
+            $offset = intval($offset);
 
             $entities = $this->getInterface()->findAllPaginated($limit, $offset);
         } catch (\Exception $exception) {
@@ -180,6 +180,7 @@ abstract class RESTFULService
     public function methodUnsupported($method)
     {
         $unsupporteException = new InvalidRequestException("Service $method not supported at this time.");
+
         return $this->errorResponseFactory->makeErrorResponse($unsupporteException);
     }
 

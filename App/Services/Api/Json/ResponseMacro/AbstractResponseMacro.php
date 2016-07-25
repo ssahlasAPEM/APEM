@@ -71,7 +71,7 @@ abstract class AbstractResponseMacro
                 foreach ($includedResponse as $object) {
                     $responseMacro = $responseMacroFactory->getResponseMacro($object);
 
-                    $object        = $responseMacro->mapAttributes($object);
+                    $object = $responseMacro->mapAttributes($object);
                     array_push($included, $object);
                 }
 
@@ -98,7 +98,7 @@ abstract class AbstractResponseMacro
 
             // We have a domain entity
             default:
-                $data = $this->mapAttributes($serviceResponse);
+                $data         = $this->mapAttributes($serviceResponse);
                 $jsonResponse = ['data' => $data];
                 break;
         }
@@ -221,13 +221,13 @@ abstract class AbstractResponseMacro
      */
     public function labelMappings()
     {
-        return config('doment_mappings')[$this->targetClass()]['objectDiscovery'];
+        return config('doment_mappings')[ $this->targetClass() ]['objectDiscovery'];
     }
 
     public function jsonMappings()
     {
-        $defaults = config('doment_mappings')['default']['jsonToDomainEntity'];
-        $jsonMappings = config('doment_mappings')[$this->targetClass()]['jsonToDomainEntity'];
+        $defaults     = config('doment_mappings')['default']['jsonToDomainEntity'];
+        $jsonMappings = config('doment_mappings')[ $this->targetClass() ]['jsonToDomainEntity'];
 
         return array_merge($defaults, $jsonMappings);
     }

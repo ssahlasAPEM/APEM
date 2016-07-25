@@ -91,9 +91,9 @@ class OpportunityController extends Controller
      */
     public function store(CreateOpportunityRequest $request)
     {
-        $input = $request->input();
-        $data  = $input['data'];
-        $array = $data['attributes'];
+        $input            = $request->input();
+        $data             = $input['data'];
+        $array            = $data['attributes'];
         $array['user-id'] = $data['relationships']['user']['data']['id'];
 
         $response = $this->opportunityService->create($array);
@@ -118,8 +118,8 @@ class OpportunityController extends Controller
         $data  = $input['data'];
 
         // Put the response into a flat array
-        $array       = $data['attributes'];
-        $array['id'] = $data['id'];
+        $array            = $data['attributes'];
+        $array['id']      = $data['id'];
         $array['user-id'] = $data['relationships']['user']['data']['id'];
 
         $response = $this->opportunityService->update($array);
