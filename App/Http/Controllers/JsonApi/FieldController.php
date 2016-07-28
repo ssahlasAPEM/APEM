@@ -7,9 +7,6 @@
  * Time: 3:19 PM
  */
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\ListRequest;
-use App\Http\Requests\Api\PaginatedListRequest;
 use App\Http\Requests\Api\Field\CreateFieldRequest;
 use App\Http\Requests\Api\Field\UpdateFieldRequest;
 use App\Services\Api\Json\V1\FieldService;
@@ -18,68 +15,17 @@ use App\Services\Api\Json\V1\FieldService;
  * Class FieldController
  * @package App\Http\Controllers\JsonApi
  */
-class FieldController extends Controller
+class FieldController extends AbstractApiController
 {
 
-    private $fieldService;
-
     /**
-     * UserController constructor.
+     * FieldController constructor.
      *
-     * @param FieldService $fieldService
+     * @param FieldService $service
      */
-    public function __construct(FieldService $fieldService)
+    public function __construct(FieldService $service)
     {
-        $this->fieldService = $fieldService;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @param ListRequest $request
-     *
-     * @return Response
-     */
-    public function index(ListRequest $request)
-    {
-        $name = null;
-
-        if ($request->get('name') !== null && $request->get('name') !== '') {
-            $name = $request->get('name');
-        }
-
-        if (is_null($name)) {
-            $response = $this->fieldService->fetchPage(
-                $request->get('per_page'),
-                $request->get('page')
-            );
-        } elseif (!is_null($name)) {
-            if (!is_null($request->get('per_page')) && !is_null($request->get('page'))) {
-                $response = $this->fieldService->fetchPageByName(
-                    $request->get('per_page'),
-                    $request->get('page'),
-                    $name
-                );
-            } else {
-                $response = $this->fieldService->fetchPage();
-            }
-        }
-
-        return response()->jsonAPIResponse($response);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $dbId
-     *
-     * @return Response
-     */
-    public function show($dbId)
-    {
-        $response = $this->fieldService->find($dbId);
-
-        return response()->jsonAPIResponse($response);
+        $this->service = $service;
     }
 
     /**
@@ -95,7 +41,7 @@ class FieldController extends Controller
         $data  = $input['data'];
         $array = $data['attributes'];
 
-        $response = $this->fieldService->create($array);
+        $response = $this->service->create($array);
 
         return response()->jsonAPIResponse($response);
     }
@@ -116,22 +62,8 @@ class FieldController extends Controller
         $array       = $data['attributes'];
         $array['id'] = $data['id'];
 
-        $response = $this->fieldService->update($array);
+        $response = $this->service->update($array);
 
         return response()->jsonAPIResponse($response);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $dbId
-     *
-     * @return Response
-     */
-    public function destroy($dbId)
-    {
-        $this->fieldService->delete($dbId);
-
-        return response()->deletedJson();
     }
 }

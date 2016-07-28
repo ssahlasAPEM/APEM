@@ -7,9 +7,7 @@
  * Time: 3:19 PM
  */
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ListRequest;
-use App\Http\Requests\Api\PaginatedListRequest;
 use App\Http\Requests\Api\Opportunity\CreateOpportunityRequest;
 use App\Http\Requests\Api\Opportunity\UpdateOpportunityRequest;
 use App\Services\Api\Json\V1\OpportunityService;
@@ -18,68 +16,17 @@ use App\Services\Api\Json\V1\OpportunityService;
  * Class OpportunityController
  * @package App\Http\Controllers\JsonApi
  */
-class OpportunityController extends Controller
+class OpportunityController extends AbstractApiController
 {
 
-    private $opportunityService;
-
     /**
-     * UserController constructor.
+     * OpportunityController constructor.
      *
-     * @param OpportunityService $opportunityService
+     * @param OpportunityService $service
      */
-    public function __construct(OpportunityService $opportunityService)
+    public function __construct(OpportunityService $service)
     {
-        $this->opportunityService = $opportunityService;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @param ListRequest $request
-     *
-     * @return Response
-     */
-    public function index(ListRequest $request)
-    {
-        $name = null;
-
-        if ($request->get('name') !== null && $request->get('name') !== '') {
-            $name = $request->get('name');
-        }
-
-        if (is_null($name)) {
-            $response = $this->opportunityService->fetchPage(
-                $request->get('per_page'),
-                $request->get('page')
-            );
-        } elseif (!is_null($name)) {
-            if (!is_null($request->get('per_page')) && !is_null($request->get('page'))) {
-                $response = $this->opportunityService->fetchPageByName(
-                    $request->get('per_page'),
-                    $request->get('page'),
-                    $name
-                );
-            } else {
-                $response = $this->opportunityService->fetchPage();
-            }
-        }
-
-        return response()->jsonAPIResponse($response);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $dbId
-     *
-     * @return Response
-     */
-    public function show($dbId)
-    {
-        $response = $this->opportunityService->find($dbId);
-
-        return response()->jsonAPIResponse($response);
+        $this->service = $service;
     }
 
     /**
@@ -96,11 +43,11 @@ class OpportunityController extends Controller
         $array            = $data['attributes'];
         $array['user-id'] = $data['relationships']['user']['data']['id'];
 
-        $response = $this->opportunityService->create($array);
+        $response = $this->service->create($array);
 
         return response()->jsonAPIResponse($response);
 
-        $response = $this->opportunityService->create($array);
+        $response = $this->service->create($array);
 
         return response()->jsonAPIResponse($response);
     }
@@ -122,22 +69,8 @@ class OpportunityController extends Controller
         $array['id']      = $data['id'];
         $array['user-id'] = $data['relationships']['user']['data']['id'];
 
-        $response = $this->opportunityService->update($array);
+        $response = $this->service->update($array);
 
         return response()->jsonAPIResponse($response);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $dbId
-     *
-     * @return Response
-     */
-    public function destroy($dbId)
-    {
-        $this->opportunityService->delete($dbId);
-
-        return response()->deletedJson();
     }
 }
