@@ -32,9 +32,9 @@ exclude_paths:
 - storage/
 - node_modules/
 - bootstrap/
-- **.env
-- **.example
-- artisan
-- **.json
-- **.md
-- **.xml
+- "**.env"
+- "**.example"
+- "artisan"
+- "**.json"
+- "**.md"
+- "**.xml"
