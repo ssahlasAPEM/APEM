@@ -31,7 +31,7 @@ class Opportunity extends DomainEntity
     private $distributor;
     private $apemSalesPerson;
     private $sraSalesRep;
-    private $distributorSalesperson;
+    private $distSalesperson;
     private $industry;
     private $application;
     private $reasonForOpp;
@@ -310,15 +310,15 @@ class Opportunity extends DomainEntity
      */
     public function getDistributorSalesperson()
     {
-        return $this->distributorSalesperson;
+        return $this->distSalesperson;
     }
 
     /**
-     * @param mixed $distributorSalesperson
+     * @param mixed $distSalesperson
      */
-    public function setDistributorSalesperson($distributorSalesperson)
+    public function setDistributorSalesperson($distSalesperson)
     {
-        $this->distributorSalesperson = $distributorSalesperson;
+        $this->distSalesperson = $distSalesperson;
     }
 
     /**
