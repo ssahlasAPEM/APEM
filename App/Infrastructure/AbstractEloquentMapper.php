@@ -7,11 +7,12 @@
  * Time: 4:00 PM
  */
 
-use Log;
 use App\Core\DomainEntity;
 use App\Core\Shared\TypedCollection;
 use App\Exceptions\InvalidRequestException;
 use App\Exceptions\ObjectNotFoundException;
+use Illuminate\Database\Eloquent\Model;
+use Log;
 
 /**
  * Class AbstractEloquentMapper
@@ -19,6 +20,22 @@ use App\Exceptions\ObjectNotFoundException;
  */
 abstract class AbstractEloquentMapper extends AbstractMapper
 {
+
+    /**
+     * @var Model
+     */
+    protected $model;
+    protected $totalPages;
+
+    /**
+     * Mapper constructor.
+     *
+     * @param Model $model
+     */
+    public function __construct(Model $model)
+    {
+        $this->model = $model;
+    }
 
     /**
      * Finds a single DomainEntity identified by $dbId on the Eloquent backend
@@ -192,7 +209,10 @@ abstract class AbstractEloquentMapper extends AbstractMapper
     }
 
     /**
-     * @return mixed
+     * @return Model
      */
-    abstract public function getQueryModel();
+    public function getQueryModel()
+    {
+        return $this->model;
+    }
 }

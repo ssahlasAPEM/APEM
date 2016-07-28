@@ -39,9 +39,8 @@ exclude_paths:
 - "**.json"
 - "**.md"
 - "**.xml"
-- public/fonts/
+- public/
 - "**.ico"
-- public/assets/images/
 - "**.map"
 - "**.txt"
 - "**.config"

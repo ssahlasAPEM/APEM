@@ -7,13 +7,11 @@
  * Time: 4:00 PM
  */
 
-use App\Core\DomainEntity;
 use App\Core\Field\Model\Field;
 use App\Core\Field\Repository\FieldInterface;
 use App\Exceptions\ForbiddenException;
 use App\Exceptions\InvalidRequestException;
 use App\Infrastructure\AbstractEloquentMapper;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class EloquentFieldMapper
@@ -21,22 +19,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EloquentFieldMapper extends AbstractEloquentMapper implements FieldInterface
 {
-
-    /**
-     * @var Model
-     */
-    private $field;
-    protected $totalPages;
-
-    /**
-     * EloquentFieldMapper constructor.
-     *
-     * @param Model $field
-     */
-    public function __construct(Model $field)
-    {
-        $this->field = $field;
-    }
 
     /**
      * Search by name paginated
@@ -84,14 +66,6 @@ class EloquentFieldMapper extends AbstractEloquentMapper implements FieldInterfa
         $obj = $this->createObject($newField->toArray());
 
         return $obj;
-    }
-
-    /**
-     * @return Model
-     */
-    public function getQueryModel()
-    {
-        return $this->field;
     }
 
     /**

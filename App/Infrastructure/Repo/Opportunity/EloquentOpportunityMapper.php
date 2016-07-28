@@ -7,13 +7,11 @@
  * Time: 4:00 PM
  */
 
-use App\Core\DomainEntity;
 use App\Core\Opportunity\Model\Opportunity;
 use App\Core\Opportunity\Repository\OpportunityInterface;
 use App\Exceptions\ForbiddenException;
 use App\Exceptions\InvalidRequestException;
 use App\Infrastructure\AbstractEloquentMapper;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class EloquentOpportunityMapper
@@ -21,22 +19,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EloquentOpportunityMapper extends AbstractEloquentMapper implements OpportunityInterface
 {
-
-    /**
-     * @var Model
-     */
-    private $opportunity;
-    protected $totalPages;
-
-    /**
-     * EloquentOpportunityMapper constructor.
-     *
-     * @param Model $opportunity
-     */
-    public function __construct(Model $opportunity)
-    {
-        $this->opportunity = $opportunity;
-    }
 
     /**
      * Search by name paginated
@@ -84,14 +66,6 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         $obj = $this->createObject($newOpportunity->toArray());
 
         return $obj;
-    }
-
-    /**
-     * @return Model
-     */
-    public function getQueryModel()
-    {
-        return $this->opportunity;
     }
 
     /**

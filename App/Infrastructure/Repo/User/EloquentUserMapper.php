@@ -7,13 +7,11 @@
  * Time: 4:00 PM
  */
 
-use App\Core\DomainEntity;
 use App\Core\User\Model\User;
 use App\Core\User\Repository\UserInterface;
 use App\Exceptions\ForbiddenException;
 use App\Exceptions\InvalidRequestException;
 use App\Infrastructure\AbstractEloquentMapper;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class EloquentUserMapper
@@ -21,22 +19,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EloquentUserMapper extends AbstractEloquentMapper implements UserInterface
 {
-
-    /**
-     * @var Model
-     */
-    private $user;
-    protected $totalPages;
-
-    /**
-     * EloquentUserMapper constructor.
-     *
-     * @param Model $user
-     */
-    public function __construct(Model $user)
-    {
-        $this->user = $user;
-    }
 
     /**
      * Search by name paginated
@@ -84,14 +66,6 @@ class EloquentUserMapper extends AbstractEloquentMapper implements UserInterface
         $obj = $this->createObject($newUser->toArray());
 
         return $obj;
-    }
-
-    /**
-     * @return Model
-     */
-    public function getQueryModel()
-    {
-        return $this->user;
     }
 
     /**
