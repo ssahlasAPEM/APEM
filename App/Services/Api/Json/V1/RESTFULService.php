@@ -17,6 +17,11 @@ use App\Http\ErrorResponseFactory;
 abstract class RESTFULService
 {
 
+    /**
+     * The model's interface
+     */
+    protected $interface;
+
     private $validIncludes = [];
     protected $errorResponseFactory;
 
@@ -26,6 +31,7 @@ abstract class RESTFULService
     protected function __construct()
     {
         $this->errorResponseFactory = new ErrorResponseFactory;
+        $this->setValidIncludes(['custom']);
     }
 
     /**
@@ -91,23 +97,48 @@ abstract class RESTFULService
     }
 
     /**
+     * Fetch a single page of data
+     *
      * @param $limit
      * @param $offset
      *
      * @return mixed
      */
-    public function fetchPage($limit, $offset)
+    public function fetchPage($limit = null, $offset = null)
     {
         try {
-            $limit  = intval($limit);
-            $offset = intval($offset);
+            if (is_null($limit) && is_null($offset)) {
+                $array = $this->interface->findAll();
 
-            $entities = $this->getInterface()->findAllPaginated($limit, $offset);
+                return $array;
+            }
+
+            $array = $this->interface->findAllPaginated($limit, $offset);
+
+            return $array;
+        } catch (\Exception $exception) {
+            return $this->errorResponseFactory->makeErrorResponse($exception);
+        }
+    }
+
+    /**
+     * Fetch a single page of data where the name is similar to $name
+     *
+     * @param $limit
+     * @param $offset
+     * @param $name
+     *
+     * @return mixed
+     */
+    public function fetchPageByName($limit, $offset, $name)
+    {
+        try {
+            $array = $this->interface->searchByNamePaginated($limit, $offset, $name);
         } catch (\Exception $exception) {
             return $this->errorResponseFactory->makeErrorResponse($exception);
         }
 
-        return $entities;
+        return $array;
     }
 
     /**
@@ -177,6 +208,11 @@ abstract class RESTFULService
         }
     }
 
+    /**
+     * @param $method
+     *
+     * @return \App\Http\ErrorResponse
+     */
     public function methodUnsupported($method)
     {
         $unsupporteException = new InvalidRequestException("Service $method not supported at this time.");
@@ -184,5 +220,11 @@ abstract class RESTFULService
         return $this->errorResponseFactory->makeErrorResponse($unsupporteException);
     }
 
-    abstract public function getInterface();
+    /**
+     * @return mixed
+     */
+    public function getInterface()
+    {
+        return $this->interface;
+    }
 }
