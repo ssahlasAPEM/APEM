@@ -16,6 +16,7 @@ engines:
     enabled: true
 ratings:
   paths:
+  - "**.scss"
   - "**.css"
   - "**.inc"
   - "**.js"
@@ -38,3 +39,10 @@ exclude_paths:
 - "**.json"
 - "**.md"
 - "**.xml"
+- public/fonts/
+- "**.ico"
+- public/assets/images/
+- "**.map"
+- "**.txt"
+- "**.config"
+- "**.lock"
