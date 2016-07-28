@@ -7,10 +7,10 @@
  * Time: 3:32 PM
  */
 
-use Illuminate\Support\ServiceProvider;
 use App\Core\Field\Repository\FieldInterface;
 use App\Infrastructure\Repo\Field\EloquentFieldMapper;
 use App\Models\Field;
+use Illuminate\Support\ServiceProvider;
 
 /**
  * Class FieldServiceProvider

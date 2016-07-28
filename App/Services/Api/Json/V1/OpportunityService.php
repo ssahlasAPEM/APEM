@@ -15,6 +15,7 @@ use App\Core\Opportunity\Repository\OpportunityInterface;
  */
 class OpportunityService extends RESTFULService
 {
+
     /**
      * @param OpportunityInterface $opportunityInterface
      */

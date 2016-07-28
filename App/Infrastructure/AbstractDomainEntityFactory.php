@@ -7,9 +7,9 @@
  * Time: 4:00 PM
  */
 
-use Log;
 use App\Core\DomainEntity;
 use App\Core\DomainEntityFieldFlags as Flags;
+use Log;
 
 /**
  * Class AbstractDomainEntityFactory

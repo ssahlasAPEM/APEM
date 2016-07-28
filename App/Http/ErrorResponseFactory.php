@@ -7,12 +7,12 @@
  * Time: 12:06 PM
  */
 
-use Exception;
 use App\Exceptions\ForbiddenException;
 use App\Exceptions\InvalidRequestException;
 use App\Exceptions\InvalidStreamException;
 use App\Exceptions\ObjectNotFoundException;
 use App\Exceptions\VersionMismatchException;
+use Exception;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 /**

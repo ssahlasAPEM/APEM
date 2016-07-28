@@ -7,9 +7,9 @@
  * Time: 3:33 PM
  */
 
-use Illuminate\Support\Collection;
 use App\Core\DomainEntity;
 use App\Infrastructure\AbstractDomainEntityFactory;
+use Illuminate\Support\Collection;
 
 /**
  * Class TypedCollection

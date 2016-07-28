@@ -8,9 +8,9 @@
  */
 
 use App\Core\DomainEntity;
+use App\Core\Shared\TypedCollection;
 use App\Core\User\Model\User;
 use App\Core\User\UserCollectionInterface;
-use App\Core\Shared\TypedCollection;
 
 /**
  * Class UserCollection

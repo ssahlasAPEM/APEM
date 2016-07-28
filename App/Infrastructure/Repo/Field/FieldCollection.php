@@ -8,8 +8,8 @@
  */
 
 use App\Core\DomainEntity;
-use App\Core\Field\Model\Field;
 use App\Core\Field\FieldCollectionInterface;
+use App\Core\Field\Model\Field;
 use App\Core\Shared\TypedCollection;
 
 /**

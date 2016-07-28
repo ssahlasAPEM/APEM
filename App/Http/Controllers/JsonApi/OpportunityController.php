@@ -7,7 +7,6 @@
  * Time: 3:19 PM
  */
 
-use App\Http\Requests\Api\ListRequest;
 use App\Http\Requests\Api\Opportunity\CreateOpportunityRequest;
 use App\Http\Requests\Api\Opportunity\UpdateOpportunityRequest;
 use App\Services\Api\Json\V1\OpportunityService;

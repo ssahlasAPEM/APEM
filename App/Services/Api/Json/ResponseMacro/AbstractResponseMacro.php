@@ -7,13 +7,11 @@
  * Time: 3:20 PM
  */
 
-use Illuminate\Support\Collection;
-use App\Core\Field\Model\Field;
-use App\Core\Opportunity\Model\Opportunity;
-use App\Core\User\Model\User;
 use App\Core\DomainEntityFieldFlags as Flags;
 use App\Core\Shared\ComplexCollection;
 use App\Core\Shared\TypedCollection;
+use App\Core\User\Model\User;
+use Illuminate\Support\Collection;
 
 /**
  * Class AbstractResponseMacro

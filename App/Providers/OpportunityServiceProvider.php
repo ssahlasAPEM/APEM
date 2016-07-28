@@ -7,10 +7,10 @@
  * Time: 3:58 PM
  */
 
-use Illuminate\Support\ServiceProvider;
 use App\Core\Opportunity\Repository\OpportunityInterface;
 use App\Infrastructure\Repo\Opportunity\EloquentOpportunityMapper;
 use App\Models\Opportunity;
+use Illuminate\Support\ServiceProvider;
 
 /**
  * Class OpportunityServiceProvider

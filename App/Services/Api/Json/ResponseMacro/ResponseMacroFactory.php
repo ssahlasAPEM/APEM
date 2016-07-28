@@ -7,14 +7,14 @@
  * Time: 10:42 AM
  */
 
-use Exception;
-use Illuminate\Support\Collection;
 use App\Core\Field\Model\Field;
 use App\Core\Opportunity\Model\Opportunity;
-use App\Core\User\Model\User;
 use App\Core\Shared\ComplexCollection;
 use App\Core\Shared\TypedCollection;
+use App\Core\User\Model\User;
 use App\Http\ErrorResponse;
+use Exception;
+use Illuminate\Support\Collection;
 
 /**
  * Class ResponseMacroFactory

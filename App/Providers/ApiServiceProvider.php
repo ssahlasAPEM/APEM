@@ -7,10 +7,10 @@
  * Time: 3:43 PM
  */
 
+use App\Services\Api\Json\ResponseMacro\ResponseMacroFactory;
 use Exception;
 use Illuminate\Support\ServiceProvider;
 use Response;
-use App\Services\Api\Json\ResponseMacro\ResponseMacroFactory;
 
 /**
  * Class ApiServiceProvider

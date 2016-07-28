@@ -45,6 +45,7 @@ class AbstractApiController extends Controller
                     $request->get('page'),
                     $name
                 );
+
                 return response()->jsonAPIResponse($response);
             }
             $response = $this->service->fetchPage();

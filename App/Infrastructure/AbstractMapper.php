@@ -12,12 +12,12 @@
  *
  */
 
-use App\Core\Shared\CrudInterface;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Core\DomainEntity;
 use App\Core\Shared\CollectionMeta;
+use App\Core\Shared\CrudInterface;
 use App\Core\Shared\TypedCollection;
 use App\Jobs\LogEvent;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class AbstractMapper
