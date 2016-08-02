@@ -105,6 +105,6 @@ Route::get(
     'dashboard/{emberApp?}',
     [
         'as'   => 'app',
-        'uses' => 'Webapp\ApplicationController@showApplication'
+        'uses' => 'WebApp\ApplicationController@showApplication'
     ]
 )->where('emberApp', '.*');
