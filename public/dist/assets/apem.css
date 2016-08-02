@@ -1,0 +1,82 @@
+.spacer-lg {
+    min-height: 50px;
+}
+
+.home-sidebar {
+    padding: 20px 30px;
+}
+
+/* Target all children of home-sidebar*/
+.home-sidebar * {
+
+}
+
+.home-sidebar img {
+    display: block;
+    margin: 20px auto;
+}
+
+.ui.grid {
+    margin: 0 auto;
+}
+
+.ui.grid .ui-content {
+    padding: 1rem;
+}
+
+.ui-main {
+    width: calc(100% - 260px);
+}
+
+.ui-main .ui-content {
+    padding: 20px;
+}
+
+.ui.attached.menu {
+    height: 100px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.ui.attached.menu .ui.container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.ui.attached.menu .item {
+    height: 100px;
+}
+
+.ui.menu:not(.secondary):not(.text):not(.tabular):not(.borderless) > .container > .item:not(.right):not(.borderless):first-child {
+    border-left: 0px solid #ffffff;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.breadcrumbs {
+    padding-left: 0px;
+}
+
+.breadcrumbs .breadcrumb-item {
+    padding-left: 0px;
+    list-style-type: none;
+}
+
+.ui.dropdown {
+    min-width: 176px;
+}
+
+.modal {
+    padding: 12px;
+}
+
+.validation-errors {
+    background-color: #e74c3c;
+    color: white;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-image: -webkit-linear-gradient(top, #e74c3c, #c0392b);
+    background-image: -moz-linear-gradient(top, #e74c3c, #c0392b);
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    font-size: 12px;
+    line-height: 20px;
+}
