@@ -1,4 +1,4 @@
-<?php namespace App\Core\Opportunity\Repository;
+<?php namespace app\Core\Opportunity\Repository;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 3:34 PM
  */
 
-use App\Core\Shared\CrudInterface;
+use app\Core\Shared\CrudInterface;
 
 /**
  * Interface OpportunityInterface
- * @package App\Core\Opportunity\Repository
+ * @package app\Core\Opportunity\Repository
  */
 interface OpportunityInterface extends CrudInterface
 {

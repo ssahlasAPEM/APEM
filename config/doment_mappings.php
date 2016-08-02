@@ -32,10 +32,10 @@
  * NOTE 3:   'method', 'service', 'userId', 'success'
  */
 
-use App\Core\DomainEntityFieldFlags as Flags;
-use App\Core\Field\Model\Field;
-use App\Core\Opportunity\Model\Opportunity;
-use App\Core\User\Model\User;
+use app\Core\DomainEntityFieldFlags as Flags;
+use app\Core\Field\Model\Field;
+use app\Core\Opportunity\Model\Opportunity;
+use app\Core\User\Model\User;
 
 // Flags::NONE, Flags::READONLY and Flags::HIDDEN
 return [

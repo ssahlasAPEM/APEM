@@ -1,4 +1,4 @@
-<?php namespace App\Services\Api\Json\ResponseMacro;
+<?php namespace app\Services\Api\Json\ResponseMacro;
 
 /**
  * Created by Curious Minds Media.
@@ -7,12 +7,12 @@
  * Time: 3:29 PM
  */
 
-use App\Core\Opportunity\Model\Opportunity;
+use app\Core\Opportunity\Model\Opportunity;
 use Illuminate\Support\Facades\URL;
 
 /**
  * Class OpportunityResponseMacro
- * @package App\Services\Api\Json\ResponseMacro
+ * @package app\Services\Api\Json\ResponseMacro
  */
 class OpportunityResponseMacro extends AbstractResponseMacro
 {

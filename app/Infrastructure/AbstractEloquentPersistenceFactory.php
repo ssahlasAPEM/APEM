@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure;
+<?php namespace app\Infrastructure;
 
 /**
  * Created by Curious Minds Media.
@@ -7,13 +7,13 @@
  * Time: 4:00 PM
  */
 
-use App\Core\Field\Model\Field;
-use App\Core\Opportunity\Model\Opportunity;
-use App\Core\User\Model\User;
+use app\Core\Field\Model\Field;
+use app\Core\Opportunity\Model\Opportunity;
+use app\Core\User\Model\User;
 
 /**
  * Class AbstractEloquentPersistenceFactory
- * @package App\Infrastructure
+ * @package app\Infrastructure
  */
 abstract class AbstractEloquentPersistenceFactory extends AbstractPersistenceFactory
 {
@@ -29,11 +29,11 @@ abstract class AbstractEloquentPersistenceFactory extends AbstractPersistenceFac
         // Using a lookup table to reduce the "cyclomatic complexity" warning on
         $factoryMap = [
             User::class        =>
-                'App\Infrastructure\Repo\User\EloquentUserPersistenceFactory',
+                'app\Infrastructure\Repo\User\EloquentUserPersistenceFactory',
             Field::class       =>
-                'App\Infrastructure\Repo\Field\EloquentFieldPersistenceFactory',
+                'app\Infrastructure\Repo\Field\EloquentFieldPersistenceFactory',
             Opportunity::class =>
-                'App\Infrastructure\Repo\Opportunity\EloquentOpportunityPersistenceFactory'
+                'app\Infrastructure\Repo\Opportunity\EloquentOpportunityPersistenceFactory'
         ];
 
         if (array_key_exists($targetClass, $factoryMap)) {

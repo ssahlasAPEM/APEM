@@ -1,4 +1,4 @@
-<?php namespace App\Core\Field;
+<?php namespace app\Core\Field;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 4:00 PM
  */
 
-use App\Core\DomainEntity;
+use app\Core\DomainEntity;
 
 /**
  * Interface FieldCollectionInterface
- * @package App\Core\Field
+ * @package app\Core\Field
  */
 interface FieldCollectionInterface
 {

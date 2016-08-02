@@ -1,4 +1,4 @@
-<?php namespace App\Http;
+<?php namespace app\Http;
 
 /**
  * Created by Curious Minds Media.
@@ -7,17 +7,17 @@
  * Time: 12:06 PM
  */
 
-use App\Exceptions\ForbiddenException;
-use App\Exceptions\InvalidRequestException;
-use App\Exceptions\InvalidStreamException;
-use App\Exceptions\ObjectNotFoundException;
-use App\Exceptions\VersionMismatchException;
+use app\Exceptions\ForbiddenException;
+use app\Exceptions\InvalidRequestException;
+use app\Exceptions\InvalidStreamException;
+use app\Exceptions\ObjectNotFoundException;
+use app\Exceptions\VersionMismatchException;
 use Exception;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 /**
  * Class ErrorResponseFactory
- * @package App\Http
+ * @package app\Http
  */
 class ErrorResponseFactory
 {

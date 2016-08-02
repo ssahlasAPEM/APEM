@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\JsonApi;
+<?php namespace app\Http\Controllers\JsonApi;
 
 /**
  * Created by Curious Minds Media.
@@ -7,13 +7,13 @@
  * Time: 3:19 PM
  */
 
-use App\Http\Requests\Api\Field\CreateFieldRequest;
-use App\Http\Requests\Api\Field\UpdateFieldRequest;
-use App\Services\Api\Json\V1\FieldService;
+use app\Http\Requests\Api\Field\CreateFieldRequest;
+use app\Http\Requests\Api\Field\UpdateFieldRequest;
+use app\Services\Api\Json\V1\FieldService;
 
 /**
  * Class FieldController
- * @package App\Http\Controllers\JsonApi
+ * @package app\Http\Controllers\JsonApi
  */
 class FieldController extends AbstractApiController
 {

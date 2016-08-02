@@ -1,4 +1,4 @@
-<?php namespace App\Models;
+<?php namespace app\Models;
 
 /**
  * Created by Curious Minds Media.
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Opportunity
- * @package App\Models
+ * @package app\Models
  */
 class Opportunity extends Model
 {

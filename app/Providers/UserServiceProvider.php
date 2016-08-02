@@ -1,4 +1,4 @@
-<?php namespace App\Providers;
+<?php namespace app\Providers;
 
 /**
  * Created by Curious Minds Media.
@@ -7,14 +7,14 @@
  * Time: 3:32 PM
  */
 
-use App\Core\User\Repository\UserInterface;
-use App\Infrastructure\Repo\User\EloquentUserMapper;
-use App\Models\User;
+use app\Core\User\Repository\UserInterface;
+use app\Infrastructure\Repo\User\EloquentUserMapper;
+use app\Models\User;
 use Illuminate\Support\ServiceProvider;
 
 /**
  * Class FieldServiceProvider
- * @package App\Providers
+ * @package app\Providers
  */
 class UserServiceProvider extends ServiceProvider
 {

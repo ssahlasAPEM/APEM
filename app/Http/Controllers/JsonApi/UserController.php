@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\JsonApi;
+<?php namespace app\Http\Controllers\JsonApi;
 
 /**
  * Created by Curious Minds Media.
@@ -7,14 +7,14 @@
  * Time: 3:19 PM
  */
 
-use App\Http\Requests\Api\User\CreateUserRequest;
-use App\Http\Requests\Api\User\UpdateUserRequest;
-use App\Services\Api\Json\V1\UserService;
+use app\Http\Requests\Api\User\CreateUserRequest;
+use app\Http\Requests\Api\User\UpdateUserRequest;
+use app\Services\Api\Json\V1\UserService;
 use Illuminate\Support\Facades\Auth;
 
 /**
  * Class UserController
- * @package App\Http\Controllers\JsonApi
+ * @package app\Http\Controllers\JsonApi
  */
 class UserController extends AbstractApiController
 {

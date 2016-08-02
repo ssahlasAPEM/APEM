@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure;
+<?php namespace app\Infrastructure;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 4:00 PM
  */
 
-use App\Core\DomainEntity;
+use app\Core\DomainEntity;
 
 /**
  * Class AbstractDomainObjectAssembler
- * @package App\Infrastructure
+ * @package app\Infrastructure
  */
 abstract class AbstractDomainObjectAssembler
 {

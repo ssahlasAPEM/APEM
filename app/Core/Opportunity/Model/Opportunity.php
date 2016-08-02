@@ -1,4 +1,4 @@
-<?php namespace App\Core\Opportunity\Model;
+<?php namespace app\Core\Opportunity\Model;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 3:34 PM
  */
 
-use App\Core\DomainEntity;
+use app\Core\DomainEntity;
 
 /**
  * Class Opportunity
- * @package App\Core\Opportunity\Model
+ * @package app\Core\Opportunity\Model
  */
 class Opportunity extends DomainEntity
 {

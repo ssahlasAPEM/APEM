@@ -22,7 +22,7 @@ class OpportunitySeeder extends Seeder
         DB::table('opportunities')->delete();
 
         for ($i = 0; $i < $numOpps; $i ++) {
-            $newOpp                          = new \App\Models\Opportunity();
+            $newOpp                          = new \app\Models\Opportunity();
             $newOpp->user_id                 = $faker->numberBetween($min = 1, $max = 4);
             $newOpp->company                 = $faker->company;
             $newOpp->address                 = $faker->address;

@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure\Repo\Opportunity;
+<?php namespace app\Infrastructure\Repo\Opportunity;
 
 /**
  * Created by Curious Minds Media.
@@ -7,12 +7,12 @@
  * Time: 4:00 PM
  */
 
-use App\Core\Opportunity\Repository\OpportunityInterface;
-use App\Infrastructure\AbstractEloquentPersistenceFactory;
+use app\Core\Opportunity\Repository\OpportunityInterface;
+use app\Infrastructure\AbstractEloquentPersistenceFactory;
 
 /**
  * Class EloquentOpportunityPersistenceFactory
- * @package App\Infrastructure\Repo\Opportunity
+ * @package app\Infrastructure\Repo\Opportunity
  */
 class EloquentOpportunityPersistenceFactory extends AbstractEloquentPersistenceFactory
 {

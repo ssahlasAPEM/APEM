@@ -1,4 +1,4 @@
-<?php namespace App\Http;
+<?php namespace app\Http;
 
 /**
  * Created by Curious Minds Media.

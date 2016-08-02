@@ -1,4 +1,4 @@
-<?php namespace App\Core\User\Model;
+<?php namespace app\Core\User\Model;
 
 /**
  * Created by Curious Minds Media.
@@ -7,13 +7,13 @@
  * Time: 3:35 PM
  */
 
-use App\Core\DomainEntity;
-use App\Models\Opportunity;
+use app\Core\DomainEntity;
+use app\Models\Opportunity;
 use Illuminate\Support\Facades\Hash;
 
 /**
  * Class User
- * @package App\Core\User\Model
+ * @package app\Core\User\Model
  */
 class User extends DomainEntity
 {

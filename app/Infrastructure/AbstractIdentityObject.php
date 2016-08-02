@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure;
+<?php namespace app\Infrastructure;
 
 /**
  * Created by Curious Minds Media.

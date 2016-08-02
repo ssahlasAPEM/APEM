@@ -1,4 +1,4 @@
-<?php namespace App\Exceptions;
+<?php namespace app\Exceptions;
 
 /**
  * Created by Curious Minds Media.
@@ -11,7 +11,7 @@ use Exception;
 
 /**
  * Class InvalidStreamException
- * @package App\Exceptions
+ * @package app\Exceptions
  */
 class InvalidStreamException extends Exception
 {

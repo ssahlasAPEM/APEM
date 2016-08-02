@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure\Repo\User;
+<?php namespace app\Infrastructure\Repo\User;
 
 /**
  * Created by Curious Minds Media.
@@ -7,12 +7,12 @@
  * Time: 4:00 PM
  */
 
-use App\Core\User\Model\User;
-use App\Infrastructure\AbstractDomainEntityFactory;
+use app\Core\User\Model\User;
+use app\Infrastructure\AbstractDomainEntityFactory;
 
 /**
  * Class EloquentUserEntityFactory
- * @package App\Infrastructure\Repo\User
+ * @package app\Infrastructure\Repo\User
  */
 class EloquentUserEntityFactory extends AbstractDomainEntityFactory
 {

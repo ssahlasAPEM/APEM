@@ -1,4 +1,4 @@
-<?php namespace App\Services\Api\Json\ResponseMacro;
+<?php namespace app\Services\Api\Json\ResponseMacro;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 3:20 PM
  */
 
-use App\Core\Shared\CollectionMeta;
+use app\Core\Shared\CollectionMeta;
 
 /**
  * Class LinksVO
- * @package App\Services\Api\Json\ResponseMacro
+ * @package app\Services\Api\Json\ResponseMacro
  */
 class LinksVO
 {

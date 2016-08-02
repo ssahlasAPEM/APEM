@@ -1,4 +1,4 @@
-<?php namespace App\Http\Middleware;
+<?php namespace app\Http\Middleware;
 
 /**
  * Created by Curious Minds Media.
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class JsonApi
- * @package App\Http\Middleware
+ * @package app\Http\Middleware
  */
 class JsonApi
 {

@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers;
+<?php namespace app\Http\Controllers;
 
 /**
  * Created by Curious Minds Media.

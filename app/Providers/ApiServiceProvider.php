@@ -1,4 +1,4 @@
-<?php namespace App\Providers;
+<?php namespace app\Providers;
 
 /**
  * Created by Curious Minds Media, Inc.
@@ -7,14 +7,14 @@
  * Time: 3:43 PM
  */
 
-use App\Services\Api\Json\ResponseMacro\ResponseMacroFactory;
+use app\Services\Api\Json\ResponseMacro\ResponseMacroFactory;
 use Exception;
 use Illuminate\Support\ServiceProvider;
 use Response;
 
 /**
  * Class ApiServiceProvider
- * @package App\Providers
+ * @package app\Providers
  */
 class ApiServiceProvider extends ServiceProvider
 {

@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure\Repo\User;
+<?php namespace app\Infrastructure\Repo\User;
 
 /**
  * Created by Curious Minds Media.
@@ -7,12 +7,12 @@
  * Time: 4:00 PM
  */
 
-use App\Core\User\Repository\UserInterface;
-use App\Infrastructure\AbstractEloquentPersistenceFactory;
+use app\Core\User\Repository\UserInterface;
+use app\Infrastructure\AbstractEloquentPersistenceFactory;
 
 /**
  * Class EloquentUserPersistenceFactory
- * @package App\Infrastructure\Repo\User
+ * @package app\Infrastructure\Repo\User
  */
 class EloquentUserPersistenceFactory extends AbstractEloquentPersistenceFactory
 {

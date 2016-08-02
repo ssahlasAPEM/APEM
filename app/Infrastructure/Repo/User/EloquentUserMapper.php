@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure\Repo\User;
+<?php namespace app\Infrastructure\Repo\User;
 
 /**
  * Created by Curious Minds Media.
@@ -7,15 +7,15 @@
  * Time: 4:00 PM
  */
 
-use App\Core\User\Model\User;
-use App\Core\User\Repository\UserInterface;
-use App\Exceptions\ForbiddenException;
-use App\Exceptions\InvalidRequestException;
-use App\Infrastructure\AbstractEloquentMapper;
+use app\Core\User\Model\User;
+use app\Core\User\Repository\UserInterface;
+use app\Exceptions\ForbiddenException;
+use app\Exceptions\InvalidRequestException;
+use app\Infrastructure\AbstractEloquentMapper;
 
 /**
  * Class EloquentUserMapper
- * @package App\Infrastructure\Repo\User
+ * @package app\Infrastructure\Repo\User
  */
 class EloquentUserMapper extends AbstractEloquentMapper implements UserInterface
 {

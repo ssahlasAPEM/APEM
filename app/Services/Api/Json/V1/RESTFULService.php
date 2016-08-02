@@ -1,4 +1,4 @@
-<?php namespace App\Services\Api\Json\V1;
+<?php namespace app\Services\Api\Json\V1;
 
 /**
  * Created by Curious Minds Media.
@@ -7,12 +7,12 @@
  * Time: 3:19 PM
  */
 
-use App\Exceptions\InvalidRequestException;
-use App\Http\ErrorResponseFactory;
+use app\Exceptions\InvalidRequestException;
+use app\Http\ErrorResponseFactory;
 
 /**
  * Class RESTFULService
- * @package App\Services\Api\Json\V1
+ * @package app\Services\Api\Json\V1
  */
 abstract class RESTFULService
 {
@@ -211,7 +211,7 @@ abstract class RESTFULService
     /**
      * @param $method
      *
-     * @return \App\Http\ErrorResponse
+     * @return \app\Http\ErrorResponse
      */
     public function methodUnsupported($method)
     {

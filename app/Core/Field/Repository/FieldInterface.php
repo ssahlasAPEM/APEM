@@ -1,4 +1,4 @@
-<?php namespace App\Core\Field\Repository;
+<?php namespace app\Core\Field\Repository;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 3:34 PM
  */
 
-use App\Core\Shared\CrudInterface;
+use app\Core\Shared\CrudInterface;
 
 /**
  * Interface FieldInterface
- * @package App\Core\Field\Repository
+ * @package app\Core\Field\Repository
  */
 interface FieldInterface extends CrudInterface
 {

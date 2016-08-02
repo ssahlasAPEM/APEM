@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure\Repo\Opportunity;
+<?php namespace app\Infrastructure\Repo\Opportunity;
 
 /**
  * Created by Curious Minds Media.
@@ -7,14 +7,14 @@
  * Time: 4:00 PM
  */
 
-use App\Core\DomainEntity;
-use App\Core\Opportunity\Model\Opportunity;
-use App\Core\Opportunity\OpportunityCollectionInterface;
-use App\Core\Shared\TypedCollection;
+use app\Core\DomainEntity;
+use app\Core\Opportunity\Model\Opportunity;
+use app\Core\Opportunity\OpportunityCollectionInterface;
+use app\Core\Shared\TypedCollection;
 
 /**
  * Class OpportunityCollection
- * @package App\Infrastructure\Repo\Opportunity
+ * @package app\Infrastructure\Repo\Opportunity
  */
 class OpportunityCollection extends TypedCollection implements OpportunityCollectionInterface
 {

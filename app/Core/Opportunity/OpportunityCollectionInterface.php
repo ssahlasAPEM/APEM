@@ -1,4 +1,4 @@
-<?php namespace App\Core\Opportunity;
+<?php namespace app\Core\Opportunity;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 4:00 PM
  */
 
-use App\Core\DomainEntity;
+use app\Core\DomainEntity;
 
 /**
  * Interface OpportunityCollectionInterface
- * @package App\Core\Opportunity
+ * @package app\Core\Opportunity
  */
 interface OpportunityCollectionInterface
 {

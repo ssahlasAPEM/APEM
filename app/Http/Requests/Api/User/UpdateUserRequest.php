@@ -1,4 +1,4 @@
-<?php namespace App\Http\Requests\Api\User;
+<?php namespace app\Http\Requests\Api\User;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 4:31 PM
  */
 
-use App\Http\Requests\Request;
+use app\Http\Requests\Request;
 
 /**
  * Class UpdateUserRequest
- * @package App\Http\Requests\Api\User
+ * @package app\Http\Requests\Api\User
  */
 class UpdateUserRequest extends Request
 {

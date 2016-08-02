@@ -1,4 +1,4 @@
-<?php namespace App\Core\Shared;
+<?php namespace app\Core\Shared;
 
 /**
  * Created by Curious Minds Media, Inc.

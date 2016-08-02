@@ -1,4 +1,4 @@
-<?php namespace App\Services\Api\Json\V1;
+<?php namespace app\Services\Api\Json\V1;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 3:19 PM
  */
 
-use App\Core\User\Repository\UserInterface;
+use app\Core\User\Repository\UserInterface;
 
 /**
  * Class UserService
- * @package App\Services\Api\Json\V1
+ * @package app\Services\Api\Json\V1
  */
 class UserService extends RESTFULService
 {

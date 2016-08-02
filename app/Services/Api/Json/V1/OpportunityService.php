@@ -1,4 +1,4 @@
-<?php namespace App\Services\Api\Json\V1;
+<?php namespace app\Services\Api\Json\V1;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 12:16 PM
  */
 
-use App\Core\Opportunity\Repository\OpportunityInterface;
+use app\Core\Opportunity\Repository\OpportunityInterface;
 
 /**
  * Class OpportunityService
- * @package App\Services\Api\Json\V1
+ * @package app\Services\Api\Json\V1
  */
 class OpportunityService extends RESTFULService
 {

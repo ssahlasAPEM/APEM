@@ -47,7 +47,7 @@ class AdminUserSeeder extends Seeder
         DB::table('users')->delete();
 
         foreach ($users as $userSeed) {
-            $user            = new \App\User();
+            $user            = new \app\User();
             $user->username  = $userSeed['username'];
             $user->password  = Hash::make($userSeed['password']);
             $user->type      = $userSeed['type'];

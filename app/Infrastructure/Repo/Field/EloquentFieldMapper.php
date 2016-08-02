@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure\Repo\Field;
+<?php namespace app\Infrastructure\Repo\Field;
 
 /**
  * Created by Curious Minds Media.
@@ -7,15 +7,15 @@
  * Time: 4:00 PM
  */
 
-use App\Core\Field\Model\Field;
-use App\Core\Field\Repository\FieldInterface;
-use App\Exceptions\ForbiddenException;
-use App\Exceptions\InvalidRequestException;
-use App\Infrastructure\AbstractEloquentMapper;
+use app\Core\Field\Model\Field;
+use app\Core\Field\Repository\FieldInterface;
+use app\Exceptions\ForbiddenException;
+use app\Exceptions\InvalidRequestException;
+use app\Infrastructure\AbstractEloquentMapper;
 
 /**
  * Class EloquentFieldMapper
- * @package App\Infrastructure\Repo\Field
+ * @package app\Infrastructure\Repo\Field
  */
 class EloquentFieldMapper extends AbstractEloquentMapper implements FieldInterface
 {

@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure\Repo\Field;
+<?php namespace app\Infrastructure\Repo\Field;
 
 /**
  * Created by Curious Minds Media.
@@ -7,12 +7,12 @@
  * Time: 4:00 PM
  */
 
-use App\Core\Field\Model\Field;
-use App\Infrastructure\AbstractDomainEntityFactory;
+use app\Core\Field\Model\Field;
+use app\Infrastructure\AbstractDomainEntityFactory;
 
 /**
  * Class EloquentFieldEntityFactory
- * @package App\Infrastructure\Repo\Field
+ * @package app\Infrastructure\Repo\Field
  */
 class EloquentFieldEntityFactory extends AbstractDomainEntityFactory
 {

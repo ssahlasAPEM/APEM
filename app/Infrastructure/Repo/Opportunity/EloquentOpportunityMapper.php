@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure\Repo\Opportunity;
+<?php namespace app\Infrastructure\Repo\Opportunity;
 
 /**
  * Created by Curious Minds Media.
@@ -7,15 +7,15 @@
  * Time: 4:00 PM
  */
 
-use App\Core\Opportunity\Model\Opportunity;
-use App\Core\Opportunity\Repository\OpportunityInterface;
-use App\Exceptions\ForbiddenException;
-use App\Exceptions\InvalidRequestException;
-use App\Infrastructure\AbstractEloquentMapper;
+use app\Core\Opportunity\Model\Opportunity;
+use app\Core\Opportunity\Repository\OpportunityInterface;
+use app\Exceptions\ForbiddenException;
+use app\Exceptions\InvalidRequestException;
+use app\Infrastructure\AbstractEloquentMapper;
 
 /**
  * Class EloquentOpportunityMapper
- * @package App\Infrastructure\Repo\Opportunity
+ * @package app\Infrastructure\Repo\Opportunity
  */
 class EloquentOpportunityMapper extends AbstractEloquentMapper implements OpportunityInterface
 {

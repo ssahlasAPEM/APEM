@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure\Repo;
+<?php namespace app\Infrastructure\Repo;
 
 /**
  * Created by Curious Minds Media.
@@ -11,7 +11,7 @@ use App;
 
 /**
  * Class CascadeDeleteTrait
- * @package App\Infrastructure\Repo
+ * @package app\Infrastructure\Repo
  */
 trait CascadeDeleteTrait
 {

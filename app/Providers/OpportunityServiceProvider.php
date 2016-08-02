@@ -1,4 +1,4 @@
-<?php namespace App\Providers;
+<?php namespace app\Providers;
 
 /**
  * Created by Curious Minds Media.
@@ -7,14 +7,14 @@
  * Time: 3:58 PM
  */
 
-use App\Core\Opportunity\Repository\OpportunityInterface;
-use App\Infrastructure\Repo\Opportunity\EloquentOpportunityMapper;
-use App\Models\Opportunity;
+use app\Core\Opportunity\Repository\OpportunityInterface;
+use app\Infrastructure\Repo\Opportunity\EloquentOpportunityMapper;
+use app\Models\Opportunity;
 use Illuminate\Support\ServiceProvider;
 
 /**
  * Class OpportunityServiceProvider
- * @package App\Providers
+ * @package app\Providers
  */
 class OpportunityServiceProvider extends ServiceProvider
 {

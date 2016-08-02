@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\WebApp;
+<?php namespace app\Http\Controllers\WebApp;
 
 /**
  * Created by Curious Minds Media.
@@ -7,7 +7,7 @@
  * Time: 3:19 PM
  */
 
-use App\Http\Controllers\Controller;
+use app\Http\Controllers\Controller;
 
 class ApplicationController extends Controller
 {

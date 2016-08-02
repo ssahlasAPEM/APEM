@@ -1,4 +1,4 @@
-<?php namespace App\Core\User\Repository;
+<?php namespace app\Core\User\Repository;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 3:35 PM
  */
 
-use App\Core\Shared\CrudInterface;
+use app\Core\Shared\CrudInterface;
 
 /**
  * Interface UserInterface
- * @package App\Core\User\Repository
+ * @package app\Core\User\Repository
  */
 interface UserInterface extends CrudInterface
 {

@@ -1,4 +1,4 @@
-<?php namespace App\Services\Api\Json\ResponseMacro;
+<?php namespace app\Services\Api\Json\ResponseMacro;
 
 /**
  * Created by Curious Minds Media, Inc.
@@ -7,18 +7,18 @@
  * Time: 10:42 AM
  */
 
-use App\Core\Field\Model\Field;
-use App\Core\Opportunity\Model\Opportunity;
-use App\Core\Shared\ComplexCollection;
-use App\Core\Shared\TypedCollection;
-use App\Core\User\Model\User;
-use App\Http\ErrorResponse;
+use app\Core\Field\Model\Field;
+use app\Core\Opportunity\Model\Opportunity;
+use app\Core\Shared\ComplexCollection;
+use app\Core\Shared\TypedCollection;
+use app\Core\User\Model\User;
+use app\Http\ErrorResponse;
 use Exception;
 use Illuminate\Support\Collection;
 
 /**
  * Class ResponseMacroFactory
- * @package App\Services\Api\Json\ResponseMacro
+ * @package app\Services\Api\Json\ResponseMacro
  */
 class ResponseMacroFactory
 {
@@ -49,10 +49,10 @@ class ResponseMacroFactory
         }
 
         $macroMap = [
-            ErrorResponse::class => 'App\Services\Api\Json\ResponseMacro\ErrorResponseMacro',
-            Field::class         => 'App\Services\Api\Json\ResponseMacro\FieldResponseMacro',
-            Opportunity::class   => 'App\Services\Api\Json\ResponseMacro\OpportunityResponseMacro',
-            User::class          => 'App\Services\Api\Json\ResponseMacro\UserResponseMacro',
+            ErrorResponse::class => 'app\Services\Api\Json\ResponseMacro\ErrorResponseMacro',
+            Field::class         => 'app\Services\Api\Json\ResponseMacro\FieldResponseMacro',
+            Opportunity::class   => 'app\Services\Api\Json\ResponseMacro\OpportunityResponseMacro',
+            User::class          => 'app\Services\Api\Json\ResponseMacro\UserResponseMacro',
         ];
 
         if (array_key_exists($targetClass, $macroMap)) {

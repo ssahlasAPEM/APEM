@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\JsonApi;
+<?php namespace app\Http\Controllers\JsonApi;
 
 /**
  * Created by Curious Minds Media.
@@ -7,13 +7,13 @@
  * Time: 3:19 PM
  */
 
-use App\Http\Requests\Api\Opportunity\CreateOpportunityRequest;
-use App\Http\Requests\Api\Opportunity\UpdateOpportunityRequest;
-use App\Services\Api\Json\V1\OpportunityService;
+use app\Http\Requests\Api\Opportunity\CreateOpportunityRequest;
+use app\Http\Requests\Api\Opportunity\UpdateOpportunityRequest;
+use app\Services\Api\Json\V1\OpportunityService;
 
 /**
  * Class OpportunityController
- * @package App\Http\Controllers\JsonApi
+ * @package app\Http\Controllers\JsonApi
  */
 class OpportunityController extends AbstractApiController
 {

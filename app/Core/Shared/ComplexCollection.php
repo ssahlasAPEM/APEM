@@ -6,7 +6,7 @@
  * Time: 3:33 PM
  */
 
-namespace App\Core\Shared;
+namespace app\Core\Shared;
 
 class ComplexCollection
 {

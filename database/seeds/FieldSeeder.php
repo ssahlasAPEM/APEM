@@ -491,7 +491,7 @@ class FieldSeeder extends Seeder
         DB::table('fields')->delete();
 
         foreach ($fields as $field) {
-            $newField           = new \App\Models\Field();
+            $newField           = new \app\Models\Field();
             $newField->label    = $field['label'];
             $newField->name     = $field['name'];
             $newField->type     = $field['type'];

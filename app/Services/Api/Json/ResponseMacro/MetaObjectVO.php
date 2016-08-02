@@ -1,4 +1,4 @@
-<?php namespace App\Services\Api\Json\ResponseMacro;
+<?php namespace app\Services\Api\Json\ResponseMacro;
 
 /**
  * Created by Curious Minds Media.

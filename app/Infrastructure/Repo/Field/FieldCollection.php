@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure\Repo\Field;
+<?php namespace app\Infrastructure\Repo\Field;
 
 /**
  * Created by Curious Minds Media.
@@ -7,14 +7,14 @@
  * Time: 4:00 PM
  */
 
-use App\Core\DomainEntity;
-use App\Core\Field\FieldCollectionInterface;
-use App\Core\Field\Model\Field;
-use App\Core\Shared\TypedCollection;
+use app\Core\DomainEntity;
+use app\Core\Field\FieldCollectionInterface;
+use app\Core\Field\Model\Field;
+use app\Core\Shared\TypedCollection;
 
 /**
  * Class FieldCollection
- * @package App\Infrastructure\Repo\Field
+ * @package app\Infrastructure\Repo\Field
  */
 class FieldCollection extends TypedCollection implements FieldCollectionInterface
 {

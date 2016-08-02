@@ -1,4 +1,4 @@
-<?php namespace App\Core\Shared;
+<?php namespace app\Core\Shared;
 
 /**
  * Created by Curious Minds Media.
@@ -7,8 +7,8 @@
  * Time: 3:33 PM
  */
 
-use App\Core\DomainEntity;
-use App\Infrastructure\AbstractDomainEntityFactory;
+use app\Core\DomainEntity;
+use app\Infrastructure\AbstractDomainEntityFactory;
 use Illuminate\Support\Collection;
 
 /**

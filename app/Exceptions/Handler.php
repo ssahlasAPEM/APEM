@@ -1,12 +1,12 @@
-<?php namespace App\Exceptions;
+<?php namespace app\Exceptions;
 
-use App\Http\ErrorResponseFactory;
+use app\Http\ErrorResponseFactory;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 /**
  * Class Handler
- * @package App\Exceptions
+ * @package app\Exceptions
  */
 class Handler extends ExceptionHandler
 {

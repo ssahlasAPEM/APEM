@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure;
+<?php namespace app\Infrastructure;
 
 /**
  * Created by Curious Minds Media.
@@ -7,13 +7,13 @@
  * Time: 4:00 PM
  */
 
-use App\Core\DomainEntity;
-use App\Core\DomainEntityFieldFlags as Flags;
+use app\Core\DomainEntity;
+use app\Core\DomainEntityFieldFlags as Flags;
 use Log;
 
 /**
  * Class AbstractDomainEntityFactory
- * @package App\Infrastructure
+ * @package app\Infrastructure
  */
 abstract class AbstractDomainEntityFactory
 {

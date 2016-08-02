@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure\Repo\Field;
+<?php namespace app\Infrastructure\Repo\Field;
 
 /**
  * Created by Curious Minds Media.
@@ -7,12 +7,12 @@
  * Time: 4:00 PM
  */
 
-use App\Core\Field\Repository\FieldInterface;
-use App\Infrastructure\AbstractEloquentPersistenceFactory;
+use app\Core\Field\Repository\FieldInterface;
+use app\Infrastructure\AbstractEloquentPersistenceFactory;
 
 /**
  * Class EloquentFieldPersistenceFactory
- * @package App\Infrastructure\Repo\Field
+ * @package app\Infrastructure\Repo\Field
  */
 class EloquentFieldPersistenceFactory extends AbstractEloquentPersistenceFactory
 {

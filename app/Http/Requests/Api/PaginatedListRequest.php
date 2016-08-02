@@ -1,4 +1,4 @@
-<?php namespace App\Http\Requests\Api;
+<?php namespace app\Http\Requests\Api;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 4:31 PM
  */
 
-use App\Http\Requests\Request;
+use app\Http\Requests\Request;
 
 /**
  * Class PaginatedListRequest
- * @package App\Http\Requests\Api
+ * @package app\Http\Requests\Api
  */
 class PaginatedListRequest extends Request
 {

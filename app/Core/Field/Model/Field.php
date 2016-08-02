@@ -1,4 +1,4 @@
-<?php namespace App\Core\Field\Model;
+<?php namespace app\Core\Field\Model;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 3:35 PM
  */
 
-use App\Core\DomainEntity;
+use app\Core\DomainEntity;
 
 /**
  * Class Field
- * @package App\Core\Field\Model
+ * @package app\Core\Field\Model
  */
 class Field extends DomainEntity
 {

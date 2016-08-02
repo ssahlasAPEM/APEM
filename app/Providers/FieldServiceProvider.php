@@ -1,4 +1,4 @@
-<?php namespace App\Providers;
+<?php namespace app\Providers;
 
 /**
  * Created by Curious Minds Media.
@@ -7,14 +7,14 @@
  * Time: 3:32 PM
  */
 
-use App\Core\Field\Repository\FieldInterface;
-use App\Infrastructure\Repo\Field\EloquentFieldMapper;
-use App\Models\Field;
+use app\Core\Field\Repository\FieldInterface;
+use app\Infrastructure\Repo\Field\EloquentFieldMapper;
+use app\Models\Field;
 use Illuminate\Support\ServiceProvider;
 
 /**
  * Class FieldServiceProvider
- * @package App\Providers
+ * @package app\Providers
  */
 class FieldServiceProvider extends ServiceProvider
 {

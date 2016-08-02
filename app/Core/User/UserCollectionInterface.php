@@ -1,4 +1,4 @@
-<?php namespace App\Core\User;
+<?php namespace app\Core\User;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 4:00 PM
  */
 
-use App\Core\DomainEntity;
+use app\Core\DomainEntity;
 
 /**
  * Interface UserCollectionInterface
- * @package App\Core\User
+ * @package app\Core\User
  */
 interface UserCollectionInterface
 {

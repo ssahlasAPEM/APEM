@@ -151,18 +151,18 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        app\Providers\AppServiceProvider::class,
+        app\Providers\AuthServiceProvider::class,
+        app\Providers\EventServiceProvider::class,
+        app\Providers\RouteServiceProvider::class,
 
         /*
          * Custom Service Providers...
          */
-        App\Providers\ApiServiceProvider::class,
-        App\Providers\UserServiceProvider::class,
-        App\Providers\FieldServiceProvider::class,
-        App\Providers\OpportunityServiceProvider::class,
+        app\Providers\ApiServiceProvider::class,
+        app\Providers\UserServiceProvider::class,
+        app\Providers\FieldServiceProvider::class,
+        app\Providers\OpportunityServiceProvider::class,
         \Collective\Html\HtmlServiceProvider::class,
 
     ],

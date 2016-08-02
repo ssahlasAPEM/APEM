@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure\Repo\Opportunity;
+<?php namespace app\Infrastructure\Repo\Opportunity;
 
 /**
  * Created by Curious Minds Media.
@@ -7,12 +7,12 @@
  * Time: 4:00 PM
  */
 
-use App\Core\Opportunity\Model\Opportunity;
-use App\Infrastructure\AbstractDomainEntityFactory;
+use app\Core\Opportunity\Model\Opportunity;
+use app\Infrastructure\AbstractDomainEntityFactory;
 
 /**
  * Class EloquentOpportunityEntityFactory
- * @package App\Infrastructure\Repo\Opportunity
+ * @package app\Infrastructure\Repo\Opportunity
  */
 class EloquentOpportunityEntityFactory extends AbstractDomainEntityFactory
 {

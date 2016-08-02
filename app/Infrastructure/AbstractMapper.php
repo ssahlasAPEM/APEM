@@ -1,4 +1,4 @@
-<?php namespace App\Infrastructure;
+<?php namespace app\Infrastructure;
 
 /**
  * Created by Curious Minds Media.
@@ -12,16 +12,16 @@
  *
  */
 
-use App\Core\DomainEntity;
-use App\Core\Shared\CollectionMeta;
-use App\Core\Shared\CrudInterface;
-use App\Core\Shared\TypedCollection;
-use App\Jobs\LogEvent;
+use app\Core\DomainEntity;
+use app\Core\Shared\CollectionMeta;
+use app\Core\Shared\CrudInterface;
+use app\Core\Shared\TypedCollection;
+use app\Jobs\LogEvent;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class AbstractMapper
- * @package App\Infrastructure
+ * @package app\Infrastructure
  */
 abstract class AbstractMapper implements CrudInterface
 {

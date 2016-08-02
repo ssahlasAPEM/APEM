@@ -1,4 +1,4 @@
-<?php namespace App\Core;
+<?php namespace app\Core;
 
 /**
  * Created by Curious Minds Media, Inc.
@@ -7,12 +7,12 @@
  * Time: 1:45 PM
  */
 
-use App\Core\Shared\HelperFactory;
-use App\Models\Owner;
+use app\Core\Shared\HelperFactory;
+use app\Models\Owner;
 
 /**
  * Class DomainEntity
- * @package App\Core
+ * @package app\Core
  */
 abstract class DomainEntity
 {

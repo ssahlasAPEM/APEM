@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\JsonApi;
+<?php namespace app\Http\Controllers\JsonApi;
 
 /**
  * Created by Curious Minds Media.
@@ -7,8 +7,8 @@
  * Time: 11:00 AM
  */
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\ListRequest;
+use app\Http\Controllers\Controller;
+use app\Http\Requests\Api\ListRequest;
 
 class AbstractApiController extends Controller
 {

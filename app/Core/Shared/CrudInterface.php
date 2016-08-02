@@ -1,4 +1,4 @@
-<?php namespace App\Core\Shared;
+<?php namespace app\Core\Shared;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 4:16 PM
  */
 
-use App\Core\DomainEntity;
+use app\Core\DomainEntity;
 
 /**
  * Interface CrudInterface
- * @package App\Core\Shared
+ * @package app\Core\Shared
  */
 interface CrudInterface extends ReadOnlyInterface
 {

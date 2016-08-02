@@ -1,4 +1,4 @@
-<?php namespace App\Http\Requests\Api\Opportunity;
+<?php namespace app\Http\Requests\Api\Opportunity;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 12:11 PM
  */
 
-use App\Http\Requests\Request;
+use app\Http\Requests\Request;
 
 /**
  * Class CreateFieldRequest
- * @package App\Http\Requests\Api\Field
+ * @package app\Http\Requests\Api\Field
  */
 class CreateOpportunityRequest extends Request
 {

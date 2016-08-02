@@ -1,4 +1,4 @@
-<?php namespace App\Services\Api\Json\ResponseMacro;
+<?php namespace app\Services\Api\Json\ResponseMacro;
 
 /**
  * Created by Curious Minds Media.
@@ -7,11 +7,11 @@
  * Time: 3:29 PM
  */
 
-use App\Core\Field\Model\Field;
+use app\Core\Field\Model\Field;
 
 /**
  * Class FieldResponseMacro
- * @package App\Services\Api\Json\ResponseMacro
+ * @package app\Services\Api\Json\ResponseMacro
  */
 class FieldResponseMacro extends AbstractResponseMacro
 {

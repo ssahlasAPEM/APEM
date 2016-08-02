@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\Auth;
+<?php namespace app\Http\Controllers\Auth;
 
 /**
  * Created by Curious Minds Media.
@@ -7,8 +7,8 @@
  * Time: 3:19 PM
  */
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
+use app\Http\Controllers\Controller;
+use app\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;

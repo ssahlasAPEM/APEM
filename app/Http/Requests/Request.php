@@ -1,4 +1,4 @@
-<?php namespace App\Http\Requests;
+<?php namespace app\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 /**
  * Class Request
- * @package App\Http\Requests
+ * @package app\Http\Requests
  */
 abstract class Request extends FormRequest
 {

@@ -1,4 +1,4 @@
-<?php namespace App\Services\Api\Json\ResponseMacro;
+<?php namespace app\Services\Api\Json\ResponseMacro;
 
 /**
  * Created by Curious Minds Media.
@@ -7,15 +7,15 @@
  * Time: 3:20 PM
  */
 
-use App\Core\DomainEntityFieldFlags as Flags;
-use App\Core\Shared\ComplexCollection;
-use App\Core\Shared\TypedCollection;
-use App\Core\User\Model\User;
+use app\Core\DomainEntityFieldFlags as Flags;
+use app\Core\Shared\ComplexCollection;
+use app\Core\Shared\TypedCollection;
+use app\Core\User\Model\User;
 use Illuminate\Support\Collection;
 
 /**
  * Class AbstractResponseMacro
- * @package App\Services\Api\Json\ResponseMacro
+ * @package app\Services\Api\Json\ResponseMacro
  */
 abstract class AbstractResponseMacro
 {
