@@ -39,7 +39,7 @@ class AdminUserSeeder extends Seeder
             [
                 'username' => 'TestHarness',
                 'password' => 'X9Z2gPd9',
-                'type'     => 'User',
+                'type'     => 'Admin',
                 'active'   => true
             ]
         ];
