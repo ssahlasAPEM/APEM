@@ -63,38 +63,6 @@ define('apem/components/app-version', ['exports', 'ember-cli-app-version/compone
     name: name
   });
 });
-define('apem/components/basic-dropdown', ['exports', 'ember-basic-dropdown/components/basic-dropdown'], function (exports, _emberBasicDropdownComponentsBasicDropdown) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberBasicDropdownComponentsBasicDropdown['default'];
-    }
-  });
-});
-define('apem/components/basic-dropdown/content', ['exports', 'ember-basic-dropdown/components/basic-dropdown/content'], function (exports, _emberBasicDropdownComponentsBasicDropdownContent) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberBasicDropdownComponentsBasicDropdownContent['default'];
-    }
-  });
-});
-define('apem/components/basic-dropdown/trigger', ['exports', 'ember-basic-dropdown/components/basic-dropdown/trigger'], function (exports, _emberBasicDropdownComponentsBasicDropdownTrigger) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberBasicDropdownComponentsBasicDropdownTrigger['default'];
-    }
-  });
-});
-define('apem/components/basic-dropdown/wormhole', ['exports', 'ember-basic-dropdown/components/basic-dropdown/wormhole'], function (exports, _emberBasicDropdownComponentsBasicDropdownWormhole) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberBasicDropdownComponentsBasicDropdownWormhole['default'];
-    }
-  });
-});
 define('apem/components/bread-crumb', ['exports', 'ember-crumbly/components/bread-crumb'], function (exports, _emberCrumblyComponentsBreadCrumb) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -108,14 +76,6 @@ define('apem/components/bread-crumbs', ['exports', 'ember-crumbly/components/bre
     enumerable: true,
     get: function get() {
       return _emberCrumblyComponentsBreadCrumbs['default'];
-    }
-  });
-});
-define('apem/components/bs-datetimepicker', ['exports', 'ember-cli-bootstrap-datetimepicker/components/bs-datetimepicker'], function (exports, _emberCliBootstrapDatetimepickerComponentsBsDatetimepicker) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberCliBootstrapDatetimepickerComponentsBsDatetimepicker['default'];
     }
   });
 });
@@ -137,14 +97,6 @@ define('apem/components/date-picker', ['exports', 'ember-date-components/compone
 });
 define('apem/components/ember-selectize', ['exports', 'ember-cli-selectize/components/ember-selectize'], function (exports, _emberCliSelectizeComponentsEmberSelectize) {
   exports['default'] = _emberCliSelectizeComponentsEmberSelectize['default'];
-});
-define('apem/components/ember-wormhole', ['exports', 'ember-wormhole/components/ember-wormhole'], function (exports, _emberWormholeComponentsEmberWormhole) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberWormholeComponentsEmberWormhole['default'];
-    }
-  });
 });
 define('apem/components/fa-icon', ['exports', 'ember-font-awesome/components/fa-icon'], function (exports, _emberFontAwesomeComponentsFaIcon) {
   Object.defineProperty(exports, 'default', {
@@ -296,54 +248,6 @@ define('apem/components/pl-uploader', ['exports', 'ember-plupload/components/pl-
     BASE_URL: BASE_URL
   });
 });
-define('apem/components/power-select-multiple', ['exports', 'ember-power-select/components/power-select-multiple'], function (exports, _emberPowerSelectComponentsPowerSelectMultiple) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberPowerSelectComponentsPowerSelectMultiple['default'];
-    }
-  });
-});
-define('apem/components/power-select-multiple/trigger', ['exports', 'ember-power-select/components/power-select-multiple/trigger'], function (exports, _emberPowerSelectComponentsPowerSelectMultipleTrigger) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberPowerSelectComponentsPowerSelectMultipleTrigger['default'];
-    }
-  });
-});
-define('apem/components/power-select', ['exports', 'ember-power-select/components/power-select'], function (exports, _emberPowerSelectComponentsPowerSelect) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberPowerSelectComponentsPowerSelect['default'];
-    }
-  });
-});
-define('apem/components/power-select/before-options', ['exports', 'ember-power-select/components/power-select/before-options'], function (exports, _emberPowerSelectComponentsPowerSelectBeforeOptions) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberPowerSelectComponentsPowerSelectBeforeOptions['default'];
-    }
-  });
-});
-define('apem/components/power-select/options', ['exports', 'ember-power-select/components/power-select/options'], function (exports, _emberPowerSelectComponentsPowerSelectOptions) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberPowerSelectComponentsPowerSelectOptions['default'];
-    }
-  });
-});
-define('apem/components/power-select/trigger', ['exports', 'ember-power-select/components/power-select/trigger'], function (exports, _emberPowerSelectComponentsPowerSelectTrigger) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberPowerSelectComponentsPowerSelectTrigger['default'];
-    }
-  });
-});
 define('apem/components/ui-accordion', ['exports', 'semantic-ui-ember/components/ui-accordion'], function (exports, _semanticUiEmberComponentsUiAccordion) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -470,18 +374,6 @@ define('apem/controllers/array', ['exports', 'ember'], function (exports, _ember
 define('apem/controllers/object', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
 });
-define('apem/helpers/and', ['exports', 'ember', 'ember-truth-helpers/helpers/and'], function (exports, _ember, _emberTruthHelpersHelpersAnd) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersAnd.andHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersAnd.andHelper);
-  }
-
-  exports['default'] = forExport;
-});
 define('apem/helpers/currency-format', ['exports', 'ember'], function (exports, _ember) {
   exports.currencyFormat = currencyFormat;
 
@@ -506,46 +398,6 @@ define('apem/helpers/date-picker-day-classes', ['exports', 'ember-date-component
       return _emberDateComponentsHelpersDatePickerDayClasses.datePickerDayClasses;
     }
   });
-});
-define('apem/helpers/ember-power-select-is-selected', ['exports', 'ember-power-select/helpers/ember-power-select-is-selected'], function (exports, _emberPowerSelectHelpersEmberPowerSelectIsSelected) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberPowerSelectHelpersEmberPowerSelectIsSelected['default'];
-    }
-  });
-  Object.defineProperty(exports, 'emberPowerSelectIsSelected', {
-    enumerable: true,
-    get: function get() {
-      return _emberPowerSelectHelpersEmberPowerSelectIsSelected.emberPowerSelectIsSelected;
-    }
-  });
-});
-define('apem/helpers/ember-power-select-true-string-if-present', ['exports', 'ember-power-select/helpers/ember-power-select-true-string-if-present'], function (exports, _emberPowerSelectHelpersEmberPowerSelectTrueStringIfPresent) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberPowerSelectHelpersEmberPowerSelectTrueStringIfPresent['default'];
-    }
-  });
-  Object.defineProperty(exports, 'emberPowerSelectTrueStringIfPresent', {
-    enumerable: true,
-    get: function get() {
-      return _emberPowerSelectHelpersEmberPowerSelectTrueStringIfPresent.emberPowerSelectTrueStringIfPresent;
-    }
-  });
-});
-define('apem/helpers/eq', ['exports', 'ember', 'ember-truth-helpers/helpers/equal'], function (exports, _ember, _emberTruthHelpersHelpersEqual) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersEqual.equalHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersEqual.equalHelper);
-  }
-
-  exports['default'] = forExport;
 });
 define('apem/helpers/format-date', ['exports', 'ember-intl/helpers/format-date'], function (exports, _emberIntlHelpersFormatDate) {
   /**
@@ -625,30 +477,6 @@ define('apem/helpers/format-time', ['exports', 'ember-intl/helpers/format-time']
     }
   });
 });
-define('apem/helpers/gt', ['exports', 'ember', 'ember-truth-helpers/helpers/gt'], function (exports, _ember, _emberTruthHelpersHelpersGt) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersGt.gtHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersGt.gtHelper);
-  }
-
-  exports['default'] = forExport;
-});
-define('apem/helpers/gte', ['exports', 'ember', 'ember-truth-helpers/helpers/gte'], function (exports, _ember, _emberTruthHelpersHelpersGte) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersGte.gteHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersGte.gteHelper);
-  }
-
-  exports['default'] = forExport;
-});
 define('apem/helpers/intl-get', ['exports', 'ember-intl/helpers/intl-get'], function (exports, _emberIntlHelpersIntlGet) {
   /**
    * Copyright 2015, Yahoo! Inc.
@@ -661,18 +489,6 @@ define('apem/helpers/intl-get', ['exports', 'ember-intl/helpers/intl-get'], func
       return _emberIntlHelpersIntlGet['default'];
     }
   });
-});
-define('apem/helpers/is-array', ['exports', 'ember', 'ember-truth-helpers/helpers/is-array'], function (exports, _ember, _emberTruthHelpersHelpersIsArray) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersIsArray.isArrayHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersIsArray.isArrayHelper);
-  }
-
-  exports['default'] = forExport;
 });
 define('apem/helpers/is-equal-day', ['exports', 'ember-date-components/helpers/is-equal-day'], function (exports, _emberDateComponentsHelpersIsEqualDay) {
   Object.defineProperty(exports, 'default', {
@@ -725,6 +541,7 @@ define('apem/helpers/is-equal', ['exports', 'ember'], function (exports, _ember)
     var leftSide = _ref2[0];
     var rightSide = _ref2[1];
 
+    console.log('helper used "is-equal": ' + leftSide + ' ' + rightSide);
     return leftSide === rightSide;
   });
 });
@@ -740,30 +557,6 @@ define('apem/helpers/l', ['exports', 'ember-intl/helpers/l'], function (exports,
       return _emberIntlHelpersL['default'];
     }
   });
-});
-define('apem/helpers/lt', ['exports', 'ember', 'ember-truth-helpers/helpers/lt'], function (exports, _ember, _emberTruthHelpersHelpersLt) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersLt.ltHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersLt.ltHelper);
-  }
-
-  exports['default'] = forExport;
-});
-define('apem/helpers/lte', ['exports', 'ember', 'ember-truth-helpers/helpers/lte'], function (exports, _ember, _emberTruthHelpersHelpersLte) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersLte.lteHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersLte.lteHelper);
-  }
-
-  exports['default'] = forExport;
 });
 define('apem/helpers/moment-calendar', ['exports', 'ember-moment/helpers/moment-calendar'], function (exports, _emberMomentHelpersMomentCalendar) {
   Object.defineProperty(exports, 'default', {
@@ -802,42 +595,6 @@ define('apem/helpers/moment-to-now', ['exports', 'ember', 'apem/config/environme
     globalAllowEmpty: !!_ember['default'].get(_apemConfigEnvironment['default'], 'moment.allowEmpty')
   });
 });
-define('apem/helpers/not-eq', ['exports', 'ember', 'ember-truth-helpers/helpers/not-equal'], function (exports, _ember, _emberTruthHelpersHelpersNotEqual) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersNotEqual.notEqualHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersNotEqual.notEqualHelper);
-  }
-
-  exports['default'] = forExport;
-});
-define('apem/helpers/not', ['exports', 'ember', 'ember-truth-helpers/helpers/not'], function (exports, _ember, _emberTruthHelpersHelpersNot) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersNot.notHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersNot.notHelper);
-  }
-
-  exports['default'] = forExport;
-});
-define('apem/helpers/or', ['exports', 'ember', 'ember-truth-helpers/helpers/or'], function (exports, _ember, _emberTruthHelpersHelpersOr) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersOr.orHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersOr.orHelper);
-  }
-
-  exports['default'] = forExport;
-});
 define('apem/helpers/pluralize', ['exports', 'ember-inflector/lib/helpers/pluralize'], function (exports, _emberInflectorLibHelpersPluralize) {
   exports['default'] = _emberInflectorLibHelpersPluralize['default'];
 });
@@ -856,18 +613,6 @@ define('apem/helpers/t', ['exports', 'ember-intl/helpers/t'], function (exports,
       return _emberIntlHelpersT['default'];
     }
   });
-});
-define('apem/helpers/xor', ['exports', 'ember', 'ember-truth-helpers/helpers/xor'], function (exports, _ember, _emberTruthHelpersHelpersXor) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersXor.xorHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersXor.xorHelper);
-  }
-
-  exports['default'] = forExport;
 });
 define('apem/initializers/app-version', ['exports', 'ember-cli-app-version/initializer-factory', 'apem/config/environment'], function (exports, _emberCliAppVersionInitializerFactory, _apemConfigEnvironment) {
   exports['default'] = {
@@ -1146,34 +891,6 @@ define('apem/initializers/transforms', ['exports', 'ember'], function (exports, 
     initialize: _ember['default'].K
   };
 });
-define('apem/initializers/truth-helpers', ['exports', 'ember', 'ember-truth-helpers/utils/register-helper', 'ember-truth-helpers/helpers/and', 'ember-truth-helpers/helpers/or', 'ember-truth-helpers/helpers/equal', 'ember-truth-helpers/helpers/not', 'ember-truth-helpers/helpers/is-array', 'ember-truth-helpers/helpers/not-equal', 'ember-truth-helpers/helpers/gt', 'ember-truth-helpers/helpers/gte', 'ember-truth-helpers/helpers/lt', 'ember-truth-helpers/helpers/lte'], function (exports, _ember, _emberTruthHelpersUtilsRegisterHelper, _emberTruthHelpersHelpersAnd, _emberTruthHelpersHelpersOr, _emberTruthHelpersHelpersEqual, _emberTruthHelpersHelpersNot, _emberTruthHelpersHelpersIsArray, _emberTruthHelpersHelpersNotEqual, _emberTruthHelpersHelpersGt, _emberTruthHelpersHelpersGte, _emberTruthHelpersHelpersLt, _emberTruthHelpersHelpersLte) {
-  exports.initialize = initialize;
-
-  function initialize() /* container, application */{
-
-    // Do not register helpers from Ember 1.13 onwards, starting from 1.13 they
-    // will be auto-discovered.
-    if (_ember['default'].Helper) {
-      return;
-    }
-
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('and', _emberTruthHelpersHelpersAnd.andHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('or', _emberTruthHelpersHelpersOr.orHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('eq', _emberTruthHelpersHelpersEqual.equalHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('not', _emberTruthHelpersHelpersNot.notHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('is-array', _emberTruthHelpersHelpersIsArray.isArrayHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('not-eq', _emberTruthHelpersHelpersNotEqual.notEqualHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('gt', _emberTruthHelpersHelpersGt.gtHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('gte', _emberTruthHelpersHelpersGte.gteHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('lt', _emberTruthHelpersHelpersLt.ltHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('lte', _emberTruthHelpersHelpersLte.lteHelper);
-  }
-
-  exports['default'] = {
-    name: 'truth-helpers',
-    initialize: initialize
-  };
-});
 define("apem/instance-initializers/ember-data", ["exports", "ember-data/-private/instance-initializers/initialize-store-service"], function (exports, _emberDataPrivateInstanceInitializersInitializeStoreService) {
   exports["default"] = {
     name: "ember-data",
@@ -1368,7 +1085,21 @@ define('apem/models/profile', ['exports', 'ember-data'], function (exports, _emb
     lastLogin: _emberData['default'].attr('string', { defaultValue: null })
   });
 });
-define('apem/models/user', ['exports', 'ember-data'], function (exports, _emberData) {
+define('apem/models/user', ['exports', 'ember-data', 'ember-cp-validations'], function (exports, _emberData, _emberCpValidations) {
+  var Validations = (0, _emberCpValidations.buildValidations)({
+    username: [(0, _emberCpValidations.validator)('presence', true), (0, _emberCpValidations.validator)('length', {
+      min: 4
+    })],
+    password: [(0, _emberCpValidations.validator)('presence', true), (0, _emberCpValidations.validator)('length', {
+      min: 4
+    })],
+    passwordVerify: [(0, _emberCpValidations.validator)('presence', true), (0, _emberCpValidations.validator)('confirmation', {
+      on: 'password',
+      message: '{description} do not match',
+      description: 'Passwords'
+    })]
+  });
+
   exports['default'] = _emberData['default'].Model.extend({
     opportunities: _emberData['default'].hasMany('opportunity'),
 
@@ -1409,6 +1140,65 @@ define('apem/pods/application/controller', ['exports', 'ember'], function (expor
   exports['default'] = _ember['default'].Controller.extend({
     serverErrors: _ember['default'].A()
   });
+});
+define("apem/pods/application/loading/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "triple-curlies"
+        },
+        "revision": "Ember@2.6.2",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 0
+          }
+        },
+        "moduleName": "apem/pods/application/loading/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "ui segment loading-indicator");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "ui active inverted dimmer");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "ui text loader");
+        var el4 = dom.createTextNode("Loading");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
+      },
+      statements: [],
+      locals: [],
+      templates: []
+    };
+  })());
 });
 define('apem/pods/application/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
@@ -1533,6 +1323,13 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
       }
     }
   });
+
+  // import layout from '../templates/components/infinity-loader';
+  // import infinityLoader from 'ember-infinity/components/infinity-loader';
+  //
+  // export default infinityLoader.extend({
+  //   layout: layout
+  // });
 });
 define("apem/pods/components/adv-search/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
@@ -1549,7 +1346,7 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
                 "column": 2
               },
               "end": {
-                "line": 40,
+                "line": 52,
                 "column": 2
               }
             },
@@ -1570,52 +1367,89 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("div");
             dom.setAttribute(el1, "class", "menu adv-search-menu");
-            var el2 = dom.createTextNode("\n\n      ");
+            var el2 = dom.createTextNode("\n      ");
             dom.appendChild(el1, el2);
-            var el2 = dom.createComment("");
+            var el2 = dom.createElement("div");
+            dom.setAttribute(el2, "class", "ui field");
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createElement("div");
+            dom.setAttribute(el3, "class", "item fake-item");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createElement("br");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createElement("br");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n      ");
+            dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n      ");
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "item fake-item");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n      ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("br");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("br");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n      ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("span");
-            dom.setAttribute(el2, "class", "menu-label gap1");
-            var el3 = dom.createTextNode("Date Entered");
+            dom.setAttribute(el2, "class", "ui field gap1");
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createElement("span");
+            dom.setAttribute(el3, "class", "menu-label");
+            var el4 = dom.createTextNode("Date Entered");
+            dom.appendChild(el3, el4);
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n      ");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n      ");
             dom.appendChild(el1, el2);
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n      ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("br");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n      ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("span");
-            dom.setAttribute(el2, "class", "menu-label gap1");
-            var el3 = dom.createTextNode("Date Range");
+            var el2 = dom.createElement("div");
+            dom.setAttribute(el2, "class", "ui field gap1");
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createElement("span");
+            dom.setAttribute(el3, "class", "menu-label");
+            var el4 = dom.createTextNode("Date Range");
+            dom.appendChild(el3, el4);
+            dom.appendChild(el2, el3);
+            var el3 = dom.createElement("br");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n      ");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
-            var el2 = dom.createElement("br");
-            dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n      ");
             dom.appendChild(el1, el2);
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n      ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createComment("");
+            var el2 = dom.createElement("div");
+            dom.setAttribute(el2, "class", "ui field gap1");
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createElement("span");
+            dom.setAttribute(el3, "class", "menu-label ");
+            var el4 = dom.createTextNode("Estimated Production Date");
+            dom.appendChild(el3, el4);
+            dom.appendChild(el2, el3);
+            var el3 = dom.createElement("br");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n      ");
+            dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n\n      ");
             dom.appendChild(el1, el2);
@@ -1625,29 +1459,36 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
             var el2 = dom.createTextNode("\n\n      ");
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "ui buttons gap1");
+            dom.setAttribute(el2, "class", "ui field");
             var el3 = dom.createTextNode("\n        ");
             dom.appendChild(el2, el3);
-            var el3 = dom.createElement("button");
-            dom.setAttribute(el3, "class", "ui button");
-            dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-            var el4 = dom.createTextNode("Won");
+            var el3 = dom.createElement("div");
+            dom.setAttribute(el3, "class", "ui buttons gap1");
+            var el4 = dom.createTextNode("\n          ");
             dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("button");
-            dom.setAttribute(el3, "class", "ui button");
-            dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-            var el4 = dom.createTextNode("Lost");
+            var el4 = dom.createElement("button");
+            dom.setAttribute(el4, "class", "ui button");
+            dom.setAttribute(el4, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+            var el5 = dom.createTextNode("Won");
+            dom.appendChild(el4, el5);
             dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("button");
-            dom.setAttribute(el3, "class", "ui button");
-            dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-            var el4 = dom.createTextNode("Backburner");
+            var el4 = dom.createTextNode("\n          ");
+            dom.appendChild(el3, el4);
+            var el4 = dom.createElement("button");
+            dom.setAttribute(el4, "class", "ui button");
+            dom.setAttribute(el4, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+            var el5 = dom.createTextNode("Lost");
+            dom.appendChild(el4, el5);
+            dom.appendChild(el3, el4);
+            var el4 = dom.createTextNode("\n          ");
+            dom.appendChild(el3, el4);
+            var el4 = dom.createElement("button");
+            dom.setAttribute(el4, "class", "ui button");
+            dom.setAttribute(el4, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+            var el5 = dom.createTextNode("Backburner");
+            dom.appendChild(el4, el5);
+            dom.appendChild(el3, el4);
+            var el4 = dom.createTextNode("\n        ");
             dom.appendChild(el3, el4);
             dom.appendChild(el2, el3);
             var el3 = dom.createTextNode("\n      ");
@@ -1655,26 +1496,33 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n      ");
             dom.appendChild(el1, el2);
-            var el2 = dom.createElement("br");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n      ");
-            dom.appendChild(el1, el2);
             var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "ui buttons fluid gap1");
+            dom.setAttribute(el2, "class", "ui field");
             var el3 = dom.createTextNode("\n        ");
             dom.appendChild(el2, el3);
-            var el3 = dom.createElement("button");
-            dom.setAttribute(el3, "class", "ui button");
-            dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-            var el4 = dom.createTextNode("Open");
+            var el3 = dom.createElement("br");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("\n        ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createElement("div");
+            dom.setAttribute(el3, "class", "ui buttons fluid gap1");
+            var el4 = dom.createTextNode("\n          ");
             dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("button");
-            dom.setAttribute(el3, "class", "ui button");
-            dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-            var el4 = dom.createTextNode("Closed");
+            var el4 = dom.createElement("button");
+            dom.setAttribute(el4, "class", "ui button");
+            dom.setAttribute(el4, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+            var el5 = dom.createTextNode("Open");
+            dom.appendChild(el4, el5);
+            dom.appendChild(el3, el4);
+            var el4 = dom.createTextNode("\n          ");
+            dom.appendChild(el3, el4);
+            var el4 = dom.createElement("button");
+            dom.setAttribute(el4, "class", "ui button");
+            dom.setAttribute(el4, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+            var el5 = dom.createTextNode("Closed");
+            dom.appendChild(el4, el5);
+            dom.appendChild(el3, el4);
+            var el4 = dom.createTextNode("\n        ");
             dom.appendChild(el3, el4);
             dom.appendChild(el2, el3);
             var el3 = dom.createTextNode("\n      ");
@@ -1689,14 +1537,16 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
             var element0 = dom.childAt(fragment, [3]);
-            var morphs = new Array(4);
-            morphs[0] = dom.createMorphAt(element0, 1, 1);
-            morphs[1] = dom.createMorphAt(element0, 10, 10);
-            morphs[2] = dom.createMorphAt(element0, 17, 17);
-            morphs[3] = dom.createMorphAt(element0, 19, 19);
+            var element1 = dom.childAt(element0, [5]);
+            var morphs = new Array(5);
+            morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
+            morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 3, 3);
+            morphs[2] = dom.createMorphAt(element1, 4, 4);
+            morphs[3] = dom.createMorphAt(element1, 6, 6);
+            morphs[4] = dom.createMorphAt(dom.childAt(element0, [7]), 4, 4);
             return morphs;
           },
-          statements: [["inline", "ui-checkbox", [], ["label", "New (last 30 days)", "checked", true, "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "checked", ["loc", [null, [15, 82], [15, 89]]]]], [], ["loc", [null, [15, 77], [15, 90]]]]], [], ["loc", [null, [15, 69], [15, 91]]]]], ["loc", [null, [15, 6], [15, 93]]]], ["inline", "custom-date-picker", [], ["btnLabel", ""], ["loc", [null, [19, 6], [19, 40]]]], ["inline", "custom-date-picker", [], ["btnLabel", "Start"], ["loc", [null, [22, 6], [22, 45]]]], ["inline", "custom-date-picker", [], ["btnLabel", "End", "class", "gap1"], ["loc", [null, [23, 6], [23, 56]]]]],
+          statements: [["inline", "ui-checkbox", [], ["label", "New (last 30 days)", "checked", true, "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "checked", ["loc", [null, [15, 84], [15, 91]]]]], [], ["loc", [null, [15, 79], [15, 92]]]]], [], ["loc", [null, [15, 71], [15, 93]]]]], ["loc", [null, [15, 8], [15, 95]]]], ["inline", "custom-date-picker", [], ["btnLabel", ""], ["loc", [null, [21, 8], [21, 42]]]], ["inline", "custom-date-picker", [], ["btnLabel", "Start"], ["loc", [null, [25, 8], [25, 47]]]], ["inline", "custom-date-picker", [], ["btnLabel", "End", "class", "gap1"], ["loc", [null, [26, 8], [26, 58]]]], ["inline", "custom-date-picker", [], ["btnLabel", ""], ["loc", [null, [30, 8], [30, 42]]]]],
           locals: [],
           templates: []
         };
@@ -1715,7 +1565,7 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
               "column": 0
             },
             "end": {
-              "line": 41,
+              "line": 53,
               "column": 0
             }
           },
@@ -1762,7 +1612,7 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["inline", "input", [], ["type", "button", "value", "Search", "class", "ui button adv-search-btn", "click", ["subexpr", "action", ["onSearchClick"], [], ["loc", [null, [8, 78], [8, 102]]]]], ["loc", [null, [8, 2], [8, 104]]]], ["block", "ui-dropdown", [], ["class", "ui floating dropdown icon button adv-search-dropdown"], 0, null, ["loc", [null, [10, 2], [40, 18]]]]],
+        statements: [["inline", "input", [], ["type", "button", "value", "Search", "class", "ui button adv-search-btn", "click", ["subexpr", "action", ["onSearchClick"], [], ["loc", [null, [8, 78], [8, 102]]]]], ["loc", [null, [8, 2], [8, 104]]]], ["block", "ui-dropdown", [], ["class", "ui floating dropdown icon button adv-search-dropdown"], 0, null, ["loc", [null, [10, 2], [52, 18]]]]],
         locals: [],
         templates: [child0]
       };
@@ -1781,7 +1631,7 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 42,
+            "line": 54,
             "column": 0
           }
         },
@@ -1804,7 +1654,7 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "ui-search", [], ["class", "advanced-search-component"], 0, null, ["loc", [null, [1, 0], [41, 14]]]]],
+      statements: [["block", "ui-search", [], ["class", "advanced-search-component"], 0, null, ["loc", [null, [1, 0], [53, 14]]]]],
       locals: [],
       templates: [child0]
     };
@@ -1821,7 +1671,7 @@ define('apem/pods/components/confirm-delete/component', ['exports', 'ember'], fu
     actions: {
 
       openConfirmation: function openConfirmation() {
-        _ember['default'].$('.ui.modal').modal({
+        _ember['default'].$('.confirm-delete-modal').modal({
           blurring: true
         }).modal('setting', 'closable', false).modal('show');
       },
@@ -1852,11 +1702,11 @@ define("apem/pods/components/confirm-delete/template", ["exports"], function (ex
           "loc": {
             "source": null,
             "start": {
-              "line": 6,
+              "line": 5,
               "column": 0
             },
             "end": {
-              "line": 15,
+              "line": 14,
               "column": 0
             }
           },
@@ -1926,11 +1776,87 @@ define("apem/pods/components/confirm-delete/template", ["exports"], function (ex
           morphs[3] = dom.createElementMorph(element2);
           return morphs;
         },
-        statements: [["content", "title", ["loc", [null, [7, 22], [7, 31]]]], ["content", "message", ["loc", [null, [9, 7], [9, 18]]]], ["element", "action", ["approveDelete"], [], ["loc", [null, [12, 50], [12, 76]]]], ["element", "action", ["cancelConfirm"], [], ["loc", [null, [13, 50], [13, 76]]]]],
+        statements: [["content", "title", ["loc", [null, [6, 22], [6, 31]]]], ["content", "message", ["loc", [null, [8, 7], [8, 18]]]], ["element", "action", ["approveDelete"], [], ["loc", [null, [11, 50], [11, 76]]]], ["element", "action", ["cancelConfirm"], [], ["loc", [null, [12, 50], [12, 76]]]]],
         locals: [],
         templates: []
       };
     })();
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["multiple-nodes", "wrong-type"]
+        },
+        "revision": "Ember@2.6.2",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 16,
+            "column": 0
+          }
+        },
+        "moduleName": "apem/pods/components/confirm-delete/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("button");
+        dom.setAttribute(el1, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("i");
+        dom.setAttribute(el2, "class", "trash icon");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("Delete User\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element3 = dom.childAt(fragment, [0]);
+        var morphs = new Array(4);
+        morphs[0] = dom.createAttrMorph(element3, 'class');
+        morphs[1] = dom.createElementMorph(element3);
+        morphs[2] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        morphs[3] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+        return morphs;
+      },
+      statements: [["attribute", "class", ["concat", ["ui right floated small button ", ["subexpr", "if", [["get", "isDisabled", ["loc", [null, [1, 50], [1, 60]]]], "disabled"], [], ["loc", [null, [1, 45], [1, 73]]]]]]], ["element", "action", ["openConfirmation"], [], ["loc", [null, [1, 75], [1, 104]]]], ["block", "ui-modal", [], ["name", "confirm-delete", "class", "modal confirm-delete-modal"], 0, null, ["loc", [null, [5, 0], [14, 13]]]], ["content", "yield", ["loc", [null, [15, 0], [15, 9]]]]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
+define('apem/pods/components/custom-date-picker/component', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+    attributeBindings: ['btnLabel'],
+    classNameBindings: ['class'],
+    className: 'custom-date-picker',
+    actions: {
+      updateDate: function updateDate() {},
+      openDatepicker: function openDatepicker() {
+        this.$(".date-picker__button").click();
+      }
+    }
+  });
+});
+define("apem/pods/components/custom-date-picker/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
         "fragmentReason": {
@@ -1945,73 +1871,7 @@ define("apem/pods/components/confirm-delete/template", ["exports"], function (ex
             "column": 0
           },
           "end": {
-            "line": 17,
-            "column": 0
-          }
-        },
-        "moduleName": "apem/pods/components/confirm-delete/template.hbs"
-      },
-      isEmpty: false,
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(3);
-        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-        morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
-        morphs[2] = dom.createMorphAt(fragment, 3, 3, contextualElement);
-        dom.insertBoundary(fragment, 0);
-        return morphs;
-      },
-      statements: [["inline", "input", [], ["type", "button", "value", "Delete User", "class", "ui right floated small button", "click", ["subexpr", "action", ["openConfirmation"], [], ["loc", [null, [4, 8], [4, 35]]]], "disabled", ["subexpr", "@mut", [["get", "isDisabled", ["loc", [null, [4, 45], [4, 55]]]]], [], []]], ["loc", [null, [1, 0], [4, 57]]]], ["block", "ui-modal", [], ["name", "user-invite-form", "class", "modal"], 0, null, ["loc", [null, [6, 0], [15, 13]]]], ["content", "yield", ["loc", [null, [16, 0], [16, 9]]]]],
-      locals: [],
-      templates: [child0]
-    };
-  })());
-});
-define('apem/pods/components/custom-date-picker/component', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Component.extend({
-    attributeBindings: ['btnLabel'],
-    classNameBindings: ['class'],
-
-    actions: {
-      updateDate: function updateDate() {},
-      openDatepicker: function openDatepicker() {
-        this.$(".date-picker__button").click();
-      }
-    }
-  });
-});
-define("apem/pods/components/custom-date-picker/template", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template((function () {
-    return {
-      meta: {
-        "fragmentReason": {
-          "name": "triple-curlies"
-        },
-        "revision": "Ember@2.6.2",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 8,
+            "line": 6,
             "column": 0
           }
         },
@@ -2023,28 +1883,21 @@ define("apem/pods/components/custom-date-picker/template", ["exports"], function
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "custom-date-picker full-width");
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("button");
+        dom.setAttribute(el1, "class", "ui active button date-icn-btn");
+        dom.setAttribute(el1, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("button");
-        dom.setAttribute(el2, "class", "ui active button date-icn-btn");
-        dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("i");
-        dom.setAttribute(el3, "class", "calendar icon no-margin");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
+        var el2 = dom.createElement("i");
+        dom.setAttribute(el2, "class", "calendar icon no-margin");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
@@ -2054,15 +1907,15 @@ define("apem/pods/components/custom-date-picker/template", ["exports"], function
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0]);
-        var element1 = dom.childAt(element0, [3]);
+        var element0 = dom.childAt(fragment, [2]);
         var morphs = new Array(3);
-        morphs[0] = dom.createMorphAt(element0, 1, 1);
-        morphs[1] = dom.createElementMorph(element1);
-        morphs[2] = dom.createMorphAt(element1, 1, 1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        morphs[1] = dom.createElementMorph(element0);
+        morphs[2] = dom.createMorphAt(element0, 1, 1);
+        dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["inline", "date-picker", [], ["action", ["subexpr", "action", ["updateDate"], [], ["loc", [null, [2, 23], [2, 44]]]], "placeholder", "", "buttonClasses", "date-picker-btn"], ["loc", [null, [2, 2], [2, 93]]]], ["element", "action", ["openDatepicker"], [], ["loc", [null, [3, 48], [3, 75]]]], ["content", "btnLabel", ["loc", [null, [4, 4], [4, 16]]]]],
+      statements: [["inline", "date-picker", [], ["action", ["subexpr", "action", ["updateDate"], [], ["loc", [null, [1, 21], [1, 42]]]], "placeholder", "", "buttonClasses", "date-picker-btn"], ["loc", [null, [1, 0], [1, 91]]]], ["element", "action", ["openDatepicker"], [], ["loc", [null, [2, 46], [2, 73]]]], ["content", "btnLabel", ["loc", [null, [3, 2], [3, 14]]]]],
       locals: [],
       templates: []
     };
@@ -2380,138 +2233,17 @@ define('apem/pods/components/fields/fld-table/component', ['exports', 'ember'], 
 
     init: function init() {
       this._super.apply(this, arguments);
+    },
+
+    actions: {
+      onVisibleChange: function onVisibleChange() {},
+      onRequiredChange: function onRequiredChange() {}
     }
   });
 });
 define("apem/pods/components/fields/fld-table/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
-      var child0 = (function () {
-        return {
-          meta: {
-            "fragmentReason": false,
-            "revision": "Ember@2.6.2",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 15,
-                "column": 12
-              },
-              "end": {
-                "line": 17,
-                "column": 8
-              }
-            },
-            "moduleName": "apem/pods/components/fields/fld-table/template.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("\n          ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n        ");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-            return morphs;
-          },
-          statements: [["content", "fld.label", ["loc", [null, [16, 10], [16, 23]]]]],
-          locals: [],
-          templates: []
-        };
-      })();
-      var child1 = (function () {
-        return {
-          meta: {
-            "fragmentReason": false,
-            "revision": "Ember@2.6.2",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 18,
-                "column": 12
-              },
-              "end": {
-                "line": 20,
-                "column": 8
-              }
-            },
-            "moduleName": "apem/pods/components/fields/fld-table/template.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("\n          ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n        ");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-            return morphs;
-          },
-          statements: [["content", "fld.type", ["loc", [null, [19, 10], [19, 22]]]]],
-          locals: [],
-          templates: []
-        };
-      })();
-      var child2 = (function () {
-        return {
-          meta: {
-            "fragmentReason": false,
-            "revision": "Ember@2.6.2",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 22,
-                "column": 10
-              },
-              "end": {
-                "line": 24,
-                "column": 10
-              }
-            },
-            "moduleName": "apem/pods/components/fields/fld-table/template.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("            ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-            return morphs;
-          },
-          statements: [["inline", "input", [], ["type", "checkbox", "class", "", "checked", ["subexpr", "@mut", [["get", "fld.required", ["loc", [null, [23, 53], [23, 65]]]]], [], []], "disabled", true], ["loc", [null, [23, 12], [23, 81]]]]],
-          locals: [],
-          templates: []
-        };
-      })();
       return {
         meta: {
           "fragmentReason": false,
@@ -2523,7 +2255,7 @@ define("apem/pods/components/fields/fld-table/template", ["exports"], function (
               "column": 4
             },
             "end": {
-              "line": 27,
+              "line": 25,
               "column": 4
             }
           },
@@ -2541,23 +2273,31 @@ define("apem/pods/components/fields/fld-table/template", ["exports"], function (
           var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("td");
-          var el3 = dom.createTextNode("\n");
+          var el3 = dom.createTextNode("\n          ");
           dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("        ");
+          var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n      ");
@@ -2570,14 +2310,14 @@ define("apem/pods/components/fields/fld-table/template", ["exports"], function (
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element0 = dom.childAt(fragment, [1]);
           var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 0, 0);
-          morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 0, 0);
+          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
+          morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
           morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
           return morphs;
         },
-        statements: [["block", "link-to", ["fields.field", ["get", "fld", ["loc", [null, [15, 38], [15, 41]]]]], ["clss", "row-link"], 0, null, ["loc", [null, [15, 12], [17, 20]]]], ["block", "link-to", ["fields.field", ["get", "fld", ["loc", [null, [18, 38], [18, 41]]]]], ["clss", "row-link"], 1, null, ["loc", [null, [18, 12], [20, 20]]]], ["block", "link-to", ["fields.field", ["get", "fld", ["loc", [null, [22, 36], [22, 39]]]]], ["clss", "row-link"], 2, null, ["loc", [null, [22, 10], [24, 22]]]]],
+        statements: [["content", "fld.label", ["loc", [null, [16, 10], [16, 23]]]], ["inline", "input", [], ["type", "checkbox", "class", "", "checked", ["subexpr", "@mut", [["get", "fld.visible", ["loc", [null, [19, 51], [19, 62]]]]], [], []], "change", ["subexpr", "action", ["onVisibleChange"], [], ["loc", [null, [19, 70], [19, 96]]]]], ["loc", [null, [19, 10], [19, 98]]]], ["inline", "input", [], ["type", "checkbox", "class", "", "checked", ["subexpr", "@mut", [["get", "fld.required", ["loc", [null, [22, 51], [22, 63]]]]], [], []], "change", ["subexpr", "action", ["onRequiredChange"], [], ["loc", [null, [22, 71], [22, 98]]]]], ["loc", [null, [22, 10], [22, 100]]]]],
         locals: ["fld"],
-        templates: [child0, child1, child2]
+        templates: []
       };
     })();
     return {
@@ -2593,7 +2333,7 @@ define("apem/pods/components/fields/fld-table/template", ["exports"], function (
             "column": 0
           },
           "end": {
-            "line": 32,
+            "line": 30,
             "column": 0
           }
         },
@@ -2622,7 +2362,7 @@ define("apem/pods/components/fields/fld-table/template", ["exports"], function (
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("th");
-        var el5 = dom.createTextNode("Type");
+        var el5 = dom.createTextNode("Visible");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n      ");
@@ -2659,7 +2399,7 @@ define("apem/pods/components/fields/fld-table/template", ["exports"], function (
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 3]), 1, 1);
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [13, 12], [13, 17]]]]], [], 0, null, ["loc", [null, [13, 4], [27, 13]]]]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [13, 12], [13, 17]]]]], [], 0, null, ["loc", [null, [13, 4], [25, 13]]]]],
       locals: [],
       templates: [child0]
     };
@@ -2913,6 +2653,418 @@ define("apem/pods/components/hover-edit-field/template", ["exports"], function (
       statements: [["block", "if", [["get", "useTextarea", ["loc", [null, [1, 6], [1, 17]]]]], [], 0, 1, ["loc", [null, [1, 0], [5, 7]]]], ["block", "if", [["subexpr", "get", [["subexpr", "get", [["get", "model.validations.attrs", []], ["get", "property", ["loc", [null, [7, 19], [7, 27]]]]], [], []], "isInvalid"], [], ["loc", [null, [7, 6], [7, 40]]]]], [], 2, null, ["loc", [null, [7, 0], [11, 7]]]]],
       locals: [],
       templates: [child0, child1, child2]
+    };
+  })());
+});
+define("apem/pods/components/new-user/component", ["exports", "ember"], function (exports, _ember) {
+  exports["default"] = _ember["default"].Component.extend({
+    store: _ember["default"].inject.service(),
+    users: _ember["default"].inject.service(),
+    userTypes: ["Admin", "User"],
+    model: null,
+
+    actions: {
+
+      openModal: function openModal() {
+        this.set('serverErrors', []);
+
+        var store = this.get('store'),
+            newUser = store.createRecord('user');
+        this.set('model', newUser);
+
+        _ember["default"].$('.new-user-pop').modal({
+          blurring: true
+        }).modal('setting', 'closable', false).modal('show');
+      },
+
+      selectUserType: function selectUserType(type) {
+        this.get('model').set('type', type);
+      },
+
+      createUser: function createUser() {
+        // Create the user
+        var user = this.get('model');
+        this.set('serverErrors', []);
+        var errs = this.get('serverErrors');
+
+        if (user.get('hasDirtyAttributes')) {
+          console.log('Created User...');
+          var promise = user.save(),
+              me = this,
+              closeModal = this.closeModal;
+          promise.then(function () {
+            me.get('onCreate')();
+            closeModal();
+          }, function (error) {
+            errs.addObject(error);
+          });
+        }
+      },
+
+      cancelModal: function cancelModal() {
+        this.closeModal();
+      }
+
+    },
+
+    closeModal: function closeModal() {
+      _ember["default"].$('.new-user-pop').modal('hide');
+    }
+  });
+});
+define("apem/pods/components/new-user/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      var child0 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "fragmentReason": false,
+              "revision": "Ember@2.6.2",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 27,
+                  "column": 12
+                },
+                "end": {
+                  "line": 31,
+                  "column": 12
+                }
+              },
+              "moduleName": "apem/pods/components/new-user/template.hbs"
+            },
+            isEmpty: false,
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("              ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("div");
+              dom.setAttribute(el1, "class", "item");
+              var el2 = dom.createTextNode("\n                ");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n              ");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var element0 = dom.childAt(fragment, [1]);
+              var morphs = new Array(2);
+              morphs[0] = dom.createAttrMorph(element0, 'data-value');
+              morphs[1] = dom.createMorphAt(element0, 1, 1);
+              return morphs;
+            },
+            statements: [["attribute", "data-value", ["get", "type", ["loc", [null, [28, 45], [28, 49]]]]], ["content", "type", ["loc", [null, [29, 16], [29, 24]]]]],
+            locals: ["type"],
+            templates: []
+          };
+        })();
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.6.2",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 23,
+                "column": 8
+              },
+              "end": {
+                "line": 33,
+                "column": 8
+              }
+            },
+            "moduleName": "apem/pods/components/new-user/template.hbs"
+          },
+          isEmpty: false,
+          arity: 2,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "default text");
+            var el2 = dom.createTextNode("Select User Type");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("i");
+            dom.setAttribute(el1, "class", "dropdown icon");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "menu");
+            var el2 = dom.createTextNode("\n");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("          ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
+            return morphs;
+          },
+          statements: [["block", "each", [["get", "userTypes", ["loc", [null, [27, 20], [27, 29]]]]], [], 0, null, ["loc", [null, [27, 12], [31, 21]]]]],
+          locals: ["execute", "mapper"],
+          templates: [child0]
+        };
+      })();
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.6.2",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 5,
+              "column": 0
+            },
+            "end": {
+              "line": 44,
+              "column": 0
+            }
+          },
+          "moduleName": "apem/pods/components/new-user/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "header");
+          var el2 = dom.createElement("i");
+          dom.setAttribute(el2, "class", "user icon");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("New User");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "content");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("form");
+          dom.setAttribute(el2, "class", "ui form");
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "field");
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("label");
+          var el5 = dom.createTextNode("User Name");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "field");
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("label");
+          var el5 = dom.createTextNode("Password");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "field");
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("label");
+          var el5 = dom.createTextNode("Confirm Password");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "field");
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("label");
+          dom.setAttribute(el4, "for", "user_type");
+          var el5 = dom.createTextNode("User Type:");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n    ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "validation-errors");
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "actions");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui green right floated button");
+          dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          var el3 = dom.createElement("i");
+          dom.setAttribute(el3, "class", "check icon");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("Save");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui right floated button");
+          dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          var el3 = dom.createElement("i");
+          dom.setAttribute(el3, "class", "ban icon");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("Cancel");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element1 = dom.childAt(fragment, [3, 1]);
+          var element2 = dom.childAt(fragment, [7]);
+          var element3 = dom.childAt(element2, [1]);
+          var element4 = dom.childAt(element2, [3]);
+          var morphs = new Array(7);
+          morphs[0] = dom.createMorphAt(dom.childAt(element1, [1]), 3, 3);
+          morphs[1] = dom.createMorphAt(dom.childAt(element1, [3]), 3, 3);
+          morphs[2] = dom.createMorphAt(dom.childAt(element1, [5]), 3, 3);
+          morphs[3] = dom.createMorphAt(dom.childAt(element1, [7]), 3, 3);
+          morphs[4] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
+          morphs[5] = dom.createElementMorph(element3);
+          morphs[6] = dom.createElementMorph(element4);
+          return morphs;
+        },
+        statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "model.username", ["loc", [null, [11, 21], [11, 35]]]]], [], []], "value", ["subexpr", "@mut", [["get", "model.username", ["loc", [null, [11, 42], [11, 56]]]]], [], []], "type", "text"], ["loc", [null, [11, 8], [11, 70]]]], ["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "model.password", ["loc", [null, [15, 21], [15, 35]]]]], [], []], "value", ["subexpr", "@mut", [["get", "model.password", ["loc", [null, [15, 42], [15, 56]]]]], [], []], "type", "text"], ["loc", [null, [15, 8], [15, 70]]]], ["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "model.passConfirm", ["loc", [null, [19, 21], [19, 38]]]]], [], []], "value", ["subexpr", "@mut", [["get", "model.passwordVerify", ["loc", [null, [19, 45], [19, 65]]]]], [], []], "type", "text"], ["loc", [null, [19, 8], [19, 79]]]], ["block", "ui-dropdown", [], ["class", "search selection", "allowAdditions", false, "selected", ["subexpr", "@mut", [["get", "model.type", ["loc", [null, [23, 78], [23, 88]]]]], [], []], "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "selectUserType", ["loc", [null, [23, 111], [23, 125]]]]], [], ["loc", [null, [23, 106], [23, 126]]]]], [], ["loc", [null, [23, 98], [23, 127]]]]], 0, null, ["loc", [null, [23, 8], [33, 24]]]], ["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [38, 29], [38, 41]]]]], [], []]], ["loc", [null, [38, 6], [38, 43]]]], ["element", "action", ["createUser"], [], ["loc", [null, [41, 47], [41, 70]]]], ["element", "action", ["cancelModal"], [], ["loc", [null, [42, 41], [42, 65]]]]],
+        locals: [],
+        templates: [child0]
+      };
+    })();
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "missing-wrapper",
+          "problems": ["multiple-nodes", "wrong-type"]
+        },
+        "revision": "Ember@2.6.2",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 46,
+            "column": 0
+          }
+        },
+        "moduleName": "apem/pods/components/new-user/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("button");
+        dom.setAttribute(el1, "class", "ui right floated small positive button sm-margin-btn");
+        dom.setAttribute(el1, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("i");
+        dom.setAttribute(el2, "class", "plus icon");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("New User\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element5 = dom.childAt(fragment, [0]);
+        var morphs = new Array(3);
+        morphs[0] = dom.createElementMorph(element5);
+        morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        morphs[2] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+        return morphs;
+      },
+      statements: [["element", "action", ["openModal"], [], ["loc", [null, [1, 69], [1, 91]]]], ["block", "ui-modal", [], ["name", "user-invite-form", "class", "modal new-user-pop"], 0, null, ["loc", [null, [5, 0], [44, 13]]]], ["content", "yield", ["loc", [null, [45, 0], [45, 9]]]]],
+      locals: [],
+      templates: [child0]
     };
   })());
 });
@@ -3280,6 +3432,7 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
     classNames: ['opp-table'],
     model: null,
     fields: null,
+    userType: null,
 
     /** This method helps us pull the model attributes because each-in only works with JSON structured objects*/
     attributes: _ember['default'].computed(function () {
@@ -3296,6 +3449,15 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
     }),
 
     actions: {
+
+      onDeleteOptClick: function onDeleteOptClick() {
+        console.log('delete opt method reached!');
+      },
+
+      onCancelOptClick: function onCancelOptClick() {
+        console.log('cancel opt method reached!');
+      },
+
       updateOpportunity: function updateOpportunity() {
         var _this = this;
 
@@ -3319,6 +3481,84 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
 define("apem/pods/components/opportunities/opt-form/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.6.2",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 5,
+              "column": 6
+            },
+            "end": {
+              "line": 7,
+              "column": 6
+            }
+          },
+          "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "input", [], ["type", "button", "value", "Delete", "class", "ui button right floated", "click", ["subexpr", "action", ["onDeleteOptClick"], [], ["loc", [null, [6, 83], [6, 110]]]]], ["loc", [null, [6, 8], [6, 112]]]]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "fragmentReason": false,
+          "revision": "Ember@2.6.2",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 12,
+              "column": 6
+            },
+            "end": {
+              "line": 14,
+              "column": 6
+            }
+          },
+          "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("        Cancel\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child2 = (function () {
       var child0 = (function () {
         var child0 = (function () {
           return {
@@ -3328,11 +3568,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 6,
+                  "line": 65,
                   "column": 8
                 },
                 "end": {
-                  "line": 11,
+                  "line": 70,
                   "column": 8
                 }
               },
@@ -3372,7 +3612,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               morphs[1] = dom.createMorphAt(element0, 3, 3);
               return morphs;
             },
-            statements: [["content", "field.label", ["loc", [null, [8, 19], [8, 34]]]], ["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "field.name", ["loc", [null, [9, 25], [9, 35]]]]], [], []], "value", ["subexpr", "mut", [["subexpr", "get", [["get", "model", ["loc", [null, [9, 52], [9, 57]]]], ["get", "field.name", ["loc", [null, [9, 58], [9, 68]]]]], [], ["loc", [null, [9, 47], [9, 69]]]]], [], ["loc", [null, [9, 42], [9, 70]]]], "type", "text"], ["loc", [null, [9, 12], [9, 84]]]]],
+            statements: [["content", "field.label", ["loc", [null, [67, 19], [67, 34]]]], ["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "field.name", ["loc", [null, [68, 25], [68, 35]]]]], [], []], "value", ["subexpr", "mut", [["subexpr", "get", [["get", "model", ["loc", [null, [68, 52], [68, 57]]]], ["get", "field.name", ["loc", [null, [68, 58], [68, 68]]]]], [], ["loc", [null, [68, 47], [68, 69]]]]], [], ["loc", [null, [68, 42], [68, 70]]]], "type", "text"], ["loc", [null, [68, 12], [68, 84]]]]],
             locals: ["field"],
             templates: []
           };
@@ -3384,11 +3624,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 3,
+                "line": 62,
                 "column": 4
               },
               "end": {
-                "line": 13,
+                "line": 72,
                 "column": 4
               }
             },
@@ -3427,7 +3667,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 1, 1);
             return morphs;
           },
-          statements: [["content", "group.value", ["loc", [null, [4, 37], [4, 52]]]], ["block", "each", [["get", "group.items", ["loc", [null, [6, 16], [6, 27]]]]], [], 0, null, ["loc", [null, [6, 8], [11, 17]]]]],
+          statements: [["content", "group.value", ["loc", [null, [63, 37], [63, 52]]]], ["block", "each", [["get", "group.items", ["loc", [null, [65, 16], [65, 27]]]]], [], 0, null, ["loc", [null, [65, 8], [70, 17]]]]],
           locals: ["group"],
           templates: [child0]
         };
@@ -3439,11 +3679,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 2,
+              "line": 61,
               "column": 2
             },
             "end": {
-              "line": 14,
+              "line": 73,
               "column": 2
             }
           },
@@ -3466,12 +3706,12 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "each", [["get", "fields", ["loc", [null, [3, 12], [3, 18]]]]], [], 0, null, ["loc", [null, [3, 4], [13, 13]]]]],
+        statements: [["block", "each", [["get", "fields", ["loc", [null, [62, 12], [62, 18]]]]], [], 0, null, ["loc", [null, [62, 4], [72, 13]]]]],
         locals: [],
         templates: [child0]
       };
     })();
-    var child1 = (function () {
+    var child3 = (function () {
       return {
         meta: {
           "fragmentReason": false,
@@ -3479,11 +3719,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 14,
+              "line": 73,
               "column": 2
             },
             "end": {
-              "line": 16,
+              "line": 75,
               "column": 2
             }
           },
@@ -3513,42 +3753,6 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         templates: []
       };
     })();
-    var child2 = (function () {
-      return {
-        meta: {
-          "fragmentReason": false,
-          "revision": "Ember@2.6.2",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 27,
-              "column": 4
-            },
-            "end": {
-              "line": 29,
-              "column": 4
-            }
-          },
-          "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("      Cancel\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
-        },
-        statements: [],
-        locals: [],
-        templates: []
-      };
-    })();
     return {
       meta: {
         "fragmentReason": {
@@ -3563,7 +3767,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             "column": 0
           },
           "end": {
-            "line": 34,
+            "line": 86,
             "column": 0
           }
         },
@@ -3577,32 +3781,219 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("form");
         dom.setAttribute(el1, "class", "ui form");
-        var el2 = dom.createTextNode("\n");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment(" HEADER ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "field");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h3");
+        var el4 = dom.createTextNode("NAO #");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment(" STEPS FIELD ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "field");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("label");
+        var el4 = dom.createTextNode("Stage");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "ui four top attached steps");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "step");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("i");
+        dom.setAttribute(el5, "class", "green check icon");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "content");
+        var el6 = dom.createTextNode("\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("div");
+        dom.setAttribute(el6, "class", "title");
+        var el7 = dom.createTextNode("Quote");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createComment(" <div class=\"description\">Choose your shipping options</div> ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n        ");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "active step");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment(" <i class=\"green check icon\"></i> ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "content");
+        var el6 = dom.createTextNode("\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("div");
+        dom.setAttribute(el6, "class", "title");
+        var el7 = dom.createTextNode("Sample");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createComment(" <div class=\"description\">Enter billing information</div> ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n        ");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "disabled step");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment(" <i class=\"green check icon\"></i> ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "content");
+        var el6 = dom.createTextNode("\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("div");
+        dom.setAttribute(el6, "class", "title");
+        var el7 = dom.createTextNode("Approval");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n        ");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "disabled step");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment(" <i class=\"green check icon\"></i> ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "content");
+        var el6 = dom.createTextNode("\n          ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("div");
+        dom.setAttribute(el6, "class", "title");
+        var el7 = dom.createTextNode("Production");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n        ");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment(" STATUS FIELD ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "field");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("label");
+        var el4 = dom.createTextNode("Status");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "ui buttons");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment(" <ul>\n{{#each-in attributes as |key value|}}\n    <div class=\"field\">\n      <label>{{key}}</label>\n      {{input type=\"text\" name=key value=value}}\n    </div>\n    {{/each-in}}  </ul> ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "actions right");
-        var el3 = dom.createTextNode("\n");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "ui small button ");
-        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-        var el4 = dom.createTextNode("Edit Opportunity");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
@@ -3617,18 +4008,24 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element1 = dom.childAt(fragment, [0]);
-        var element2 = dom.childAt(element1, [5]);
-        var element3 = dom.childAt(element2, [3]);
-        var morphs = new Array(4);
-        morphs[0] = dom.createMorphAt(element1, 1, 1);
-        morphs[1] = dom.createMorphAt(element2, 1, 1);
-        morphs[2] = dom.createElementMorph(element3);
-        morphs[3] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        var element2 = dom.childAt(element1, [3, 1]);
+        var element3 = dom.childAt(element1, [11, 3]);
+        var morphs = new Array(10);
+        morphs[0] = dom.createMorphAt(element2, 1, 1);
+        morphs[1] = dom.createMorphAt(element2, 3, 3);
+        morphs[2] = dom.createMorphAt(element2, 5, 5);
+        morphs[3] = dom.createMorphAt(element2, 7, 7);
+        morphs[4] = dom.createMorphAt(element2, 9, 9);
+        morphs[5] = dom.createMorphAt(element3, 1, 1);
+        morphs[6] = dom.createMorphAt(element3, 3, 3);
+        morphs[7] = dom.createMorphAt(element3, 5, 5);
+        morphs[8] = dom.createMorphAt(element1, 13, 13);
+        morphs[9] = dom.createMorphAt(fragment, 2, 2, contextualElement);
         return morphs;
       },
-      statements: [["block", "if", [["get", "fields", ["loc", [null, [2, 8], [2, 14]]]]], [], 0, 1, ["loc", [null, [2, 2], [16, 9]]]], ["block", "link-to", ["opportunities"], ["tagName", "div", "class", "ui small button", "activeClass", ""], 2, null, ["loc", [null, [27, 4], [29, 16]]]], ["element", "action", ["updateOpportunity"], [], ["loc", [null, [30, 34], [30, 64]]]], ["content", "yield", ["loc", [null, [33, 0], [33, 9]]]]],
+      statements: [["content", "model.id", ["loc", [null, [4, 13], [4, 25]]]], ["block", "if", [["subexpr", "is-equal", [["get", "userType", ["loc", [null, [5, 22], [5, 30]]]], "Admin"], [], ["loc", [null, [5, 12], [5, 39]]]]], [], 0, null, ["loc", [null, [5, 6], [7, 13]]]], ["inline", "input", [], ["type", "button", "value", "Save as Draft", "class", "ui button right floated", "click", ["subexpr", "action", ["updateOpportunity"], [], ["loc", [null, [9, 88], [9, 116]]]]], ["loc", [null, [9, 6], [9, 118]]]], ["inline", "input", [], ["type", "button", "value", "Save", "class", "ui button right floated", "click", ["subexpr", "action", ["updateOpportunity"], [], ["loc", [null, [10, 79], [10, 107]]]]], ["loc", [null, [10, 6], [10, 109]]]], ["block", "link-to", ["opportunities"], ["tagName", "div", "class", "ui button right floated", "activeClass", "", "click", ["subexpr", "action", ["onCancelOptClick"], [], ["loc", [null, [12, 100], [12, 127]]]]], 1, null, ["loc", [null, [12, 6], [14, 18]]]], ["inline", "input", [], ["type", "button", "value", "Backburner", "class", "ui button"], ["loc", [null, [55, 6], [55, 67]]]], ["inline", "input", [], ["type", "button", "value", "Won", "class", "ui button"], ["loc", [null, [56, 6], [56, 60]]]], ["inline", "input", [], ["type", "button", "value", "Lost", "class", "ui button"], ["loc", [null, [57, 6], [57, 61]]]], ["block", "if", [["get", "fields", ["loc", [null, [61, 8], [61, 14]]]]], [], 2, 3, ["loc", [null, [61, 2], [75, 9]]]], ["content", "yield", ["loc", [null, [85, 0], [85, 9]]]]],
       locals: [],
-      templates: [child0, child1, child2]
+      templates: [child0, child1, child2, child3]
     };
   })());
 });
@@ -3898,7 +4295,7 @@ define("apem/pods/components/ui-layout/nav-header/template", ["exports"], functi
             "column": 0
           },
           "end": {
-            "line": 28,
+            "line": 27,
             "column": 0
           }
         },
@@ -3957,10 +4354,10 @@ define("apem/pods/components/ui-layout/nav-header/template", ["exports"], functi
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3, "class", "ui simple dropdown right item");
-        var el4 = dom.createTextNode("\n      More\n      ");
+        var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("i");
-        dom.setAttribute(el4, "class", "dropdown icon");
+        dom.setAttribute(el4, "class", "ellipsis vertical icon");
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
@@ -4034,12 +4431,85 @@ define("apem/pods/components/ui-layout/nav-header/template", ["exports"], functi
 define('apem/pods/components/ui-layout/nav-sidebar/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     classNames: ['nav-sidebar'],
-    tagName: ''
+    tagName: '',
+    identity: _ember['default'].inject.service()
   });
 });
 define("apem/pods/components/ui-layout/nav-sidebar/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.6.2",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 16,
+                "column": 6
+              },
+              "end": {
+                "line": 16,
+                "column": 69
+              }
+            },
+            "moduleName": "apem/pods/components/ui-layout/nav-sidebar/template.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("Form Management");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child1 = (function () {
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.6.2",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 17,
+                "column": 6
+              },
+              "end": {
+                "line": 17,
+                "column": 68
+              }
+            },
+            "moduleName": "apem/pods/components/ui-layout/nav-sidebar/template.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("User Management");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
       return {
         meta: {
           "fragmentReason": false,
@@ -4047,12 +4517,12 @@ define("apem/pods/components/ui-layout/nav-sidebar/template", ["exports"], funct
           "loc": {
             "source": null,
             "start": {
-              "line": 4,
+              "line": 12,
               "column": 2
             },
             "end": {
-              "line": 4,
-              "column": 61
+              "line": 19,
+              "column": 2
             }
           },
           "moduleName": "apem/pods/components/ui-layout/nav-sidebar/template.hbs"
@@ -4063,88 +4533,47 @@ define("apem/pods/components/ui-layout/nav-sidebar/template", ["exports"], funct
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("Home");
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "spacer spacer-lg");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "header side-nav-section-header");
+          var el2 = dom.createTextNode("Admin");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "menu");
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
           return el0;
         },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [5]);
+          var morphs = new Array(2);
+          morphs[0] = dom.createMorphAt(element0, 1, 1);
+          morphs[1] = dom.createMorphAt(element0, 3, 3);
+          return morphs;
         },
-        statements: [],
+        statements: [["block", "link-to", ["fields"], ["class", "item side-nav-item"], 0, null, ["loc", [null, [16, 6], [16, 81]]]], ["block", "link-to", ["users"], ["class", "item side-nav-item"], 1, null, ["loc", [null, [17, 6], [17, 80]]]]],
         locals: [],
-        templates: []
-      };
-    })();
-    var child1 = (function () {
-      return {
-        meta: {
-          "fragmentReason": false,
-          "revision": "Ember@2.6.2",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 10,
-              "column": 2
-            },
-            "end": {
-              "line": 10,
-              "column": 64
-            }
-          },
-          "moduleName": "apem/pods/components/ui-layout/nav-sidebar/template.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("User Management");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
-        },
-        statements: [],
-        locals: [],
-        templates: []
-      };
-    })();
-    var child2 = (function () {
-      return {
-        meta: {
-          "fragmentReason": false,
-          "revision": "Ember@2.6.2",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 11,
-              "column": 2
-            },
-            "end": {
-              "line": 11,
-              "column": 65
-            }
-          },
-          "moduleName": "apem/pods/components/ui-layout/nav-sidebar/template.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("Form Management");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
-        },
-        statements: [],
-        locals: [],
-        templates: []
+        templates: [child0, child1]
       };
     })();
     return {
@@ -4160,7 +4589,7 @@ define("apem/pods/components/ui-layout/nav-sidebar/template", ["exports"], funct
             "column": 0
           },
           "end": {
-            "line": 13,
+            "line": 21,
             "column": 0
           }
         },
@@ -4185,9 +4614,16 @@ define("apem/pods/components/ui-layout/nav-sidebar/template", ["exports"], funct
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "spacer spacer-lg");
         dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "header side-nav-section-header");
+        var el3 = dom.createTextNode("Home");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
+        var el2 = dom.createComment(" {{#link-to \"opportunities\" class=\"item side-nav-item\"}}Home{{/link-to}} ");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
@@ -4195,36 +4631,24 @@ define("apem/pods/components/ui-layout/nav-sidebar/template", ["exports"], funct
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("a");
-        dom.setAttribute(el2, "class", "item side-nav-item");
-        dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-        var el3 = dom.createTextNode("Manage Password");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment(" {{#link-to \"home\" class=\"item\"}}Manage Password{{/link-to}} ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n  ");
-        dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "spacer spacer-lg");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("a");
-        dom.setAttribute(el2, "class", "item side-nav-item");
-        dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-        var el3 = dom.createTextNode("Admin");
+        dom.setAttribute(el2, "class", "menu");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("a");
+        dom.setAttribute(el3, "class", "item side-nav-item");
+        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        var el4 = dom.createTextNode("Manage Password");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment(" {{#link-to \"home\" class=\"item\"}}Manage Password{{/link-to}} ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
@@ -4232,16 +4656,13 @@ define("apem/pods/components/ui-layout/nav-sidebar/template", ["exports"], funct
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0]);
-        var morphs = new Array(3);
-        morphs[0] = dom.createMorphAt(element0, 5, 5);
-        morphs[1] = dom.createMorphAt(element0, 16, 16);
-        morphs[2] = dom.createMorphAt(element0, 18, 18);
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 13, 13);
         return morphs;
       },
-      statements: [["block", "link-to", ["opportunities"], ["class", "item side-nav-item"], 0, null, ["loc", [null, [4, 2], [4, 73]]]], ["block", "link-to", ["users"], ["class", "item side-nav-item"], 1, null, ["loc", [null, [10, 2], [10, 76]]]], ["block", "link-to", ["fields"], ["class", "item side-nav-item"], 2, null, ["loc", [null, [11, 2], [11, 77]]]]],
+      statements: [["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [12, 18], [12, 39]]]], "Admin"], [], ["loc", [null, [12, 8], [12, 48]]]]], [], 0, null, ["loc", [null, [12, 2], [19, 9]]]]],
       locals: [],
-      templates: [child0, child1, child2]
+      templates: [child0]
     };
   })());
 });
@@ -4262,6 +4683,11 @@ define('apem/pods/components/users/usr-table/component', ['exports', 'ember'], f
     }).property('selectedItems.length'),
 
     actions: {
+      didCreateUser: function didCreateUser() {
+        console.log('CREATE USER event reached user table...passing up to the parent next !!!');
+        this.get('didCreateUser')();
+      },
+
       onSelection: function onSelection(record, evt) {
         var selected = evt.currentTarget.checked;
         if (selected) {
@@ -4542,42 +4968,6 @@ define("apem/pods/components/users/usr-table/template", ["exports"], function (e
         templates: [child0, child1, child2, child3]
       };
     })();
-    var child1 = (function () {
-      return {
-        meta: {
-          "fragmentReason": false,
-          "revision": "Ember@2.6.2",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 52,
-              "column": 8
-            },
-            "end": {
-              "line": 54,
-              "column": 8
-            }
-          },
-          "moduleName": "apem/pods/components/users/usr-table/template.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("          New User\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
-        },
-        statements: [],
-        locals: [],
-        templates: []
-      };
-    })();
     return {
       meta: {
         "fragmentReason": {
@@ -4670,9 +5060,13 @@ define("apem/pods/components/users/usr-table/template", ["exports"], function (e
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("th");
         dom.setAttribute(el4, "colspan", "4");
-        var el5 = dom.createTextNode("\n");
+        var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment(" {{#link-to 'users.new' tagName='div' class=\"ui right floated small button green sm-margin-btn\" activeClass=\"\"}}\n          <i class=\"plus icon\"></i>New User\n        {{/link-to}} ");
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
@@ -4700,12 +5094,12 @@ define("apem/pods/components/users/usr-table/template", ["exports"], function (e
         var morphs = new Array(3);
         morphs[0] = dom.createMorphAt(dom.childAt(element1, [3]), 1, 1);
         morphs[1] = dom.createMorphAt(element2, 1, 1);
-        morphs[2] = dom.createMorphAt(element2, 3, 3);
+        morphs[2] = dom.createMorphAt(element2, 5, 5);
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [15, 12], [15, 17]]]]], [], 0, null, ["loc", [null, [15, 4], [44, 13]]]], ["block", "link-to", ["users.new"], ["tagName", "div", "class", "ui right floated small button", "activeClass", ""], 1, null, ["loc", [null, [52, 8], [54, 20]]]], ["inline", "confirm-delete", [], ["isDisabled", ["subexpr", "@mut", [["get", "disableDelete", ["loc", [null, [56, 36], [56, 49]]]]], [], []], "deletableRecords", ["subexpr", "@mut", [["get", "selectedItems", ["loc", [null, [56, 67], [56, 80]]]]], [], []], "title", "Confirm Delete", "recordType", "user", "message", "The selected users will be deleted. Continue?"], ["loc", [null, [56, 8], [59, 67]]]]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [15, 12], [15, 17]]]]], [], 0, null, ["loc", [null, [15, 4], [44, 13]]]], ["inline", "new-user", [], ["onCreate", ["subexpr", "action", ["didCreateUser"], [], ["loc", [null, [52, 28], [52, 52]]]]], ["loc", [null, [52, 8], [52, 54]]]], ["inline", "confirm-delete", [], ["isDisabled", ["subexpr", "@mut", [["get", "disableDelete", ["loc", [null, [56, 36], [56, 49]]]]], [], []], "deletableRecords", ["subexpr", "@mut", [["get", "selectedItems", ["loc", [null, [56, 67], [56, 80]]]]], [], []], "title", "Confirm Delete", "recordType", "user", "message", "The selected users will be deleted. Continue?"], ["loc", [null, [56, 8], [59, 67]]]]],
       locals: [],
-      templates: [child0, child1]
+      templates: [child0]
     };
   })());
 });
@@ -5060,6 +5454,65 @@ define("apem/pods/fields/index/template", ["exports"], function (exports) {
     };
   })());
 });
+define("apem/pods/fields/loading/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "triple-curlies"
+        },
+        "revision": "Ember@2.6.2",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 0
+          }
+        },
+        "moduleName": "apem/pods/fields/loading/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "ui segment loading-indicator");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "ui active inverted dimmer");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "ui text loader");
+        var el4 = dom.createTextNode("Loading");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
+      },
+      statements: [],
+      locals: [],
+      templates: []
+    };
+  })());
+});
 define('apem/pods/fields/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
 });
@@ -5328,6 +5781,65 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
     };
   })());
 });
+define("apem/pods/opportunities/loading/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "triple-curlies"
+        },
+        "revision": "Ember@2.6.2",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 0
+          }
+        },
+        "moduleName": "apem/pods/opportunities/loading/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "ui segment loading-indicator");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "ui active inverted dimmer");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "ui text loader");
+        var el4 = dom.createTextNode("Loading");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
+      },
+      statements: [],
+      locals: [],
+      templates: []
+    };
+  })());
+});
 define('apem/pods/opportunities/new/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     identity: _ember['default'].inject.service(),
@@ -5360,7 +5872,8 @@ define('apem/pods/opportunities/opportunity/controller', ['exports', 'ember'], f
 define('apem/pods/opportunities/opportunity/detail/controller', ['exports', 'ember', 'ember-group-by'], function (exports, _ember, _emberGroupBy) {
   exports['default'] = _ember['default'].Controller.extend({
     //used addon ember-group-by to group our fields array by model attr group.
-    fieldsByGroup: (0, _emberGroupBy['default'])('fields', 'group')
+    fieldsByGroup: (0, _emberGroupBy['default'])('fields', 'group'),
+    identity: _ember['default'].inject.service()
   });
 });
 define('apem/pods/opportunities/opportunity/detail/route', ['exports', 'ember'], function (exports, _ember) {
@@ -5404,14 +5917,7 @@ define("apem/pods/opportunities/opportunity/detail/template", ["exports"], funct
         dom.setAttribute(el1, "class", "ui content");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("h3");
-        dom.setAttribute(el2, "class", "subtitle");
-        var el3 = dom.createTextNode("View/Edit Opportunity");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("br");
+        var el2 = dom.createComment(" <h3 class=\"subtitle\">View/Edit Opportunity</h3>\n  <br> ");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
@@ -5445,11 +5951,11 @@ define("apem/pods/opportunities/opportunity/detail/template", ["exports"], funct
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [0]);
         var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element0, [7]), 1, 1);
+        morphs[0] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [6, 29], [6, 41]]]]], [], []]], ["loc", [null, [6, 6], [6, 43]]]], ["inline", "opportunities/opt-form", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [10, 35], [10, 40]]]]], [], []], "fields", ["subexpr", "@mut", [["get", "fieldsByGroup", ["loc", [null, [10, 48], [10, 61]]]]], [], []]], ["loc", [null, [10, 4], [10, 63]]]]],
+      statements: [["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [6, 29], [6, 41]]]]], [], []]], ["loc", [null, [6, 6], [6, 43]]]], ["inline", "opportunities/opt-form", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [10, 35], [10, 40]]]]], [], []], "fields", ["subexpr", "@mut", [["get", "fieldsByGroup", ["loc", [null, [10, 48], [10, 61]]]]], [], []], "userType", ["subexpr", "@mut", [["get", "identity.profile.type", ["loc", [null, [10, 71], [10, 92]]]]], [], []]], ["loc", [null, [10, 4], [10, 94]]]]],
       locals: [],
       templates: []
     };
@@ -5568,6 +6074,16 @@ define("apem/pods/opportunities/template", ["exports"], function (exports) {
     };
   })());
 });
+define('apem/pods/users/index/controller', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Controller.extend({
+    actions: {
+      onUserCreated: function onUserCreated() {
+        console.log('USER CREATED');
+        this.send('refreshModel');
+      }
+    }
+  });
+});
 define('apem/pods/users/index/route', ['exports', 'ember', 'ember-cli-pagination/remote/route-mixin'], function (exports, _ember, _emberCliPaginationRemoteRouteMixin) {
   exports['default'] = _ember['default'].Route.extend(_emberCliPaginationRemoteRouteMixin['default'], {
     totalPagesParam: "meta.total-pages",
@@ -5577,6 +6093,11 @@ define('apem/pods/users/index/route', ['exports', 'ember', 'ember-cli-pagination
     model: function model(params) {
       // returns a PagedRemoteArray
       return this.findPaged('user', params);
+    },
+    actions: {
+      refreshModel: function refreshModel() {
+        this.refresh();
+      }
     }
   });
 });
@@ -5625,7 +6146,66 @@ define("apem/pods/users/index/template", ["exports"], function (exports) {
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["inline", "users/usr-table", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [1, 24], [1, 29]]]]], [], []]], ["loc", [null, [1, 0], [1, 31]]]], ["content", "outlet", ["loc", [null, [3, 0], [3, 10]]]]],
+      statements: [["inline", "users/usr-table", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [1, 24], [1, 29]]]]], [], []], "didCreateUser", ["subexpr", "action", ["onUserCreated"], [], ["loc", [null, [1, 44], [1, 68]]]]], ["loc", [null, [1, 0], [1, 70]]]], ["content", "outlet", ["loc", [null, [3, 0], [3, 10]]]]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/pods/users/loading/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "fragmentReason": {
+          "name": "triple-curlies"
+        },
+        "revision": "Ember@2.6.2",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 0
+          }
+        },
+        "moduleName": "apem/pods/users/loading/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "ui segment loading-indicator");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "ui active inverted dimmer");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "ui text loader");
+        var el4 = dom.createTextNode("Loading");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
+      },
+      statements: [],
       locals: [],
       templates: []
     };
@@ -5990,6 +6570,57 @@ define('apem/pods/users/user/detail/route', ['exports', 'ember'], function (expo
 define("apem/pods/users/user/detail/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "fragmentReason": false,
+            "revision": "Ember@2.6.2",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 37,
+                "column": 8
+              },
+              "end": {
+                "line": 41,
+                "column": 8
+              }
+            },
+            "moduleName": "apem/pods/users/user/detail/template.hbs"
+          },
+          isEmpty: false,
+          arity: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "item");
+            var el2 = dom.createTextNode("\n            ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n          ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element0 = dom.childAt(fragment, [1]);
+            var morphs = new Array(2);
+            morphs[0] = dom.createAttrMorph(element0, 'data-value');
+            morphs[1] = dom.createMorphAt(element0, 1, 1);
+            return morphs;
+          },
+          statements: [["attribute", "data-value", ["get", "type", ["loc", [null, [38, 41], [38, 45]]]]], ["content", "type", ["loc", [null, [39, 12], [39, 20]]]]],
+          locals: ["type"],
+          templates: []
+        };
+      })();
       return {
         meta: {
           "fragmentReason": false,
@@ -6001,21 +6632,40 @@ define("apem/pods/users/user/detail/template", ["exports"], function (exports) {
               "column": 4
             },
             "end": {
-              "line": 35,
+              "line": 43,
               "column": 4
             }
           },
           "moduleName": "apem/pods/users/user/detail/template.hbs"
         },
         isEmpty: false,
-        arity: 1,
+        arity: 2,
         cachedFragment: null,
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        ");
+          var el1 = dom.createTextNode("      ");
           dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "default text");
+          var el2 = dom.createTextNode("Select User Type");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("i");
+          dom.setAttribute(el1, "class", "dropdown icon");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "menu");
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("      ");
+          dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
@@ -6023,12 +6673,12 @@ define("apem/pods/users/user/detail/template", ["exports"], function (exports) {
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
           return morphs;
         },
-        statements: [["content", "userType", ["loc", [null, [34, 8], [34, 20]]]]],
-        locals: ["userType"],
-        templates: []
+        statements: [["block", "each", [["get", "userTypes", ["loc", [null, [37, 16], [37, 25]]]]], [], 0, null, ["loc", [null, [37, 8], [41, 17]]]]],
+        locals: ["execute", "mapper"],
+        templates: [child0]
       };
     })();
     var child1 = (function () {
@@ -6039,11 +6689,11 @@ define("apem/pods/users/user/detail/template", ["exports"], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 38,
+              "line": 46,
               "column": 4
             },
             "end": {
-              "line": 40,
+              "line": 48,
               "column": 4
             }
           },
@@ -6080,7 +6730,7 @@ define("apem/pods/users/user/detail/template", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 47,
+            "line": 55,
             "column": 0
           }
         },
@@ -6240,20 +6890,20 @@ define("apem/pods/users/user/detail/template", ["exports"], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0]);
-        var element1 = dom.childAt(element0, [7]);
-        var element2 = dom.childAt(element1, [35]);
+        var element1 = dom.childAt(fragment, [0]);
+        var element2 = dom.childAt(element1, [7]);
+        var element3 = dom.childAt(element2, [35]);
         var morphs = new Array(7);
-        morphs[0] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element1, [4]), 1, 1);
-        morphs[2] = dom.createMorphAt(dom.childAt(element1, [12]), 1, 1);
-        morphs[3] = dom.createMorphAt(dom.childAt(element1, [20]), 1, 1);
-        morphs[4] = dom.createMorphAt(element1, 28, 28);
-        morphs[5] = dom.createMorphAt(element1, 33, 33);
-        morphs[6] = dom.createElementMorph(element2);
+        morphs[0] = dom.createMorphAt(dom.childAt(element1, [5]), 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element2, [4]), 1, 1);
+        morphs[2] = dom.createMorphAt(dom.childAt(element2, [12]), 1, 1);
+        morphs[3] = dom.createMorphAt(dom.childAt(element2, [20]), 1, 1);
+        morphs[4] = dom.createMorphAt(element2, 28, 28);
+        morphs[5] = dom.createMorphAt(element2, 33, 33);
+        morphs[6] = dom.createElementMorph(element3);
         return morphs;
       },
-      statements: [["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [6, 29], [6, 41]]]]], [], []]], ["loc", [null, [6, 6], [6, 43]]]], ["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "model.username", ["loc", [null, [13, 20], [13, 34]]]]], [], []]], ["loc", [null, [13, 6], [13, 36]]]], ["inline", "input", [], ["type", "password", "value", ["subexpr", "@mut", [["get", "model.password", ["loc", [null, [20, 36], [20, 50]]]]], [], []]], ["loc", [null, [20, 6], [20, 52]]]], ["inline", "input", [], ["type", "password", "value", ["subexpr", "@mut", [["get", "model.passwordVerify", ["loc", [null, [27, 36], [27, 56]]]]], [], []]], ["loc", [null, [27, 6], [27, 58]]]], ["block", "power-select", [], ["class", "ui dropdown input", "onchange", ["subexpr", "action", ["selectUserType"], [], ["loc", [null, [33, 55], [33, 80]]]], "selected", ["subexpr", "@mut", [["get", "model.type", ["loc", [null, [33, 90], [33, 100]]]]], [], []], "placeholder", "Select User Type", "options", ["subexpr", "@mut", [["get", "userTypes", ["loc", [null, [33, 140], [33, 149]]]]], [], []]], 0, null, ["loc", [null, [33, 4], [35, 21]]]], ["block", "link-to", ["users"], ["tagName", "div", "class", "ui small button", "activeClass", ""], 1, null, ["loc", [null, [38, 4], [40, 16]]]], ["element", "action", ["updateUser"], [], ["loc", [null, [41, 33], [41, 56]]]]],
+      statements: [["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [6, 29], [6, 41]]]]], [], []]], ["loc", [null, [6, 6], [6, 43]]]], ["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "model.username", ["loc", [null, [13, 20], [13, 34]]]]], [], []]], ["loc", [null, [13, 6], [13, 36]]]], ["inline", "input", [], ["type", "password", "value", ["subexpr", "@mut", [["get", "model.password", ["loc", [null, [20, 36], [20, 50]]]]], [], []]], ["loc", [null, [20, 6], [20, 52]]]], ["inline", "input", [], ["type", "password", "value", ["subexpr", "@mut", [["get", "model.passwordVerify", ["loc", [null, [27, 36], [27, 56]]]]], [], []]], ["loc", [null, [27, 6], [27, 58]]]], ["block", "ui-dropdown", [], ["class", "search selection", "allowAdditions", false, "selected", ["subexpr", "@mut", [["get", "model.type", ["loc", [null, [33, 74], [33, 84]]]]], [], []], "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "selectUserType", ["loc", [null, [33, 107], [33, 121]]]]], [], ["loc", [null, [33, 102], [33, 122]]]]], [], ["loc", [null, [33, 94], [33, 123]]]]], 0, null, ["loc", [null, [33, 4], [43, 20]]]], ["block", "link-to", ["users"], ["tagName", "div", "class", "ui small button", "activeClass", ""], 1, null, ["loc", [null, [46, 4], [48, 16]]]], ["element", "action", ["updateUser"], [], ["loc", [null, [49, 33], [49, 56]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -6408,14 +7058,6 @@ define('apem/services/intl', ['exports', 'ember-intl/services/intl'], function (
 define('apem/services/moment', ['exports', 'ember', 'apem/config/environment', 'ember-moment/services/moment'], function (exports, _ember, _apemConfigEnvironment, _emberMomentServicesMoment) {
   exports['default'] = _emberMomentServicesMoment['default'].extend({
     defaultFormat: _ember['default'].get(_apemConfigEnvironment['default'], 'moment.outputFormat')
-  });
-});
-define('apem/services/text-measurer', ['exports', 'ember-text-measurer/services/text-measurer'], function (exports, _emberTextMeasurerServicesTextMeasurer) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberTextMeasurerServicesTextMeasurer['default'];
-    }
   });
 });
 define('apem/services/uploader', ['exports', 'ember-plupload/services/uploader'], function (exports, _emberPluploadServicesUploader) {
@@ -8301,7 +8943,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+4e17b317"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+d73d9c4b"});
 }
 
 /* jshint ignore:end */
