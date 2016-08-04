@@ -11,4 +11,5 @@ Homestead.json
 /public/tests
 /public/fonts
 /public/assets/*
+!/public/assets/images/corp-logo.PNG
 /resources/views/app/main.blade.php
