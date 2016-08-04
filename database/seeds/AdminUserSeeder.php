@@ -16,6 +16,20 @@ class AdminUserSeeder extends Seeder
 
         $users = [
             [
+                'username' => 'TestAdmin',
+                'password' => 'password',
+                'type'     => 'Admin',
+                'active'   => true
+            ],
+
+            [
+                'username' => 'TestUser',
+                'password' => 'password',
+                'type'     => 'User',
+                'active'   => true
+            ],
+
+            [
                 'username' => 'eric@curiousm.com',
                 'password' => 'stardog182',
                 'type'     => 'Admin',
