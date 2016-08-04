@@ -54,6 +54,7 @@ class EloquentUserMapper extends AbstractEloquentMapper implements UserInterface
         try {
             $newUser = $this->getQueryModel();
             $newUser = $this->doStoreMapping($newUser, $user, false);
+            $newUser->api_token = str_random(60);
             $newUser->save();
         } catch (\PDOException $exception) {
             if ($exception->getCode() === 23505) {
