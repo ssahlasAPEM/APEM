@@ -17,6 +17,8 @@ class Opportunity extends DomainEntity
 {
 
     private $userId;
+    private $status;
+    private $stage;
     private $company;
     private $address;
     private $city;
@@ -831,5 +833,37 @@ class Opportunity extends DomainEntity
     public function setCommentField($commentField)
     {
         $this->commentField = $commentField;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStage()
+    {
+        return $this->stage;
+    }
+
+    /**
+     * @param mixed $stage
+     */
+    public function setStage($stage)
+    {
+        $this->stage = $stage;
     }
 }

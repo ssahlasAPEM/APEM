@@ -24,6 +24,8 @@ class OpportunitySeeder extends Seeder
         for ($i = 0; $i < $numOpps; $i ++) {
             $newOpp                          = new \app\Models\Opportunity();
             $newOpp->user_id                 = $faker->numberBetween($min = 1, $max = 4);
+            $newOpp->status                  = null;
+            $newOpp->stage                   = 'quote';
             $newOpp->company                 = $faker->company;
             $newOpp->address                 = $faker->address;
             $newOpp->city                    = $faker->city;

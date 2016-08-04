@@ -48,7 +48,9 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan clear-compiled",
-            "php artisan optimize"
+            "php artisan optimize",
+            "cp -r public/dist/* public",
+            "mv public/index.html resources/views/app/main.blade.php"
         ]
     },
     "config": {
