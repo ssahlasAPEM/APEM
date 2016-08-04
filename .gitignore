@@ -6,5 +6,9 @@ Homestead.json
 .env
 .idea
 .DS_Store
+/public/crossdomain.xml
+/public/testem.js
+/public/tests
+/public/fonts
 /public/assets/*
 !/public/assets/images
