@@ -13,8 +13,8 @@
     {!! Html::image('assets/images/corp-logo.png', 'APEM LOGO' , array('class' => 'apem-logo center-block')) !!}
 
     <div class="col-sm-12 ">
-      {!! Form::open(array('url' => 'login','class'=>'form-signin')) !!}
-        <!-- <div class="text-center gap5">NAO LOGIN TITLE TEXT</div> -->
+      {!! Form::open(array('route' => 'login','method'=>'post','class'=>'form-signin')) !!}
+
         <div class="form-group login-controlls">
           {!! Form::text('username', old('username'), array('class' => 'form-control user-input', 'placeholder'=>'Username')) !!}
           {!! Form::password('password', array('class' => 'form-control gap1 pass-input', 'placeholder'=>'Password')) !!}
@@ -26,4 +26,20 @@
     </div>
   </div>
 </div>
+
+<!-- display error messages -->
+@if($errors->any())
+    <div class="login-error">
+        <div class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                @if($error === $errors->first())
+                    <b>{{ $error }}</b><br/>
+                @else
+                    {{ $error }}
+                @endif
+            @endforeach
+        </div>
+    </div>
+@endif
+
 @endsection

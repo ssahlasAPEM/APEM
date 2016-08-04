@@ -1092,7 +1092,7 @@ define('apem/tests/models/user.jshint', ['exports'], function (exports) {
   QUnit.module('JSHint - models/user.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'models/user.js should pass jshint.\nmodels/user.js: line 6, col 7, \'Validations\' is defined but never used.\n\n1 error');
+    assert.ok(true, 'models/user.js should pass jshint.');
   });
 });
 define('apem/tests/overrides/model.jshint', ['exports'], function (exports) {

@@ -1028,7 +1028,8 @@ define('apem/models/field', ['exports', 'ember-data'], function (exports, _ember
 define('apem/models/opportunity', ['exports', 'ember-data'], function (exports, _emberData) {
   exports['default'] = _emberData['default'].Model.extend({
     user: _emberData['default'].belongsTo('user'),
-
+    status: _emberData['default'].attr('string', { defaultValue: null }),
+    stage: _emberData['default'].attr('string', { defaultValue: 'quote' }),
     company: _emberData['default'].attr('string', { defaultValue: null }),
     address: _emberData['default'].attr('string', { defaultValue: null }),
     city: _emberData['default'].attr('string', { defaultValue: null }),
@@ -1100,7 +1101,7 @@ define('apem/models/user', ['exports', 'ember-data', 'ember-cp-validations'], fu
     })]
   });
 
-  exports['default'] = _emberData['default'].Model.extend({
+  exports['default'] = _emberData['default'].Model.extend(Validations, {
     opportunities: _emberData['default'].hasMany('opportunity'),
 
     createdAt: _emberData['default'].attr('string', { defaultValue: null }),
@@ -8943,7 +8944,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+d73d9c4b"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.local:8000","name":"apem","version":"0.0.0+8d752ee5"});
 }
 
 /* jshint ignore:end */

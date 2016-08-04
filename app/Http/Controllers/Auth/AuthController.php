@@ -72,7 +72,7 @@ class AuthController extends Controller
 
             return redirect()->intended($this->redirectPath());
         } else {
-            return back()->withInput();
+            return redirect()->back()->withErrors(['Wrong User Name or Password', 'Please check your credentials and try again.']);
         }
     }
 
