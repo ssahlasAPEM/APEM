@@ -1,3 +1,10 @@
+.square-logo-wrapper{
+  width: 260px;
+  height: 240px;
+  background: white;
+  padding-top: 32%;
+}
+
 .spacer-lg{
   min-height:50px;
 }
@@ -19,7 +26,9 @@
 .full-width{
     width: 100%;
 }
-
+.hidden{
+  display:none !important;
+}
 .loading-indicator{
   min-height: 200px;
   margin-left: auto !important;
@@ -32,7 +41,7 @@
 .home-sidebar *{
 
 }
-.home-sidebar{
+.home-sidebar, .home-navbar{
   background-color: #e4ebf1 !important;
 }
 .home-sidebar img{
@@ -102,14 +111,22 @@
   padding-left: 0px;
   list-style-type: none;
 }
-
-/*.ui.dropdown {
-  min-width: 176px;
-}*/
 .step{
-  padding:0px !important;
+  cursor: pointer !important;
+  /*padding: 0px;
+  height:30px;*/
 }
-
+.ui.steps .step > .icon {
+  font-size: 2em;
+}
+.ui.four.steps > .step {
+    width: 25%;
+    height: 36px;
+    padding: 6px;
+}
+.ui.steps .step.active .title{
+  color:black;
+}
 .modal{
   padding:12px;
 }
@@ -206,3 +223,50 @@
 .white-button i{
   background-color: white !important;
 }
+
+/*Hamburger Mobile Menu*/
+.ui.grid.main{
+	margin-top: 70px;
+}
+.mobile.row{
+	padding-top: 0px !important;
+	margin-top: 0px !important;
+}
+
+.mobile.row .ui.inverted.menu{
+	border-radius: 0px !important;
+}
+
+.padding-reset{
+	padding: 0px !important;
+}
+
+.ui.message{
+	padding: 40px !important;
+}
+
+@media (max-width: 767px) {
+  .ui.grid.main{
+  	margin-top: 70px;
+  }
+
+  .ui.grid { margin: 0 !important; }
+  .ui.vertical.menu.navbar{
+  	margin-top: 0px !important;
+  }
+  .ui.vertical.menu{
+    margin-top: -15px !important;
+    width: 100%;
+    display: none;
+  }
+  .ui-main.pusher{
+    width: 100%;
+    -webkit-transform: translate3d(0, 0, 0) !important;
+            transform: translate3d(0, 0, 0) !important;
+  }
+
+  /*.ui.steps .step{
+    display: -webkit-box;
+  }*/
+}
+/*END of Hamburger mobile menu*/

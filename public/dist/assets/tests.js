@@ -151,11 +151,7 @@ define('apem/tests/integration/components/side-nav-test', ['exports', 'ember-qun
     this.render(Ember.HTMLBars.template((function () {
       return {
         meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.6.2',
+          'revision': 'Ember@2.7.0',
           'loc': {
             'source': null,
             'start': {
@@ -185,7 +181,7 @@ define('apem/tests/integration/components/side-nav-test', ['exports', 'ember-qun
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [['content', 'side-nav', ['loc', [null, [1, 0], [1, 12]]]]],
+        statements: [['content', 'side-nav', ['loc', [null, [1, 0], [1, 12]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -198,8 +194,7 @@ define('apem/tests/integration/components/side-nav-test', ['exports', 'ember-qun
       var child0 = (function () {
         return {
           meta: {
-            'fragmentReason': false,
-            'revision': 'Ember@2.6.2',
+            'revision': 'Ember@2.7.0',
             'loc': {
               'source': null,
               'start': {
@@ -233,11 +228,7 @@ define('apem/tests/integration/components/side-nav-test', ['exports', 'ember-qun
 
       return {
         meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.6.2',
+          'revision': 'Ember@2.7.0',
           'loc': {
             'source': null,
             'start': {
@@ -300,11 +291,7 @@ define('apem/tests/integration/components/users-grid-test', ['exports', 'ember-q
     this.render(Ember.HTMLBars.template((function () {
       return {
         meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.6.2',
+          'revision': 'Ember@2.7.0',
           'loc': {
             'source': null,
             'start': {
@@ -334,7 +321,7 @@ define('apem/tests/integration/components/users-grid-test', ['exports', 'ember-q
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [['content', 'users-grid', ['loc', [null, [1, 0], [1, 14]]]]],
+        statements: [['content', 'users-grid', ['loc', [null, [1, 0], [1, 14]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -347,8 +334,7 @@ define('apem/tests/integration/components/users-grid-test', ['exports', 'ember-q
       var child0 = (function () {
         return {
           meta: {
-            'fragmentReason': false,
-            'revision': 'Ember@2.6.2',
+            'revision': 'Ember@2.7.0',
             'loc': {
               'source': null,
               'start': {
@@ -382,11 +368,7 @@ define('apem/tests/integration/components/users-grid-test', ['exports', 'ember-q
 
       return {
         meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.6.2',
+          'revision': 'Ember@2.7.0',
           'loc': {
             'source': null,
             'start': {
@@ -449,11 +431,7 @@ define('apem/tests/integration/pods/components/adv-search/component-test', ['exp
     this.render(Ember.HTMLBars.template((function () {
       return {
         meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.6.2',
+          'revision': 'Ember@2.7.0',
           'loc': {
             'source': null,
             'start': {
@@ -483,7 +461,7 @@ define('apem/tests/integration/pods/components/adv-search/component-test', ['exp
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [['content', 'adv-search', ['loc', [null, [1, 0], [1, 14]]]]],
+        statements: [['content', 'adv-search', ['loc', [null, [1, 0], [1, 14]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -496,8 +474,7 @@ define('apem/tests/integration/pods/components/adv-search/component-test', ['exp
       var child0 = (function () {
         return {
           meta: {
-            'fragmentReason': false,
-            'revision': 'Ember@2.6.2',
+            'revision': 'Ember@2.7.0',
             'loc': {
               'source': null,
               'start': {
@@ -531,11 +508,7 @@ define('apem/tests/integration/pods/components/adv-search/component-test', ['exp
 
       return {
         meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.6.2',
+          'revision': 'Ember@2.7.0',
           'loc': {
             'source': null,
             'start': {
@@ -598,11 +571,7 @@ define('apem/tests/integration/pods/components/confirm-delete/component-test', [
     this.render(Ember.HTMLBars.template((function () {
       return {
         meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.6.2',
+          'revision': 'Ember@2.7.0',
           'loc': {
             'source': null,
             'start': {
@@ -632,7 +601,7 @@ define('apem/tests/integration/pods/components/confirm-delete/component-test', [
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [['content', 'confirm-delete', ['loc', [null, [1, 0], [1, 18]]]]],
+        statements: [['content', 'confirm-delete', ['loc', [null, [1, 0], [1, 18]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -645,8 +614,7 @@ define('apem/tests/integration/pods/components/confirm-delete/component-test', [
       var child0 = (function () {
         return {
           meta: {
-            'fragmentReason': false,
-            'revision': 'Ember@2.6.2',
+            'revision': 'Ember@2.7.0',
             'loc': {
               'source': null,
               'start': {
@@ -680,11 +648,7 @@ define('apem/tests/integration/pods/components/confirm-delete/component-test', [
 
       return {
         meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.6.2',
+          'revision': 'Ember@2.7.0',
           'loc': {
             'source': null,
             'start': {
@@ -747,11 +711,7 @@ define('apem/tests/integration/pods/components/custom-date-picker/component-test
     this.render(Ember.HTMLBars.template((function () {
       return {
         meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.6.2',
+          'revision': 'Ember@2.7.0',
           'loc': {
             'source': null,
             'start': {
@@ -781,7 +741,7 @@ define('apem/tests/integration/pods/components/custom-date-picker/component-test
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [['content', 'custom-date-picker', ['loc', [null, [1, 0], [1, 22]]]]],
+        statements: [['content', 'custom-date-picker', ['loc', [null, [1, 0], [1, 22]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -794,8 +754,7 @@ define('apem/tests/integration/pods/components/custom-date-picker/component-test
       var child0 = (function () {
         return {
           meta: {
-            'fragmentReason': false,
-            'revision': 'Ember@2.6.2',
+            'revision': 'Ember@2.7.0',
             'loc': {
               'source': null,
               'start': {
@@ -829,11 +788,7 @@ define('apem/tests/integration/pods/components/custom-date-picker/component-test
 
       return {
         meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.6.2',
+          'revision': 'Ember@2.7.0',
           'loc': {
             'source': null,
             'start': {
@@ -896,11 +851,7 @@ define('apem/tests/integration/pods/components/opportunities/opt-form/component-
     this.render(Ember.HTMLBars.template((function () {
       return {
         meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.6.2',
+          'revision': 'Ember@2.7.0',
           'loc': {
             'source': null,
             'start': {
@@ -930,7 +881,7 @@ define('apem/tests/integration/pods/components/opportunities/opt-form/component-
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [['content', 'opportunities/opt-form', ['loc', [null, [1, 0], [1, 26]]]]],
+        statements: [['content', 'opportunities/opt-form', ['loc', [null, [1, 0], [1, 26]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -943,8 +894,7 @@ define('apem/tests/integration/pods/components/opportunities/opt-form/component-
       var child0 = (function () {
         return {
           meta: {
-            'fragmentReason': false,
-            'revision': 'Ember@2.6.2',
+            'revision': 'Ember@2.7.0',
             'loc': {
               'source': null,
               'start': {
@@ -978,11 +928,7 @@ define('apem/tests/integration/pods/components/opportunities/opt-form/component-
 
       return {
         meta: {
-          'fragmentReason': {
-            'name': 'missing-wrapper',
-            'problems': ['wrong-type']
-          },
-          'revision': 'Ember@2.6.2',
+          'revision': 'Ember@2.7.0',
           'loc': {
             'source': null,
             'start': {
@@ -1030,6 +976,146 @@ define('apem/tests/integration/pods/components/opportunities/opt-form/component-
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/pods/components/opportunities/opt-form/component-test.js should pass jshint.');
+  });
+});
+define('apem/tests/integration/pods/components/opportunities/stage-step/component-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForComponent)('opportunities/stage-step', 'Integration | Component | opportunities/stage step', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template((function () {
+      return {
+        meta: {
+          'revision': 'Ember@2.7.0',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 1,
+              'column': 28
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [['content', 'opportunities/stage-step', ['loc', [null, [1, 0], [1, 28]]], 0, 0, 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })()));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template((function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            'revision': 'Ember@2.7.0',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 2,
+                'column': 4
+              },
+              'end': {
+                'line': 4,
+                'column': 4
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode('      template block text\n');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+
+      return {
+        meta: {
+          'revision': 'Ember@2.7.0',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 5,
+              'column': 2
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode('\n');
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode('  ');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [['block', 'opportunities/stage-step', [], [], 0, null, ['loc', [null, [2, 4], [4, 33]]]]],
+        locals: [],
+        templates: [child0]
+      };
+    })()));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('apem/tests/integration/pods/components/opportunities/stage-step/component-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - integration/pods/components/opportunities/stage-step/component-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/opportunities/stage-step/component-test.js should pass jshint.');
   });
 });
 define('apem/tests/mirage/config.jshint', ['exports'], function (exports) {
@@ -1212,6 +1298,15 @@ define('apem/tests/pods/components/opportunities/opt-form/component.jshint', ['e
     assert.ok(true, 'pods/components/opportunities/opt-form/component.js should pass jshint.');
   });
 });
+define('apem/tests/pods/components/opportunities/stage-step/component.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - pods/components/opportunities/stage-step/component.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'pods/components/opportunities/stage-step/component.js should pass jshint.\npods/components/opportunities/stage-step/component.js: line 29, col 27, \'index\' is defined but never used.\n\n1 error');
+  });
+});
 define('apem/tests/pods/components/ui-form/ui-checkbox/component.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -1228,6 +1323,15 @@ define('apem/tests/pods/components/ui-form/ui-textfield/component.jshint', ['exp
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'pods/components/ui-form/ui-textfield/component.js should pass jshint.');
+  });
+});
+define('apem/tests/pods/components/ui-layout/nav-hamburger/component.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - pods/components/ui-layout/nav-hamburger/component.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/ui-layout/nav-hamburger/component.js should pass jshint.');
   });
 });
 define('apem/tests/pods/components/ui-layout/nav-header/component.jshint', ['exports'], function (exports) {
@@ -1390,6 +1494,15 @@ define('apem/tests/pods/opportunities/route.jshint', ['exports'], function (expo
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'pods/opportunities/route.js should pass jshint.');
+  });
+});
+define('apem/tests/pods/page-not-found/route.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - pods/page-not-found/route.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/page-not-found/route.js should pass jshint.');
   });
 });
 define('apem/tests/pods/users/index/controller.jshint', ['exports'], function (exports) {
