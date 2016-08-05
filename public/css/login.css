@@ -11,12 +11,13 @@ body{
   box-shadow: 0 8px 6px -6px #bdc5ce;
   border-radius: 6px;
   background-color: white;
+  width: 400px;
+  height: 400px;
+  /*padding: 16px;*/
 }
 .Absolute-Center.is-Responsive {
-  width: 370px;
+  width: 400px;
   height: 400px;
-  min-width: 320px;
-  max-width: 700px;
 }
 .gray-border{
   border: 1px solid #8e8d8d;
@@ -25,8 +26,11 @@ body{
 .gap1{
   margin-top: 10px;
 }
+.logo-box{
+  height: 260px;
+}
 .apem-logo{
-  padding: 16px;
+  padding-top: 21%;
   width: 100%;
 }
 .login-btn{

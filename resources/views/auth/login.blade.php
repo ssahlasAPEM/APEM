@@ -10,8 +10,9 @@
 
 <div class="row gray-border login-box">
   <div class="">
-    {!! Html::image('assets/images/corp-logo.png', 'APEM LOGO' , array('class' => 'apem-logo center-block')) !!}
-
+    <div class="logo-box">
+      {!! Html::image('assets/images/corp-logo.png', 'APEM LOGO' , array('class' => 'apem-logo center-block')) !!}
+    </div>
     <div class="col-sm-12 ">
       {!! Form::open(array('route' => 'login','method'=>'post','class'=>'form-signin')) !!}
 
