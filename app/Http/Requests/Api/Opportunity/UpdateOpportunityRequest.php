@@ -35,6 +35,8 @@ class UpdateOpportunityRequest extends Request
     {
         return [
             'data.id'                                 => 'required',
+            'data.attributes.status'                  => 'sometimes',
+            'data.attributes.stage'                   => 'required',
             'data.attributes.company'                 => 'required',
             'data.attributes.address'                 => 'sometimes',
             'data.attributes.city'                    => 'sometimes',
