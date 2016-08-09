@@ -1,7 +1,10 @@
 body{
     background-color: #e2eaf3;
 }
-
+.row{
+  margin-left: 0px;
+  margin-right: 0px;
+}
 .Absolute-Center {
   margin: auto;
   position: absolute;
@@ -11,12 +14,12 @@ body{
   box-shadow: 0 8px 6px -6px #bdc5ce;
   border-radius: 6px;
   background-color: white;
-  width: 400px;
+  width: 370px;
   height: 400px;
-  /*padding: 16px;*/
+  margin-bottom: 14px;
 }
 .Absolute-Center.is-Responsive {
-  width: 400px;
+  width: 370px;
   height: 400px;
 }
 .gray-border{
@@ -72,4 +75,29 @@ body{
 }
 .gray-bg{
   background-color: #ccc;
+}
+
+/*LOGIN ERROR STYLES*/
+.login-error{
+  width: 370px;
+}
+.alert-danger{
+  background-color: #fff;
+  padding-left: 60px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 12px;
+}
+.alert-danger:before {
+  content: "\f05e";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  color: #a94442;
+  font-size: 42px;
+  padding-right: 0.5em;
+  position: absolute;
+  top: 416px;
+  left: 30px;
 }
