@@ -1,10 +1,17 @@
-.square-logo-wrapper{
+.logo-wrapper{
   width: 260px;
   height: 240px;
   background: white;
   padding-top: 32%;
 }
-
+/*DROPDOWN MENU CUT FIX*/
+/*.menu-cut-fix{
+  left: -90px !important;
+}*/
+/*END DROPDOWN CUTOFF FIX*/
+.full-width{
+  width: 100%;
+}
 .spacer-lg{
   min-height:50px;
 }
@@ -20,11 +27,11 @@
 .no-margin{
   margin:0 !important;
 }
-.gap1{
+.gap1 {
   margin-top: 10px !important;
 }
 .full-width{
-    width: 100%;
+    width: 100% !important;
 }
 .hidden{
   display:none !important;
@@ -61,6 +68,9 @@
   padding-left: 15px;
   margin-bottom: 4px;
 }
+.nav-header-menu .item:before{
+  width: 0px !important;
+}
 .side-nav-item{
   margin-top: 6px;
   margin-bottom: 6px;
@@ -70,6 +80,7 @@
   background-color: transparent;
   height: 0px !important;
 }
+
 .ui.grid {
   margin: 0 auto;
 }
@@ -150,7 +161,6 @@
 }
 /*  Advanced search styles  */
 .advanced-search-component{
-  width:300px;
   margin:12px;
   white-space: nowrap;
 }
@@ -245,12 +255,26 @@
 	padding: 40px !important;
 }
 
-@media (max-width: 767px) {
+.seamless-button, .seamless-button:active, .seamless-button:hover, .seamless-button:focus{
+  border:none;
+  outline-style: none;
+}
+
+@media (max-width: 768px) {
+
+  .advanced-search-component{
+    margin:12px 0;
+  }
+  .adv-search-input{
+    max-width: 160px;
+  }
+
   .ui.grid.main{
   	margin-top: 70px;
   }
 
   .ui.grid { margin: 0 !important; }
+
   .ui.vertical.menu.navbar{
   	margin-top: 0px !important;
   }
@@ -264,9 +288,26 @@
     -webkit-transform: translate3d(0, 0, 0) !important;
             transform: translate3d(0, 0, 0) !important;
   }
+  .logo-wrapper{
+    height: 60px;
+    padding-top: 5px;
+    width: 230px;
+  }
+  .apem-logo{
+    max-width: 200px;
+  }
 
-  /*.ui.steps .step{
-    display: -webkit-box;
-  }*/
+  .mobile-right-menu{
+    position: absolute;
+    right: 0.6em;
+    top: 0.6em;
+  }
+}
+@media (max-width:400px) {
+  .secondary-header-dropdown-item{
+    position: absolute !important;
+    right: 0px;
+    top: 0px;
+  }
 }
 /*END of Hamburger mobile menu*/

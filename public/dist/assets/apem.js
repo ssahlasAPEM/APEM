@@ -264,11 +264,11 @@ define('apem/components/ui-checkbox', ['exports', 'semantic-ui-ember/components/
     }
   });
 });
-define('apem/components/ui-dropdown-array', ['exports', 'semantic-ui-ember/components/ui-dropdown-array'], function (exports, _semanticUiEmberComponentsUiDropdownArray) {
+define('apem/components/ui-dimmer', ['exports', 'semantic-ui-ember/components/ui-dimmer'], function (exports, _semanticUiEmberComponentsUiDimmer) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
     get: function get() {
-      return _semanticUiEmberComponentsUiDropdownArray['default'];
+      return _semanticUiEmberComponentsUiDimmer['default'];
     }
   });
 });
@@ -555,6 +555,20 @@ define('apem/helpers/l', ['exports', 'ember-intl/helpers/l'], function (exports,
     enumerable: true,
     get: function get() {
       return _emberIntlHelpersL['default'];
+    }
+  });
+});
+define('apem/helpers/map-value', ['exports', 'semantic-ui-ember/helpers/map-value'], function (exports, _semanticUiEmberHelpersMapValue) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _semanticUiEmberHelpersMapValue['default'];
+    }
+  });
+  Object.defineProperty(exports, 'mapValue', {
+    enumerable: true,
+    get: function get() {
+      return _semanticUiEmberHelpersMapValue.mapValue;
     }
   });
 });
@@ -1010,6 +1024,14 @@ define("apem/mirage/scenarios/default", ["exports"], function (exports) {
     //server.loadFixtures();
 
   };
+});
+define('apem/mixins/base', ['exports', 'semantic-ui-ember/mixins/base'], function (exports, _semanticUiEmberMixinsBase) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _semanticUiEmberMixinsBase['default'];
+    }
+  });
 });
 define('apem/models/field', ['exports', 'ember-data'], function (exports, _emberData) {
   exports['default'] = _emberData['default'].Model.extend({
@@ -2612,6 +2634,259 @@ define("apem/pods/components/hover-edit-field/template", ["exports"], function (
     };
   })());
 });
+define('apem/pods/components/manage-password/component', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+    store: _ember['default'].inject.service(),
+    identity: _ember['default'].inject.service(),
+    sessionUser: null,
+
+    actions: {
+
+      openModal: function openModal() {
+        var _this = this;
+
+        this.set('serverErrors', []);
+        this.set('sessionUser', null);
+
+        var thisUserId = this.get('identity').get('profile').get('id');
+        this.get('store').findRecord('user', thisUserId).then(function (data) {
+          _this.set('sessionUser', data);
+        }, function (error) {});
+
+        _ember['default'].$('.manage-password-pop').modal({
+          blurring: true
+        }).modal('setting', 'closable', false).modal('show');
+      },
+
+      editPassword: function editPassword() {
+        var _this2 = this;
+
+        var user = this.get('sessionUser');
+        this.set('serverErrors', []);
+        var errs = this.get('serverErrors');
+        if (user.get('hasDirtyAttributes')) {
+          (function () {
+            var closeModal = _this2.closeModal;
+            user.save().then(function () {
+              closeModal();
+            }, function (error) {
+              errs.addObject(error);
+            });
+          })();
+        }
+      },
+
+      cancelModal: function cancelModal() {
+        this.closeModal();
+      }
+
+    },
+
+    closeModal: function closeModal() {
+      _ember['default'].$('.manage-password-pop').modal('hide');
+    }
+  });
+});
+define("apem/pods/components/manage-password/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 5,
+              "column": 0
+            },
+            "end": {
+              "line": 26,
+              "column": 0
+            }
+          },
+          "moduleName": "apem/pods/components/manage-password/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "header");
+          var el2 = dom.createElement("i");
+          dom.setAttribute(el2, "class", "user icon");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("Manage Password ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "content");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("form");
+          dom.setAttribute(el2, "class", "ui form");
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "field");
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("label");
+          var el5 = dom.createTextNode("New Password");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "field");
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("label");
+          var el5 = dom.createTextNode("Confirm Password");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n    ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "validation-errors");
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "actions");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui green right floated button");
+          dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          var el3 = dom.createElement("i");
+          dom.setAttribute(el3, "class", "check icon");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("Save");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui right floated button");
+          dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          var el3 = dom.createElement("i");
+          dom.setAttribute(el3, "class", "ban icon");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("Cancel");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [3, 1]);
+          var element1 = dom.childAt(fragment, [7]);
+          var element2 = dom.childAt(element1, [1]);
+          var element3 = dom.childAt(element1, [3]);
+          var morphs = new Array(6);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 2, 2);
+          morphs[1] = dom.createMorphAt(dom.childAt(element0, [1]), 3, 3);
+          morphs[2] = dom.createMorphAt(dom.childAt(element0, [3]), 3, 3);
+          morphs[3] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
+          morphs[4] = dom.createElementMorph(element2);
+          morphs[5] = dom.createElementMorph(element3);
+          return morphs;
+        },
+        statements: [["content", "sessionUser.username", ["loc", [null, [6, 63], [6, 87]]], 0, 0, 0, 0], ["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "sessionUser.password", ["loc", [null, [11, 21], [11, 41]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "@mut", [["get", "sessionUser.password", ["loc", [null, [11, 48], [11, 68]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "text"], ["loc", [null, [11, 8], [11, 82]]], 0, 0], ["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "sessionUser.passConfirm", ["loc", [null, [15, 21], [15, 44]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "@mut", [["get", "sessionUser.passwordVerify", ["loc", [null, [15, 51], [15, 77]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "text"], ["loc", [null, [15, 8], [15, 91]]], 0, 0], ["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [20, 29], [20, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [20, 6], [20, 43]]], 0, 0], ["element", "action", ["editPassword"], [], ["loc", [null, [23, 47], [23, 72]]], 0, 0], ["element", "action", ["cancelModal"], [], ["loc", [null, [24, 41], [24, 65]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 28,
+            "column": 0
+          }
+        },
+        "moduleName": "apem/pods/components/manage-password/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("button");
+        dom.setAttribute(el1, "class", "item seamless-button");
+        dom.setAttribute(el1, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        var el2 = dom.createTextNode("\n  Manage Password\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element4 = dom.childAt(fragment, [0]);
+        var morphs = new Array(3);
+        morphs[0] = dom.createElementMorph(element4);
+        morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        morphs[2] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+        return morphs;
+      },
+      statements: [["element", "action", ["openModal"], [], ["loc", [null, [1, 37], [1, 59]]], 0, 0], ["block", "ui-modal", [], ["class", "modal manage-password-pop"], 0, null, ["loc", [null, [5, 0], [26, 13]]]], ["content", "yield", ["loc", [null, [27, 0], [27, 9]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
 define("apem/pods/components/new-user/component", ["exports", "ember"], function (exports, _ember) {
   exports["default"] = _ember["default"].Component.extend({
     store: _ember["default"].inject.service(),
@@ -3368,11 +3643,13 @@ define("apem/pods/components/opportunities/opp-table/template", ["exports"], fun
     };
   })());
 });
-define('apem/pods/components/opportunities/opt-form/component', ['exports', 'ember'], function (exports, _ember) {
+define('apem/pods/components/opportunities/opt-form/component', ['exports', 'ember', 'ember-group-by'], function (exports, _ember, _emberGroupBy) {
   exports['default'] = _ember['default'].Component.extend({
     identity: _ember['default'].inject.service(),
     // routing: Ember.inject.service('-routing'),
 
+    //used addon ember-group-by to group our fields array by model attr group.
+    fieldsByGroup: (0, _emberGroupBy['default'])('fields', 'group'),
     classNames: ['opp-table'],
     model: null,
     fields: null,
@@ -3511,6 +3788,196 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
     var child2 = (function () {
       var child0 = (function () {
         var child0 = (function () {
+          var child0 = (function () {
+            var child0 = (function () {
+              var child0 = (function () {
+                return {
+                  meta: {
+                    "revision": "Ember@2.7.0",
+                    "loc": {
+                      "source": null,
+                      "start": {
+                        "line": 43,
+                        "column": 18
+                      },
+                      "end": {
+                        "line": 47,
+                        "column": 18
+                      }
+                    },
+                    "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
+                  },
+                  isEmpty: false,
+                  arity: 1,
+                  cachedFragment: null,
+                  hasRendered: false,
+                  buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode("                    ");
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createElement("div");
+                    dom.setAttribute(el1, "class", "item");
+                    var el2 = dom.createTextNode("\n                      ");
+                    dom.appendChild(el1, el2);
+                    var el2 = dom.createComment("");
+                    dom.appendChild(el1, el2);
+                    var el2 = dom.createTextNode("\n                    ");
+                    dom.appendChild(el1, el2);
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode("\n");
+                    dom.appendChild(el0, el1);
+                    return el0;
+                  },
+                  buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var element0 = dom.childAt(fragment, [1]);
+                    var morphs = new Array(2);
+                    morphs[0] = dom.createAttrMorph(element0, 'data-value');
+                    morphs[1] = dom.createMorphAt(element0, 1, 1);
+                    return morphs;
+                  },
+                  statements: [["attribute", "data-value", ["concat", [["get", "item", ["loc", [null, [44, 52], [44, 56]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "item", ["loc", [null, [45, 22], [45, 30]]], 0, 0, 0, 0]],
+                  locals: ["item"],
+                  templates: []
+                };
+              })();
+              return {
+                meta: {
+                  "revision": "Ember@2.7.0",
+                  "loc": {
+                    "source": null,
+                    "start": {
+                      "line": 39,
+                      "column": 14
+                    },
+                    "end": {
+                      "line": 49,
+                      "column": 14
+                    }
+                  },
+                  "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
+                },
+                isEmpty: false,
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                  var el0 = dom.createDocumentFragment();
+                  var el1 = dom.createTextNode("                ");
+                  dom.appendChild(el0, el1);
+                  var el1 = dom.createElement("i");
+                  dom.setAttribute(el1, "class", "dropdown icon");
+                  dom.appendChild(el0, el1);
+                  var el1 = dom.createTextNode("\n                ");
+                  dom.appendChild(el0, el1);
+                  var el1 = dom.createElement("div");
+                  dom.setAttribute(el1, "class", "default text");
+                  var el2 = dom.createTextNode("Select Value");
+                  dom.appendChild(el1, el2);
+                  dom.appendChild(el0, el1);
+                  var el1 = dom.createTextNode("\n                ");
+                  dom.appendChild(el0, el1);
+                  var el1 = dom.createElement("div");
+                  dom.setAttribute(el1, "class", "menu");
+                  var el2 = dom.createTextNode("\n");
+                  dom.appendChild(el1, el2);
+                  var el2 = dom.createComment("");
+                  dom.appendChild(el1, el2);
+                  var el2 = dom.createTextNode("                ");
+                  dom.appendChild(el1, el2);
+                  dom.appendChild(el0, el1);
+                  var el1 = dom.createTextNode("\n");
+                  dom.appendChild(el0, el1);
+                  return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                  var morphs = new Array(1);
+                  morphs[0] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
+                  return morphs;
+                },
+                statements: [["block", "each", [["get", "field.options", ["loc", [null, [43, 26], [43, 39]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [43, 18], [47, 27]]]]],
+                locals: [],
+                templates: [child0]
+              };
+            })();
+            return {
+              meta: {
+                "revision": "Ember@2.7.0",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 38,
+                    "column": 12
+                  },
+                  "end": {
+                    "line": 50,
+                    "column": 12
+                  }
+                },
+                "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createComment("");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                var morphs = new Array(1);
+                morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+                dom.insertBoundary(fragment, 0);
+                dom.insertBoundary(fragment, null);
+                return morphs;
+              },
+              statements: [["block", "ui-dropdown", [], ["class", "fluid selection", "selected", ["subexpr", "@mut", [["get", "field.value", ["loc", [null, [39, 62], [39, 73]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "field.value", ["loc", [null, [39, 96], [39, 107]]], 0, 0, 0, 0]], [], ["loc", [null, [39, 91], [39, 108]]], 0, 0]], [], ["loc", [null, [39, 83], [39, 109]]], 0, 0]], 0, null, ["loc", [null, [39, 14], [49, 30]]]]],
+              locals: [],
+              templates: [child0]
+            };
+          })();
+          var child1 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.7.0",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 50,
+                    "column": 12
+                  },
+                  "end": {
+                    "line": 52,
+                    "column": 12
+                  }
+                },
+                "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("              ");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createComment("");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode("\n");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                var morphs = new Array(1);
+                morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                return morphs;
+              },
+              statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "field.name", ["loc", [null, [51, 27], [51, 37]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "mut", [["subexpr", "get", [["get", "model", ["loc", [null, [51, 54], [51, 59]]], 0, 0, 0, 0], ["get", "field.name", ["loc", [null, [51, 60], [51, 70]]], 0, 0, 0, 0]], [], ["loc", [null, [51, 49], [51, 71]]], 0, 0]], [], ["loc", [null, [51, 44], [51, 72]]], 0, 0], "type", "text"], ["loc", [null, [51, 14], [51, 86]]], 0, 0]],
+              locals: [],
+              templates: []
+            };
+          })();
           return {
             meta: {
               "revision": "Ember@2.7.0",
@@ -3521,7 +3988,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                   "column": 8
                 },
                 "end": {
-                  "line": 40,
+                  "line": 54,
                   "column": 8
                 }
               },
@@ -3543,11 +4010,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               var el3 = dom.createComment("");
               dom.appendChild(el2, el3);
               dom.appendChild(el1, el2);
-              var el2 = dom.createTextNode("\n            ");
+              var el2 = dom.createTextNode("\n");
               dom.appendChild(el1, el2);
               var el2 = dom.createComment("");
               dom.appendChild(el1, el2);
-              var el2 = dom.createTextNode("\n          ");
+              var el2 = dom.createTextNode("          ");
               dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
               var el1 = dom.createTextNode("\n");
@@ -3555,15 +4022,15 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               return el0;
             },
             buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var element0 = dom.childAt(fragment, [1]);
+              var element1 = dom.childAt(fragment, [1]);
               var morphs = new Array(2);
-              morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 0, 0);
-              morphs[1] = dom.createMorphAt(element0, 3, 3);
+              morphs[0] = dom.createMorphAt(dom.childAt(element1, [1]), 0, 0);
+              morphs[1] = dom.createMorphAt(element1, 3, 3);
               return morphs;
             },
-            statements: [["content", "field.label", ["loc", [null, [37, 19], [37, 34]]], 0, 0, 0, 0], ["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "field.name", ["loc", [null, [38, 25], [38, 35]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "mut", [["subexpr", "get", [["get", "model", ["loc", [null, [38, 52], [38, 57]]], 0, 0, 0, 0], ["get", "field.name", ["loc", [null, [38, 58], [38, 68]]], 0, 0, 0, 0]], [], ["loc", [null, [38, 47], [38, 69]]], 0, 0]], [], ["loc", [null, [38, 42], [38, 70]]], 0, 0], "type", "text"], ["loc", [null, [38, 12], [38, 84]]], 0, 0]],
+            statements: [["content", "field.label", ["loc", [null, [37, 19], [37, 34]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "field.type", ["loc", [null, [38, 28], [38, 38]]], 0, 0, 0, 0], "dropdown"], [], ["loc", [null, [38, 18], [38, 50]]], 0, 0]], [], 0, 1, ["loc", [null, [38, 12], [52, 19]]]]],
             locals: ["field"],
-            templates: []
+            templates: [child0, child1]
           };
         })();
         return {
@@ -3576,7 +4043,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                 "column": 4
               },
               "end": {
-                "line": 42,
+                "line": 56,
                 "column": 4
               }
             },
@@ -3615,7 +4082,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 1, 1);
             return morphs;
           },
-          statements: [["content", "group.value", ["loc", [null, [33, 37], [33, 52]]], 0, 0, 0, 0], ["block", "each", [["get", "group.items", ["loc", [null, [35, 16], [35, 27]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [35, 8], [40, 17]]]]],
+          statements: [["content", "group.value", ["loc", [null, [33, 37], [33, 52]]], 0, 0, 0, 0], ["block", "each", [["get", "group.items", ["loc", [null, [35, 16], [35, 27]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [35, 8], [54, 17]]]]],
           locals: ["group"],
           templates: [child0]
         };
@@ -3630,7 +4097,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               "column": 2
             },
             "end": {
-              "line": 43,
+              "line": 57,
               "column": 2
             }
           },
@@ -3653,7 +4120,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "each", [["get", "fields", ["loc", [null, [32, 12], [32, 18]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [32, 4], [42, 13]]]]],
+        statements: [["block", "each", [["get", "fieldsByGroup", ["loc", [null, [32, 12], [32, 25]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [32, 4], [56, 13]]]]],
         locals: [],
         templates: [child0]
       };
@@ -3665,11 +4132,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 43,
+              "line": 57,
               "column": 2
             },
             "end": {
-              "line": 45,
+              "line": 59,
               "column": 2
             }
           },
@@ -3709,7 +4176,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             "column": 0
           },
           "end": {
-            "line": 56,
+            "line": 70,
             "column": 0
           }
         },
@@ -3730,32 +4197,31 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "field");
+        dom.setAttribute(el2, "class", "top attached header");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("h3");
+        dom.setAttribute(el3, "class", "ui left floated header");
         var el4 = dom.createTextNode("NAO #");
         dom.appendChild(el3, el4);
         var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("    ");
-        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
@@ -3824,24 +4290,24 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element1 = dom.childAt(fragment, [0]);
-        var element2 = dom.childAt(element1, [3, 1]);
-        var element3 = dom.childAt(element1, [11, 3]);
+        var element2 = dom.childAt(fragment, [0]);
+        var element3 = dom.childAt(element2, [3]);
+        var element4 = dom.childAt(element2, [11, 3]);
         var morphs = new Array(11);
-        morphs[0] = dom.createMorphAt(element2, 1, 1);
-        morphs[1] = dom.createMorphAt(element2, 3, 3);
-        morphs[2] = dom.createMorphAt(element2, 5, 5);
-        morphs[3] = dom.createMorphAt(element2, 7, 7);
-        morphs[4] = dom.createMorphAt(element2, 9, 9);
-        morphs[5] = dom.createMorphAt(element1, 7, 7);
-        morphs[6] = dom.createMorphAt(element3, 1, 1);
-        morphs[7] = dom.createMorphAt(element3, 3, 3);
-        morphs[8] = dom.createMorphAt(element3, 5, 5);
-        morphs[9] = dom.createMorphAt(element1, 13, 13);
+        morphs[0] = dom.createMorphAt(dom.childAt(element3, [1]), 1, 1);
+        morphs[1] = dom.createMorphAt(element3, 3, 3);
+        morphs[2] = dom.createMorphAt(element3, 5, 5);
+        morphs[3] = dom.createMorphAt(element3, 7, 7);
+        morphs[4] = dom.createMorphAt(element3, 9, 9);
+        morphs[5] = dom.createMorphAt(element2, 7, 7);
+        morphs[6] = dom.createMorphAt(element4, 1, 1);
+        morphs[7] = dom.createMorphAt(element4, 3, 3);
+        morphs[8] = dom.createMorphAt(element4, 5, 5);
+        morphs[9] = dom.createMorphAt(element2, 13, 13);
         morphs[10] = dom.createMorphAt(fragment, 2, 2, contextualElement);
         return morphs;
       },
-      statements: [["content", "model.id", ["loc", [null, [4, 13], [4, 25]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [5, 22], [5, 43]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [5, 12], [5, 52]]], 0, 0]], [], 0, null, ["loc", [null, [5, 6], [7, 13]]]], ["inline", "input", [], ["type", "button", "value", "Save as Draft", "class", "ui button right floated", "click", ["subexpr", "action", ["updateOpportunity"], [], ["loc", [null, [9, 88], [9, 116]]], 0, 0]], ["loc", [null, [9, 6], [9, 118]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Save", "class", "ui button right floated", "click", ["subexpr", "action", ["updateOpportunity"], [], ["loc", [null, [10, 79], [10, 107]]], 0, 0]], ["loc", [null, [10, 6], [10, 109]]], 0, 0], ["block", "link-to", ["opportunities"], ["tagName", "div", "class", "ui button right floated", "activeClass", "", "click", ["subexpr", "action", ["onCancelOptClick"], [], ["loc", [null, [12, 100], [12, 127]]], 0, 0]], 1, null, ["loc", [null, [12, 6], [14, 18]]]], ["inline", "opportunities/stage-step", [], ["stageSteps", ["subexpr", "@mut", [["get", "stages", ["loc", [null, [19, 40], [19, 46]]], 0, 0, 0, 0]], [], [], 0, 0], "opt", ["subexpr", "@mut", [["get", "model", ["loc", [null, [19, 51], [19, 56]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [19, 2], [19, 58]]], 0, 0], ["inline", "input", [], ["type", "button", "name", "status", "value", "Backburner", "class", "ui button", "click", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [25, 98], [25, 110]]], 0, 0, 0, 0]], [], ["loc", [null, [25, 93], [25, 111]]], 0, 0]], ["value", "target.value"], ["loc", [null, [25, 85], [25, 133]]], 0, 0]], ["loc", [null, [25, 6], [25, 136]]], 0, 0], ["inline", "input", [], ["type", "button", "name", "status", "value", "Won", "class", "ui button", "click", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [26, 91], [26, 103]]], 0, 0, 0, 0]], [], ["loc", [null, [26, 86], [26, 104]]], 0, 0]], ["value", "target.value"], ["loc", [null, [26, 78], [26, 126]]], 0, 0]], ["loc", [null, [26, 6], [26, 129]]], 0, 0], ["inline", "input", [], ["type", "button", "name", "status", "value", "Lost", "class", "ui button", "click", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [27, 92], [27, 104]]], 0, 0, 0, 0]], [], ["loc", [null, [27, 87], [27, 105]]], 0, 0]], ["value", "target.value"], ["loc", [null, [27, 79], [27, 127]]], 0, 0]], ["loc", [null, [27, 6], [27, 130]]], 0, 0], ["block", "if", [["get", "fields", ["loc", [null, [31, 8], [31, 14]]], 0, 0, 0, 0]], [], 2, 3, ["loc", [null, [31, 2], [45, 9]]]], ["content", "yield", ["loc", [null, [55, 0], [55, 9]]], 0, 0, 0, 0]],
+      statements: [["content", "model.id", ["loc", [null, [4, 44], [4, 56]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [5, 22], [5, 43]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [5, 12], [5, 52]]], 0, 0]], [], 0, null, ["loc", [null, [5, 6], [7, 13]]]], ["inline", "input", [], ["type", "button", "value", "Save as Draft", "class", "ui button right floated", "click", ["subexpr", "action", ["updateOpportunity"], [], ["loc", [null, [9, 88], [9, 116]]], 0, 0]], ["loc", [null, [9, 6], [9, 118]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Save", "class", "ui button right floated", "click", ["subexpr", "action", ["updateOpportunity"], [], ["loc", [null, [10, 79], [10, 107]]], 0, 0]], ["loc", [null, [10, 6], [10, 109]]], 0, 0], ["block", "link-to", ["opportunities"], ["tagName", "div", "class", "ui button right floated", "activeClass", "", "click", ["subexpr", "action", ["onCancelOptClick"], [], ["loc", [null, [12, 100], [12, 127]]], 0, 0]], 1, null, ["loc", [null, [12, 6], [14, 18]]]], ["inline", "opportunities/stage-step", [], ["stageSteps", ["subexpr", "@mut", [["get", "stages", ["loc", [null, [19, 40], [19, 46]]], 0, 0, 0, 0]], [], [], 0, 0], "opt", ["subexpr", "@mut", [["get", "model", ["loc", [null, [19, 51], [19, 56]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [19, 2], [19, 58]]], 0, 0], ["inline", "input", [], ["type", "button", "name", "status", "value", "Backburner", "class", "ui button", "click", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [25, 98], [25, 110]]], 0, 0, 0, 0]], [], ["loc", [null, [25, 93], [25, 111]]], 0, 0]], ["value", "target.value"], ["loc", [null, [25, 85], [25, 133]]], 0, 0]], ["loc", [null, [25, 6], [25, 136]]], 0, 0], ["inline", "input", [], ["type", "button", "name", "status", "value", "Won", "class", "ui button", "click", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [26, 91], [26, 103]]], 0, 0, 0, 0]], [], ["loc", [null, [26, 86], [26, 104]]], 0, 0]], ["value", "target.value"], ["loc", [null, [26, 78], [26, 126]]], 0, 0]], ["loc", [null, [26, 6], [26, 129]]], 0, 0], ["inline", "input", [], ["type", "button", "name", "status", "value", "Lost", "class", "ui button", "click", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [27, 92], [27, 104]]], 0, 0, 0, 0]], [], ["loc", [null, [27, 87], [27, 105]]], 0, 0]], ["value", "target.value"], ["loc", [null, [27, 79], [27, 127]]], 0, 0]], ["loc", [null, [27, 6], [27, 130]]], 0, 0], ["block", "if", [["get", "fieldsByGroup", ["loc", [null, [31, 8], [31, 21]]], 0, 0, 0, 0]], [], 2, 3, ["loc", [null, [31, 2], [59, 9]]]], ["content", "yield", ["loc", [null, [69, 0], [69, 9]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0, child1, child2, child3]
     };
@@ -3852,10 +4318,6 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
     stageSteps: [],
     //current opportunity
     opt: null,
-
-    // init(){
-    //   this._super(...arguments);
-    // },
 
     didRender: function didRender() {
       this._super.apply(this, arguments);
@@ -4268,23 +4730,148 @@ define("apem/pods/components/ui-form/ui-textfield/template", ["exports"], functi
   })());
 });
 define('apem/pods/components/ui-layout/nav-hamburger/component', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Component.extend({});
+  exports['default'] = _ember['default'].Component.extend({
+    identity: _ember['default'].inject.service()
+  });
 });
 define("apem/pods/components/ui-layout/nav-hamburger/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
+      var child0 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.7.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 13,
+                  "column": 6
+                },
+                "end": {
+                  "line": 13,
+                  "column": 69
+                }
+              },
+              "moduleName": "apem/pods/components/ui-layout/nav-hamburger/template.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("Form Management");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child1 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.7.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 14,
+                  "column": 6
+                },
+                "end": {
+                  "line": 14,
+                  "column": 68
+                }
+              },
+              "moduleName": "apem/pods/components/ui-layout/nav-hamburger/template.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("User Management");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.7.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 11,
+                "column": 4
+              },
+              "end": {
+                "line": 15,
+                "column": 4
+              }
+            },
+            "moduleName": "apem/pods/components/ui-layout/nav-hamburger/template.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "header side-nav-section-header");
+            var el2 = dom.createTextNode("Admin");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(2);
+            morphs[0] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+            morphs[1] = dom.createMorphAt(fragment, 5, 5, contextualElement);
+            return morphs;
+          },
+          statements: [["block", "link-to", ["fields"], ["class", "item side-nav-item"], 0, null, ["loc", [null, [13, 6], [13, 81]]]], ["block", "link-to", ["users"], ["class", "item side-nav-item"], 1, null, ["loc", [null, [14, 6], [14, 80]]]]],
+          locals: [],
+          templates: [child0, child1]
+        };
+      })();
       return {
         meta: {
           "revision": "Ember@2.7.0",
           "loc": {
             "source": null,
             "start": {
-              "line": 3,
-              "column": 4
+              "line": 1,
+              "column": 0
             },
             "end": {
-              "line": 34,
-              "column": 4
+              "line": 18,
+              "column": 0
             }
           },
           "moduleName": "apem/pods/components/ui-layout/nav-hamburger/template.hbs"
@@ -4295,188 +4882,60 @@ define("apem/pods/components/ui-layout/nav-hamburger/template", ["exports"], fun
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("      ");
+          var el1 = dom.createTextNode("  ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
-          dom.setAttribute(el1, "class", "ui fixed navbar menu");
-          var el2 = dom.createTextNode("\n          ");
+          dom.setAttribute(el1, "class", "logo-wrapper");
+          var el2 = dom.createTextNode("\n    ");
           dom.appendChild(el1, el2);
-          var el2 = dom.createElement("a");
-          dom.setAttribute(el2, "href", "");
-          dom.setAttribute(el2, "class", "brand");
-          dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el3 = dom.createTextNode("APEM");
-          dom.appendChild(el2, el3);
+          var el2 = dom.createElement("img");
+          dom.setAttribute(el2, "src", "assets/images/corp-logo.png");
+          dom.setAttribute(el2, "class", "brand apem-logo");
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n\n          ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("div");
-          dom.setAttribute(el2, "class", "right menu open");
-          var el3 = dom.createTextNode("\n              ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("a");
-          dom.setAttribute(el3, "href", "");
-          dom.setAttribute(el3, "class", "menu item");
-          dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el4 = dom.createTextNode("\n                  ");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createElement("i");
-          dom.setAttribute(el4, "class", "content icon");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n              ");
-          dom.appendChild(el3, el4);
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n          ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n          ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("div");
-          dom.setAttribute(el2, "class", "ui vertical navbar menu");
-          var el3 = dom.createTextNode("\n              ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("a");
-          dom.setAttribute(el3, "href", "");
-          dom.setAttribute(el3, "class", "active item");
-          dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el4 = dom.createTextNode("Home");
-          dom.appendChild(el3, el4);
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n              ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("a");
-          dom.setAttribute(el3, "href", "");
-          dom.setAttribute(el3, "class", "item");
-          dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el4 = dom.createTextNode("About");
-          dom.appendChild(el3, el4);
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n              ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("a");
-          dom.setAttribute(el3, "href", "");
-          dom.setAttribute(el3, "class", "item");
-          dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el4 = dom.createTextNode("Contact");
-          dom.appendChild(el3, el4);
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n              ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("div");
-          dom.setAttribute(el3, "class", "ui item");
-          var el4 = dom.createTextNode("\n                  ");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createElement("div");
-          dom.setAttribute(el4, "class", "text");
-          var el5 = dom.createTextNode("Dropdown");
-          dom.appendChild(el4, el5);
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n                  ");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createElement("div");
-          dom.setAttribute(el4, "class", "menu");
-          var el5 = dom.createTextNode("\n                      ");
-          dom.appendChild(el4, el5);
-          var el5 = dom.createElement("a");
-          dom.setAttribute(el5, "class", "item");
-          dom.setAttribute(el5, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el6 = dom.createTextNode("Action");
-          dom.appendChild(el5, el6);
-          dom.appendChild(el4, el5);
-          var el5 = dom.createTextNode("\n                      ");
-          dom.appendChild(el4, el5);
-          var el5 = dom.createElement("a");
-          dom.setAttribute(el5, "class", "item");
-          dom.setAttribute(el5, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el6 = dom.createTextNode("Another action");
-          dom.appendChild(el5, el6);
-          dom.appendChild(el4, el5);
-          var el5 = dom.createTextNode("\n                      ");
-          dom.appendChild(el4, el5);
-          var el5 = dom.createElement("a");
-          dom.setAttribute(el5, "class", "item");
-          dom.setAttribute(el5, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el6 = dom.createTextNode("Something else here");
-          dom.appendChild(el5, el6);
-          dom.appendChild(el4, el5);
-          var el5 = dom.createTextNode("\n                      ");
-          dom.appendChild(el4, el5);
-          var el5 = dom.createElement("a");
-          dom.setAttribute(el5, "class", "ui aider");
-          dom.setAttribute(el5, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          dom.appendChild(el4, el5);
-          var el5 = dom.createTextNode("\n                      ");
-          dom.appendChild(el4, el5);
-          var el5 = dom.createElement("a");
-          dom.setAttribute(el5, "class", "item");
-          dom.setAttribute(el5, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el6 = dom.createTextNode("Seperated link");
-          dom.appendChild(el5, el6);
-          dom.appendChild(el4, el5);
-          var el5 = dom.createTextNode("\n                      ");
-          dom.appendChild(el4, el5);
-          var el5 = dom.createElement("a");
-          dom.setAttribute(el5, "class", "item");
-          dom.setAttribute(el5, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el6 = dom.createTextNode("One more seperated link");
-          dom.appendChild(el5, el6);
-          dom.appendChild(el4, el5);
-          var el5 = dom.createTextNode("\n                    ");
-          dom.appendChild(el4, el5);
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n              ");
-          dom.appendChild(el3, el4);
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n              ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("div");
-          dom.setAttribute(el3, "class", "menu");
-          var el4 = dom.createTextNode("\n                  ");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createElement("a");
-          dom.setAttribute(el4, "href", "");
-          dom.setAttribute(el4, "class", "active item");
-          dom.setAttribute(el4, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el5 = dom.createTextNode("Default");
-          dom.appendChild(el4, el5);
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n                  ");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createElement("a");
-          dom.setAttribute(el4, "href", "");
-          dom.setAttribute(el4, "class", "item");
-          dom.setAttribute(el4, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el5 = dom.createTextNode("Static top");
-          dom.appendChild(el4, el5);
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n                  ");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createElement("a");
-          dom.setAttribute(el4, "href", "");
-          dom.setAttribute(el4, "class", "item");
-          dom.setAttribute(el4, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el5 = dom.createTextNode("Fixed top");
-          dom.appendChild(el4, el5);
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n              ");
-          dom.appendChild(el3, el4);
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n          ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n      ");
+          var el2 = dom.createTextNode("\n  ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("i");
+          dom.setAttribute(el1, "class", "big content icon mobile-right-menu");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "ui fluid vertical navbar menu");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "header side-nav-section-header");
+          var el3 = dom.createTextNode("Home");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n");
           dom.appendChild(el0, el1);
           return el0;
         },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [5]);
+          var morphs = new Array(2);
+          morphs[0] = dom.createMorphAt(element0, 3, 3);
+          morphs[1] = dom.createMorphAt(element0, 5, 5);
+          return morphs;
         },
-        statements: [],
+        statements: [["content", "manage-password", ["loc", [null, [9, 4], [9, 23]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [11, 20], [11, 41]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [11, 10], [11, 50]]], 0, 0]], [], 0, null, ["loc", [null, [11, 4], [15, 11]]]]],
         locals: [],
-        templates: []
+        templates: [child0]
       };
     })();
     return {
@@ -4489,7 +4948,7 @@ define("apem/pods/components/ui-layout/nav-hamburger/template", ["exports"], fun
             "column": 0
           },
           "end": {
-            "line": 37,
+            "line": 19,
             "column": 0
           }
         },
@@ -4501,32 +4960,18 @@ define("apem/pods/components/ui-layout/nav-hamburger/template", ["exports"], fun
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "ui grid mobile only home-navbar");
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "mobile only row");
-        var el3 = dom.createTextNode("\n");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("  ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
+        var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]), 1, 1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "ui-dropdown", [], [], 0, null, ["loc", [null, [3, 4], [34, 20]]]]],
+      statements: [["block", "ui-dropdown", [], ["class", "ui fixed fluid navbar grid mobile tablet only row home-navbar"], 0, null, ["loc", [null, [1, 0], [18, 17]]]]],
       locals: [],
       templates: [child0]
     };
@@ -4535,7 +4980,25 @@ define("apem/pods/components/ui-layout/nav-hamburger/template", ["exports"], fun
 define('apem/pods/components/ui-layout/nav-header/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     classNames: ['nav-header'],
-    identity: _ember['default'].inject.service()
+    identity: _ember['default'].inject.service(),
+    router: _ember['default'].inject.service("-routing"),
+
+    //observe changes to the router
+    didInsertElement: function didInsertElement() {
+      var r = this.get("router");
+      r.addObserver("currentRouteName", this, "onRouteChange");
+    },
+
+    //when the router is in opportunity.detail - hide the new NAO button
+    "onRouteChange": function onRouteChange(router) {
+      var newNAObtn = _ember['default'].$('.new-nao-btn');
+      // console.log("Current route", router.get("currentRouteName"));
+      if (router.get("currentRouteName") === 'opportunities.opportunity.detail') {
+        newNAObtn.addClass('hidden');
+      } else {
+        newNAObtn.removeClass('hidden');
+      }
+    }
   });
 });
 define("apem/pods/components/ui-layout/nav-header/template", ["exports"], function (exports) {
@@ -4547,12 +5010,12 @@ define("apem/pods/components/ui-layout/nav-header/template", ["exports"], functi
           "loc": {
             "source": null,
             "start": {
-              "line": 8,
-              "column": 6
+              "line": 7,
+              "column": 4
             },
             "end": {
-              "line": 8,
-              "column": 94
+              "line": 7,
+              "column": 92
             }
           },
           "moduleName": "apem/pods/components/ui-layout/nav-header/template.hbs"
@@ -4578,6 +5041,98 @@ define("apem/pods/components/ui-layout/nav-header/template", ["exports"], functi
         templates: []
       };
     })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 11,
+              "column": 4
+            },
+            "end": {
+              "line": 20,
+              "column": 4
+            }
+          },
+          "moduleName": "apem/pods/components/ui-layout/nav-header/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment(" <div class=\"ui simple dropdown\"> ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n        Welcome, ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("i");
+          dom.setAttribute(el1, "class", "ellipsis large vertical icon");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "menu full-width");
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("a");
+          dom.setAttribute(el2, "href", "/dashboard");
+          dom.setAttribute(el2, "class", "item");
+          dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          var el3 = dom.createElement("i");
+          dom.setAttribute(el3, "class", "big home icon");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode(" Home");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("a");
+          dom.setAttribute(el2, "class", "item");
+          dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          var el3 = dom.createElement("i");
+          dom.setAttribute(el3, "class", "big info circle icon");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode(" Help");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("a");
+          dom.setAttribute(el2, "href", "/logout");
+          dom.setAttribute(el2, "class", "item");
+          dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          var el3 = dom.createElement("i");
+          dom.setAttribute(el3, "class", "big fa-sign-out icon");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode(" Logout");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n    ");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+          return morphs;
+        },
+        statements: [["content", "identity.profile.username", ["loc", [null, [13, 17], [13, 46]]], 0, 0, 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
     return {
       meta: {
         "revision": "Ember@2.7.0",
@@ -4588,7 +5143,7 @@ define("apem/pods/components/ui-layout/nav-header/template", ["exports"], functi
             "column": 0
           },
           "end": {
-            "line": 27,
+            "line": 23,
             "column": 0
           }
         },
@@ -4601,101 +5156,38 @@ define("apem/pods/components/ui-layout/nav-header/template", ["exports"], functi
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "ui attached stackable menu");
+        dom.setAttribute(el1, "class", "ui stackable menu nav-header-menu");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "ui container");
+        dom.setAttribute(el2, "class", "vertically fitted item");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "item");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
+        var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n    ");
+        var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "center item");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "right item");
-        var el4 = dom.createTextNode("\n      Welcome, ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "item new-nao-btn");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createComment(" <div class=\"right item\">\n      Last Logged In: {{moment-format identity.profile.lastLogin 'MMMM Do, YYYY'}}\n    </div> ");
+        var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
+        var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "ui simple dropdown right item");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("i");
-        dom.setAttribute(el4, "class", "ellipsis vertical icon");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "menu");
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("a");
-        dom.setAttribute(el5, "href", "/logout");
-        dom.setAttribute(el5, "class", "item");
-        dom.setAttribute(el5, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-        var el6 = dom.createElement("i");
-        dom.setAttribute(el6, "class", "edit icon");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode(" Logout");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("a");
-        dom.setAttribute(el5, "href", "/dashboard");
-        dom.setAttribute(el5, "class", "item");
-        dom.setAttribute(el5, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-        var el6 = dom.createElement("i");
-        dom.setAttribute(el6, "class", "globe icon");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode(" Home");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("a");
-        dom.setAttribute(el5, "class", "item");
-        dom.setAttribute(el5, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-        var el6 = dom.createElement("i");
-        dom.setAttribute(el6, "class", "settings icon");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode(" Help");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "right item");
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment(" </div> ");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
@@ -4708,16 +5200,16 @@ define("apem/pods/components/ui-layout/nav-header/template", ["exports"], functi
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0, 1]);
+        var element0 = dom.childAt(fragment, [0]);
         var morphs = new Array(3);
         morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
         morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
         morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "bread-crumbs", [], ["tagName", "ul", "outputStyle", "foundation", "linkable", false, "crumbClass", "breadcrumb-item"], ["loc", [null, [4, 6], [4, 104]]], 0, 0], ["block", "link-to", ["opportunities.new"], ["class", "ui button green"], 0, null, ["loc", [null, [8, 6], [8, 106]]]], ["content", "identity.profile.username", ["loc", [null, [12, 15], [12, 44]]], 0, 0, 0, 0]],
+      statements: [["inline", "bread-crumbs", [], ["tagName", "ul", "outputStyle", "foundation", "linkable", false, "crumbClass", "breadcrumb-item"], ["loc", [null, [3, 4], [3, 102]]], 0, 0], ["block", "link-to", ["opportunities.new"], ["class", "ui button green"], 0, null, ["loc", [null, [7, 4], [7, 104]]]], ["block", "ui-dropdown", [], ["class", "ui simple dropdown secondary-header-dropdown-item"], 1, null, ["loc", [null, [11, 4], [20, 20]]]]],
       locals: [],
-      templates: [child0]
+      templates: [child0, child1]
     };
   })());
 });
@@ -4889,11 +5381,11 @@ define("apem/pods/components/ui-layout/nav-sidebar/template", ["exports"], funct
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "vertical menu visible home-sidebar ember-view ui sidebar left");
+        dom.setAttribute(el1, "class", "ui vertical menu visible home-sidebar ember-view sidebar left");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "square-logo-wrapper");
+        dom.setAttribute(el2, "class", "logo-wrapper");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("img");
@@ -4929,13 +5421,7 @@ define("apem/pods/components/ui-layout/nav-sidebar/template", ["exports"], funct
         dom.setAttribute(el2, "class", "menu");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("a");
-        dom.setAttribute(el3, "class", "item side-nav-item");
-        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-        var el4 = dom.createTextNode("Manage Password");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment(" {{#link-to \"home\" class=\"item\"}}Manage Password{{/link-to}} ");
+        var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
@@ -4950,11 +5436,13 @@ define("apem/pods/components/ui-layout/nav-sidebar/template", ["exports"], funct
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 13, 13);
+        var element1 = dom.childAt(fragment, [0]);
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(dom.childAt(element1, [11]), 1, 1);
+        morphs[1] = dom.createMorphAt(element1, 13, 13);
         return morphs;
       },
-      statements: [["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [15, 18], [15, 39]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [15, 8], [15, 48]]], 0, 0]], [], 0, null, ["loc", [null, [15, 2], [22, 9]]]]],
+      statements: [["content", "manage-password", ["loc", [null, [12, 4], [12, 23]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [15, 18], [15, 39]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [15, 8], [15, 48]]], 0, 0]], [], 0, null, ["loc", [null, [15, 2], [22, 9]]]]],
       locals: [],
       templates: [child0]
     };
@@ -5965,7 +6453,7 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "clss", "three column row");
+        dom.setAttribute(el1, "clss", "top attached ui menu");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
@@ -6036,7 +6524,7 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
         morphs[7] = dom.createMorphAt(fragment, 6, 6, contextualElement);
         return morphs;
       },
-      statements: [["attribute", "class", ["concat", ["ui labeled icon button white-button ", ["subexpr", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [3, 70], [3, 81]]], 0, 0, 0, 0], "grid"], [], ["loc", [null, [3, 60], [3, 89]]], 0, 0], "active"], [], ["loc", [null, [3, 55], [3, 100]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["showGridView"], [], ["loc", [null, [3, 102], [3, 127]]], 0, 0], ["attribute", "class", ["concat", ["ui labeled icon button white-button ", ["subexpr", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [6, 70], [6, 81]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [6, 60], [6, 89]]], 0, 0], "active"], [], ["loc", [null, [6, 55], [6, 100]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["showListView"], [], ["loc", [null, [6, 102], [6, 127]]], 0, 0], ["inline", "adv-search", [], ["class", "column inline-block "], ["loc", [null, [11, 2], [11, 45]]], 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [15, 16], [15, 27]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [15, 6], [15, 35]]], 0, 0]], [], 0, null, ["loc", [null, [15, 0], [17, 7]]]], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [19, 16], [19, 27]]], 0, 0, 0, 0], "grid"], [], ["loc", [null, [19, 6], [19, 35]]], 0, 0]], [], 1, null, ["loc", [null, [19, 0], [21, 7]]]], ["content", "outlet", ["loc", [null, [23, 0], [23, 10]]], 0, 0, 0, 0]],
+      statements: [["attribute", "class", ["concat", ["ui labeled icon button white-button ", ["subexpr", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [3, 70], [3, 81]]], 0, 0, 0, 0], "grid"], [], ["loc", [null, [3, 60], [3, 89]]], 0, 0], "active"], [], ["loc", [null, [3, 55], [3, 100]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["showGridView"], [], ["loc", [null, [3, 102], [3, 127]]], 0, 0], ["attribute", "class", ["concat", ["ui labeled icon button white-button ", ["subexpr", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [6, 70], [6, 81]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [6, 60], [6, 89]]], 0, 0], "active"], [], ["loc", [null, [6, 55], [6, 100]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["showListView"], [], ["loc", [null, [6, 102], [6, 127]]], 0, 0], ["inline", "adv-search", [], ["class", "column inline-block center aligned"], ["loc", [null, [11, 2], [11, 59]]], 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [15, 16], [15, 27]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [15, 6], [15, 35]]], 0, 0]], [], 0, null, ["loc", [null, [15, 0], [17, 7]]]], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [19, 16], [19, 27]]], 0, 0, 0, 0], "grid"], [], ["loc", [null, [19, 6], [19, 35]]], 0, 0]], [], 1, null, ["loc", [null, [19, 0], [21, 7]]]], ["content", "outlet", ["loc", [null, [23, 0], [23, 10]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0, child1]
     };
@@ -6127,12 +6615,6 @@ define('apem/pods/opportunities/opportunity/controller', ['exports', 'ember'], f
     }
   });
 });
-define('apem/pods/opportunities/opportunity/detail/controller', ['exports', 'ember', 'ember-group-by'], function (exports, _ember, _emberGroupBy) {
-  exports['default'] = _ember['default'].Controller.extend({
-    //used addon ember-group-by to group our fields array by model attr group.
-    fieldsByGroup: (0, _emberGroupBy['default'])('fields', 'group')
-  });
-});
 define('apem/pods/opportunities/opportunity/detail/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     breadCrumb: null,
@@ -6140,6 +6622,12 @@ define('apem/pods/opportunities/opportunity/detail/route', ['exports', 'ember'],
     setupController: function setupController(controller, model) {
       controller.set('model', model);
       controller.set('fields', this.store.findAll('field'));
+    },
+
+    actions: {
+      onOptSave: function onOptSave() {
+        this.transitionTo('opportunities');
+      }
     }
   });
 });
@@ -6155,7 +6643,7 @@ define("apem/pods/opportunities/opportunity/detail/template", ["exports"], funct
             "column": 0
           },
           "end": {
-            "line": 13,
+            "line": 11,
             "column": 0
           }
         },
@@ -6169,10 +6657,6 @@ define("apem/pods/opportunities/opportunity/detail/template", ["exports"], funct
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
         dom.setAttribute(el1, "class", "ui content");
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment(" <h3 class=\"subtitle\">View/Edit Opportunity</h3>\n  <br> ");
-        dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
@@ -6205,11 +6689,11 @@ define("apem/pods/opportunities/opportunity/detail/template", ["exports"], funct
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [0]);
         var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
+        morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [6, 29], [6, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [6, 6], [6, 43]]], 0, 0], ["inline", "opportunities/opt-form", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [10, 35], [10, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "fields", ["subexpr", "@mut", [["get", "fieldsByGroup", ["loc", [null, [10, 48], [10, 61]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [10, 4], [10, 63]]], 0, 0]],
+      statements: [["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [4, 29], [4, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [4, 6], [4, 43]]], 0, 0], ["inline", "opportunities/opt-form", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [8, 35], [8, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "fields", ["subexpr", "@mut", [["get", "fields", ["loc", [null, [8, 48], [8, 54]]], 0, 0, 0, 0]], [], [], 0, 0], "onOptSave", "onOptSave"], ["loc", [null, [8, 4], [8, 78]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -7275,6 +7759,8 @@ define('apem/router', ['exports', 'ember', 'apem/config/environment'], function 
           this.route('page-not-found', { path: '/*wildcard' });
         });
         this.route('new', {});
+        // 404 it is
+        this.route('page-not-found', { path: '/*wildcard' });
       });
 
       /* Fields Routes */
@@ -8110,6 +8596,47 @@ define("apem/templates/components/pl-uploader", ["exports"], function (exports) 
     };
   })());
 });
+define("apem/templates/components/ui-accordion", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "moduleName": "apem/templates/components/ui-accordion.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 28]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
 define("apem/templates/components/ui-checkbox", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
@@ -8122,8 +8649,8 @@ define("apem/templates/components/ui-checkbox", ["exports"], function (exports) 
             "column": 0
           },
           "end": {
-            "line": 3,
-            "column": 0
+            "line": 7,
+            "column": 28
           }
         },
         "moduleName": "apem/templates/components/ui-checkbox.hbs"
@@ -8144,6 +8671,8 @@ define("apem/templates/components/ui-checkbox", ["exports"], function (exports) 
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
@@ -8151,15 +8680,306 @@ define("apem/templates/components/ui-checkbox", ["exports"], function (exports) 
         if (this.cachedFragment) {
           dom.repairClonedNode(element0, [], true);
         }
-        var morphs = new Array(5);
+        var morphs = new Array(7);
         morphs[0] = dom.createAttrMorph(element0, 'type');
         morphs[1] = dom.createAttrMorph(element0, 'name');
-        morphs[2] = dom.createAttrMorph(element0, 'checked');
-        morphs[3] = dom.createAttrMorph(element0, 'data-id');
-        morphs[4] = dom.createMorphAt(dom.childAt(fragment, [2]), 0, 0);
+        morphs[2] = dom.createAttrMorph(element0, 'tabindex');
+        morphs[3] = dom.createAttrMorph(element0, 'checked');
+        morphs[4] = dom.createAttrMorph(element0, 'disabled');
+        morphs[5] = dom.createMorphAt(dom.childAt(fragment, [2]), 0, 0);
+        morphs[6] = dom.createMorphAt(fragment, 4, 4, contextualElement);
+        dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["attribute", "type", ["get", "type", ["loc", [null, [1, 14], [1, 18]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "name", ["get", "name", ["loc", [null, [1, 28], [1, 32]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "checked", ["get", "checked", ["loc", [null, [1, 45], [1, 52]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "data-id", ["get", "data-id", ["loc", [null, [1, 65], [1, 72]]], 0, 0, 0, 0], 0, 0, 0, 0], ["content", "label", ["loc", [null, [2, 7], [2, 16]]], 0, 0, 0, 0]],
+      statements: [["attribute", "type", ["get", "type", ["loc", [null, [1, 14], [1, 18]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "name", ["get", "name", ["loc", [null, [2, 14], [2, 18]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "tabindex", ["get", "tabindex", ["loc", [null, [3, 18], [3, 26]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "checked", ["subexpr", "unbound", [["get", "checked", ["loc", [null, [4, 25], [4, 32]]], 0, 0, 0, 0]], [], ["loc", [null, [null, null], [4, 34]]], 0, 0], 0, 0, 0, 0], ["attribute", "disabled", ["subexpr", "unbound", [["get", "disabled", ["loc", [null, [5, 26], [5, 34]]], 0, 0, 0, 0]], [], ["loc", [null, [null, null], [5, 36]]], 0, 0], 0, 0, 0, 0], ["content", "label", ["loc", [null, [6, 7], [6, 16]]], 0, 0, 0, 0], ["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [7, 8], [7, 26]]], 0, 0]], [], ["loc", [null, [7, 0], [7, 28]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/templates/components/ui-dimmer", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
+        "moduleName": "apem/templates/components/ui-dimmer.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 28]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/templates/components/ui-dropdown", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 47
+          }
+        },
+        "moduleName": "apem/templates/components/ui-dropdown.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0], ["subexpr", "action", ["mapping"], [], ["loc", [null, [1, 27], [1, 45]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 47]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/templates/components/ui-embed", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "moduleName": "apem/templates/components/ui-embed.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 28]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/templates/components/ui-modal", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "moduleName": "apem/templates/components/ui-modal.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 28]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/templates/components/ui-nag", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "moduleName": "apem/templates/components/ui-nag.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 28]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/templates/components/ui-popup", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "moduleName": "apem/templates/components/ui-popup.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 28]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/templates/components/ui-progress", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "moduleName": "apem/templates/components/ui-progress.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 28]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -8177,8 +8997,8 @@ define("apem/templates/components/ui-radio", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 3,
-            "column": 0
+            "line": 7,
+            "column": 28
           }
         },
         "moduleName": "apem/templates/components/ui-radio.hbs"
@@ -8199,6 +9019,8 @@ define("apem/templates/components/ui-radio", ["exports"], function (exports) {
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
@@ -8206,16 +9028,223 @@ define("apem/templates/components/ui-radio", ["exports"], function (exports) {
         if (this.cachedFragment) {
           dom.repairClonedNode(element0, [], true);
         }
-        var morphs = new Array(6);
+        var morphs = new Array(7);
         morphs[0] = dom.createAttrMorph(element0, 'type');
         morphs[1] = dom.createAttrMorph(element0, 'name');
-        morphs[2] = dom.createAttrMorph(element0, 'checked');
-        morphs[3] = dom.createAttrMorph(element0, 'disabled');
-        morphs[4] = dom.createAttrMorph(element0, 'data-id');
+        morphs[2] = dom.createAttrMorph(element0, 'tabindex');
+        morphs[3] = dom.createAttrMorph(element0, 'checked');
+        morphs[4] = dom.createAttrMorph(element0, 'disabled');
         morphs[5] = dom.createMorphAt(dom.childAt(fragment, [2]), 0, 0);
+        morphs[6] = dom.createMorphAt(fragment, 4, 4, contextualElement);
+        dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["attribute", "type", ["get", "type", ["loc", [null, [1, 14], [1, 18]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "name", ["get", "name", ["loc", [null, [1, 28], [1, 32]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "checked", ["get", "checked", ["loc", [null, [1, 45], [1, 52]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "disabled", ["get", "readonly", ["loc", [null, [1, 66], [1, 74]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "data-id", ["get", "data-id", ["loc", [null, [1, 87], [1, 94]]], 0, 0, 0, 0], 0, 0, 0, 0], ["content", "label", ["loc", [null, [2, 7], [2, 16]]], 0, 0, 0, 0]],
+      statements: [["attribute", "type", ["get", "type", ["loc", [null, [1, 14], [1, 18]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "name", ["get", "name", ["loc", [null, [2, 14], [2, 18]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "tabindex", ["get", "tabindex", ["loc", [null, [3, 18], [3, 26]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "checked", ["subexpr", "unbound", [["get", "checked", ["loc", [null, [4, 25], [4, 32]]], 0, 0, 0, 0]], [], ["loc", [null, [null, null], [4, 34]]], 0, 0], 0, 0, 0, 0], ["attribute", "disabled", ["subexpr", "unbound", [["get", "disabled", ["loc", [null, [5, 26], [5, 34]]], 0, 0, 0, 0]], [], ["loc", [null, [null, null], [5, 36]]], 0, 0], 0, 0, 0, 0], ["content", "label", ["loc", [null, [6, 7], [6, 16]]], 0, 0, 0, 0], ["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [7, 8], [7, 26]]], 0, 0]], [], ["loc", [null, [7, 0], [7, 28]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/templates/components/ui-rating", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "moduleName": "apem/templates/components/ui-rating.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 28]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/templates/components/ui-search", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "moduleName": "apem/templates/components/ui-search.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 28]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/templates/components/ui-shape", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "moduleName": "apem/templates/components/ui-shape.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 28]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/templates/components/ui-sidebar", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "moduleName": "apem/templates/components/ui-sidebar.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 28]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("apem/templates/components/ui-sticky", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "moduleName": "apem/templates/components/ui-sticky.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "action", ["execute"], [], ["loc", [null, [1, 8], [1, 26]]], 0, 0]], [], ["loc", [null, [1, 0], [1, 28]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -9175,7 +10204,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+3da378bf"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+2199bc3d"});
 }
 
 /* jshint ignore:end */

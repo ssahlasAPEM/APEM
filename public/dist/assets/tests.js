@@ -838,6 +838,146 @@ define('apem/tests/integration/pods/components/custom-date-picker/component-test
     assert.ok(true, 'integration/pods/components/custom-date-picker/component-test.js should pass jshint.');
   });
 });
+define('apem/tests/integration/pods/components/manage-password/component-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForComponent)('manage-password', 'Integration | Component | manage password', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template((function () {
+      return {
+        meta: {
+          'revision': 'Ember@2.7.0',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 1,
+              'column': 19
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [['content', 'manage-password', ['loc', [null, [1, 0], [1, 19]]], 0, 0, 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })()));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template((function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            'revision': 'Ember@2.7.0',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 2,
+                'column': 4
+              },
+              'end': {
+                'line': 4,
+                'column': 4
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode('      template block text\n');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+
+      return {
+        meta: {
+          'revision': 'Ember@2.7.0',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 5,
+              'column': 2
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode('\n');
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode('  ');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [['block', 'manage-password', [], [], 0, null, ['loc', [null, [2, 4], [4, 24]]]]],
+        locals: [],
+        templates: [child0]
+      };
+    })()));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('apem/tests/integration/pods/components/manage-password/component-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - integration/pods/components/manage-password/component-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/manage-password/component-test.js should pass jshint.');
+  });
+});
 define('apem/tests/integration/pods/components/opportunities/opt-form/component-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleForComponent)('opportunities/opt-form', 'Integration | Component | opportunities/opt form', {
@@ -1271,6 +1411,15 @@ define('apem/tests/pods/components/hover-edit-field/component.jshint', ['exports
     assert.ok(true, 'pods/components/hover-edit-field/component.js should pass jshint.');
   });
 });
+define('apem/tests/pods/components/manage-password/component.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - pods/components/manage-password/component.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'pods/components/manage-password/component.js should pass jshint.\npods/components/manage-password/component.js: line 17, col 13, \'error\' is defined but never used.\n\n1 error');
+  });
+});
 define('apem/tests/pods/components/new-user/component.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -1304,7 +1453,7 @@ define('apem/tests/pods/components/opportunities/stage-step/component.jshint', [
   QUnit.module('JSHint - pods/components/opportunities/stage-step/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/components/opportunities/stage-step/component.js should pass jshint.\npods/components/opportunities/stage-step/component.js: line 29, col 27, \'index\' is defined but never used.\n\n1 error');
+    assert.ok(false, 'pods/components/opportunities/stage-step/component.js should pass jshint.\npods/components/opportunities/stage-step/component.js: line 25, col 27, \'index\' is defined but never used.\n\n1 error');
   });
 });
 define('apem/tests/pods/components/ui-form/ui-checkbox/component.jshint', ['exports'], function (exports) {
@@ -1449,15 +1598,6 @@ define('apem/tests/pods/opportunities/opportunity/controller.jshint', ['exports'
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'pods/opportunities/opportunity/controller.js should pass jshint.');
-  });
-});
-define('apem/tests/pods/opportunities/opportunity/detail/controller.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint - pods/opportunities/opportunity/detail/controller.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'pods/opportunities/opportunity/detail/controller.js should pass jshint.');
   });
 });
 define('apem/tests/pods/opportunities/opportunity/detail/route.jshint', ['exports'], function (exports) {
