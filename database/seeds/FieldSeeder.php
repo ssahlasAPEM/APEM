@@ -172,10 +172,26 @@ class FieldSeeder extends Seeder
                 'type'     => 'dropdown',
                 'group'    => 'Sales Channel',
                 'value'    => null,
-                'options'  => null,
+                'options'  => json_encode([
+                    '',
+                    'Telecom',
+                    'Computers & Peripherals',
+                    'Medical',
+                    'Instrumentation',
+                    'Security',
+                    'Industrial',
+                    'Consumer',
+                    'Transportation (non-auto)',
+                    'Automotive',
+                    'Off-road',
+                    'Appliance',
+                    'Marine',
+                    'Mil/Aero'
+                ]),
                 'required' => true,
                 'visible'  => true
             ],
+
             [
                 'label'    => 'Application',
                 'name'     => 'application',
@@ -192,7 +208,14 @@ class FieldSeeder extends Seeder
                 'type'     => 'dropdown',
                 'group'    => 'Sales Channel',
                 'value'    => null,
-                'options'  => null,
+                'options'  => json_encode([
+                    'Delivery Issues',
+                    'New Program',
+                    'Price Reduction',
+                    'Quality Issues',
+                    'Vendor Reduction',
+                    'Other'
+                ]),
                 'required' => true,
                 'visible'  => true
             ],

@@ -21,6 +21,32 @@ class OpportunitySeeder extends Seeder
 
         DB::table('opportunities')->delete();
 
+        $industries = [
+            '',
+            'Telecom',
+            'Computers & Peripherals',
+            'Medical',
+            'Instrumentation',
+            'Security',
+            'Industrial',
+            'Consumer',
+            'Transportation (non-auto)',
+            'Automotive',
+            'Off-road',
+            'Appliance',
+            'Marine',
+            'Mil/Aero'
+        ];
+
+        $reasonForOpp = [
+            'Delivery Issues',
+            'New Program',
+            'Price Reduction',
+            'Quality Issues',
+            'Vendor Reduction',
+            'Other'
+        ];
+
         for ($i = 0; $i < $numOpps; $i ++) {
             $newOpp                          = new \app\Models\Opportunity();
             $newOpp->user_id                 = $faker->numberBetween($min = 1, $max = 4);
@@ -41,9 +67,9 @@ class OpportunitySeeder extends Seeder
             $newOpp->apem_sales_person       = $faker->name;
             $newOpp->sra_sales_rep           = $faker->name;
             $newOpp->distributor_salesperson = $faker->name;
-            $newOpp->industry                = $faker->word;
+            $newOpp->industry                = $industries[array_rand($industries)];
             $newOpp->application             = $faker->word;
-            $newOpp->reason_for_opp          = $faker->word;
+            $newOpp->reason_for_opp          = $reasonForOpp[array_rand($reasonForOpp)];
             $newOpp->function                = $faker->word;
             $newOpp->catalog_product         = $faker->word;
             $newOpp->catalog_part_num        = $faker->randomNumber(null);
