@@ -1417,7 +1417,7 @@ define('apem/tests/pods/components/manage-password/component.jshint', ['exports'
   QUnit.module('JSHint - pods/components/manage-password/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/components/manage-password/component.js should pass jshint.\npods/components/manage-password/component.js: line 17, col 13, \'error\' is defined but never used.\n\n1 error');
+    assert.ok(true, 'pods/components/manage-password/component.js should pass jshint.');
   });
 });
 define('apem/tests/pods/components/new-user/component.jshint', ['exports'], function (exports) {
@@ -1453,7 +1453,7 @@ define('apem/tests/pods/components/opportunities/stage-step/component.jshint', [
   QUnit.module('JSHint - pods/components/opportunities/stage-step/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/components/opportunities/stage-step/component.js should pass jshint.\npods/components/opportunities/stage-step/component.js: line 25, col 27, \'index\' is defined but never used.\n\n1 error');
+    assert.ok(true, 'pods/components/opportunities/stage-step/component.js should pass jshint.');
   });
 });
 define('apem/tests/pods/components/ui-form/ui-checkbox/component.jshint', ['exports'], function (exports) {

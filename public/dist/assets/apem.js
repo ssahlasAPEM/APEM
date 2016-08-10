@@ -1108,22 +1108,8 @@ define('apem/models/profile', ['exports', 'ember-data'], function (exports, _emb
     lastLogin: _emberData['default'].attr('string', { defaultValue: null })
   });
 });
-define('apem/models/user', ['exports', 'ember-data', 'ember-cp-validations'], function (exports, _emberData, _emberCpValidations) {
-  var Validations = (0, _emberCpValidations.buildValidations)({
-    username: [(0, _emberCpValidations.validator)('presence', true), (0, _emberCpValidations.validator)('length', {
-      min: 4
-    })],
-    password: [(0, _emberCpValidations.validator)('presence', true), (0, _emberCpValidations.validator)('length', {
-      min: 4
-    })],
-    passwordVerify: [(0, _emberCpValidations.validator)('presence', true), (0, _emberCpValidations.validator)('confirmation', {
-      on: 'password',
-      message: '{description} do not match',
-      description: 'Passwords'
-    })]
-  });
-
-  exports['default'] = _emberData['default'].Model.extend(Validations, {
+define('apem/models/user', ['exports', 'ember-data'], function (exports, _emberData) {
+  exports['default'] = _emberData['default'].Model.extend({
     opportunities: _emberData['default'].hasMany('opportunity'),
 
     createdAt: _emberData['default'].attr('string', { defaultValue: null }),
@@ -2651,7 +2637,9 @@ define('apem/pods/components/manage-password/component', ['exports', 'ember'], f
         var thisUserId = this.get('identity').get('profile').get('id');
         this.get('store').findRecord('user', thisUserId).then(function (data) {
           _this.set('sessionUser', data);
-        }, function (error) {});
+        }, function (error) {
+          console.log(error);
+        });
 
         _ember['default'].$('.manage-password-pop').modal({
           blurring: true
@@ -2908,10 +2896,6 @@ define("apem/pods/components/new-user/component", ["exports", "ember"], function
         }).modal('setting', 'closable', false).modal('show');
       },
 
-      selectUserType: function selectUserType(type) {
-        this.get('model').set('type', type);
-      },
-
       createUser: function createUser() {
         // Create the user
         var user = this.get('model');
@@ -3066,7 +3050,7 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
               "column": 0
             },
             "end": {
-              "line": 44,
+              "line": 47,
               "column": 0
             }
           },
@@ -3171,6 +3155,10 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
           var el2 = dom.createTextNode("\n  ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment(" SERVER ERRORS ");
+          dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n  ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
@@ -3182,7 +3170,7 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
           var el2 = dom.createTextNode("\n  ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n  ");
+          var el1 = dom.createTextNode("\n\n  ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
           dom.setAttribute(el1, "class", "actions");
@@ -3217,7 +3205,7 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element1 = dom.childAt(fragment, [3, 1]);
-          var element2 = dom.childAt(fragment, [7]);
+          var element2 = dom.childAt(fragment, [9]);
           var element3 = dom.childAt(element2, [1]);
           var element4 = dom.childAt(element2, [3]);
           var morphs = new Array(7);
@@ -3225,12 +3213,12 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
           morphs[1] = dom.createMorphAt(dom.childAt(element1, [3]), 3, 3);
           morphs[2] = dom.createMorphAt(dom.childAt(element1, [5]), 3, 3);
           morphs[3] = dom.createMorphAt(dom.childAt(element1, [7]), 3, 3);
-          morphs[4] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
+          morphs[4] = dom.createMorphAt(dom.childAt(fragment, [7]), 1, 1);
           morphs[5] = dom.createElementMorph(element3);
           morphs[6] = dom.createElementMorph(element4);
           return morphs;
         },
-        statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "model.username", ["loc", [null, [11, 21], [11, 35]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "@mut", [["get", "model.username", ["loc", [null, [11, 42], [11, 56]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "text"], ["loc", [null, [11, 8], [11, 70]]], 0, 0], ["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "model.password", ["loc", [null, [15, 21], [15, 35]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "@mut", [["get", "model.password", ["loc", [null, [15, 42], [15, 56]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "text"], ["loc", [null, [15, 8], [15, 70]]], 0, 0], ["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "model.passConfirm", ["loc", [null, [19, 21], [19, 38]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "@mut", [["get", "model.passwordVerify", ["loc", [null, [19, 45], [19, 65]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "text"], ["loc", [null, [19, 8], [19, 79]]], 0, 0], ["block", "ui-dropdown", [], ["class", "search selection", "allowAdditions", false, "selected", ["subexpr", "@mut", [["get", "model.type", ["loc", [null, [23, 78], [23, 88]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "selectUserType", ["loc", [null, [23, 111], [23, 125]]], 0, 0, 0, 0]], [], ["loc", [null, [23, 106], [23, 126]]], 0, 0]], [], ["loc", [null, [23, 98], [23, 127]]], 0, 0]], 0, null, ["loc", [null, [23, 8], [33, 24]]]], ["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [38, 29], [38, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [38, 6], [38, 43]]], 0, 0], ["element", "action", ["createUser"], [], ["loc", [null, [41, 47], [41, 70]]], 0, 0], ["element", "action", ["cancelModal"], [], ["loc", [null, [42, 41], [42, 65]]], 0, 0]],
+        statements: [["inline", "input", [], ["name", "username", "value", ["subexpr", "@mut", [["get", "model.username", ["loc", [null, [11, 38], [11, 52]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control", "required", true], ["loc", [null, [11, 8], [11, 89]]], 0, 0], ["inline", "input", [], ["name", "password", "value", ["subexpr", "@mut", [["get", "model.password", ["loc", [null, [15, 38], [15, 52]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "password", "class", "form-control", "required", true], ["loc", [null, [15, 8], [15, 105]]], 0, 0], ["inline", "input", [], ["name", "passwordVerify", "value", ["subexpr", "@mut", [["get", "model.passwordVerify", ["loc", [null, [19, 44], [19, 64]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "password", "class", "form-control", "required", true], ["loc", [null, [19, 8], [19, 117]]], 0, 0], ["block", "ui-dropdown", [], ["class", "search selection", "allowAdditions", false, "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.type", ["loc", [null, [23, 91], [23, 101]]], 0, 0, 0, 0]], [], ["loc", [null, [23, 86], [23, 102]]], 0, 0]], [], ["loc", [null, [23, 78], [23, 103]]], 0, 0]], 0, null, ["loc", [null, [23, 8], [33, 24]]]], ["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [40, 29], [40, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [40, 6], [40, 43]]], 0, 0], ["element", "action", ["createUser"], [], ["loc", [null, [44, 47], [44, 70]]], 0, 0], ["element", "action", ["cancelModal"], [], ["loc", [null, [45, 41], [45, 65]]], 0, 0]],
         locals: [],
         templates: [child0]
       };
@@ -3245,7 +3233,7 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
             "column": 0
           },
           "end": {
-            "line": 46,
+            "line": 49,
             "column": 0
           }
         },
@@ -3286,7 +3274,7 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
         morphs[2] = dom.createMorphAt(fragment, 3, 3, contextualElement);
         return morphs;
       },
-      statements: [["element", "action", ["openModal"], [], ["loc", [null, [1, 69], [1, 91]]], 0, 0], ["block", "ui-modal", [], ["name", "user-invite-form", "class", "modal new-user-pop"], 0, null, ["loc", [null, [5, 0], [44, 13]]]], ["content", "yield", ["loc", [null, [45, 0], [45, 9]]], 0, 0, 0, 0]],
+      statements: [["element", "action", ["openModal"], [], ["loc", [null, [1, 69], [1, 91]]], 0, 0], ["block", "ui-modal", [], ["name", "user-invite-form", "class", "modal new-user-pop"], 0, null, ["loc", [null, [5, 0], [47, 13]]]], ["content", "yield", ["loc", [null, [48, 0], [48, 9]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -3932,7 +3920,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                 dom.insertBoundary(fragment, null);
                 return morphs;
               },
-              statements: [["block", "ui-dropdown", [], ["class", "fluid selection", "selected", ["subexpr", "@mut", [["get", "field.value", ["loc", [null, [39, 62], [39, 73]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "field.value", ["loc", [null, [39, 96], [39, 107]]], 0, 0, 0, 0]], [], ["loc", [null, [39, 91], [39, 108]]], 0, 0]], [], ["loc", [null, [39, 83], [39, 109]]], 0, 0]], 0, null, ["loc", [null, [39, 14], [49, 30]]]]],
+              statements: [["block", "ui-dropdown", [], ["class", "fluid selection", "selected", ["subexpr", "@mut", [["get", "field.value", ["loc", [null, [39, 62], [39, 73]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "field.value", ["loc", [null, [39, 96], [39, 107]]], 0, 0, 0, 0]], [], ["loc", [null, [39, 91], [39, 108]]], 0, 0]], [], ["loc", [null, [39, 83], [39, 109]]], 0, 0], "required", ["subexpr", "@mut", [["get", "field.required", ["loc", [null, [39, 119], [39, 133]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [39, 14], [49, 30]]]]],
               locals: [],
               templates: [child0]
             };
@@ -3973,7 +3961,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                 morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                 return morphs;
               },
-              statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "field.name", ["loc", [null, [51, 27], [51, 37]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "mut", [["subexpr", "get", [["get", "model", ["loc", [null, [51, 54], [51, 59]]], 0, 0, 0, 0], ["get", "field.name", ["loc", [null, [51, 60], [51, 70]]], 0, 0, 0, 0]], [], ["loc", [null, [51, 49], [51, 71]]], 0, 0]], [], ["loc", [null, [51, 44], [51, 72]]], 0, 0], "type", "text"], ["loc", [null, [51, 14], [51, 86]]], 0, 0]],
+              statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "field.name", ["loc", [null, [51, 27], [51, 37]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "mut", [["subexpr", "get", [["get", "model", ["loc", [null, [51, 54], [51, 59]]], 0, 0, 0, 0], ["get", "field.name", ["loc", [null, [51, 60], [51, 70]]], 0, 0, 0, 0]], [], ["loc", [null, [51, 49], [51, 71]]], 0, 0]], [], ["loc", [null, [51, 44], [51, 72]]], 0, 0], "type", "text", "required", ["subexpr", "@mut", [["get", "field.required", ["loc", [null, [51, 94], [51, 108]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [51, 14], [51, 110]]], 0, 0]],
               locals: [],
               templates: []
             };
@@ -4336,7 +4324,7 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
       var selectedStepId = this.stageSteps.findBy('label', this.opt.get('stage')).id;
       var sSteps = this.stageSteps;
       // debugger;
-      sSteps.forEach(function (item, index) {
+      sSteps.forEach(function (item) {
         // console.log(`${item}`);
         if (item.id === selectedStepId) {
           // show step as active
@@ -5080,7 +5068,7 @@ define("apem/pods/components/ui-layout/nav-header/template", ["exports"], functi
           var el1 = dom.createTextNode("\n      ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
-          dom.setAttribute(el1, "class", "menu full-width");
+          dom.setAttribute(el1, "class", "menu full-width top-z-index");
           var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("a");
@@ -5755,7 +5743,7 @@ define("apem/pods/components/users/usr-table/template", ["exports"], function (e
             "column": 0
           },
           "end": {
-            "line": 64,
+            "line": 62,
             "column": 0
           }
         },
@@ -5838,11 +5826,7 @@ define("apem/pods/components/users/usr-table/template", ["exports"], function (e
         dom.appendChild(el4, el5);
         var el5 = dom.createComment("");
         dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment(" {{#link-to 'users.new' tagName='div' class=\"ui right floated small button green sm-margin-btn\" activeClass=\"\"}}\n          <i class=\"plus icon\"></i>New User\n        {{/link-to}} ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
+        var el5 = dom.createTextNode("\n        \n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createComment("");
         dom.appendChild(el4, el5);
@@ -5868,10 +5852,10 @@ define("apem/pods/components/users/usr-table/template", ["exports"], function (e
         var morphs = new Array(3);
         morphs[0] = dom.createMorphAt(dom.childAt(element1, [3]), 1, 1);
         morphs[1] = dom.createMorphAt(element2, 1, 1);
-        morphs[2] = dom.createMorphAt(element2, 5, 5);
+        morphs[2] = dom.createMorphAt(element2, 3, 3);
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [15, 12], [15, 17]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [15, 4], [44, 13]]]], ["inline", "new-user", [], ["onCreate", ["subexpr", "action", ["didCreateUser"], [], ["loc", [null, [52, 28], [52, 52]]], 0, 0]], ["loc", [null, [52, 8], [52, 54]]], 0, 0], ["inline", "confirm-delete", [], ["isDisabled", ["subexpr", "@mut", [["get", "disableDelete", ["loc", [null, [56, 36], [56, 49]]], 0, 0, 0, 0]], [], [], 0, 0], "deletableRecords", ["subexpr", "@mut", [["get", "selectedItems", ["loc", [null, [56, 67], [56, 80]]], 0, 0, 0, 0]], [], [], 0, 0], "title", "Confirm Delete", "recordType", "user", "message", "The selected users will be deleted. Continue?"], ["loc", [null, [56, 8], [59, 67]]], 0, 0]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [15, 12], [15, 17]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [15, 4], [44, 13]]]], ["inline", "new-user", [], ["onCreate", ["subexpr", "action", ["didCreateUser"], [], ["loc", [null, [52, 28], [52, 52]]], 0, 0]], ["loc", [null, [52, 8], [52, 54]]], 0, 0], ["inline", "confirm-delete", [], ["isDisabled", ["subexpr", "@mut", [["get", "disableDelete", ["loc", [null, [54, 36], [54, 49]]], 0, 0, 0, 0]], [], [], 0, 0], "deletableRecords", ["subexpr", "@mut", [["get", "selectedItems", ["loc", [null, [54, 67], [54, 80]]], 0, 0, 0, 0]], [], [], 0, 0], "title", "Confirm Delete", "recordType", "user", "message", "The selected users will be deleted. Continue?"], ["loc", [null, [54, 8], [57, 67]]], 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -10204,7 +10188,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+2199bc3d"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+dae977a1"});
 }
 
 /* jshint ignore:end */
