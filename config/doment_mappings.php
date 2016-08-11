@@ -89,7 +89,7 @@ return [
             'value'    => ['Value', Flags::READONLY],
             'options'  => ['Options', Flags::JSON|Flags::READONLY],
             'required' => ['Required', Flags::NONE],
-            'visible'  => ['Visible', Flags::READONLY],
+            'visible'  => ['Visible', Flags::NONE],
         ],
 
         'eloquentToDomainEntity' => [
@@ -100,7 +100,7 @@ return [
             'value'    => ['Value', Flags::READONLY],
             'options'  => ['Options', Flags::JSON|Flags::READONLY],
             'required' => ['Required', Flags::NONE],
-            'visible'  => ['Visible', Flags::READONLY],
+            'visible'  => ['Visible', Flags::NONE],
         ],
 
         'objectDiscovery' => [
