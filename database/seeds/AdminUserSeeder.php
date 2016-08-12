@@ -55,6 +55,76 @@ class AdminUserSeeder extends Seeder
                 'password' => 'X9Z2gPd9',
                 'type'     => 'Admin',
                 'active'   => true
+            ],
+
+            [
+                'username' => 'Ennio',
+                'password' => 'ennio',
+                'type'     => 'Admin',
+                'active'   => true
+            ],
+
+            [
+                'username' => 'Peter',
+                'password' => 'peter',
+                'type'     => 'Admin',
+                'active'   => true
+            ],
+
+            [
+                'username' => 'Steve',
+                'password' => 'steve',
+                'type'     => 'Admin',
+                'active'   => true
+            ],
+
+            [
+                'username' => 'EVerderese',
+                'password' => 'victoria',
+                'type'     => 'Admin',
+                'active'   => true
+            ],
+
+            [
+                'username' => 'Ahomonoff',
+                'password' => 'ahomonoff',
+                'type'     => 'User',
+                'active'   => true
+            ],
+
+            [
+                'username' => 'Crobinson',
+                'password' => 'crobinson',
+                'type'     => 'User',
+                'active'   => true
+            ],
+
+            [
+                'username' => 'Mpalmerino',
+                'password' => 'mpalmerino',
+                'type'     => 'User',
+                'active'   => true
+            ],
+
+            [
+                'username' => 'Pbrouillette',
+                'password' => 'pbrouillette',
+                'type'     => 'User',
+                'active'   => true
+            ],
+
+            [
+                'username' => 'Tbillings',
+                'password' => 'tbillings',
+                'type'     => 'User',
+                'active'   => true
+            ],
+
+            [
+                'username' => 'tsolis',
+                'password' => 'switch',
+                'type'     => 'User',
+                'active'   => true
             ]
         ];
 

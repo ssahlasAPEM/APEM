@@ -9,8 +9,12 @@
 
 use app\Core\DomainEntity;
 use app\Core\Shared\TypedCollection;
+use app\Exceptions\ForbiddenException;
 use app\Exceptions\InvalidRequestException;
 use app\Exceptions\ObjectNotFoundException;
+use app\Infrastructure\Repo\Field\FieldCollection;
+use app\Infrastructure\Repo\Opportunity\OpportunityCollection;
+use app\Infrastructure\Repo\User\UserCollection;
 use Illuminate\Database\Eloquent\Model;
 use Log;
 
@@ -169,17 +173,21 @@ abstract class AbstractEloquentMapper extends AbstractMapper
      */
     public function delete($dbId)
     {
-        $entity = $this->getQueryModel()
-            ->where('id', '=', $dbId)
-            ->first();
+        if(Auth::user()->type === 'Admin') {
+            $entity = $this->getQueryModel()
+                ->where('id', '=', $dbId)
+                ->first();
 
-        if (is_null($entity)) {
-            return false;
+            if (is_null($entity)) {
+                return false;
+            }
+
+            $entity->delete();
+
+            return true;
+        } else {
+            throw new ForbiddenException("Not Authorized.");
         }
-
-        $entity->delete();
-
-        return true;
     }
 
     /**
@@ -199,7 +207,7 @@ abstract class AbstractEloquentMapper extends AbstractMapper
     }
 
     /**
-     * @return Repo\Account\AccountCollection|Repo\Contact\ContactCollection
+     * @return OpportunityCollection|UserCollection|FieldCollection
      */
     public function findAll()
     {

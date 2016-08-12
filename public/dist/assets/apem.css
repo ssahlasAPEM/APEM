@@ -31,7 +31,7 @@
 .full-width{
     width: 100% !important;
 }
-.hidden{
+.hide-me{
   display:none !important;
 }
 .loading-indicator{
@@ -139,9 +139,6 @@
 .ui.steps .step.active .title{
   color:black;
 }
-.modal{
-  padding:12px;
-}
 
 .validation-errors {
   background-color: #e74c3c;
@@ -193,6 +190,9 @@
   vertical-align: top;
   border-radius: 0px !important;
   margin-left: -4px !important;
+}
+.menu.adv-search-menu.transition.visible {
+    left: -264px;
 }
 .date-picker-btn{
   padding: 0.7em;

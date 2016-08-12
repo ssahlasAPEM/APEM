@@ -12,6 +12,7 @@ use app\Core\Opportunity\Repository\OpportunityInterface;
 use app\Exceptions\ForbiddenException;
 use app\Exceptions\InvalidRequestException;
 use app\Infrastructure\AbstractEloquentMapper;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class EloquentOpportunityMapper
@@ -33,13 +34,42 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
     public function searchByNamePaginated($limit, $offset, $name)
     {
         $escapedName = str_replace(['%', '_'], ['\%', '\_'], strtolower($name));
-        $result      = $this->getQueryModel()
-            ->whereRaw('LOWER(name) LIKE ?', ['%' . $escapedName . '%'])
-            ->orderBy('id', 'asc')
-            ->paginate($limit);
-        $collection  = $this->getCollection($result->toArray()['data']);
 
+        if(Auth::user()->type !== 'Admin') {
+            $result = $this->getQueryModel()
+                ->where('user_id','=',Auth::user()->id)
+                ->whereRaw('LOWER(name) LIKE ?', ['%' . $escapedName . '%'])
+                ->orderBy('id', 'asc')
+                ->paginate($limit);
+        } else {
+            $result = $this->getQueryModel()
+                ->whereRaw('LOWER(name) LIKE ?', ['%' . $escapedName . '%'])
+                ->orderBy('id', 'asc')
+                ->paginate($limit);
+        }
+
+        $collection  = $this->getCollection($result->toArray()['data']);
         return $this->addMetaInfo($limit, $offset, $result->total(), $collection, ['name' => $name]);
+    }
+
+    /**
+     * Return a 'paginated' collection of DomainEntity objects
+     *
+     * @param      $limit Per-page limit
+     * @param      $page  'Page'
+     *
+     * @return TypedCollection A collection of the DomainEntity objects found
+     * @throws ForbiddenException
+     */
+    public function findAllPaginated($limit, $page)
+    {
+        if(Auth::user()->type !== 'Admin') {
+            $result = $this->getQueryModel()->where('user_id','=',Auth::user()->id)->orderBy('id', 'asc')->paginate($limit);
+            $collection = $this->getCollection($result->toArray()['data']);
+            return $this->addMetaInfo($limit, $page, $result->total(), $collection);
+        }
+
+        return parent::findAllPaginated($limit, $page);
     }
 
     /**
@@ -66,6 +96,20 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         $obj = $this->createObject($newOpportunity->toArray());
 
         return $obj;
+    }
+
+    /**
+     * @return FieldCollection|OpportunityCollection|UserCollection
+     * @throws ForbiddenException
+     */
+    public function findAll()
+    {
+        if(Auth::user()->type !== 'Admin') {
+            $result = $this->getQueryModel()->where('user_id','=',Auth::user()->id)->get();
+
+            return $this->getCollection($result->toArray());
+        }
+        return parent::findall();
     }
 
     /**

@@ -541,7 +541,7 @@ define('apem/helpers/is-equal', ['exports', 'ember'], function (exports, _ember)
     var leftSide = _ref2[0];
     var rightSide = _ref2[1];
 
-    console.log('helper used "is-equal": ' + leftSide + ' ' + rightSide);
+    // console.log('helper used "is-equal": '+ leftSide +' '+rightSide);
     return leftSide === rightSide;
   });
 });
@@ -2209,13 +2209,26 @@ define('apem/pods/components/fields/fld-table/component', ['exports', 'ember'], 
     classNames: ['fld-table'],
     model: null,
 
-    init: function init() {
-      this._super.apply(this, arguments);
-    },
-
     actions: {
-      onVisibleChange: function onVisibleChange() {},
-      onRequiredChange: function onRequiredChange() {}
+      onVisibleChange: function onVisibleChange(record) {
+        //  if visible is unchecked, required is unchecked and disabled
+        if (record.get('visible') === true) {
+          record.set('visible', false);
+          record.set('required', false);
+        } else {
+          record.set('visible', true);
+        }
+        record.save();
+      },
+
+      onRequiredChange: function onRequiredChange(record) {
+        if (record.get('required') === true) {
+          record.set('required', false);
+        } else {
+          record.set('required', true);
+        }
+        record.save();
+      }
     }
   });
 });
@@ -2292,7 +2305,7 @@ define("apem/pods/components/fields/fld-table/template", ["exports"], function (
           morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
           return morphs;
         },
-        statements: [["content", "fld.label", ["loc", [null, [16, 10], [16, 23]]], 0, 0, 0, 0], ["inline", "input", [], ["type", "checkbox", "class", "", "checked", ["subexpr", "@mut", [["get", "fld.visible", ["loc", [null, [19, 51], [19, 62]]], 0, 0, 0, 0]], [], [], 0, 0], "change", ["subexpr", "action", ["onVisibleChange"], [], ["loc", [null, [19, 70], [19, 96]]], 0, 0]], ["loc", [null, [19, 10], [19, 98]]], 0, 0], ["inline", "input", [], ["type", "checkbox", "class", "", "checked", ["subexpr", "@mut", [["get", "fld.required", ["loc", [null, [22, 51], [22, 63]]], 0, 0, 0, 0]], [], [], 0, 0], "change", ["subexpr", "action", ["onRequiredChange"], [], ["loc", [null, [22, 71], [22, 98]]], 0, 0]], ["loc", [null, [22, 10], [22, 100]]], 0, 0]],
+        statements: [["content", "fld.label", ["loc", [null, [16, 10], [16, 23]]], 0, 0, 0, 0], ["inline", "input", [], ["type", "checkbox", "class", "", "checked", ["subexpr", "@mut", [["get", "fld.visible", ["loc", [null, [19, 51], [19, 62]]], 0, 0, 0, 0]], [], [], 0, 0], "change", ["subexpr", "action", ["onVisibleChange", ["get", "fld", ["loc", [null, [19, 96], [19, 99]]], 0, 0, 0, 0]], [], ["loc", [null, [19, 70], [19, 100]]], 0, 0]], ["loc", [null, [19, 10], [19, 102]]], 0, 0], ["inline", "input", [], ["type", "checkbox", "class", "", "checked", ["subexpr", "mut", [["get", "fld.required", ["loc", [null, [22, 56], [22, 68]]], 0, 0, 0, 0]], [], ["loc", [null, [22, 51], [22, 69]]], 0, 0], "disabled", ["subexpr", "is-equal", [["get", "fld.visible", ["loc", [null, [22, 89], [22, 100]]], 0, 0, 0, 0], false], [], ["loc", [null, [22, 79], [22, 107]]], 0, 0], "change", ["subexpr", "action", ["onRequiredChange", ["get", "fld", ["loc", [null, [22, 142], [22, 145]]], 0, 0, 0, 0]], [], ["loc", [null, [22, 115], [22, 146]]], 0, 0]], ["loc", [null, [22, 10], [22, 148]]], 0, 0]],
         locals: ["fld"],
         templates: []
       };
@@ -2571,7 +2584,7 @@ define("apem/pods/components/hover-edit-field/template", ["exports"], function (
           morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
           return morphs;
         },
-        statements: [["inline", "get", [["subexpr", "get", [["get", "model.validations.attrs", [], 0, 0, 0, 0], ["get", "property", ["loc", [null, [9, 18], [9, 26]]], 0, 0, 0, 0]], [], [], 0, 0], "message"], [], ["loc", [null, [9, 4], [9, 38]]], 0, 0]],
+        statements: [["inline", "v-get", [["get", "model", ["loc", [null, [9, 12], [9, 17]]], 0, 0, 0, 0], ["get", "property", ["loc", [null, [9, 18], [9, 26]]], 0, 0, 0, 0], "message"], [], ["loc", [null, [9, 4], [9, 38]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -2614,7 +2627,7 @@ define("apem/pods/components/hover-edit-field/template", ["exports"], function (
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "if", [["get", "useTextarea", ["loc", [null, [1, 6], [1, 17]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [5, 7]]]], ["block", "if", [["subexpr", "get", [["subexpr", "get", [["get", "model.validations.attrs", [], 0, 0, 0, 0], ["get", "property", ["loc", [null, [7, 19], [7, 27]]], 0, 0, 0, 0]], [], [], 0, 0], "isInvalid"], [], ["loc", [null, [7, 6], [7, 40]]], 0, 0]], [], 2, null, ["loc", [null, [7, 0], [11, 7]]]]],
+      statements: [["block", "if", [["get", "useTextarea", ["loc", [null, [1, 6], [1, 17]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [5, 7]]]], ["block", "if", [["subexpr", "v-get", [["get", "model", ["loc", [null, [7, 13], [7, 18]]], 0, 0, 0, 0], ["get", "property", ["loc", [null, [7, 19], [7, 27]]], 0, 0, 0, 0], "isInvalid"], [], ["loc", [null, [7, 6], [7, 40]]], 0, 0]], [], 2, null, ["loc", [null, [7, 0], [11, 7]]]]],
       locals: [],
       templates: [child0, child1, child2]
     };
@@ -2625,6 +2638,40 @@ define('apem/pods/components/manage-password/component', ['exports', 'ember'], f
     store: _ember['default'].inject.service(),
     identity: _ember['default'].inject.service(),
     sessionUser: null,
+    myModal: null,
+
+    didInsertElement: function didInsertElement() {
+      this._super.apply(this, arguments);
+
+      if (this.myModal === null) {
+        this.set('myModal', _ember['default'].$('#' + this.elementId + ' .manage-password-pop'));
+      }
+      // COMMENTING VALIDATION OUT - NOT WORKING
+      //add validation to form
+      // Ember.$('.managePasswords')
+      //   .form({
+      //     inline : true,
+      //     fields: {
+      //       mpPassword   : {
+      //         identifier:'mpPassword',
+      //         rules: [
+      //           {
+      //             type   : 'empty'
+      //           }
+      //         ]
+      //       },
+      //       mpPasswordVerify : {
+      //         identifier  : 'mpPasswordVerify',
+      //         rules: [
+      //           {
+      //             type   : 'match[mpPassword]',
+      //             prompt : 'Passwords do not match.'
+      //           }
+      //         ]
+      //       }
+      //     }
+      // });
+    },
 
     actions: {
 
@@ -2632,16 +2679,16 @@ define('apem/pods/components/manage-password/component', ['exports', 'ember'], f
         var _this = this;
 
         this.set('serverErrors', []);
-        this.set('sessionUser', null);
 
         var thisUserId = this.get('identity').get('profile').get('id');
+
         this.get('store').findRecord('user', thisUserId).then(function (data) {
           _this.set('sessionUser', data);
         }, function (error) {
           console.log(error);
         });
 
-        _ember['default'].$('.manage-password-pop').modal({
+        this.myModal.modal({
           blurring: true
         }).modal('setting', 'closable', false).modal('show');
       },
@@ -2649,17 +2696,23 @@ define('apem/pods/components/manage-password/component', ['exports', 'ember'], f
       editPassword: function editPassword() {
         var _this2 = this;
 
-        var user = this.get('sessionUser');
-        this.set('serverErrors', []);
-        var errs = this.get('serverErrors');
-        if (user.get('hasDirtyAttributes')) {
+        var hasErrors = _ember['default'].$('.error');
+
+        if (hasErrors.length === 0) {
           (function () {
-            var closeModal = _this2.closeModal;
-            user.save().then(function () {
-              closeModal();
-            }, function (error) {
-              errs.addObject(error);
-            });
+            var user = _this2.get('sessionUser');
+            _this2.set('serverErrors', []);
+            var errs = _this2.get('serverErrors');
+            if (user.get('hasDirtyAttributes')) {
+              (function () {
+                var closeModal = _this2.closeModal;
+                user.save().then(function () {
+                  closeModal();
+                }, function (error) {
+                  errs.addObject(error);
+                });
+              })();
+            }
           })();
         }
       },
@@ -2667,12 +2720,16 @@ define('apem/pods/components/manage-password/component', ['exports', 'ember'], f
       cancelModal: function cancelModal() {
         this.closeModal();
       }
-
     },
 
     closeModal: function closeModal() {
+      // this.set('sessionUser', null);
+      //clear the form
+      _ember['default'].$('.managePasswords').form('clear');
+
       _ember['default'].$('.manage-password-pop').modal('hide');
     }
+
   });
 });
 define("apem/pods/components/manage-password/template", ["exports"], function (exports) {
@@ -2688,7 +2745,7 @@ define("apem/pods/components/manage-password/template", ["exports"], function (e
               "column": 0
             },
             "end": {
-              "line": 26,
+              "line": 32,
               "column": 0
             }
           },
@@ -2716,18 +2773,19 @@ define("apem/pods/components/manage-password/template", ["exports"], function (e
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
           dom.setAttribute(el1, "class", "content");
-          var el2 = dom.createTextNode("\n    ");
+          var el2 = dom.createTextNode("\n\n    ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("form");
-          dom.setAttribute(el2, "class", "ui form");
-          var el3 = dom.createTextNode("\n      ");
+          dom.setAttribute(el2, "class", "ui form segment managePasswords");
+          dom.setAttribute(el2, "style", "padding-bottom:60px;");
+          var el3 = dom.createTextNode("\n\n      ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("div");
           dom.setAttribute(el3, "class", "field");
           var el4 = dom.createTextNode("\n        ");
           dom.appendChild(el3, el4);
           var el4 = dom.createElement("label");
-          var el5 = dom.createTextNode("New Password");
+          var el5 = dom.createTextNode("Password");
           dom.appendChild(el4, el5);
           dom.appendChild(el3, el4);
           var el4 = dom.createTextNode("\n        ");
@@ -2737,7 +2795,7 @@ define("apem/pods/components/manage-password/template", ["exports"], function (e
           var el4 = dom.createTextNode("\n      ");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n      ");
+          var el3 = dom.createTextNode("\n\n      ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("div");
           dom.setAttribute(el3, "class", "field");
@@ -2754,13 +2812,35 @@ define("apem/pods/components/manage-password/template", ["exports"], function (e
           var el4 = dom.createTextNode("\n      ");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n    ");
+          var el3 = dom.createTextNode("\n\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "ui submit button right floated green");
+          dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          var el4 = dom.createElement("i");
+          dom.setAttribute(el4, "class", "check icon");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("Save");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "ui right floated button");
+          dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          var el4 = dom.createElement("i");
+          dom.setAttribute(el4, "class", "ban icon");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("Cancel");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n\n    ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n  ");
+          var el2 = dom.createTextNode("\n\n  ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n  ");
+          var el1 = dom.createTextNode("\n\n  ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
           dom.setAttribute(el1, "class", "validation-errors");
@@ -2771,54 +2851,24 @@ define("apem/pods/components/manage-password/template", ["exports"], function (e
           var el2 = dom.createTextNode("\n  ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n  ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("div");
-          dom.setAttribute(el1, "class", "actions");
-          var el2 = dom.createTextNode("\n    ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("div");
-          dom.setAttribute(el2, "class", "ui green right floated button");
-          dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el3 = dom.createElement("i");
-          dom.setAttribute(el3, "class", "check icon");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("Save");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n    ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("div");
-          dom.setAttribute(el2, "class", "ui right floated button");
-          dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el3 = dom.createElement("i");
-          dom.setAttribute(el3, "class", "ban icon");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("Cancel");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n  ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
+          var el1 = dom.createTextNode("\n\n");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element0 = dom.childAt(fragment, [3, 1]);
-          var element1 = dom.childAt(fragment, [7]);
-          var element2 = dom.childAt(element1, [1]);
-          var element3 = dom.childAt(element1, [3]);
+          var element1 = dom.childAt(element0, [5]);
+          var element2 = dom.childAt(element0, [7]);
           var morphs = new Array(6);
           morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 2, 2);
           morphs[1] = dom.createMorphAt(dom.childAt(element0, [1]), 3, 3);
           morphs[2] = dom.createMorphAt(dom.childAt(element0, [3]), 3, 3);
-          morphs[3] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
+          morphs[3] = dom.createElementMorph(element1);
           morphs[4] = dom.createElementMorph(element2);
-          morphs[5] = dom.createElementMorph(element3);
+          morphs[5] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
           return morphs;
         },
-        statements: [["content", "sessionUser.username", ["loc", [null, [6, 63], [6, 87]]], 0, 0, 0, 0], ["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "sessionUser.password", ["loc", [null, [11, 21], [11, 41]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "@mut", [["get", "sessionUser.password", ["loc", [null, [11, 48], [11, 68]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "text"], ["loc", [null, [11, 8], [11, 82]]], 0, 0], ["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "sessionUser.passConfirm", ["loc", [null, [15, 21], [15, 44]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "@mut", [["get", "sessionUser.passwordVerify", ["loc", [null, [15, 51], [15, 77]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "text"], ["loc", [null, [15, 8], [15, 91]]], 0, 0], ["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [20, 29], [20, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [20, 6], [20, 43]]], 0, 0], ["element", "action", ["editPassword"], [], ["loc", [null, [23, 47], [23, 72]]], 0, 0], ["element", "action", ["cancelModal"], [], ["loc", [null, [24, 41], [24, 65]]], 0, 0]],
+        statements: [["content", "sessionUser.username", ["loc", [null, [6, 63], [6, 87]]], 0, 0, 0, 0], ["inline", "input", [], ["name", "mpPassword", "value", ["subexpr", "@mut", [["get", "sessionUser.password", ["loc", [null, [13, 40], [13, 60]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "password"], ["loc", [null, [13, 8], [13, 79]]], 0, 0], ["inline", "input", [], ["name", "mpPasswordVerify", "value", ["subexpr", "@mut", [["get", "sessionUser.passwordVerify", ["loc", [null, [18, 46], [18, 72]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "password"], ["loc", [null, [18, 8], [18, 90]]], 0, 0], ["element", "action", ["editPassword"], [], ["loc", [null, [21, 56], [21, 81]]], 0, 0], ["element", "action", ["cancelModal"], [], ["loc", [null, [22, 43], [22, 67]]], 0, 0], ["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [29, 29], [29, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [29, 6], [29, 43]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -2833,7 +2883,7 @@ define("apem/pods/components/manage-password/template", ["exports"], function (e
             "column": 0
           },
           "end": {
-            "line": 28,
+            "line": 34,
             "column": 0
           }
         },
@@ -2862,14 +2912,14 @@ define("apem/pods/components/manage-password/template", ["exports"], function (e
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element4 = dom.childAt(fragment, [0]);
+        var element3 = dom.childAt(fragment, [0]);
         var morphs = new Array(3);
-        morphs[0] = dom.createElementMorph(element4);
+        morphs[0] = dom.createElementMorph(element3);
         morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
         morphs[2] = dom.createMorphAt(fragment, 3, 3, contextualElement);
         return morphs;
       },
-      statements: [["element", "action", ["openModal"], [], ["loc", [null, [1, 37], [1, 59]]], 0, 0], ["block", "ui-modal", [], ["class", "modal manage-password-pop"], 0, null, ["loc", [null, [5, 0], [26, 13]]]], ["content", "yield", ["loc", [null, [27, 0], [27, 9]]], 0, 0, 0, 0]],
+      statements: [["element", "action", ["openModal"], [], ["loc", [null, [1, 37], [1, 59]]], 0, 0], ["block", "ui-modal", [], ["class", "ui modal manage-password-pop"], 0, null, ["loc", [null, [5, 0], [32, 13]]]], ["content", "yield", ["loc", [null, [33, 0], [33, 9]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -2881,6 +2931,43 @@ define("apem/pods/components/new-user/component", ["exports", "ember"], function
     users: _ember["default"].inject.service(),
     userTypes: ["Admin", "User"],
     model: null,
+
+    didRender: function didRender() {
+      this._super.apply(this, arguments);
+      //add validation to form
+      _ember["default"].$('.new-user-form').form({
+        inline: true,
+        fields: {
+          username: {
+            identifier: 'username',
+            rules: [{
+              type: 'empty',
+              prompt: 'Please enter a username'
+            }]
+          },
+          password: {
+            identifier: 'password',
+            rules: [{
+              type: 'empty'
+            }]
+          },
+          passwordVerify: {
+            identifier: 'passwordVerify',
+            rules: [{
+              type: 'match[password]',
+              prompt: 'Passwords do not match.'
+            }]
+          },
+          type: {
+            identifier: 'type',
+            rules: [{
+              type: 'empty',
+              prompt: 'Please select a dropdown value'
+            }]
+          }
+        }
+      });
+    },
 
     actions: {
 
@@ -2897,22 +2984,32 @@ define("apem/pods/components/new-user/component", ["exports", "ember"], function
       },
 
       createUser: function createUser() {
-        // Create the user
-        var user = this.get('model');
-        this.set('serverErrors', []);
-        var errs = this.get('serverErrors');
+        var _this = this;
 
-        if (user.get('hasDirtyAttributes')) {
-          console.log('Created User...');
-          var promise = user.save(),
-              me = this,
-              closeModal = this.closeModal;
-          promise.then(function () {
-            me.get('onCreate')();
-            closeModal();
-          }, function (error) {
-            errs.addObject(error);
-          });
+        var hasErrors = _ember["default"].$('.error');
+
+        if (hasErrors.length === 0) {
+          var promise, me, closeModal;
+
+          (function () {
+            var user = _this.get('model');
+            _this.set('serverErrors', []);
+            var errs = _this.get('serverErrors');
+
+            if (user.get('hasDirtyAttributes')) {
+              console.log('Created User...');
+              promise = user.save();
+              me = _this;
+              closeModal = _this.closeModal;
+
+              promise.then(function () {
+                me.get('onCreate')();
+                closeModal();
+              }, function (error) {
+                errs.addObject(error);
+              });
+            }
+          })();
         }
       },
 
@@ -2923,6 +3020,9 @@ define("apem/pods/components/new-user/component", ["exports", "ember"], function
     },
 
     closeModal: function closeModal() {
+      //clear the form
+      _ember["default"].$('.new-user-form').form('clear');
+
       _ember["default"].$('.new-user-pop').modal('hide');
     }
   });
@@ -2938,11 +3038,11 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 27,
+                  "line": 31,
                   "column": 12
                 },
                 "end": {
-                  "line": 31,
+                  "line": 35,
                   "column": 12
                 }
               },
@@ -2976,7 +3076,7 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
               morphs[1] = dom.createMorphAt(element0, 1, 1);
               return morphs;
             },
-            statements: [["attribute", "data-value", ["get", "type", ["loc", [null, [28, 45], [28, 49]]], 0, 0, 0, 0], 0, 0, 0, 0], ["content", "type", ["loc", [null, [29, 16], [29, 24]]], 0, 0, 0, 0]],
+            statements: [["attribute", "data-value", ["get", "type", ["loc", [null, [32, 45], [32, 49]]], 0, 0, 0, 0], 0, 0, 0, 0], ["content", "type", ["loc", [null, [33, 16], [33, 24]]], 0, 0, 0, 0]],
             locals: ["type"],
             templates: []
           };
@@ -2987,11 +3087,11 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
             "loc": {
               "source": null,
               "start": {
-                "line": 23,
+                "line": 26,
                 "column": 8
               },
               "end": {
-                "line": 33,
+                "line": 37,
                 "column": 8
               }
             },
@@ -3004,6 +3104,12 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
             var el1 = dom.createTextNode("          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("input");
+            dom.setAttribute(el1, "type", "hidden");
+            dom.setAttribute(el1, "name", "type");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n          ");
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("div");
             dom.setAttribute(el1, "class", "default text");
@@ -3032,10 +3138,10 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
             var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [7]), 1, 1);
             return morphs;
           },
-          statements: [["block", "each", [["get", "userTypes", ["loc", [null, [27, 20], [27, 29]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [27, 12], [31, 21]]]]],
+          statements: [["block", "each", [["get", "userTypes", ["loc", [null, [31, 20], [31, 29]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [31, 12], [35, 21]]]]],
           locals: ["execute", "mapper"],
           templates: [child0]
         };
@@ -3050,7 +3156,7 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
               "column": 0
             },
             "end": {
-              "line": 47,
+              "line": 52,
               "column": 0
             }
           },
@@ -3079,7 +3185,8 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
           var el2 = dom.createTextNode("\n    ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("form");
-          dom.setAttribute(el2, "class", "ui form");
+          dom.setAttribute(el2, "class", "ui form segment new-user-form");
+          dom.setAttribute(el2, "style", "padding-bottom:60px;");
           var el3 = dom.createTextNode("\n      ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("div");
@@ -3097,7 +3204,7 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
           var el4 = dom.createTextNode("\n      ");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n      ");
+          var el3 = dom.createTextNode("\n\n      ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("div");
           dom.setAttribute(el3, "class", "field");
@@ -3114,7 +3221,7 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
           var el4 = dom.createTextNode("\n      ");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n      ");
+          var el3 = dom.createTextNode("\n\n      ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("div");
           dom.setAttribute(el3, "class", "field");
@@ -3131,14 +3238,13 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
           var el4 = dom.createTextNode("\n      ");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n      ");
+          var el3 = dom.createTextNode("\n\n      ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("div");
           dom.setAttribute(el3, "class", "field");
           var el4 = dom.createTextNode("\n        ");
           dom.appendChild(el3, el4);
           var el4 = dom.createElement("label");
-          dom.setAttribute(el4, "for", "user_type");
           var el5 = dom.createTextNode("User Type:");
           dom.appendChild(el4, el5);
           dom.appendChild(el3, el4);
@@ -3149,7 +3255,29 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
           var el4 = dom.createTextNode("      ");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n    ");
+          var el3 = dom.createTextNode("\n\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "ui submit button right floated green");
+          dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          var el4 = dom.createElement("i");
+          dom.setAttribute(el4, "class", "check icon");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("Save");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "ui right floated button");
+          dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          var el4 = dom.createElement("i");
+          dom.setAttribute(el4, "class", "ban icon");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("Cancel");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n\n    ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n  ");
@@ -3170,55 +3298,25 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
           var el2 = dom.createTextNode("\n  ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n\n  ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("div");
-          dom.setAttribute(el1, "class", "actions");
-          var el2 = dom.createTextNode("\n    ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("div");
-          dom.setAttribute(el2, "class", "ui green right floated button");
-          dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el3 = dom.createElement("i");
-          dom.setAttribute(el3, "class", "check icon");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("Save");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n    ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("div");
-          dom.setAttribute(el2, "class", "ui right floated button");
-          dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-          var el3 = dom.createElement("i");
-          dom.setAttribute(el3, "class", "ban icon");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("Cancel");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n  ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
+          var el1 = dom.createTextNode("\n\n\n");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element1 = dom.childAt(fragment, [3, 1]);
-          var element2 = dom.childAt(fragment, [9]);
-          var element3 = dom.childAt(element2, [1]);
-          var element4 = dom.childAt(element2, [3]);
+          var element2 = dom.childAt(element1, [9]);
+          var element3 = dom.childAt(element1, [11]);
           var morphs = new Array(7);
           morphs[0] = dom.createMorphAt(dom.childAt(element1, [1]), 3, 3);
           morphs[1] = dom.createMorphAt(dom.childAt(element1, [3]), 3, 3);
           morphs[2] = dom.createMorphAt(dom.childAt(element1, [5]), 3, 3);
           morphs[3] = dom.createMorphAt(dom.childAt(element1, [7]), 3, 3);
-          morphs[4] = dom.createMorphAt(dom.childAt(fragment, [7]), 1, 1);
+          morphs[4] = dom.createElementMorph(element2);
           morphs[5] = dom.createElementMorph(element3);
-          morphs[6] = dom.createElementMorph(element4);
+          morphs[6] = dom.createMorphAt(dom.childAt(fragment, [7]), 1, 1);
           return morphs;
         },
-        statements: [["inline", "input", [], ["name", "username", "value", ["subexpr", "@mut", [["get", "model.username", ["loc", [null, [11, 38], [11, 52]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control", "required", true], ["loc", [null, [11, 8], [11, 89]]], 0, 0], ["inline", "input", [], ["name", "password", "value", ["subexpr", "@mut", [["get", "model.password", ["loc", [null, [15, 38], [15, 52]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "password", "class", "form-control", "required", true], ["loc", [null, [15, 8], [15, 105]]], 0, 0], ["inline", "input", [], ["name", "passwordVerify", "value", ["subexpr", "@mut", [["get", "model.passwordVerify", ["loc", [null, [19, 44], [19, 64]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "password", "class", "form-control", "required", true], ["loc", [null, [19, 8], [19, 117]]], 0, 0], ["block", "ui-dropdown", [], ["class", "search selection", "allowAdditions", false, "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.type", ["loc", [null, [23, 91], [23, 101]]], 0, 0, 0, 0]], [], ["loc", [null, [23, 86], [23, 102]]], 0, 0]], [], ["loc", [null, [23, 78], [23, 103]]], 0, 0]], 0, null, ["loc", [null, [23, 8], [33, 24]]]], ["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [40, 29], [40, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [40, 6], [40, 43]]], 0, 0], ["element", "action", ["createUser"], [], ["loc", [null, [44, 47], [44, 70]]], 0, 0], ["element", "action", ["cancelModal"], [], ["loc", [null, [45, 41], [45, 65]]], 0, 0]],
+        statements: [["inline", "input", [], ["name", "username", "value", ["subexpr", "@mut", [["get", "model.username", ["loc", [null, [11, 38], [11, 52]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control", "type", "text"], ["loc", [null, [11, 8], [11, 87]]], 0, 0], ["inline", "input", [], ["name", "password", "value", ["subexpr", "@mut", [["get", "model.password", ["loc", [null, [16, 38], [16, 52]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "password"], ["loc", [null, [16, 8], [16, 71]]], 0, 0], ["inline", "input", [], ["name", "passwordVerify", "value", ["subexpr", "@mut", [["get", "model.passwordVerify", ["loc", [null, [21, 44], [21, 64]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "password"], ["loc", [null, [21, 8], [21, 82]]], 0, 0], ["block", "ui-dropdown", [], ["class", "ui dropdown selection", "allowAdditions", false, "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.type", ["loc", [null, [26, 96], [26, 106]]], 0, 0, 0, 0]], [], ["loc", [null, [26, 91], [26, 107]]], 0, 0]], [], ["loc", [null, [26, 83], [26, 108]]], 0, 0]], 0, null, ["loc", [null, [26, 8], [37, 24]]]], ["element", "action", ["createUser"], [], ["loc", [null, [40, 56], [40, 79]]], 0, 0], ["element", "action", ["cancelModal"], [], ["loc", [null, [41, 43], [41, 67]]], 0, 0], ["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [48, 29], [48, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [48, 6], [48, 43]]], 0, 0]],
         locals: [],
         templates: [child0]
       };
@@ -3233,7 +3331,7 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
             "column": 0
           },
           "end": {
-            "line": 49,
+            "line": 54,
             "column": 0
           }
         },
@@ -3267,14 +3365,14 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element5 = dom.childAt(fragment, [0]);
+        var element4 = dom.childAt(fragment, [0]);
         var morphs = new Array(3);
-        morphs[0] = dom.createElementMorph(element5);
+        morphs[0] = dom.createElementMorph(element4);
         morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
         morphs[2] = dom.createMorphAt(fragment, 3, 3, contextualElement);
         return morphs;
       },
-      statements: [["element", "action", ["openModal"], [], ["loc", [null, [1, 69], [1, 91]]], 0, 0], ["block", "ui-modal", [], ["name", "user-invite-form", "class", "modal new-user-pop"], 0, null, ["loc", [null, [5, 0], [47, 13]]]], ["content", "yield", ["loc", [null, [48, 0], [48, 9]]], 0, 0, 0, 0]],
+      statements: [["element", "action", ["openModal"], [], ["loc", [null, [1, 69], [1, 91]]], 0, 0], ["block", "ui-modal", [], ["name", "user-invite-form", "class", "modal new-user-pop"], 0, null, ["loc", [null, [5, 0], [52, 13]]]], ["content", "yield", ["loc", [null, [53, 0], [53, 9]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -4329,14 +4427,14 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
         if (item.id === selectedStepId) {
           // show step as active
           _ember['default'].$('.' + item.label + '.step').addClass('active');
-          _ember['default'].$('.' + item.label + '-step-icn').addClass('hidden');
+          _ember['default'].$('.' + item.label + '-step-icn').addClass('hide-me');
         } else if (item.id < selectedStepId) {
-          _ember['default'].$('.' + item.label + '-step-icn').removeClass('hidden');
+          _ember['default'].$('.' + item.label + '-step-icn').removeClass('hide-me');
           _ember['default'].$('.' + item.label + '.step').removeClass('active');
           // show step as checked
           // Ember.$('.'+item.label+'-step')
         } else {
-            _ember['default'].$('.' + item.label + '-step-icn').addClass('hidden');
+            _ember['default'].$('.' + item.label + '-step-icn').addClass('hide-me');
             _ember['default'].$('.' + item.label + '.step').removeClass('active');
           }
       });
@@ -4982,9 +5080,9 @@ define('apem/pods/components/ui-layout/nav-header/component', ['exports', 'ember
       var newNAObtn = _ember['default'].$('.new-nao-btn');
       // console.log("Current route", router.get("currentRouteName"));
       if (router.get("currentRouteName") === 'opportunities.opportunity.detail') {
-        newNAObtn.addClass('hidden');
+        newNAObtn.addClass('hide-me');
       } else {
-        newNAObtn.removeClass('hidden');
+        newNAObtn.removeClass('hide-me');
       }
     }
   });
@@ -9248,914 +9346,6 @@ define('apem/utils/intl/missing-message', ['exports', 'ember'], function (export
     return 'Missing translation: ' + key;
   }
 });
-define('apem/validators/belongs-to', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var get = _ember['default'].get;
-  var canInvoke = _ember['default'].canInvoke;
-
-  /**
-   *  Identifies a `belongs-to` relationship in an Ember Data Model or Ember.Object.
-   *  This is used to create a link to the validations object of the child model.
-   *
-   *  _**Note:** Validations must exist on **both** models/objects_
-   *
-   *  ### Ember Model
-   *
-   *  ```javascript
-   *  // model/users.js
-   *
-   *  const Validations = buildValidations({
-   *    details: validator('belongs-to')
-   *  });
-   *
-   *  export default DS.Model.extend(Validations, {
-   *    'details': DS.belongsTo('user-detail')
-   *  });
-   *  ```
-   *
-   *  ```javascript
-   *  // model/user-details.js
-   *
-   *  const Validations = buildValidations({
-   *    firstName: validator('presence', true),
-   *    lastName: validator('presence', true)
-   *  });
-   *
-   *  export default DS.Model.extend(Validations, {
-   *    "firstName": attr('string'),
-   *    "lastName": attr('string'),
-   *  });
-   *  ```
-   *
-   *  ### Ember Object
-   *
-   *  ```javascript
-   *  // model/users.js
-   *
-   *  import UserDetails from '../user-details';
-   *
-   *  const Validations = buildValidations({
-   *    details: validator('belongs-to')
-   *  });
-   *
-   *  export default Ember.Object.extend(Validations, {
-   *    details: null,
-   *
-   *    init() {
-   *      this._super(...arguments);
-   *      let owner = Ember.getOwner(this);
-   *      this.set('details', UserDetails.create(owner.ownerInjection()));
-   *    }
-   *  });
-   *  ```
-   *
-   *  From our `user` model, we can now check any validation propery on the `user-details` model.
-   *
-   *  ```javascript
-   *  get(model, 'validations.attrs.details.isValid')
-   *  get(model, 'validations.attrs.details.messages')
-   *  ```
-   *
-   *  @class Belongs To
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-    validate: function validate(value) {
-      if (value) {
-        if (canInvoke(value, 'then')) {
-          return value.then(function (model) {
-            return get(model, 'validations');
-          });
-        } else {
-          return get(value, 'validations');
-        }
-      }
-
-      return true;
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-define('apem/validators/collection', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var isArray = _ember['default'].isArray;
-
-  /**
-   *  If `true` validates that the given value is a valid collection and will add `<ATTRIUTE>.[]` as a dependent key to the CP. If `false`, validates that the given value is singular. Use this validator if you want validation to occur when the content of your collection changes.
-   *
-   *  ```javascript
-   *  // Examples
-   *  validator('collection', true)
-   *  validator('collection', false)
-   *  validator('collection', {
-   *    collection: true,
-   *    message: 'must be a collection'
-   *  })
-   *  ```
-   *
-   *  @class Collection
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-    buildOptions: function buildOptions(options, defaultOptions) {
-      if (typeof options === 'boolean') {
-        options = {
-          collection: options
-        };
-      }
-      return this._super(options, defaultOptions);
-    },
-
-    validate: function validate(value, options) {
-      if (options.collection === true && !isArray(value)) {
-        return this.createErrorMessage('collection', value, options);
-      }
-
-      if (options.collection === false && isArray(value)) {
-        return this.createErrorMessage('singular', value, options);
-      }
-
-      return true;
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-define('apem/validators/confirmation', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var get = _ember['default'].get;
-  var isEqual = _ember['default'].isEqual;
-  var isNone = _ember['default'].isNone;
-
-  /**
-   *  You should use this validator when you have two text fields that should receive exactly the same content. For example, you may want to confirm an email address or a password. This validator doesnt have to be created on an attribute defined in your model. This means that when you save your model, in this case, `verfiedEmail` will not be part of the payload.
-   *
-   *  ```javascript
-   *  // Example
-   *  email: validator('format', {
-   *    type: 'email'
-   *  })
-   *  verifiedEmail: validator('confirmation', {
-   *    on: 'email',
-   *    message: 'do not match',
-   *    description: 'Email addresses'
-   *  })
-   *  ```
-   *
-   *  @class Confirmation
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-    validate: function validate(value, options, model) {
-      if (!isNone(options.on) && !isEqual(value, get(model, options.on))) {
-        return this.createErrorMessage('confirmation', value, options);
-      }
-
-      return true;
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-define('apem/validators/date', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var moment = (self.requirejs.entries['moment'] || self.requirejs.entries['moment/index']) && self.require('moment')['default'];
-
-  if (moment === undefined) {
-    throw new Error('MomentJS is required to use the Date validator. The easiest way to install moment.js is to install ember-moment.\nInstallation instructions and documentation can be found at https://github.com/stefanpenner/ember-moment');
-  }
-
-  var isEmpty = _ember['default'].isEmpty;
-
-  /**
-   *  Validate over a date range. Uses [MomentJS](http://momentjs.com/) for date mathematics and calculations.
-   *
-   *  -*Note**: MomentJS must be installed to be able to use this validator. The easiest way to do this is to install [ember-moment](https://github.com/stefanpenner/ember-moment)
-   *
-   *   #### Options
-   *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
-   *  - `before` (**String**): The specified date must be before this date
-   *  - `after` (**String**): The specified date must be after this date
-   *  - `format` (**String**): Input value date format
-   *  - `errorFormat` (**String**): Error output date format. Defaults to `MMM Do, YYYY`
-   *
-   *  ```javascript
-   *  // Example
-   *  validator('date', {
-   *      after: 'now',
-   *      before: '1/1/2020',
-   *      format: 'M/D/YYY',
-   *      errorFormat: 'M/D/YYY'
-   *  })
-   *  // If before or after is set to 'now', the value given to the validator will be tested against the current date and time.
-   *  ```
-   *
-   *  @class Date
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-
-    _parseDate: function _parseDate(dateStr, format) {
-      if (dateStr === 'now' || isEmpty(dateStr)) {
-        return moment();
-      } else {
-        return format ? moment(dateStr, format) : moment(new Date(dateStr));
-      }
-    },
-
-    validate: function validate(value, options) {
-      var errorFormat = options.errorFormat || 'MMM Do, YYYY';
-      var format = options.format;
-      var before = options.before;
-      var after = options.after;
-
-      if (options.allowBlank && isEmpty(value)) {
-        return true;
-      }
-
-      var date = this._parseDate(value, format);
-
-      if (!date.isValid()) {
-        return this.createErrorMessage('date', value, options);
-      }
-
-      if (format && !moment(value, format, true).isValid()) {
-        return this.createErrorMessage('wrongDateFormat', value, options);
-      }
-
-      if (before) {
-        before = this._parseDate(before, format);
-        if (before < date) {
-          options.before = before.format(errorFormat);
-          return this.createErrorMessage('before', value, options);
-        }
-      }
-
-      if (after) {
-        after = this._parseDate(after, format);
-        if (after > date) {
-          options.after = after.format(errorFormat);
-          return this.createErrorMessage('after', value, options);
-        }
-      }
-
-      return true;
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-define('apem/validators/dependent', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var get = _ember['default'].get;
-  var isNone = _ember['default'].isNone;
-  var isEmpty = _ember['default'].isEmpty;
-
-  /**
-   *  Defines an attribute as valid only if its dependents are valid.
-   *
-   *   #### Options
-   *  - `on` (**Array**): Attributes this field is dependent on
-   *
-   *  ```javascript
-   *  // Example
-   *  // Full name will only be valid if firstName and lastName are filled in
-   *  validator('dependent', {
-   *      on: ['firstName', 'lastName'],
-   *  })
-   *  ```
-   *
-   *  @class Dependent
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-    validate: function validate(value, options, model) {
-      if (isNone(options) || isNone(model) || isEmpty(Object.keys(options))) {
-        return true;
-      }
-
-      if (options.allowBlank && isEmpty(value)) {
-        return true;
-      }
-
-      if (isEmpty(options.on)) {
-        return true;
-      }
-
-      var dependentValidations = options.on.map(function (dependent) {
-        return get(model, 'validations.attrs.' + dependent);
-      });
-      if (!isEmpty(dependentValidations.filter(function (v) {
-        return !get(v, 'isTruelyValid');
-      }))) {
-        return this.createErrorMessage('invalid', value, options);
-      }
-
-      return true;
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-define('apem/validators/ds-error', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var DS = self.DS;
-
-  if (typeof self.DS === 'undefined') {
-    throw new Error('Ember-Data is required to use the DS Error validator.');
-  }
-
-  var get = _ember['default'].get;
-  var isNone = _ember['default'].isNone;
-
-  /**
-   *  Creates a link between this library and Ember-Data's [DS.Errors](http://emberjs.com/api/data/classes/DS.Errors.html)
-   *  to fetch the latest message for the given attribute.
-   *
-   *  ```javascript
-   *  // Examples
-   *  validator('ds-error')
-   *  ```
-   *
-   *  @class DS Error
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-    validate: function validate(value, options, model, attribute) {
-      var errors = get(model, 'errors');
-
-      if (!isNone(errors) && errors instanceof DS.Errors && errors.has(attribute)) {
-        return get(errors.errorsFor(attribute), 'lastObject.message');
-      }
-
-      return true;
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-define('apem/validators/exclusion', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var typeOf = _ember['default'].typeOf;
-  var isEmpty = _ember['default'].isEmpty;
-
-  /**
-   *  Validates that the attributes’ values are not included in a given list. All comparisons are done using strict equality so type matters! For range, the value type is checked against both lower and upper bounds for type equality.
-   *
-   *   #### Options
-   *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
-   *  - `in` (**Array**): The list of values this attribute should not be
-   *  - `range` (**Array**): The range in which the attribute's value should not reside in
-   *
-   *  ```javascript
-   *  // Examples
-   *  validator('exclusion', {
-   *      in: ['Admin', 'Super Admin']
-   *  })
-   *  validator('exclusion', {
-   *      range: [0, 5] // Cannot be between 0 (inclusive) to 5 (inclusive)
-   *  })
-   *  ```
-   *
-   *  @class Exclusion
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-    validate: function validate(value, options) {
-      var array = options['in'];
-      var range = options.range;
-
-      if (isEmpty(Object.keys(options))) {
-        return true;
-      }
-
-      if (options.allowBlank && isEmpty(value)) {
-        return true;
-      }
-
-      if (array && array.indexOf(value) !== -1) {
-        return this.createErrorMessage('exclusion', value, options);
-      }
-
-      if (range && range.length === 2) {
-        var min = range[0];
-        var max = range[1];
-        var equalType = typeOf(value) === typeOf(min) && typeOf(value) === typeOf(max);
-        if (equalType && min <= value && value <= max) {
-          return this.createErrorMessage('exclusion', value, options);
-        }
-      }
-
-      return true;
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-define('apem/validators/format', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var get = _ember['default'].get;
-  var isNone = _ember['default'].isNone;
-  var isEmpty = _ember['default'].isEmpty;
-
-  /**
-   *  Validate over a predefined or custom regular expression.
-   *
-   *   #### Options
-   *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
-   *  - `type` (**String**): Can be the one of the following options [`email`, `phone`, `url`]
-   *  - `regex` (**RegExp**): The regular expression to test against
-   *
-   *  ```javascript
-   *  // Examples
-   *  validator('format', {
-   *    type: 'email'
-   *  })
-   *  validator('format', {
-   *    allowBlank: true
-   *    type: 'phone'
-   *  })
-   *  validator('format', {
-   *    type: 'url'
-   *  })
-   *  validator('format', {
-   *      regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$/,
-   *      message: 'Password must include at least one upper case letter, one lower case letter, and a number'
-   *  })
-   *  ```
-   *
-   *  If you do not want to use the predefined regex for a specific type, you can do something like this
-   *
-   *  ```javascript
-   *  // Example
-   *  validator('format', {
-   *    type: 'email',
-   *    regex: /My Better Email Regexp/
-   *  })
-   *  ```
-   *  This allows you to still keep the email error message but with your own custom regex.
-   *  @class Format
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-    regularExpressions: {
-      email: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-      phone: /^([\+]?1\s*[-\/\.]?\s*)?(\((\d{3})\)|(\d{3}))\s*[-\/\.]?\s*(\d{3})\s*[-\/\.]?\s*(\d{4})\s*(([xX]|[eE][xX][tT]?[\.]?|extension)\s*([#*\d]+))*$/,
-      url: /(?:([A-Za-z]+):)?(\/{0,3})[a-zA-Z0-9][a-zA-Z-0-9]*(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-{}]*[\w@?^=%&amp;\/~+#-{}])??/
-    },
-
-    buildOptions: function buildOptions() {
-      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-      var defaultOptions = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-      var regularExpressions = get(this, 'regularExpressions');
-
-      if (options.type && !isNone(regularExpressions[options.type]) && isNone(options.regex)) {
-        options.regex = regularExpressions[options.type];
-      }
-      return this._super(options, defaultOptions);
-    },
-
-    validate: function validate(value, options) {
-      if (isEmpty(Object.keys(options))) {
-        return true;
-      }
-
-      if (options.allowBlank && isEmpty(value)) {
-        return true;
-      }
-
-      if (options.regex && !options.regex.test(value)) {
-        if (options.type) {
-          return this.createErrorMessage(options.type, value, options);
-        }
-        return this.createErrorMessage('invalid', value, options);
-      }
-
-      return true;
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-define('apem/validators/has-many', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var canInvoke = _ember['default'].canInvoke;
-
-  /**
-   *  Identifies a `has-many` relationship in an Ember Data Model or Ember.Object.
-   *  This is used to create a validation collection of the `has-many` validations.
-   *
-   *  _**Note:** Validations must exist on **all** models/objects_
-   *
-   *  ### Ember Models
-   *
-   *  ```javascript
-   *  // model/users.js
-   *
-   *  const Validations = buildValidations({
-   *    friends: validator('has-many')
-   *  });
-   *
-   *  export default DS.Model.extend(Validations, {
-   *    friends: DS.hasMany('user')
-   *  });
-   *  ```
-   *
-   *  ### Ember Objects
-   *
-   *  ```javascript
-   *  // model/users.js
-   *
-   *  const Validations = buildValidations({
-   *    friends: validator('has-many')
-   *  });
-   *
-   *  export default Ember.Object.extend(Validations, {
-   *    friends: null
-   *  });
-   *  ```
-   *
-   *  From our `user` model, we can now check validation properties on the `friends` attribute.
-   *
-   *  ```javascript
-   *  get(model, 'validations.attrs.friends.isValid')
-   *  get(model, 'validations.attrs.friends.messages')
-   *  ```
-   *
-   *  @class Has Many
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-    validate: function validate(value) {
-      if (value) {
-        if (canInvoke(value, 'then')) {
-          return value.then(function (models) {
-            return models.map(function (m) {
-              return m.get('validations');
-            });
-          });
-        } else {
-          return value.map(function (m) {
-            return m.get('validations');
-          });
-        }
-      }
-
-      return true;
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-define('apem/validators/inclusion', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var typeOf = _ember['default'].typeOf;
-  var isEmpty = _ember['default'].isEmpty;
-
-  /**
-   *  Validates that the attributes’ values are included in a given list. All comparisons are done using strict equality so type matters! For range, the value type is checked against both lower and upper bounds for type equality.
-   *
-   *   #### Options
-   *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
-   *  - `in` (**Array**): The list of values this attribute could be
-   *  - `range` (**Array**): The range in which the attribute's value should reside in
-   *
-   *  ```javascript
-   *  // Examples
-   *  validator('inclusion', {
-   *      in: ['User', 'Admin']
-   *  })
-   *  validator('inclusion', {
-   *      range: [0, 5] // Must be between 0 (inclusive) to 5 (inclusive)
-   *  })
-   *  ```
-   *
-   *  Because of the strict equality comparisons, you can use this validator in many different ways.
-   *
-   *  ```javascript
-   *  // Examples
-   *  validator('inclusion', {
-   *      in: ['Admin'] // Input must be equal to 'Admin'
-   *  })
-   *  validator('inclusion', {
-   *      range: [0, Infinity] // Input must be positive number
-   *  })
-   *  validator('inclusion', {
-   *      range: [-Infinity, Infinity] // Input must be a number
-   *  })
-   *  ```
-   *
-   *  @class Inclusion
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-    validate: function validate(value, options) {
-      var array = options['in'];
-      var range = options.range;
-
-      if (isEmpty(Object.keys(options))) {
-        return true;
-      }
-
-      if (options.allowBlank && isEmpty(value)) {
-        return true;
-      }
-
-      if (array && array.indexOf(value) === -1) {
-        return this.createErrorMessage('inclusion', value, options);
-      }
-
-      if (range && range.length === 2) {
-        var min = range[0];
-        var max = range[1];
-        var equalType = typeOf(value) === typeOf(min) && typeOf(value) === typeOf(max);
-        if (!equalType || min > value || value > max) {
-          return this.createErrorMessage('inclusion', value, options);
-        }
-      }
-
-      return true;
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-define('apem/validators/length', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var get = _ember['default'].get;
-  var isNone = _ember['default'].isNone;
-  var isEmpty = _ember['default'].isEmpty;
-
-  /**
-   *  Validates the length of the attributes’ values.
-   *
-   *   #### Options
-   *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
-   *  - `is` (**Number**): The exact length the value can be
-   *  - `min` (**Number**): The minimum length the value can be
-   *  - `max` (**Number**): The maximum length the value can be
-   *
-   *  ```javascript
-   *  // Examples
-   *  validator('length', {
-   *    is: 15
-   *  })
-   *  validator('length', {
-   *      min: 5,
-   *      max: 10
-   *  })
-   *  ```
-   *
-   *  @class Length
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-    validate: function validate(value, options) {
-      if (isEmpty(Object.keys(options))) {
-        return true;
-      }
-
-      if (options.allowBlank && isEmpty(value)) {
-        return true;
-      }
-
-      if (isNone(value)) {
-        return true;
-      }
-
-      if (!isNone(options.is) && options.is !== get(value, 'length')) {
-        return this.createErrorMessage('wrongLength', value, options);
-      }
-
-      if (!isNone(options.min) && options.min > get(value, 'length')) {
-        return this.createErrorMessage('tooShort', value, options);
-      }
-
-      if (!isNone(options.max) && options.max < get(value, 'length')) {
-        return this.createErrorMessage('tooLong', value, options);
-      }
-
-      return true;
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-define('apem/validators/messages', ['exports', 'ember-cp-validations/validators/messages'], function (exports, _emberCpValidationsValidatorsMessages) {
-  /**
-   * Copyright 2016, Yahoo! Inc.
-   * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
-   */
-
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberCpValidationsValidatorsMessages['default'];
-    }
-  });
-});
-define('apem/validators/number', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var isEmpty = _ember['default'].isEmpty;
-
-  /**
-   *  Validates that your attributes have only numeric values.
-   *
-   *   #### Options
-   *  - `allowBlank` (**Boolean**): If true, skips validation if the value is empty
-   *  - `allowString` (**Boolean**): If true, validator will accept string representation of a number
-   *  - `integer` (**Boolean**): Number must be an integer
-   *  - `positive` (**Boolean**): Number must be greater than 0
-   *  - `odd` (**Boolean**): Number must be odd
-   *  - `even` (**Boolean**): Number must be even
-   *  - `is` (**Number**): Number must be equal to this value
-   *  - `lt` (**Number**): Number must be less than this value
-   *  - `lte` (**Number**): Number must be less than or equal to this value
-   *  - `gt` (**Number**): Number must be greater than this value
-   *  - `gte` (**Number**): Number must be greater than or equal to this value
-   *
-   *  ```javascript
-   *  // Examples
-   *  validator('number') // Simple check if the value is a number
-   *  validator('number', {
-   *      allowString: true,
-   *      integer: true,
-   *      gt: 5,
-   *      lte: 100
-   *  })
-   *  ```
-   *
-   *  @class Number
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-    validate: function validate(value, options) {
-      var numValue = Number(value);
-      var optionKeys = Object.keys(options);
-
-      if (options.allowBlank && isEmpty(value)) {
-        return true;
-      }
-
-      if (typeof value === 'string' && (isEmpty(value) || !options.allowString)) {
-        return this.createErrorMessage('notANumber', value, options);
-      }
-
-      if (!this.isNumber(numValue)) {
-        return this.createErrorMessage('notANumber', value, options);
-      }
-
-      if (options.integer && !this.isInteger(numValue)) {
-        return this.createErrorMessage('notAnInteger', value, options);
-      }
-
-      for (var i = 0; i < optionKeys.length; i++) {
-        var type = optionKeys[i];
-        var m = this._validateType(type, options, numValue);
-        if (typeof m === 'string') {
-          return m;
-        }
-      }
-
-      return true;
-    },
-
-    _validateType: function _validateType(type, options, value) {
-      var expected = options[type];
-      var actual = value;
-
-      if (type === 'is' && actual !== expected) {
-        return this.createErrorMessage('equalTo', value, options);
-      } else if (type === 'lt' && actual >= expected) {
-        return this.createErrorMessage('lessThan', value, options);
-      } else if (type === 'lte' && actual > expected) {
-        return this.createErrorMessage('lessThanOrEqualTo', value, options);
-      } else if (type === 'gt' && actual <= expected) {
-        return this.createErrorMessage('greaterThan', value, options);
-      } else if (type === 'gte' && actual < expected) {
-        return this.createErrorMessage('greaterThanOrEqualTo', value, options);
-      } else if (type === 'positive' && actual < 0) {
-        return this.createErrorMessage('positive', value, options);
-      } else if (type === 'odd' && actual % 2 === 0) {
-        return this.createErrorMessage('odd', value, options);
-      } else if (type === 'even' && actual % 2 !== 0) {
-        return this.createErrorMessage('even', value, options);
-      }
-
-      return true;
-    },
-
-    /* Use polyfills instead of Number.isNaN or Number.isInteger to support IE & Safari */
-
-    isNumber: function isNumber(value) {
-      return typeof value === "number" && !isNaN(value);
-    },
-
-    isInteger: function isInteger(value) {
-      return typeof value === "number" && isFinite(value) && Math.floor(value) === value;
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
-define('apem/validators/presence', ['exports', 'ember', 'ember-cp-validations/validators/base'], function (exports, _ember, _emberCpValidationsValidatorsBase) {
-  var get = _ember['default'].get;
-  var isEmpty = _ember['default'].isEmpty;
-
-  /**
-   *  If `true` validates that the given value is not empty, if `false`, validates that the given value is empty.
-   *
-   *  ```javascript
-   *  // Examples
-   *  validator('presence', true)
-   *  validator('presence', false)
-   *  validator('presence', {
-   *    presence: true,
-   *    message: 'should not be empty'
-   *  })
-   *  ```
-   *
-   *  @class Presence
-   *  @module Validators
-   *  @extends Base
-   */
-  exports['default'] = _emberCpValidationsValidatorsBase['default'].extend({
-    /**
-     * Normalized options passed in.
-     * ```js
-     * validator('presence', true)
-     * // Becomes
-     * validator('presence', {
-     *   presence: true
-     * })
-     * ```
-     * @method buildOptions
-     * @param  {Object}     options
-     * @param  {Object}     defaultOptions
-     * @return {Object}
-     */
-    buildOptions: function buildOptions(options, defaultOptions) {
-      if (typeof options === 'boolean') {
-        options = {
-          presence: options
-        };
-      }
-      return this._super(options, defaultOptions);
-    },
-
-    validate: function validate(value, options) {
-      if (options.presence === true && !this._isPresent(value)) {
-        return this.createErrorMessage('blank', value, options);
-      }
-
-      if (options.presence === false && this._isPresent(value)) {
-        return this.createErrorMessage('present', value, options);
-      }
-
-      return true;
-    },
-
-    /**
-     * Handle presence of ember proxy based instances
-     */
-    _isPresent: function _isPresent(value) {
-      if (value instanceof _ember['default'].ObjectProxy || value instanceof _ember['default'].ArrayProxy) {
-        return this._isPresent(get(value, 'content'));
-      }
-      return !isEmpty(value);
-    }
-  });
-});
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
 /* jshint ignore:start */
 
 
@@ -10188,7 +9378,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+dae977a1"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+a14606d8"});
 }
 
 /* jshint ignore:end */
