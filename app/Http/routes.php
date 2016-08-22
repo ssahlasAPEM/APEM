@@ -62,6 +62,25 @@ Route::group(
 
         /*
         |--------------------------------------------------------------------------
+        | Events
+        |--------------------------------------------------------------------------
+        */
+        Route::get(
+            'events/{id}/{relationshipType}',
+            [
+                'as'   => 'eventRelations',
+                'uses' => 'JsonApi\EventController@relationships'
+            ]
+        );
+
+        Route::resource(
+            'events',
+            'JsonApi\EventController',
+            ['only' => ['index', 'show', 'store', 'update', 'destroy']]
+        );
+
+        /*
+        |--------------------------------------------------------------------------
         | Fields
         |--------------------------------------------------------------------------
         */

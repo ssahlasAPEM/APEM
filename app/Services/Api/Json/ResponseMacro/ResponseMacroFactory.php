@@ -7,6 +7,7 @@
  * Time: 10:42 AM
  */
 
+use app\Core\Event\Model\Event;
 use app\Core\Field\Model\Field;
 use app\Core\Opportunity\Model\Opportunity;
 use app\Core\Shared\ComplexCollection;
@@ -53,6 +54,7 @@ class ResponseMacroFactory
             Field::class         => 'app\Services\Api\Json\ResponseMacro\FieldResponseMacro',
             Opportunity::class   => 'app\Services\Api\Json\ResponseMacro\OpportunityResponseMacro',
             User::class          => 'app\Services\Api\Json\ResponseMacro\UserResponseMacro',
+            Event::class         => 'app\Services\Api\Json\ResponseMacro\EventResponseMacro'
         ];
 
         if (array_key_exists($targetClass, $macroMap)) {

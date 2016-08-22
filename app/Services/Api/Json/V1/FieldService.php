@@ -10,7 +10,7 @@
 use app\Core\Field\Repository\FieldInterface;
 
 /**
- * Class UserService
+ * Class FieldService
  * @package app\Services\Api\Json\V1
  */
 class FieldService extends RESTFULService

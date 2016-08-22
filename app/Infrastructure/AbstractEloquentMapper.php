@@ -16,6 +16,7 @@ use app\Infrastructure\Repo\Field\FieldCollection;
 use app\Infrastructure\Repo\Opportunity\OpportunityCollection;
 use app\Infrastructure\Repo\User\UserCollection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Log;
 
 /**

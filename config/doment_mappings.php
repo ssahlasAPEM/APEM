@@ -33,6 +33,7 @@
  */
 
 use app\Core\DomainEntityFieldFlags as Flags;
+use app\Core\Event\Model\Event;
 use app\Core\Field\Model\Field;
 use app\Core\Opportunity\Model\Opportunity;
 use app\Core\User\Model\User;
@@ -67,15 +68,15 @@ return [
         ],
 
         'eloquentToDomainEntity' => [
-            'username'          => ['Username', Flags::NONE],
-            'type'              => ['Type', Flags::NONE],
-            'active'            => ['Active', Flags::NONE],
-            'last_login'        => ['LastLogin', Flags::READONLY],
-            'password'          => ['Password', Flags::WRITEONLY],
+            'username'   => ['Username', Flags::NONE],
+            'type'       => ['Type', Flags::NONE],
+            'active'     => ['Active', Flags::NONE],
+            'last_login' => ['LastLogin', Flags::READONLY],
+            'password'   => ['Password', Flags::WRITEONLY],
         ],
 
-        'objectDiscovery'     => [],
-        'responseType'        => ['user', 'users'],
+        'objectDiscovery' => [],
+        'responseType'    => ['user', 'users'],
     ],
 
     Field::class => [
@@ -87,7 +88,7 @@ return [
             'type'     => ['Type', Flags::READONLY],
             'group'    => ['Group', Flags::READONLY],
             'value'    => ['Value', Flags::READONLY],
-            'options'  => ['Options', Flags::JSON|Flags::READONLY],
+            'options'  => ['Options', Flags::JSON | Flags::READONLY],
             'required' => ['Required', Flags::NONE],
             'visible'  => ['Visible', Flags::NONE],
         ],
@@ -98,7 +99,7 @@ return [
             'type'     => ['Type', Flags::READONLY],
             'group'    => ['Group', Flags::READONLY],
             'value'    => ['Value', Flags::READONLY],
-            'options'  => ['Options', Flags::JSON|Flags::READONLY],
+            'options'  => ['Options', Flags::JSON | Flags::READONLY],
             'required' => ['Required', Flags::NONE],
             'visible'  => ['Visible', Flags::NONE],
         ],
@@ -115,7 +116,34 @@ return [
         'cascadeDeletes' => [
         ],
 
-        'responseType'        => ['field', 'fields'],
+        'responseType' => ['field', 'fields'],
+    ],
+
+    Event::class => [
+        'valueObjects' => [],
+
+        'jsonToDomainEntity' => [
+            'type'          => ['Type', Flags::NONE],
+            'date'           => ['Date', Flags::NONE],
+            'opportunity-id' => ['OpportunityId', Flags::NONE]
+        ],
+
+        'eloquentToDomainEntity' => [
+            'type'          => ['Type', Flags::NONE],
+            'date'           => ['Date', Flags::NONE],
+            'opportunity_id' => ['OpportunityId', Flags::NONE]
+        ],
+
+        'objectDiscovery' => [
+            'type'           => 'Type',
+            'date'           => 'Date',
+            'opportunity-id' => 'OpportunityId'
+        ],
+
+        'cascadeDeletes' => [
+        ],
+
+        'responseType' => ['event', 'events'],
     ],
 
     Opportunity::class => [
@@ -277,6 +305,6 @@ return [
             'user-id'                 => 'UserId',
         ],
 
-        'responseType'        => ['opportunity', 'opportunities'],
+        'responseType' => ['opportunity', 'opportunities'],
     ],
 ];

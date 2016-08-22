@@ -7,6 +7,7 @@
  * Time: 4:00 PM
  */
 
+use app\Core\Event\Model\Event;
 use app\Core\Field\Model\Field;
 use app\Core\Opportunity\Model\Opportunity;
 use app\Core\User\Model\User;
@@ -33,7 +34,9 @@ abstract class AbstractEloquentPersistenceFactory extends AbstractPersistenceFac
             Field::class       =>
                 'app\Infrastructure\Repo\Field\EloquentFieldPersistenceFactory',
             Opportunity::class =>
-                'app\Infrastructure\Repo\Opportunity\EloquentOpportunityPersistenceFactory'
+                'app\Infrastructure\Repo\Opportunity\EloquentOpportunityPersistenceFactory',
+            Event::class =>
+                'app\Infrastructure\Repo\Event\EloquentEventPersistenceFactory'
         ];
 
         if (array_key_exists($targetClass, $factoryMap)) {
