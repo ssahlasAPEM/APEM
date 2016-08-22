@@ -36,6 +36,7 @@ class UpdateOpportunityRequest extends Request
         // TODO: Make this dynamic
         return [
             'data.id'                                 => 'required',
+            'data.attributes.draft'                   => 'sometimes',
             'data.attributes.status'                  => 'sometimes',
             'data.attributes.stage'                   => 'sometimes',
             'data.attributes.company'                 => 'sometimes',

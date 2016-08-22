@@ -1444,7 +1444,7 @@ define('apem/tests/pods/components/opportunities/opt-form/component.jshint', ['e
   QUnit.module('JSHint - pods/components/opportunities/opt-form/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/opportunities/opt-form/component.js should pass jshint.');
+    assert.ok(false, 'pods/components/opportunities/opt-form/component.js should pass jshint.\npods/components/opportunities/opt-form/component.js: line 61, col 52, \'e\' is defined but never used.\n\n1 error');
   });
 });
 define('apem/tests/pods/components/opportunities/stage-step/component.jshint', ['exports'], function (exports) {

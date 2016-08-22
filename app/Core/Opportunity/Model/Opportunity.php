@@ -17,6 +17,7 @@ class Opportunity extends DomainEntity
 {
 
     private $userId;
+    private $draft;
     private $status;
     private $stage;
     private $company;
@@ -81,6 +82,22 @@ class Opportunity extends DomainEntity
     public function setUserId($userId)
     {
         $this->userId = $userId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDraft()
+    {
+        return $this->draft;
+    }
+
+    /**
+     * @param mixed $draft
+     */
+    public function setDraft($draft)
+    {
+        $this->draft = $draft;
     }
 
     /**

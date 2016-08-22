@@ -150,6 +150,7 @@ return [
         'valueObjects' => [],
 
         'jsonToDomainEntity' => [
+            'draft'                   => ['Draft', Flags::NONE],
             'status'                  => ['Status', Flags::NONE],
             'stage'                   => ['Stage', Flags::NONE],
             'company'                 => ['Company', Flags::NONE],
@@ -202,6 +203,7 @@ return [
         ],
 
         'eloquentToDomainEntity' => [
+            'draft'                   => ['Draft', Flags::NONE],
             'status'                  => ['Status', Flags::NONE],
             'stage'                   => ['Stage', Flags::NONE],
             'company'                 => ['Company', Flags::NONE],
@@ -254,6 +256,7 @@ return [
         ],
 
         'objectDiscovery' => [
+            'draft'                   => 'Draft',
             'status'                  => 'Status',
             'stage'                   => 'Stage',
             'company'                 => 'Company',

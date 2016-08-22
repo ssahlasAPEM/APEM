@@ -34,6 +34,7 @@ class CreateOpportunityRequest extends Request
     public function rules()
     {
         return [
+            'data.attributes.draft'                   => 'sometimes',
             'data.attributes.status'                  => 'sometimes',
             'data.attributes.stage'                   => 'sometimes',
             'data.attributes.company'                 => 'sometimes',
