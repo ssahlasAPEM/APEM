@@ -11,10 +11,12 @@ class MetaObjectVO
 {
 
     /**
-     * @param $totalPages
+     * @param      $totalPages
+     * @param null $totalRecords
      */
-    public function __construct($totalPages = null)
+    public function __construct($totalPages = null, $totalRecords = null)
     {
         $this->{'total-pages'} = $totalPages;
+        $this->{'total-records'} = $totalRecords;
     }
 }

@@ -43,7 +43,10 @@ abstract class AbstractResponseMacro
                 //sometimes collection is paginated, sometimes not so much.
                 if ($serviceResponse->getMeta() !== null) {
                     $links = new LinksVO($serviceResponse->getMeta());
-                    $meta  = new MetaObjectVO($serviceResponse->getMeta()->getTotalPages());
+                    $meta  = new MetaObjectVO(
+                        $serviceResponse->getMeta()->getTotalPages(),
+                        $serviceResponse->getMeta()->getTotalRecords()
+                    );
                 } else {
                     $links = new LinksVO();
                     $meta  = new MetaObjectVO();
