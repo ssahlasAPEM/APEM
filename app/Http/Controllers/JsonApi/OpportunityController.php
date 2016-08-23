@@ -11,6 +11,9 @@ use app\Http\Requests\Api\ListRequest;
 use app\Http\Requests\Api\Opportunity\CreateOpportunityRequest;
 use app\Http\Requests\Api\Opportunity\UpdateOpportunityRequest;
 use app\Services\Api\Json\V1\OpportunityService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * Class OpportunityController
@@ -34,9 +37,11 @@ class OpportunityController extends AbstractApiController
      *
      * @param ListRequest $request
      *
+     * @param bool        $raw
+     *
      * @return Response
      */
-    public function index(ListRequest $request)
+    public function index(ListRequest $request, $raw = false)
     {
         $filter = null;
 
@@ -57,6 +62,10 @@ class OpportunityController extends AbstractApiController
                     $filter
                 );
 
+                if($raw === true) {
+                    return $response;
+                }
+
                 return response()->jsonAPIResponse($response);
             }
             return response()->jsonAPIResponse(
@@ -66,6 +75,10 @@ class OpportunityController extends AbstractApiController
                     400
                 )
             );
+        }
+
+        if($raw === true) {
+            return $response;
         }
 
         return response()->jsonAPIResponse($response);
@@ -114,5 +127,30 @@ class OpportunityController extends AbstractApiController
         $response = $this->service->update($array);
 
         return response()->jsonAPIResponse($response);
+    }
+
+    /**
+     * Download a CSV File
+     * This creates a CSV file in a public directory named appropriately for the user
+     * Anytime it is downloaded it will re-create the file and send it as a url back to
+     * the front-end for the front-end to download.
+     *
+     * @param ListRequest $request
+     *
+     * @return Response
+     */
+    public function generateCSV(ListRequest $request)
+    {
+        $results = $this->index($request, true);
+
+        Excel::create(Auth::user()->id . '_nao_opportunities', function($excel) use (&$results) {
+            $excel->sheet('NAO Opportunities', function($sheet) use (&$results) {
+                $data = json_encode($results);
+                $data = json_decode($data, true);
+                $sheet->fromArray($data);
+            });
+        })->store('xls', storage_path('../public/downloads'));
+
+        return response()->namedJsonRoot('csv-download', URL::to('/') . '/downloads/' . Auth::user()->id . '_nao_opportunities.xls');
     }
 }

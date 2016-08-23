@@ -111,6 +111,14 @@ Route::group(
             ]
         );
 
+        Route::get(
+            'opportunities/csv',
+            [
+                'as'   => 'opportunitiesCSV',
+                'uses' => 'JsonApi\OpportunityController@generateCSV'
+            ]
+        );
+
         Route::resource(
             'opportunities',
             'JsonApi\OpportunityController',

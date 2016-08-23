@@ -12,3 +12,4 @@ Homestead.json
 /public/fonts
 /public/assets/*
 /resources/views/app/main.blade.php
+/public/downloads/*

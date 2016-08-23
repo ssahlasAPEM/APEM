@@ -59,6 +59,32 @@ class ApiServiceProvider extends ServiceProvider
         );
 
         /**
+         * Provides a response for Ember based Json routes that require a named root
+         * Meta node exists for additional info if needed;
+         */
+        response()->macro(
+            'namedJsonRoot',
+            function ($rootName, $response, $totalPages = null) {
+                if (is_null($totalPages)) {
+                    $namedArray = [
+                        $rootName => $response,
+                    ];
+
+                    return response()->json($namedArray);
+                }
+
+                $namedArray = [
+                    $rootName => $response,
+                    'meta'    => [
+                        'total_pages' => $totalPages
+                    ]
+                ];
+
+                return response()->json($namedArray);
+            }
+        );
+
+        /**
          * Provides the appropriate JSON response for a deleted record
          */
         response()->macro(
