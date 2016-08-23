@@ -24,4 +24,24 @@ class OpportunityService extends RESTFULService
         parent::__construct();
         $this->interface = $opportunityInterface;
     }
+
+    /**
+     * Fetch a single page of data
+     *
+     * @param $limit
+     * @param $offset
+     * @param $filter
+     *
+     * @return mixed
+     */
+    public function fetchPageFiltered($limit, $offset, $filter)
+    {
+        try {
+            $array = $this->interface->findAllPaginatedFiltered($limit, $offset, $filter);
+
+            return $array;
+        } catch (\Exception $exception) {
+            return $this->errorResponseFactory->makeErrorResponse($exception);
+        }
+    }
 }

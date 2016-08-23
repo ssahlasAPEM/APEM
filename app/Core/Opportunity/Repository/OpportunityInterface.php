@@ -21,10 +21,10 @@ interface OpportunityInterface extends CrudInterface
      *
      * @param $limit
      * @param $offset
-     * @param $name
+     * @param $filter
      *
      * @return mixed
      * @throws \Exception
      */
-    public function searchByNamePaginated($limit, $offset, $name);
+    public function findAllPaginatedFiltered($limit, $offset, $filter);
 }

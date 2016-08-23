@@ -26,30 +26,33 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
      *
      * @param $limit
      * @param $offset
-     * @param $name
+     * @param $filter
      *
      * @return mixed
      * @throws \Exception
      */
-    public function searchByNamePaginated($limit, $offset, $name)
+    public function findAllPaginatedFiltered($limit, $offset, $filter)
     {
-        $escapedName = str_replace(['%', '_'], ['\%', '\_'], strtolower($name));
-
         if(Auth::user()->type !== 'Admin') {
-            $result = $this->getQueryModel()
-                ->where('user_id','=',Auth::user()->id)
-                ->whereRaw('LOWER(name) LIKE ?', ['%' . $escapedName . '%'])
-                ->orderBy('id', 'asc')
-                ->paginate($limit);
+            $query = $this->getQueryModel()
+                ->where('user_id','=',Auth::user()->id);
         } else {
-            $result = $this->getQueryModel()
-                ->whereRaw('LOWER(name) LIKE ?', ['%' . $escapedName . '%'])
-                ->orderBy('id', 'asc')
-                ->paginate($limit);
+            $query = $this->getQueryModel();
         }
 
-        $collection  = $this->getCollection($result->toArray()['data']);
-        return $this->addMetaInfo($limit, $offset, $result->total(), $collection, ['name' => $name]);
+        foreach($filter AS $key => $value) {
+            $dataPoint = str_replace('-', '_', $key);
+            $query = $query->where($dataPoint, 'like', '%'.$value.'%');
+        }
+
+        $results = $query
+            ->orderBy('id', 'asc')
+            ->paginate($limit);
+        $collection  = $this->getCollection($results->toArray()['data']);
+        return $this->addMetaInfo($limit, $offset, $results->total(), $collection/*, ['filter' => $filter]*/);
+
+        // method for lower casing and escaping characters
+        //$escapedName = str_replace(['%', '_'], ['\%', '\_'], strtolower($name));
     }
 
     /**
@@ -96,20 +99,6 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         $obj = $this->createObject($newOpportunity->toArray());
 
         return $obj;
-    }
-
-    /**
-     * @return FieldCollection|OpportunityCollection|UserCollection
-     * @throws ForbiddenException
-     */
-    public function findAll()
-    {
-        if(Auth::user()->type !== 'Admin') {
-            $result = $this->getQueryModel()->where('user_id','=',Auth::user()->id)->get();
-
-            return $this->getCollection($result->toArray());
-        }
-        return parent::findall();
     }
 
     /**
