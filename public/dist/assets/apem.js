@@ -6597,6 +6597,7 @@ define('apem/pods/opportunities/index/controller', ['exports', 'ember'], functio
 define('apem/pods/opportunities/index/route', ['exports', 'ember', 'ember-cli-pagination/remote/route-mixin'], function (exports, _ember, _emberCliPaginationRemoteRouteMixin) {
   exports['default'] = _ember['default'].Route.extend(_emberCliPaginationRemoteRouteMixin['default'], {
     totalPagesParam: "meta.total-pages",
+    totalRecordsParam: "meta.total-records",
     perPage: 25,
     breadCrumb: { title: 'Manage Opportunities' },
 
@@ -6621,11 +6622,11 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
           "loc": {
             "source": null,
             "start": {
-              "line": 15,
+              "line": 20,
               "column": 0
             },
             "end": {
-              "line": 17,
+              "line": 22,
               "column": 0
             }
           },
@@ -6650,7 +6651,7 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
           morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
           return morphs;
         },
-        statements: [["inline", "opportunities/opp-table", [], ["model", ["subexpr", "@mut", [["get", "opportunities", ["loc", [null, [16, 34], [16, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "fields", ["subexpr", "@mut", [["get", "fields", ["loc", [null, [16, 55], [16, 61]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [16, 2], [16, 63]]], 0, 0]],
+        statements: [["inline", "opportunities/opp-table", [], ["model", ["subexpr", "@mut", [["get", "opportunities", ["loc", [null, [21, 34], [21, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "fields", ["subexpr", "@mut", [["get", "fields", ["loc", [null, [21, 55], [21, 61]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [21, 2], [21, 63]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -6662,11 +6663,11 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
           "loc": {
             "source": null,
             "start": {
-              "line": 19,
+              "line": 24,
               "column": 0
             },
             "end": {
-              "line": 21,
+              "line": 26,
               "column": 0
             }
           },
@@ -6700,7 +6701,7 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
             "column": 0
           },
           "end": {
-            "line": 24,
+            "line": 29,
             "column": 0
           }
         },
@@ -6712,6 +6713,23 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "ui meta");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("span");
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("br");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("br");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\ndeals\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
         dom.setAttribute(el1, "clss", "top attached ui menu");
         var el2 = dom.createTextNode("\n  ");
@@ -6769,22 +6787,23 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0]);
+        var element0 = dom.childAt(fragment, [2]);
         var element1 = dom.childAt(element0, [1]);
         var element2 = dom.childAt(element1, [1]);
         var element3 = dom.childAt(element1, [3]);
-        var morphs = new Array(8);
-        morphs[0] = dom.createAttrMorph(element2, 'class');
-        morphs[1] = dom.createElementMorph(element2);
-        morphs[2] = dom.createAttrMorph(element3, 'class');
-        morphs[3] = dom.createElementMorph(element3);
-        morphs[4] = dom.createMorphAt(element0, 3, 3);
-        morphs[5] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        var morphs = new Array(9);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]), 0, 0);
+        morphs[1] = dom.createAttrMorph(element2, 'class');
+        morphs[2] = dom.createElementMorph(element2);
+        morphs[3] = dom.createAttrMorph(element3, 'class');
+        morphs[4] = dom.createElementMorph(element3);
+        morphs[5] = dom.createMorphAt(element0, 3, 3);
         morphs[6] = dom.createMorphAt(fragment, 4, 4, contextualElement);
         morphs[7] = dom.createMorphAt(fragment, 6, 6, contextualElement);
+        morphs[8] = dom.createMorphAt(fragment, 8, 8, contextualElement);
         return morphs;
       },
-      statements: [["attribute", "class", ["concat", ["ui labeled icon button white-button ", ["subexpr", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [3, 70], [3, 81]]], 0, 0, 0, 0], "grid"], [], ["loc", [null, [3, 60], [3, 89]]], 0, 0], "active"], [], ["loc", [null, [3, 55], [3, 100]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["showGridView"], [], ["loc", [null, [3, 102], [3, 127]]], 0, 0], ["attribute", "class", ["concat", ["ui labeled icon button white-button ", ["subexpr", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [6, 70], [6, 81]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [6, 60], [6, 89]]], 0, 0], "active"], [], ["loc", [null, [6, 55], [6, 100]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["showListView"], [], ["loc", [null, [6, 102], [6, 127]]], 0, 0], ["inline", "adv-search", [], ["class", "column inline-block center aligned"], ["loc", [null, [11, 2], [11, 59]]], 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [15, 16], [15, 27]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [15, 6], [15, 35]]], 0, 0]], [], 0, null, ["loc", [null, [15, 0], [17, 7]]]], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [19, 16], [19, 27]]], 0, 0, 0, 0], "grid"], [], ["loc", [null, [19, 6], [19, 35]]], 0, 0]], [], 1, null, ["loc", [null, [19, 0], [21, 7]]]], ["content", "outlet", ["loc", [null, [23, 0], [23, 10]]], 0, 0, 0, 0]],
+      statements: [["content", "opportunities.meta.total-records", ["loc", [null, [2, 6], [2, 42]]], 0, 0, 0, 0], ["attribute", "class", ["concat", ["ui labeled icon button white-button ", ["subexpr", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [8, 70], [8, 81]]], 0, 0, 0, 0], "grid"], [], ["loc", [null, [8, 60], [8, 89]]], 0, 0], "active"], [], ["loc", [null, [8, 55], [8, 100]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["showGridView"], [], ["loc", [null, [8, 102], [8, 127]]], 0, 0], ["attribute", "class", ["concat", ["ui labeled icon button white-button ", ["subexpr", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [11, 70], [11, 81]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [11, 60], [11, 89]]], 0, 0], "active"], [], ["loc", [null, [11, 55], [11, 100]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["showListView"], [], ["loc", [null, [11, 102], [11, 127]]], 0, 0], ["inline", "adv-search", [], ["class", "column inline-block center aligned"], ["loc", [null, [16, 2], [16, 59]]], 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [20, 16], [20, 27]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [20, 6], [20, 35]]], 0, 0]], [], 0, null, ["loc", [null, [20, 0], [22, 7]]]], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [24, 16], [24, 27]]], 0, 0, 0, 0], "grid"], [], ["loc", [null, [24, 6], [24, 35]]], 0, 0]], [], 1, null, ["loc", [null, [24, 0], [26, 7]]]], ["content", "outlet", ["loc", [null, [28, 0], [28, 10]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0, child1]
     };
@@ -6871,7 +6890,7 @@ define('apem/pods/opportunities/new/route', ['exports', 'ember'], function (expo
             _this.transitionTo('opportunities.opportunity.detail', savedOpportunity);
           });
         }, function (error) {
-          errs.addObject(error);
+          console.log(error);
         });
       }
     }
@@ -7147,6 +7166,7 @@ define('apem/pods/users/index/controller', ['exports', 'ember'], function (expor
 define('apem/pods/users/index/route', ['exports', 'ember', 'ember-cli-pagination/remote/route-mixin'], function (exports, _ember, _emberCliPaginationRemoteRouteMixin) {
   exports['default'] = _ember['default'].Route.extend(_emberCliPaginationRemoteRouteMixin['default'], {
     totalPagesParam: "meta.total-pages",
+    totalRecordsParam: "meta.total-records",
     perPage: 25,
     breadCrumb: { title: 'User Management' },
 
@@ -7173,7 +7193,7 @@ define("apem/pods/users/index/template", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 4,
+            "line": 9,
             "column": 0
           }
         },
@@ -7185,6 +7205,23 @@ define("apem/pods/users/index/template", ["exports"], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "ui meta");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("span");
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("br");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("br");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\nusers\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
@@ -7196,13 +7233,13 @@ define("apem/pods/users/index/template", ["exports"], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        var morphs = new Array(3);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]), 0, 0);
         morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
-        dom.insertBoundary(fragment, 0);
+        morphs[2] = dom.createMorphAt(fragment, 4, 4, contextualElement);
         return morphs;
       },
-      statements: [["inline", "users/usr-table", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [1, 24], [1, 29]]], 0, 0, 0, 0]], [], [], 0, 0], "didCreateUser", ["subexpr", "action", ["onUserCreated"], [], ["loc", [null, [1, 44], [1, 68]]], 0, 0]], ["loc", [null, [1, 0], [1, 70]]], 0, 0], ["content", "outlet", ["loc", [null, [3, 0], [3, 10]]], 0, 0, 0, 0]],
+      statements: [["content", "model.meta.total-records", ["loc", [null, [2, 6], [2, 34]]], 0, 0, 0, 0], ["inline", "users/usr-table", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [6, 24], [6, 29]]], 0, 0, 0, 0]], [], [], 0, 0], "didCreateUser", ["subexpr", "action", ["onUserCreated"], [], ["loc", [null, [6, 44], [6, 68]]], 0, 0]], ["loc", [null, [6, 0], [6, 70]]], 0, 0], ["content", "outlet", ["loc", [null, [8, 0], [8, 10]]], 0, 0, 0, 0]],
       locals: [],
       templates: []
     };
@@ -9580,7 +9617,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+6f8a854d"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+8a256088"});
 }
 
 /* jshint ignore:end */

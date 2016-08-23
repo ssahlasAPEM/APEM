@@ -1588,7 +1588,7 @@ define('apem/tests/pods/opportunities/new/route.jshint', ['exports'], function (
   QUnit.module('JSHint - pods/opportunities/new/route.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/opportunities/new/route.js should pass jshint.\npods/opportunities/new/route.js: line 25, col 9, \'errs\' is not defined.\n\n1 error');
+    assert.ok(true, 'pods/opportunities/new/route.js should pass jshint.');
   });
 });
 define('apem/tests/pods/opportunities/opportunity/controller.jshint', ['exports'], function (exports) {
