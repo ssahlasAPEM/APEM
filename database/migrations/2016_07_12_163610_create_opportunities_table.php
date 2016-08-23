@@ -17,7 +17,7 @@ class CreateOpportunitiesTable extends Migration
             'opportunities', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->boolean('draft')->default('true');
+            $table->boolean('draft')->default(true);
             $table->string('status')->nullable();
             $table->string('stage')->default('quote');
             $table->string('company')->nullable(); // Nullable
