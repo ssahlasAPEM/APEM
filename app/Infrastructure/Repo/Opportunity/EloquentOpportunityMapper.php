@@ -39,7 +39,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
                 ->where('user_id','=',Auth::user()->id);
             $queryRev = $this->getQueryModel()
                 ->select(
-                    DB::raw('sum(revenue) as total_revenue')
+                    DB::raw('sum(potential_annual_rev) as total_revenue')
                 )->where('user_id','=',Auth::user()->id);
         } else {
             $query = $this->getQueryModel();
@@ -80,15 +80,33 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
     public function findAllPaginated($limit, $page)
     {
         if(Auth::user()->type !== 'Admin') {
-            $result = $this->getQueryModel()->where('user_id','=',Auth::user()->id)->orderBy('id', 'asc')->paginate($limit);
+            $result = $this->getQueryModel()
+                ->where('user_id','=',Auth::user()->id)
+                ->orderBy('id', 'asc')
+                ->paginate($limit);
             $collection = $this->getCollection($result->toArray()['data']);
 
-            dd($collection);
+            $queryRev = $this->getQueryModel()
+                ->select(
+                    DB::raw('sum(potential_annual_rev) as total_revenue')
+                )->where('user_id','=',Auth::user()->id);
+            $totalRevenue = $queryRev->get();
 
-            return $this->addMetaInfo($limit, $page, $result->total(), $collection);
+            return $this->addMetaInfo($limit, $page, $result->total(), $collection, $totalRevenue->toArray()[0]['total_revenue']);
         }
 
-        return parent::findAllPaginated($limit, $page);
+        $result = $this->getQueryModel()
+            ->orderBy('id', 'asc')
+            ->paginate($limit);
+        $collection = $this->getCollection($result->toArray()['data']);
+
+        $queryRev = $this->getQueryModel()
+            ->select(
+                DB::raw('sum(potential_annual_rev) as total_revenue')
+            );
+        $totalRevenue = $queryRev->get();
+
+        return $this->addMetaInfo($limit, $page, $result->total(), $collection, $totalRevenue->toArray()[0]['total_revenue']);
     }
 
     /**
