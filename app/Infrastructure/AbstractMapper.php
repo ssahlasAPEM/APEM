@@ -119,8 +119,11 @@ abstract class AbstractMapper implements CrudInterface
      */
     public function addMetaInfo($limit, $page, $total, TypedCollection $collection, $extra = null)
     {
-        $collectionMeta = new CollectionMeta($limit, $page, $extra);
+        $collectionMeta = new CollectionMeta($limit, $page);
         $collectionMeta->setTotalRecords($total);
+        if($extra !== null) {
+            $collectionMeta->setTotalRevenue($extra);
+        }
         $collection->setMeta($collectionMeta);
 
         return $collection;

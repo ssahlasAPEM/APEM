@@ -33,32 +33,12 @@ class LinksVO
     public function __construct(CollectionMeta $meta = null)
     {
         if (!is_null($meta)) {
-            $this->extra = $this->buildExtra($meta->getExtra());
             $this->setPrevLink($meta);
             $this->setNextLink($meta);
             $this->setLastLink($meta);
             $this->setSelfLink($meta);
             $this->setFirstLink($meta);
         }
-    }
-
-    /**
-     * @param $extra
-     *
-     * @return string
-     */
-    private function buildExtra($extra)
-    {
-        if ($extra === null) {
-            return '';
-        }
-
-        $extraArray = [];
-        foreach ($extra as $key => $val) {
-            $extraArray[] = $key . '=' . $val;
-        }
-
-        return '&' . implode('&', $extraArray);
     }
 
     /**

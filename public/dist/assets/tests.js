@@ -82,6 +82,15 @@ define('apem/tests/helpers/module-for-acceptance.jshint', ['exports'], function 
     assert.ok(true, 'helpers/module-for-acceptance.js should pass jshint.');
   });
 });
+define('apem/tests/helpers/not-equal.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - helpers/not-equal.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'helpers/not-equal.js should pass jshint.');
+  });
+});
 define('apem/tests/helpers/resolver', ['exports', 'apem/resolver', 'apem/config/environment'], function (exports, _apemResolver, _apemConfigEnvironment) {
 
   var resolver = _apemResolver['default'].create();

@@ -45,7 +45,8 @@ abstract class AbstractResponseMacro
                     $links = new LinksVO($serviceResponse->getMeta());
                     $meta  = new MetaObjectVO(
                         $serviceResponse->getMeta()->getTotalPages(),
-                        $serviceResponse->getMeta()->getTotalRecords()
+                        $serviceResponse->getMeta()->getTotalRecords(),
+                        $serviceResponse->getMeta()->getTotalRevenue()
                     );
                 } else {
                     $links = new LinksVO();

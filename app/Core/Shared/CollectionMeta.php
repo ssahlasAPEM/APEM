@@ -14,19 +14,17 @@ class CollectionMeta
     private $page;
     private $totalRecords;
     private $totalPages;
-    private $extra;
+    private $totalRevenue;
 
     /**
      * @param      $limit
      * @param      $page
-     * @param null $extra
      */
-    public function __construct($limit, $page, $extra = null)
+    public function __construct($limit, $page)
     {
 
         $this->limit = $limit;
         $this->page  = $page;
-        $this->extra = $extra;
     }
 
     /**
@@ -100,23 +98,17 @@ class CollectionMeta
     /**
      * @return mixed
      */
-    public function getExtra()
+    public function getTotalRevenue()
     {
-        return $this->extra;
+        return $this->totalRevenue;
     }
 
     /**
-     * "Extra" should be an array of key-value pairs representing extra query
-     * paramaters necessary for constructing the links in the meta for the
-     * query that generated this data. For example, if it was a search query,
-     * we need to preserve the name=SEARCHKEY parameter in the page links.
-     *
-     * But Extra could be anything else needed to build the JSON response
-     *
-     * @param mixed $extra
+     * @param mixed $totalRevenue
      */
-    public function setExtra($extra)
+    public function setTotalRevenue($totalRevenue)
     {
-        $this->extra = $extra;
+        setlocale(LC_MONETARY, 'en_US');
+        $this->totalRevenue = money_format('$%!n', $totalRevenue);
     }
 }

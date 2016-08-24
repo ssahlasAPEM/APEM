@@ -13,6 +13,7 @@ use app\Exceptions\ForbiddenException;
 use app\Exceptions\InvalidRequestException;
 use app\Infrastructure\AbstractEloquentMapper;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class EloquentOpportunityMapper
@@ -36,20 +37,32 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         if(Auth::user()->type !== 'Admin') {
             $query = $this->getQueryModel()
                 ->where('user_id','=',Auth::user()->id);
+            $queryRev = $this->getQueryModel()
+                ->select(
+                    DB::raw('sum(revenue) as total_revenue')
+                )->where('user_id','=',Auth::user()->id);
         } else {
             $query = $this->getQueryModel();
+            $queryRev = $this->getQueryModel()
+                ->select(
+                    DB::raw('sum(potential_annual_rev) as total_revenue')
+                );
         }
 
         foreach($filter AS $key => $value) {
             $dataPoint = str_replace('-', '_', $key);
             $query = $query->where($dataPoint, 'like', '%'.$value.'%');
+            $queryRev = $queryRev->where($dataPoint, 'like', '%'.$value.'%');
         }
 
         $results = $query
             ->orderBy('id', 'asc')
             ->paginate($limit);
+        $totalRevenue = $queryRev->get();
+
         $collection  = $this->getCollection($results->toArray()['data']);
-        return $this->addMetaInfo($limit, $offset, $results->total(), $collection/*, ['filter' => $filter]*/);
+
+        return $this->addMetaInfo($limit, $offset, $results->total(), $collection, $totalRevenue->toArray()[0]['total_revenue']);
 
         // method for lower casing and escaping characters
         //$escapedName = str_replace(['%', '_'], ['\%', '\_'], strtolower($name));
@@ -69,6 +82,9 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         if(Auth::user()->type !== 'Admin') {
             $result = $this->getQueryModel()->where('user_id','=',Auth::user()->id)->orderBy('id', 'asc')->paginate($limit);
             $collection = $this->getCollection($result->toArray()['data']);
+
+            dd($collection);
+
             return $this->addMetaInfo($limit, $page, $result->total(), $collection);
         }
 
