@@ -135,6 +135,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
 
             $event = new Event();
             $event->type = "create";
+            $event->date = date('Y-m-d');
             $event->opportunity_id = $newOpportunity->id;
             $event->save();
         } catch (\PDOException $exception) {
@@ -178,6 +179,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         // Generate update event
         $event = new Event();
         $event->type = "update";
+        $event->date = date('Y-m-d');
         $event->opportunity_id = $model->id;
         $event->save();
 
@@ -185,6 +187,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         if($currStage !== $model->stage) {
             $event = new Event();
             $event->type = $currStage;
+            $event->date = date('Y-m-d');
             $event->opportunity_id = $model->id;
             $event->save();
         }
@@ -192,6 +195,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         if($currStatus !== $model->status) {
             $event = new Event();
             $event->type = $model->status;
+            $event->date = date('Y-m-d');
             $event->opportunity_id = $model->id;
             $event->save();
         }
