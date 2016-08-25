@@ -44,4 +44,22 @@ class OpportunityService extends RESTFULService
             return $this->errorResponseFactory->makeErrorResponse($exception);
         }
     }
+
+    /**
+     * @param $dbId
+     *
+     * @return mixed
+     */
+    public function find($dbId)
+    {
+        try {
+            $oppEntity = $this->getInterface()->find($dbId);
+
+            $eventCollection = $oppEntity->getRelated(Event::class, null, null);
+
+            return new ComplexCollection($oppEntity, $eventCollection);
+        } catch (\Exception $exception) {
+            return $this->errorResponseFactory->makeErrorResponse($exception);
+        }
+    }
 }

@@ -7,8 +7,6 @@
  * Time: 3:19 PM
  */
 
-use app\Core\Event\Model\Event;
-use app\Core\Shared\ComplexCollection;
 use app\Exceptions\InvalidRequestException;
 use app\Http\ErrorResponseFactory;
 
@@ -92,11 +90,7 @@ abstract class RESTFULService
     public function find($dbId)
     {
         try {
-            $oppEntity = $this->getInterface()->find($dbId);
-
-            $eventCollection = $oppEntity->getRelated(Event::class, null, null);
-
-            return new ComplexCollection($oppEntity, $eventCollection);
+            return $this->getInterface()->find($dbId);
         } catch (\Exception $exception) {
             return $this->errorResponseFactory->makeErrorResponse($exception);
         }
