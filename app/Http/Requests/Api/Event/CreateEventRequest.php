@@ -35,6 +35,7 @@ class CreateEventRequest extends Request
     {
         return [
             'data.attributes.type'                   => 'required',
+            'data.attributes.date'                   => 'required',
             'data.relationships.opportunity.data.id' => 'required'
         ];
     }

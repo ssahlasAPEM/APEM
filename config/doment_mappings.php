@@ -124,16 +124,19 @@ return [
 
         'jsonToDomainEntity' => [
             'type'          => ['Type', Flags::NONE],
+            'date'           => ['Date', Flags::NONE],
             'opportunity-id' => ['OpportunityId', Flags::NONE]
         ],
 
         'eloquentToDomainEntity' => [
             'type'          => ['Type', Flags::NONE],
+            'date'           => ['Date', Flags::NONE],
             'opportunity_id' => ['OpportunityId', Flags::NONE]
         ],
 
         'objectDiscovery' => [
             'type'           => 'Type',
+            'date'           => 'Date',
             'opportunity-id' => 'OpportunityId'
         ],
 

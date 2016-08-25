@@ -307,7 +307,7 @@ class OpportunitySeeder extends Seeder
             $newOpp->city                    = $faker->city;
             $newOpp->state_county            = null;
             $newOpp->mail_code               = $faker->postcode;
-            $newOpp->country                 = $country[array_rand($country)];
+            $newOpp->country                 = $country[ array_rand($country) ];
             $newOpp->contact_name            = $faker->name;
             $newOpp->contact_title           = $faker->title;
             $newOpp->contact_phone           = $faker->phoneNumber;
@@ -317,14 +317,14 @@ class OpportunitySeeder extends Seeder
             $newOpp->apem_sales_person       = $faker->name;
             $newOpp->sra_sales_rep           = $faker->name;
             $newOpp->distributor_salesperson = $faker->name;
-            $newOpp->industry                = $industries[array_rand($industries)];
+            $newOpp->industry                = $industries[ array_rand($industries) ];
             $newOpp->application             = $faker->word;
-            $newOpp->reason_for_opp          = $reasonForOpp[array_rand($reasonForOpp)];
+            $newOpp->reason_for_opp          = $reasonForOpp[ array_rand($reasonForOpp) ];
             $newOpp->function                = $faker->word;
             $newOpp->catalog_product         = $faker->word;
             $newOpp->catalog_part_num        = $faker->randomNumber(null);
             $newOpp->customer_part_num       = $faker->randomNumber(null);
-            $newOpp->product_type            = $productType[array_rand($productType)];
+            $newOpp->product_type            = $productType[ array_rand($productType) ];
             $newOpp->product_series          = $faker->word;
             $newOpp->apem_part_num           = $faker->randomNumber(null);
             $newOpp->brief_description       = $faker->bs;
@@ -350,6 +350,12 @@ class OpportunitySeeder extends Seeder
             $newOpp->reason_for_loss         = null;
             $newOpp->comment_field           = $faker->bs;
             $newOpp->save();
+
+            $createEvent       = new \app\Models\Event();
+            $createEvent->date = $faker->date('Y-m-d');
+            $createEvent->type = "create";
+            $createEvent->opportunity_id = $newOpp->id;
+            $createEvent->save();
         }
     }
 

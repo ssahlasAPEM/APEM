@@ -18,6 +18,7 @@ class Event extends DomainEntity
 
     private $opportunityId;
     private $type;
+    private $date;
 
     /**
      * @return mixed
@@ -49,5 +50,21 @@ class Event extends DomainEntity
     public function setType($type)
     {
         $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param mixed $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
     }
 }
