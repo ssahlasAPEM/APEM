@@ -111,7 +111,9 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         $queryRev = $this->getQueryModel()
             ->select(
                 DB::raw('sum(potential_annual_rev) as total_revenue')
-            );
+            )->where('draft','=',0)
+            ->orWhere('draft','=','1')
+            ->where('user_id','=',Auth::user()->id);
         $totalRevenue = $queryRev->get();
 
         return $this->addMetaInfo($limit, $page, $result->total(), $collection, $totalRevenue->toArray()[0]['total_revenue']);
