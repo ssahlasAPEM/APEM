@@ -7,7 +7,9 @@
  * Time: 12:16 PM
  */
 
+use app\Core\Event\Model\Event;
 use app\Core\Opportunity\Repository\OpportunityInterface;
+use app\Core\Shared\ComplexCollection;
 
 /**
  * Class OpportunityService
