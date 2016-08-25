@@ -36,7 +36,6 @@ class UpdateEventRequest extends Request
         return [
             'data.id'                                => 'required',
             'data.attributes.type'                   => 'required',
-            'data.attributes.date'                   => 'required',
             'data.relationships.opportunity.data.id' => 'required'
         ];
     }

@@ -17,7 +17,6 @@ class CreateEventsTable extends Migration
             $table->integer('opportunity_id');
             $table->string('type');
             $table->string('date');
-            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });

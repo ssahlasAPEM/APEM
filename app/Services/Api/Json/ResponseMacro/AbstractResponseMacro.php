@@ -8,6 +8,7 @@
  */
 
 use app\Core\DomainEntityFieldFlags as Flags;
+use app\Core\Event\Model\Event;
 use app\Core\Shared\ComplexCollection;
 use app\Core\Shared\TypedCollection;
 use app\Core\User\Model\User;
@@ -180,6 +181,9 @@ abstract class AbstractResponseMacro
             switch ($includedCollection->targetClass()) {
                 case User::class:
                     $includedType = 'user';
+                    break;
+                case Event::class:
+                    $includedType = 'event';
                     break;
 
                 default:

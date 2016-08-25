@@ -7,11 +7,13 @@
  * Time: 4:00 PM
  */
 
+use app\Core\DomainEntity;
 use app\Core\Opportunity\Model\Opportunity;
 use app\Core\Opportunity\Repository\OpportunityInterface;
 use app\Exceptions\ForbiddenException;
 use app\Exceptions\InvalidRequestException;
 use app\Infrastructure\AbstractEloquentMapper;
+use app\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -128,6 +130,11 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             $newOpportunity = $this->getQueryModel();
             $newOpportunity = $this->doStoreMapping($newOpportunity, $opportunity, false);
             $newOpportunity->save();
+
+            $event = new Event();
+            $event->type = "create";
+            $event->opportunity_id = $newOpportunity->id;
+            $event->save();
         } catch (\PDOException $exception) {
             if ($exception->getCode() === 23505) {
                 throw new InvalidRequestException('A opportunity with that label already exists');
@@ -137,6 +144,58 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         }
 
         $obj = $this->createObject($newOpportunity->toArray());
+
+        return $obj;
+    }
+
+    /**
+     * Updates an existing DomainEntity object and returns it
+     *
+     * @param DomainEntity $object
+     *
+     * @return DomainEntity
+     * @throws ObjectNotFoundException
+     * @throws \Exception
+     */
+    public function update(DomainEntity $object)
+    {
+        $model = $this->getQueryModel();
+        $model = $model->where('id', '=', $object->getId())->first();
+
+        // Get current stage and status
+        $currStage = $model->stage;
+        $currStatus = $model->status;
+
+        if ($model === null) {
+            throw new ObjectNotFoundException($this->targetClass(), $object->getId());
+        }
+
+        $model = $this->doStoreMapping($model, $object, true);
+        $model->save();
+
+        // Generate update event
+        $event = new Event();
+        $event->type = "update";
+        $event->opportunity_id = $model->id;
+        $event->save();
+
+        // Check if we need to generate a stage / status event
+        if($currStage !== $model->stage) {
+            $event = new Event();
+            $event->type = $currStage;
+            $event->opportunity_id = $model->id;
+            $event->save();
+        }
+
+        if($currStatus !== $model->status) {
+            $event = new Event();
+            $event->type = $model->status;
+            $event->opportunity_id = $model->id;
+            $event->save();
+        }
+
+        // return the object
+        $obj = $this->createObject($model->toArray());
 
         return $obj;
     }

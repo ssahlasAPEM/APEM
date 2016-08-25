@@ -47,6 +47,46 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
     }
 
     /**
+     * Finds Events that contain this specific $opportunityId
+     *
+     * @param $opportunityId
+     *
+     * @return EventCollection
+     */
+    public function findByOpportunityId($opportunityId)
+    {
+        $result = $this->getQueryModel()
+            ->where('opportunity_id', '=', intval($opportunityId))
+            ->orderBy('id', 'asc')
+            ->get();
+
+        $responseArray = $result->toArray();
+
+        return $this->getCollection($responseArray);
+    }
+
+    /**
+     * Finds Events that contain this specific $opportunityId, paginated
+     *
+     * @param $opportunityId
+     * @param $limit
+     * @param $page
+     *
+     * @return EventCollection
+     */
+    public function findByOpportunityIdPaginated($opportunityId, $limit, $page)
+    {
+        $result = $this->getQueryModel()
+            ->where('opportunity_id', '=', intval($opportunityId))
+            ->orderBy('id', 'asc')
+            ->paginate($limit);
+
+        $collection = $this->getCollection($result->toArray()['data']);
+
+        return $this->addMetaInfo($limit, $page, $result->total(), $collection);
+    }
+
+    /**
      * @return mixed
      */
     public function targetClass()

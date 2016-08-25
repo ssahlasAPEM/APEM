@@ -8,6 +8,8 @@
  */
 
 use app\Core\DomainEntity;
+use app\Core\Event\Model\Event;
+use app\Exceptions\InvalidRequestException;
 
 /**
  * Class Opportunity
@@ -882,5 +884,31 @@ class Opportunity extends DomainEntity
     public function setStage($stage)
     {
         $this->stage = $stage;
+    }
+
+
+    /**
+     * @param      $relatedClass
+     * @param      $limit
+     * @param      $page
+     *
+     * @return mixed
+     * @throws InvalidRequestException
+     */
+    public function getRelated($relatedClass, $limit, $page)
+    {
+        switch ($relatedClass) {
+            case Event::class:
+                $finder = self::getFinder($relatedClass);
+                break;
+            default:
+                throw new InvalidRequestException("NAO Opportunity not related to " . $relatedClass);
+        }
+
+        if ($limit !== null && $page !== null) {
+            return $finder->findByOpportunityIdPaginated($this->getId(), $limit, $page);
+        }
+
+        return $finder->findByOpportunityId($this->getId());
     }
 }

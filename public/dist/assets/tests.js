@@ -41,6 +41,15 @@ define('apem/tests/helpers/destroy-app.jshint', ['exports'], function (exports) 
     assert.ok(true, 'helpers/destroy-app.js should pass jshint.');
   });
 });
+define('apem/tests/helpers/if-odd.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - helpers/if-odd.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'helpers/if-odd.js should pass jshint.');
+  });
+});
 define('apem/tests/helpers/is-equal.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -1823,6 +1832,25 @@ define('apem/tests/unit/helpers/currency-format-test.jshint', ['exports'], funct
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/helpers/currency-format-test.js should pass jshint.');
+  });
+});
+define('apem/tests/unit/helpers/if-odd-test', ['exports', 'apem/helpers/if-odd', 'qunit'], function (exports, _apemHelpersIfOdd, _qunit) {
+
+  (0, _qunit.module)('Unit | Helper | if odd');
+
+  // Replace this with your real tests.
+  (0, _qunit.test)('it works', function (assert) {
+    var result = (0, _apemHelpersIfOdd.ifOdd)([42]);
+    assert.ok(result);
+  });
+});
+define('apem/tests/unit/helpers/if-odd-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - unit/helpers/if-odd-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/helpers/if-odd-test.js should pass jshint.');
   });
 });
 define('apem/tests/unit/models/field-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
