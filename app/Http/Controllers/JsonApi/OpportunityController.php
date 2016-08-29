@@ -43,10 +43,38 @@ class OpportunityController extends AbstractApiController
      */
     public function index(ListRequest $request, $raw = false)
     {
-        $filter = null;
+        $filter = [];
 
-        if ($request->get('filter') !== null && $request->get('filter') !== '') {
-            $filter = $request->get('filter');
+        if ($request->get('lastThirtyDays') !== null && $request->get('lastThirtyDays') !== '') {
+            $filter['lastThirtyDays'] = $request->get('lastThirtyDays');
+        }
+
+        if ($request->get('dateEntered') !== null && $request->get('dateEntered') !== '') {
+            $filter['dateEntered'] = $request->get('dateEntered');
+        }
+
+        if ($request->get('startDate') !== null && $request->get('startDate') !== '') {
+            $filter['startDate'] = $request->get('startDate');
+        }
+
+        if ($request->get('endDate') !== null && $request->get('endDate') !== '') {
+            $filter['endDate'] = $request->get('endDate');
+        }
+
+        if ($request->get('estimatedProdDate') !== null && $request->get('estimatedProdDate') !== '') {
+            $filter['estimatedProdDate'] = $request->get('estimatedProdDate');
+        }
+
+        if ($request->get('searchString') !== null && $request->get('searchString') !== '') {
+            $filter['searchString'] = $request->get('searchString');
+        }
+
+        if ($request->get('searchedState') !== null && $request->get('searchedState') !== '') {
+            $filter['searchedState'] = $request->get('searchedState');
+        }
+
+        if ($request->get('searchedStatus') !== null && $request->get('searchedStatus') !== '') {
+            $filter['searchedStatus'] = $request->get('searchedStatus');
         }
 
         if (is_null($filter)) {

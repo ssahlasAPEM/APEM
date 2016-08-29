@@ -147,6 +147,15 @@ define('apem/tests/helpers/start-app.jshint', ['exports'], function (exports) {
     assert.ok(true, 'helpers/start-app.js should pass jshint.');
   });
 });
+define('apem/tests/helpers/style-attr.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - helpers/style-attr.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'helpers/style-attr.js should pass jshint.');
+  });
+});
 define('apem/tests/initializers/services.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -1303,6 +1312,24 @@ define('apem/tests/mirage/scenarios/default.jshint', ['exports'], function (expo
     assert.ok(true, 'mirage/scenarios/default.js should pass jshint.');
   });
 });
+define('apem/tests/mixins/infinity-filter.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - mixins/infinity-filter.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'mixins/infinity-filter.js should pass jshint.');
+  });
+});
+define('apem/tests/models/event.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - models/event.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/event.js should pass jshint.');
+  });
+});
 define('apem/tests/models/field.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -1372,7 +1399,7 @@ define('apem/tests/pods/components/adv-search/component.jshint', ['exports'], fu
   QUnit.module('JSHint - pods/components/adv-search/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/adv-search/component.js should pass jshint.');
+    assert.ok(false, 'pods/components/adv-search/component.js should pass jshint.\npods/components/adv-search/component.js: line 58, col 7, Forgotten \'debugger\' statement?\npods/components/adv-search/component.js: line 61, col 24, \'value\' is defined but never used.\n\n2 errors');
   });
 });
 define('apem/tests/pods/components/confirm-delete/component.jshint', ['exports'], function (exports) {
@@ -1445,15 +1472,6 @@ define('apem/tests/pods/components/new-user/component.jshint', ['exports'], func
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'pods/components/new-user/component.js should pass jshint.');
-  });
-});
-define('apem/tests/pods/components/opportunities/opp-table/component.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint - pods/components/opportunities/opp-table/component.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'pods/components/opportunities/opp-table/component.js should pass jshint.');
   });
 });
 define('apem/tests/pods/components/opportunities/opt-form/component.jshint', ['exports'], function (exports) {

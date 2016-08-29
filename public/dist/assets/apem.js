@@ -131,6 +131,9 @@ define('apem/components/happy-split-view', ['exports', 'ember', 'ember-cli-happy
 define('apem/components/happy-splitter-bar', ['exports', 'ember', 'ember-cli-happy-splitter/components/happy-splitter-bar'], function (exports, _ember, _emberCliHappySplitterComponentsHappySplitterBar) {
   exports['default'] = _emberCliHappySplitterComponentsHappySplitterBar['default'];
 });
+define('apem/components/infinity-loader', ['exports', 'ember-infinity/components/infinity-loader'], function (exports, _emberInfinityComponentsInfinityLoader) {
+  exports['default'] = _emberInfinityComponentsInfinityLoader['default'];
+});
 define('apem/components/multiselect-checkboxes', ['exports', 'ember-multiselect-checkboxes/components/multiselect-checkboxes'], function (exports, _emberMultiselectCheckboxesComponentsMultiselectCheckboxes) {
   exports['default'] = _emberMultiselectCheckboxesComponentsMultiselectCheckboxes['default'];
 });
@@ -637,6 +640,26 @@ define('apem/helpers/pluralize', ['exports', 'ember-inflector/lib/helpers/plural
 define('apem/helpers/singularize', ['exports', 'ember-inflector/lib/helpers/singularize'], function (exports, _emberInflectorLibHelpersSingularize) {
   exports['default'] = _emberInflectorLibHelpersSingularize['default'];
 });
+define('apem/helpers/style-attr', ['exports', 'ember'], function (exports, _ember) {
+  exports.styleAttr = styleAttr;
+
+  function styleAttr(params /*, hash*/) {
+    var styleString = '';
+
+    params.forEach(function (param, index) {
+      if (index % 2 === 0) {
+        styleString = styleString.concat(param + ': ');
+      } else {
+        // TODO: add css escaping
+        styleString = styleString.concat(param + '; ');
+      }
+    });
+
+    return _ember['default'].String.htmlSafe(styleString);
+  }
+
+  exports['default'] = _ember['default'].Helper.helper(styleAttr);
+});
 define('apem/helpers/t', ['exports', 'ember-intl/helpers/t'], function (exports, _emberIntlHelpersT) {
   /**
    * Copyright 2015, Yahoo! Inc.
@@ -1055,6 +1078,91 @@ define('apem/mixins/base', ['exports', 'semantic-ui-ember/mixins/base'], functio
     }
   });
 });
+define('apem/mixins/infinity-filter', ['exports', 'ember', 'ember-infinity/mixins/route'], function (exports, _ember, _emberInfinityMixinsRoute) {
+  exports['default'] = _ember['default'].Mixin.create(_emberInfinityMixinsRoute['default'], {
+
+    filterProperty: 'modelFilter',
+    filterModelProperty: 'listTitle',
+    params: null,
+
+    infinityFilterModel: function infinityFilterModel(modeltype, params) {
+      if (params) {
+        return this.infinityModel(modeltype, params);
+      } else {
+        return this.infinityModel(modeltype, { perPage: 25, startingPage: 1 });
+      }
+    },
+
+    addInfinityModel: function addInfinityModel(newObject) {
+      this.get('controller.model').unshiftObject(newObject._internalModel);
+    },
+
+    setupController: function setupController(controller, model) {
+      var _this = this;
+
+      this._super.apply(this, arguments);
+
+      controller.set('filteredModel', model);
+      controller.set('filterLoading', false);
+
+      controller.addObserver('model', function () {
+        _this.updateFilter();
+      });
+
+      controller.addInfinityModel = function (newObject) {
+        _this.addInfinityModel(newObject);
+      };
+
+      this.addObserver('controller.' + this.get('filterProperty'), function () {
+        // Immediately Filter existing list of items
+        _this.updateFilter();
+
+        // Fetch additional items from server with filter query
+        _ember['default'].run.debounce(_this, _this.updateSearch, 300);
+      });
+    },
+
+    updateSearch: function updateSearch() {
+      this.set(this.get('filterProperty'), this.get('controller.' + this.get('filterProperty')));
+      this.refresh();
+    },
+
+    updateFilter: function updateFilter() {
+      var _this2 = this;
+
+      this.set('controller.filterLoading', true);
+
+      var rx = new RegExp(this.get('controller.' + this.get('filterProperty')), 'gi');
+      var model = this.get('controller.model');
+      var filterProperty = this.get('filterModelProperty');
+      this.set('controller.filteredModel', model.filter(function (item) {
+        if (item.get(filterProperty) === undefined) {
+          return true;
+        }
+        return item.get(filterProperty).match(rx) || _this2.get('controller.modelFilter') === '';
+      }));
+    },
+
+    actions: {
+      loading: function loading() {
+        if (this.get('controller.filterLoading')) {
+          return false;
+        }
+
+        return true;
+      }
+    }
+  });
+});
+define('apem/models/event', ['exports', 'ember-data'], function (exports, _emberData) {
+  exports['default'] = _emberData['default'].Model.extend({
+    opportunity: _emberData['default'].belongsTo('opportunity'),
+    created_at: _emberData['default'].attr('string'),
+    updated_at: _emberData['default'].attr('string'),
+    type: _emberData['default'].attr('string'),
+    date: _emberData['default'].attr('string')
+  });
+});
 define('apem/models/field', ['exports', 'ember-data'], function (exports, _emberData) {
   exports['default'] = _emberData['default'].Model.extend({
     created_at: _emberData['default'].attr('string'),
@@ -1072,6 +1180,7 @@ define('apem/models/field', ['exports', 'ember-data'], function (exports, _ember
 define('apem/models/opportunity', ['exports', 'ember-data'], function (exports, _emberData) {
   exports['default'] = _emberData['default'].Model.extend({
     user: _emberData['default'].belongsTo('user'),
+    events: _emberData['default'].hasMany('event'),
     draft: _emberData['default'].attr('boolean', { defaultValue: false }),
     status: _emberData['default'].attr('string', { defaultValue: null }),
     stage: _emberData['default'].attr('string', { defaultValue: 'quote' }),
@@ -1123,7 +1232,8 @@ define('apem/models/opportunity', ['exports', 'ember-data'], function (exports, 
     commentField: _emberData['default'].attr('string', { defaultValue: null }),
     createdAt: _emberData['default'].attr('string', { defaultValue: null }),
     updatedAt: _emberData['default'].attr('string', { defaultValue: null }),
-    newRecord: _emberData['default'].attr('boolean', { defaultValue: false })
+    newRecord: _emberData['default'].attr('boolean', { defaultValue: false }),
+    userId: _emberData['default'].attr('string', { defaultValue: null })
   });
 });
 define('apem/models/profile', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -1304,7 +1414,7 @@ define("apem/pods/application/template", ["exports"], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "ui-main pusher");
+        dom.setAttribute(el1, "class", "ui-main pusher pusher-window");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment(" Application Header ");
@@ -1316,7 +1426,7 @@ define("apem/pods/application/template", ["exports"], function (exports) {
         var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "ui-content");
+        dom.setAttribute(el2, "class", "ui-content fixed-content");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment(" Main Application Content ");
@@ -1366,8 +1476,72 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
 
     searchedStatus: 'Backburner', //default
     searchedState: 'Open',
+    lastThirtyDays: true,
+    dateEntered: '',
+    startDate: '',
+    endDate: '',
+    estimatedProdDate: '',
+    searchString: '',
+    searchUsed: false,
+
+    notUsingDates: (function () {
+      console.log('disabled change!!!');
+      return this.get('lastThirtyDays');
+    }).property('lastThirtyDays'),
+
+    notUsingDateEntered: (function () {
+      // console.log('manage date entered!!!');
+      return this.get('lastThirtyDays') === true || this.get('startDate') !== '' || this.get('endDate') !== '' || this.get('estimatedProdDate') !== '' ? true : false;
+    }).property('lastThirtyDays', 'startDate', 'endDate', 'estimatedProdDate'),
+
+    notUsingDateRange: (function () {
+      // console.log('manage date entered!!!');
+      return this.get('lastThirtyDays') === true || this.get('dateEntered') !== '' || this.get('estimatedProdDate') !== '' ? true : false;
+    }).property('lastThirtyDays', 'dateEntered', 'estimatedProdDate'),
+
+    notUsingEstProdDate: (function () {
+      // console.log('manage date entered!!!');
+      return this.get('lastThirtyDays') === true || this.get('dateEntered') !== '' || this.get('startDate') !== '' || this.get('endDate') !== '' ? true : false;
+    }).property('lastThirtyDays', 'dateEntered', 'startDate', 'endDate'),
+
     actions: {
+      clearSearch: function clearSearch() {
+        this.toggleProperty('searchUsed');
+        this.set('searchString', '');
+        this.sendAction('clearSearchFilter');
+      },
+      onDateEntered: function onDateEntered(data) {
+        this.set('dateEntered', data);
+      },
+      onStartDate: function onStartDate(data) {
+        this.set('startDate', data);
+      },
+      onEndDate: function onEndDate(data) {
+        this.set('endDate', data);
+      },
+      onEstProductionDate: function onEstProductionDate(data) {
+        debugger;
+        this.set('estimatedProdDate', data);
+      },
+      onLastThirtyChange: function onLastThirtyChange(value) {
+        this.toggleProperty('lastThirtyDays');
+      },
+
       onSearchClick: function onSearchClick() {
+        var params = {
+          perPage: 25,
+          startingPage: 1,
+          lastThirtyDays: this.get('lastThirtyDays').toString(),
+          dateEntered: this.get('dateEntered'),
+          startDate: this.get('startDate'),
+          endDate: this.get('endDate'),
+          estimatedProdDate: this.get('estimatedProdDate'),
+          searchedStatus: this.get('searchedStatus'),
+          searchedState: this.get('searchedState'),
+          searchString: this.get('searchString')
+        };
+        this.toggleProperty('searchUsed');
+        this.sendAction('doSearch', params);
         //todo write search quesry here ?
       }
     }
@@ -1383,229 +1557,18 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
 define("apem/pods/components/adv-search/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
-      var child0 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.7.0",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 10,
-                "column": 2
-              },
-              "end": {
-                "line": 93,
-                "column": 2
-              }
-            },
-            "moduleName": "apem/pods/components/adv-search/template.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("\n    ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("i");
-            dom.setAttribute(el1, "class", "dropdown icon");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n    ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("div");
-            dom.setAttribute(el1, "class", "menu adv-search-menu");
-            var el2 = dom.createTextNode("\n      ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "ui field");
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createComment("");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("div");
-            dom.setAttribute(el3, "class", "item fake-item");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("br");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("br");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n      ");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n      ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "ui field gap1");
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("span");
-            dom.setAttribute(el3, "class", "menu-label");
-            var el4 = dom.createTextNode("Date Entered");
-            dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createComment("");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n      ");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n      ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "ui field gap1");
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("span");
-            dom.setAttribute(el3, "class", "menu-label");
-            var el4 = dom.createTextNode("Date Range");
-            dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("br");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createComment("");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createComment("");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n      ");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n      ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "ui field gap1");
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("span");
-            dom.setAttribute(el3, "class", "menu-label ");
-            var el4 = dom.createTextNode("Estimated Production Date");
-            dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("br");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createComment("");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n      ");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n\n      ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "divider gap1");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n\n      ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "ui field");
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("div");
-            dom.setAttribute(el3, "class", "row ui buttons gap1");
-            var el4 = dom.createTextNode("\n          ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createComment("");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createTextNode("\n\n          ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createComment("");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createTextNode("\n\n          ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createComment("");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createTextNode("\n        ");
-            dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createComment(" <div class=\"ui buttons gap1\">\n\n          <button class=\"ui button\">Won</button>\n          <button class=\"ui button\">Lost</button>\n          <button class=\"ui button\">Backburner</button>\n        </div> ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n      ");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n      ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "ui field");
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("br");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n        ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("div");
-            dom.setAttribute(el3, "class", "ui buttons fluid gap1");
-            var el4 = dom.createTextNode("\n          ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createComment("");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createTextNode("\n\n          ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createComment("");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createTextNode("\n          ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createComment(" <button class=\"ui button\">Open</button>\n          <button class=\"ui button\">Closed</button> ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createTextNode("\n        ");
-            dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n      ");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n\n    ");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var element0 = dom.childAt(fragment, [3]);
-            var element1 = dom.childAt(element0, [5]);
-            var element2 = dom.childAt(element0, [11, 1]);
-            var element3 = dom.childAt(element0, [13, 3]);
-            var morphs = new Array(10);
-            morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
-            morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 3, 3);
-            morphs[2] = dom.createMorphAt(element1, 4, 4);
-            morphs[3] = dom.createMorphAt(element1, 6, 6);
-            morphs[4] = dom.createMorphAt(dom.childAt(element0, [7]), 4, 4);
-            morphs[5] = dom.createMorphAt(element2, 1, 1);
-            morphs[6] = dom.createMorphAt(element2, 3, 3);
-            morphs[7] = dom.createMorphAt(element2, 5, 5);
-            morphs[8] = dom.createMorphAt(element3, 1, 1);
-            morphs[9] = dom.createMorphAt(element3, 3, 3);
-            return morphs;
-          },
-          statements: [["inline", "ui-checkbox", [], ["label", "New (last 30 days)", "checked", true, "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "checked", ["loc", [null, [15, 84], [15, 91]]], 0, 0, 0, 0]], [], ["loc", [null, [15, 79], [15, 92]]], 0, 0]], [], ["loc", [null, [15, 71], [15, 93]]], 0, 0]], ["loc", [null, [15, 8], [15, 95]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", ""], ["loc", [null, [21, 8], [21, 42]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "Start"], ["loc", [null, [25, 8], [25, 47]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "End", "class", "gap1"], ["loc", [null, [26, 8], [26, 58]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", ""], ["loc", [null, [30, 8], [30, 42]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "searchedStatus", ["loc", [null, [39, 20], [39, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Backburner", "value", "Backburner", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [43, 34], [43, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [43, 29], [43, 49]]], 0, 0]], [], ["loc", [null, [43, 21], [43, 50]]], 0, 0]], ["loc", [null, [37, 10], [43, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [47, 20], [47, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [51, 34], [51, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [51, 29], [51, 49]]], 0, 0]], [], ["loc", [null, [51, 21], [51, 50]]], 0, 0]], ["loc", [null, [45, 10], [51, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [55, 20], [55, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Lost", "value", "Lost", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [59, 34], [59, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [59, 29], [59, 49]]], 0, 0]], [], ["loc", [null, [59, 21], [59, 50]]], 0, 0]], ["loc", [null, [53, 10], [59, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sState", "current", ["subexpr", "@mut", [["get", "searchedState", ["loc", [null, [73, 20], [73, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Open", "value", "Open", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedState", ["loc", [null, [77, 34], [77, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [77, 29], [77, 48]]], 0, 0]], [], ["loc", [null, [77, 21], [77, 49]]], 0, 0]], ["loc", [null, [71, 10], [77, 51]]], 0, 0], ["inline", "ui-radio", [], ["name", "sState", "current", ["subexpr", "@mut", [["get", "searchedState", ["loc", [null, [81, 20], [81, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Closed", "value", "Closed", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedState", ["loc", [null, [85, 34], [85, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [85, 29], [85, 48]]], 0, 0]], [], ["loc", [null, [85, 21], [85, 49]]], 0, 0]], ["loc", [null, [79, 10], [85, 51]]], 0, 0]],
-          locals: [],
-          templates: []
-        };
-      })();
       return {
         meta: {
           "revision": "Ember@2.7.0",
           "loc": {
             "source": null,
             "start": {
-              "line": 1,
-              "column": 0
+              "line": 10,
+              "column": 2
             },
             "end": {
-              "line": 94,
-              "column": 0
+              "line": 114,
+              "column": 2
             }
           },
           "moduleName": "apem/pods/components/adv-search/template.hbs"
@@ -1616,44 +1579,249 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("\n  ");
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("i");
+          dom.setAttribute(el1, "class", "dropdown icon");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n      ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
-          dom.setAttribute(el1, "class", "ui icon input adv-search-input");
-          var el2 = dom.createTextNode("\n    ");
+          dom.setAttribute(el1, "class", "menu adv-search-menu");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
-          var el2 = dom.createElement("i");
-          dom.setAttribute(el2, "class", "search icon adv-search-icon-left");
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui field");
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "item fake-item");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("br");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("br");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n    ");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
-          var el2 = dom.createElement("input");
-          dom.setAttribute(el2, "class", "prompt search advanced-search");
-          dom.setAttribute(el2, "type", "text");
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui field gap1");
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("span");
+          dom.setAttribute(el3, "class", "menu-label");
+          var el4 = dom.createTextNode("Date Entered");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n  ");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n\n  ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui field gap1");
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("span");
+          dom.setAttribute(el3, "class", "menu-label");
+          var el4 = dom.createTextNode("Date Range");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("br");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui field gap1");
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("span");
+          dom.setAttribute(el3, "class", "menu-label ");
+          var el4 = dom.createTextNode("Estimated Production Date");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("br");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "divider gap1");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui field");
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "row ui three buttons gap1");
+          var el4 = dom.createTextNode("\n          ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n\n          ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n\n          ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment(" <div class=\"ui buttons gap1\">\n\n          <button class=\"ui button\">Won</button>\n          <button class=\"ui button\">Lost</button>\n          <button class=\"ui button\">Backburner</button>\n        </div> ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "ui field");
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("br");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "ui buttons fluid gap1");
+          var el4 = dom.createTextNode("\n          ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n\n          ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n          ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment(" <button class=\"ui button\">Open</button>\n          <button class=\"ui button\">Closed</button> ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n\n    ");
+          dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n\n");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(2);
-          morphs[0] = dom.createMorphAt(fragment, 3, 3, contextualElement);
-          morphs[1] = dom.createMorphAt(fragment, 5, 5, contextualElement);
-          dom.insertBoundary(fragment, null);
+          var element1 = dom.childAt(fragment, [3]);
+          var element2 = dom.childAt(element1, [5]);
+          var element3 = dom.childAt(element1, [11, 1]);
+          var element4 = dom.childAt(element1, [13, 3]);
+          var morphs = new Array(10);
+          morphs[0] = dom.createMorphAt(dom.childAt(element1, [1]), 1, 1);
+          morphs[1] = dom.createMorphAt(dom.childAt(element1, [3]), 3, 3);
+          morphs[2] = dom.createMorphAt(element2, 4, 4);
+          morphs[3] = dom.createMorphAt(element2, 6, 6);
+          morphs[4] = dom.createMorphAt(dom.childAt(element1, [7]), 4, 4);
+          morphs[5] = dom.createMorphAt(element3, 1, 1);
+          morphs[6] = dom.createMorphAt(element3, 3, 3);
+          morphs[7] = dom.createMorphAt(element3, 5, 5);
+          morphs[8] = dom.createMorphAt(element4, 1, 1);
+          morphs[9] = dom.createMorphAt(element4, 3, 3);
           return morphs;
         },
-        statements: [["inline", "input", [], ["type", "button", "value", "Search", "class", "ui button adv-search-btn", "click", ["subexpr", "action", ["onSearchClick"], [], ["loc", [null, [8, 78], [8, 102]]], 0, 0]], ["loc", [null, [8, 2], [8, 104]]], 0, 0], ["block", "ui-dropdown", [], ["class", "ui floating dropdown icon button adv-search-dropdown"], 0, null, ["loc", [null, [10, 2], [93, 18]]]]],
+        statements: [["inline", "ui-checkbox", [], ["label", "New (last 30 days)", "checked", ["subexpr", "@mut", [["get", "lastThirtyDays", ["loc", [null, [16, 20], [16, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", ["onLastThirtyChange", ["get", "lastThirtyDays", ["loc", [null, [17, 50], [17, 64]]], 0, 0, 0, 0]], [], ["loc", [null, [17, 21], [17, 65]]], 0, 0]], ["loc", [null, [14, 10], [17, 67]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "", "inputClass", "seventy-p cust-date-field", "disabled", ["subexpr", "@mut", [["get", "notUsingDateEntered", ["loc", [null, [26, 21], [26, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "adv-search-field", "updatedDate", "onDateEntered"], ["loc", [null, [23, 10], [28, 41]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "Start", "disabled", ["subexpr", "@mut", [["get", "notUsingDateRange", ["loc", [null, [33, 19], [33, 36]]], 0, 0, 0, 0]], [], [], 0, 0], "inputClass", "fifty-p cust-date-field", "class", "adv-search-field", "updatedDate", "onStartDate"], ["loc", [null, [32, 10], [36, 37]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "End", "inputClass", "fifty-p cust-date-field", "disabled", ["subexpr", "@mut", [["get", "notUsingDateRange", ["loc", [null, [40, 21], [40, 38]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "gap1 adv-search-field", "updatedDate", "onEndDate"], ["loc", [null, [37, 10], [42, 37]]], 0, 0], ["inline", "custom-date-picker", [], ["inputClass", "seventy-p cust-date-field", "btnLabel", "", "disabled", ["subexpr", "@mut", [["get", "notUsingEstProdDate", ["loc", [null, [49, 21], [49, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "adv-search-field", "updateDate", "onEstProductionDate"], ["loc", [null, [46, 10], [51, 46]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "searchedStatus", ["loc", [null, [60, 20], [60, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button backburner", "label", "Backburner", "value", "Backburner", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [64, 34], [64, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [64, 29], [64, 49]]], 0, 0]], [], ["loc", [null, [64, 21], [64, 50]]], 0, 0]], ["loc", [null, [58, 10], [64, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [68, 20], [68, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [72, 34], [72, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [72, 29], [72, 49]]], 0, 0]], [], ["loc", [null, [72, 21], [72, 50]]], 0, 0]], ["loc", [null, [66, 10], [72, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [76, 20], [76, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Lost", "value", "Lost", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [80, 34], [80, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [80, 29], [80, 49]]], 0, 0]], [], ["loc", [null, [80, 21], [80, 50]]], 0, 0]], ["loc", [null, [74, 10], [80, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sState", "current", ["subexpr", "@mut", [["get", "searchedState", ["loc", [null, [94, 20], [94, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Open", "value", "Open", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedState", ["loc", [null, [98, 34], [98, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [98, 29], [98, 48]]], 0, 0]], [], ["loc", [null, [98, 21], [98, 49]]], 0, 0]], ["loc", [null, [92, 10], [98, 51]]], 0, 0], ["inline", "ui-radio", [], ["name", "sState", "current", ["subexpr", "@mut", [["get", "searchedState", ["loc", [null, [102, 20], [102, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Closed", "value", "Closed", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedState", ["loc", [null, [106, 34], [106, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [106, 29], [106, 48]]], 0, 0]], [], ["loc", [null, [106, 21], [106, 49]]], 0, 0]], ["loc", [null, [100, 10], [106, 51]]], 0, 0]],
         locals: [],
-        templates: [child0]
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 116,
+              "column": 2
+            },
+            "end": {
+              "line": 121,
+              "column": 2
+            }
+          },
+          "moduleName": "apem/pods/components/adv-search/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("span");
+          dom.setAttribute(el1, "class", "ui icon");
+          dom.setAttribute(el1, "data-position", "bottom left");
+          dom.setAttribute(el1, "data-tooltip", "Clear Search");
+          dom.setAttribute(el1, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("i");
+          dom.setAttribute(el2, "class", "close large icon");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment(" <i class=\"close large icon clear-search-btn\" {{action 'clearSearch'}} data-tooltip='Clear Search'></i> ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1]);
+          var morphs = new Array(1);
+          morphs[0] = dom.createElementMorph(element0);
+          return morphs;
+        },
+        statements: [["element", "action", ["clearSearch"], [], ["loc", [null, [117, 82], [117, 106]]], 0, 0]],
+        locals: [],
+        templates: []
       };
     })();
     return {
@@ -1666,7 +1834,7 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 95,
+            "line": 123,
             "column": 0
           }
         },
@@ -1678,20 +1846,57 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createComment("");
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "advanced-search-component");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "ui icon input adv-search-input");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("i");
+        dom.setAttribute(el3, "class", "search icon adv-search-icon-left");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment(" <input class=\"prompt search advanced-search\" type=\"text\" > ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-        dom.insertBoundary(fragment, 0);
-        dom.insertBoundary(fragment, null);
+        var element5 = dom.childAt(fragment, [0]);
+        var morphs = new Array(4);
+        morphs[0] = dom.createMorphAt(dom.childAt(element5, [1]), 3, 3);
+        morphs[1] = dom.createMorphAt(element5, 3, 3);
+        morphs[2] = dom.createMorphAt(element5, 5, 5);
+        morphs[3] = dom.createMorphAt(element5, 7, 7);
         return morphs;
       },
-      statements: [["block", "ui-search", [], ["class", "advanced-search-component"], 0, null, ["loc", [null, [1, 0], [94, 14]]]]],
+      statements: [["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "searchString", ["loc", [null, [4, 18], [4, 30]]], 0, 0, 0, 0]], [], [], 0, 0], "key-press", ["subexpr", "action", [["subexpr", "mut", [["get", "searchString", ["loc", [null, [4, 54], [4, 66]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 49], [4, 67]]], 0, 0]], [], ["loc", [null, [4, 41], [4, 68]]], 0, 0], "class", "prompt advanced-srch"], ["loc", [null, [4, 4], [4, 99]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Search", "class", "ui button adv-search-btn", "click", ["subexpr", "action", ["onSearchClick"], [], ["loc", [null, [8, 78], [8, 102]]], 0, 0]], ["loc", [null, [8, 2], [8, 104]]], 0, 0], ["block", "ui-dropdown", [], ["class", "ui floating dropdown icon button adv-search-dropdown dark-gray-bg"], 0, null, ["loc", [null, [10, 2], [114, 18]]]], ["block", "if", [["get", "searchUsed", ["loc", [null, [116, 8], [116, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [116, 2], [121, 9]]]]],
       locals: [],
-      templates: [child0]
+      templates: [child0, child1]
     };
   })());
 });
@@ -1886,11 +2091,25 @@ define("apem/pods/components/confirm-delete/template", ["exports"], function (ex
 });
 define('apem/pods/components/custom-date-picker/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
-    attributeBindings: ['btnLabel'],
-    classNameBindings: ['class'],
+    attributeBindings: ['btnLabel', 'date', 'inputClass'],
+    classNameBindings: ['class', 'disabled'],
     className: 'custom-date-picker',
+    date: null,
+
     actions: {
-      updateDate: function updateDate() {},
+      clearTheDate: function clearTheDate() {
+        this.$('.date-picker__button').text(null);
+        this.set('date', null);
+        this.sendAction('updatedDate', null);
+      },
+      updateDate: function updateDate(action) {
+
+        var newDate = window.moment(action._d, 'ddd MMM DD YYYY HH:mm:ss Z').format('MM/DD/YYYY');
+        var searchServiceFormat = window.moment(action._d, 'ddd MMM DD YYYY HH:mm:ss Z').format('MM-DD-YYYY');
+        this.$('.date-picker__button').text(newDate);
+        this.set('date', newDate);
+        this.sendAction('updatedDate', searchServiceFormat);
+      },
       openDatepicker: function openDatepicker() {
         this.$(".date-picker__button").click();
       }
@@ -1899,6 +2118,50 @@ define('apem/pods/components/custom-date-picker/component', ['exports', 'ember']
 });
 define("apem/pods/components/custom-date-picker/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 16,
+              "column": 0
+            },
+            "end": {
+              "line": 18,
+              "column": 0
+            }
+          },
+          "moduleName": "apem/pods/components/custom-date-picker/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("i");
+          dom.setAttribute(el1, "class", "close icon clear-date-btn");
+          dom.setAttribute(el1, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1]);
+          var morphs = new Array(1);
+          morphs[0] = dom.createElementMorph(element0);
+          return morphs;
+        },
+        statements: [["element", "action", ["clearTheDate"], [], ["loc", [null, [17, 39], [17, 64]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
     return {
       meta: {
         "revision": "Ember@2.7.0",
@@ -1909,7 +2172,7 @@ define("apem/pods/components/custom-date-picker/template", ["exports"], function
             "column": 0
           },
           "end": {
-            "line": 6,
+            "line": 19,
             "column": 0
           }
         },
@@ -1922,6 +2185,10 @@ define("apem/pods/components/custom-date-picker/template", ["exports"], function
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment(" action=(action (mut date)) ");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
@@ -1942,20 +2209,24 @@ define("apem/pods/components/custom-date-picker/template", ["exports"], function
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [2]);
-        var morphs = new Array(3);
+        var element1 = dom.childAt(fragment, [4]);
+        var morphs = new Array(4);
         morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-        morphs[1] = dom.createElementMorph(element0);
-        morphs[2] = dom.createMorphAt(element0, 1, 1);
+        morphs[1] = dom.createElementMorph(element1);
+        morphs[2] = dom.createMorphAt(element1, 1, 1);
+        morphs[3] = dom.createMorphAt(fragment, 6, 6, contextualElement);
         dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "date-picker", [], ["action", ["subexpr", "action", ["updateDate"], [], ["loc", [null, [1, 21], [1, 42]]], 0, 0], "placeholder", "", "buttonClasses", "date-picker-btn"], ["loc", [null, [1, 0], [1, 91]]], 0, 0], ["element", "action", ["openDatepicker"], [], ["loc", [null, [2, 46], [2, 73]]], 0, 0], ["content", "btnLabel", ["loc", [null, [3, 2], [3, 14]]], 0, 0, 0, 0]],
+      statements: [["inline", "date-picker", [], ["action", ["subexpr", "action", ["updateDate"], ["on", "setDate"], ["loc", [null, [2, 9], [2, 43]]], 0, 0], "placeholder", "", "valueFormat", "YYYY-MM-DD", "format", "YYYY-MM-DD", "utc", false, "allowBlank", true, "buttonClasses", "date-picker-btn", "class", ["subexpr", "@mut", [["get", "inputClass", ["loc", [null, [9, 8], [9, 18]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [1, 0], [9, 20]]], 0, 0], ["element", "action", ["openDatepicker"], [], ["loc", [null, [12, 46], [12, 73]]], 0, 0], ["content", "btnLabel", ["loc", [null, [13, 2], [13, 14]]], 0, 0, 0, 0], ["block", "if", [["get", "date", ["loc", [null, [16, 6], [16, 10]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [16, 0], [18, 7]]]]],
       locals: [],
-      templates: []
+      templates: [child0]
     };
   })());
 });
@@ -2679,6 +2950,198 @@ define("apem/pods/components/hover-edit-field/template", ["exports"], function (
       statements: [["block", "if", [["get", "useTextarea", ["loc", [null, [1, 6], [1, 17]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [5, 7]]]], ["block", "if", [["subexpr", "v-get", [["get", "model", ["loc", [null, [7, 13], [7, 18]]], 0, 0, 0, 0], ["get", "property", ["loc", [null, [7, 19], [7, 27]]], 0, 0, 0, 0], "isInvalid"], [], ["loc", [null, [7, 6], [7, 40]]], 0, 0]], [], 2, null, ["loc", [null, [7, 0], [11, 7]]]]],
       locals: [],
       templates: [child0, child1, child2]
+    };
+  })());
+});
+define("apem/pods/components/infinity-loader/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 3,
+              "column": 2
+            },
+            "end": {
+              "line": 5,
+              "column": 2
+            }
+          },
+          "moduleName": "apem/pods/components/infinity-loader/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    Loading Records...\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.7.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 6,
+                "column": 4
+              },
+              "end": {
+                "line": 8,
+                "column": 4
+              }
+            },
+            "moduleName": "apem/pods/components/infinity-loader/template.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      No more records found.\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child1 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.7.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 8,
+                "column": 4
+              },
+              "end": {
+                "line": 10,
+                "column": 4
+              }
+            },
+            "moduleName": "apem/pods/components/infinity-loader/template.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      Loading Records...\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 5,
+              "column": 2
+            },
+            "end": {
+              "line": 11,
+              "column": 2
+            }
+          },
+          "moduleName": "apem/pods/components/infinity-loader/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["block", "if", [["get", "infinityModel.reachedInfinity", ["loc", [null, [6, 10], [6, 39]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [6, 4], [10, 11]]]]],
+        locals: [],
+        templates: [child0, child1]
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 13,
+            "column": 0
+          }
+        },
+        "moduleName": "apem/pods/components/infinity-loader/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("p");
+        dom.setAttribute(el1, "class", "text-center");
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element0 = dom.childAt(fragment, [0]);
+        var morphs = new Array(2);
+        morphs[0] = dom.createAttrMorph(element0, 'style');
+        morphs[1] = dom.createMorphAt(element0, 1, 1);
+        return morphs;
+      },
+      statements: [["attribute", "style", ["subexpr", "style-attr", ["padding", "1rem"], [], ["loc", [null, [null, null], [1, 60]]], 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "filterLoading", ["loc", [null, [3, 8], [3, 21]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [3, 2], [11, 9]]]]],
+      locals: [],
+      templates: [child0, child1]
     };
   })());
 });
@@ -3439,360 +3902,10 @@ define("apem/pods/components/new-user/template", ["exports"], function (exports)
     };
   })());
 });
-define('apem/pods/components/opportunities/opp-table/component', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Component.extend({
-    classNames: ['opp-table'],
-    model: null,
-
-    init: function init() {
-      this._super.apply(this, arguments);
-    }
-  });
-});
-define("apem/pods/components/opportunities/opp-table/template", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template((function () {
-    var child0 = (function () {
-      var child0 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.7.0",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 16,
-                "column": 10
-              },
-              "end": {
-                "line": 18,
-                "column": 10
-              }
-            },
-            "moduleName": "apem/pods/components/opportunities/opp-table/template.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("            ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-            return morphs;
-          },
-          statements: [["content", "opp.id", ["loc", [null, [17, 12], [17, 22]]], 0, 0, 0, 0]],
-          locals: [],
-          templates: []
-        };
-      })();
-      var child1 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.7.0",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 21,
-                "column": 10
-              },
-              "end": {
-                "line": 23,
-                "column": 10
-              }
-            },
-            "moduleName": "apem/pods/components/opportunities/opp-table/template.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("            ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-            return morphs;
-          },
-          statements: [["content", "opp.apemSalesPerson", ["loc", [null, [22, 12], [22, 35]]], 0, 0, 0, 0]],
-          locals: [],
-          templates: []
-        };
-      })();
-      var child2 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.7.0",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 26,
-                "column": 10
-              },
-              "end": {
-                "line": 28,
-                "column": 10
-              }
-            },
-            "moduleName": "apem/pods/components/opportunities/opp-table/template.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("            ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-            return morphs;
-          },
-          statements: [["inline", "currency-format", [["get", "opp.potentialAnnualRev", ["loc", [null, [27, 30], [27, 52]]], 0, 0, 0, 0]], [], ["loc", [null, [27, 12], [27, 54]]], 0, 0]],
-          locals: [],
-          templates: []
-        };
-      })();
-      var child3 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.7.0",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 31,
-                "column": 10
-              },
-              "end": {
-                "line": 33,
-                "column": 10
-              }
-            },
-            "moduleName": "apem/pods/components/opportunities/opp-table/template.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("            ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-            return morphs;
-          },
-          statements: [["content", "opp.productType", ["loc", [null, [32, 12], [32, 31]]], 0, 0, 0, 0]],
-          locals: [],
-          templates: []
-        };
-      })();
-      return {
-        meta: {
-          "revision": "Ember@2.7.0",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 13,
-              "column": 4
-            },
-            "end": {
-              "line": 36,
-              "column": 4
-            }
-          },
-          "moduleName": "apem/pods/components/opportunities/opp-table/template.hbs"
-        },
-        isEmpty: false,
-        arity: 1,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("      ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("tr");
-          var el2 = dom.createTextNode("\n        ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("td");
-          var el3 = dom.createTextNode("\n");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("        ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("td");
-          var el3 = dom.createTextNode("\n");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("        ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("td");
-          var el3 = dom.createTextNode("\n");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("        ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("td");
-          var el3 = dom.createTextNode("\n");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("        ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n      ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1]);
-          var morphs = new Array(4);
-          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
-          morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
-          morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
-          morphs[3] = dom.createMorphAt(dom.childAt(element0, [7]), 1, 1);
-          return morphs;
-        },
-        statements: [["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [16, 56], [16, 59]]], 0, 0, 0, 0]], ["class", "row-link"], 0, null, ["loc", [null, [16, 10], [18, 22]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [21, 56], [21, 59]]], 0, 0, 0, 0]], ["class", "row-link"], 1, null, ["loc", [null, [21, 10], [23, 22]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [26, 56], [26, 59]]], 0, 0, 0, 0]], ["class", "row-link"], 2, null, ["loc", [null, [26, 10], [28, 22]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [31, 56], [31, 59]]], 0, 0, 0, 0]], ["class", "row-link"], 3, null, ["loc", [null, [31, 10], [33, 22]]]]],
-        locals: ["opp"],
-        templates: [child0, child1, child2, child3]
-      };
-    })();
-    return {
-      meta: {
-        "revision": "Ember@2.7.0",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 41,
-            "column": 0
-          }
-        },
-        "moduleName": "apem/pods/components/opportunities/opp-table/template.hbs"
-      },
-      isEmpty: false,
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("table");
-        dom.setAttribute(el1, "class", "ui table ui-table");
-        var el2 = dom.createTextNode("\n\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("thead");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("tr");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("th");
-        var el5 = dom.createTextNode("NAO #");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("th");
-        var el5 = dom.createTextNode("Sales Person");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("th");
-        var el5 = dom.createTextNode("Revenue");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("th");
-        var el5 = dom.createTextNode("Prod Type");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("tbody");
-        var el3 = dom.createTextNode("\n");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 3]), 1, 1);
-        return morphs;
-      },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [13, 12], [13, 17]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [13, 4], [36, 13]]]]],
-      locals: [],
-      templates: [child0]
-    };
-  })());
-});
 define('apem/pods/components/opportunities/opt-form/component', ['exports', 'ember', 'ember-group-by'], function (exports, _ember, _emberGroupBy) {
   exports['default'] = _ember['default'].Component.extend({
     identity: _ember['default'].inject.service(),
+    store: _ember['default'].inject.service(),
     // routing: Ember.inject.service('-routing'),
 
     //used addon ember-group-by to group our fields array by model attr group.
@@ -3800,10 +3913,16 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
     classNames: ['opp-table'],
     model: null,
     fields: null,
+    users: null,
     optStatuses: ['Backburner', 'Won', 'Lost'],
 
     //possible opportunity stages - an array used to controll and properly render the stage steps in the form
     stages: [{ 'label': 'quote', 'id': 1 }, { 'label': 'sample', 'id': 2 }, { 'label': 'approval', 'id': 3 }, { 'label': 'production', 'id': 4 }],
+
+    // Init function
+    init: function init() {
+      this._super.apply(this, arguments);
+    },
 
     // OBSERVERS ---------------------
 
@@ -3971,6 +4090,15 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
           /*the record is no longer new at this point and copying and closing the
           detail view are allowed */
           opt.set('newRecord', false);
+
+          /* If the userId is an object, that means someone selected
+           * a new User and it's been hacked/copied over to the userId
+           * temporarily so we need to process this */
+          if (typeof opt.get('userId') === "object") {
+            opt.set('user', opt.get('userId'));
+            opt.set('userId', opt.get('user.id'));
+          }
+
           this.sendAction('onOptSave', opt);
         }
       }
@@ -3986,12 +4114,12 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 5,
-              "column": 57
+              "line": 4,
+              "column": 55
             },
             "end": {
-              "line": 5,
-              "column": 82
+              "line": 4,
+              "column": 80
             }
           },
           "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
@@ -4021,12 +4149,12 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 6,
-              "column": 4
+              "line": 5,
+              "column": 2
             },
             "end": {
-              "line": 14,
-              "column": 4
+              "line": 13,
+              "column": 2
             }
           },
           "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
@@ -4037,11 +4165,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("      ");
+          var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createComment(" {{input type=\"button\" value=\"Delete\" class=\"ui button right floated\" click=(action \"onDeleteOptClick\")}} ");
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n      ");
+          var el1 = dom.createTextNode("\n    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
@@ -4054,7 +4182,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           morphs[0] = dom.createMorphAt(fragment, 3, 3, contextualElement);
           return morphs;
         },
-        statements: [["inline", "confirm-delete", [], ["isDisabled", ["subexpr", "not-equal", [["get", "identity.profile.type", ["loc", [null, [9, 30], [9, 51]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [9, 19], [9, 60]]], 0, 0], "title", "Confirm Delete", "recordType", "Opportunity", "message", "The selected opportunity will be deleted. Continue?", "onConfirmDelete", "deleteOpt"], ["loc", [null, [8, 6], [13, 38]]], 0, 0]],
+        statements: [["inline", "confirm-delete", [], ["isDisabled", ["subexpr", "not-equal", [["get", "identity.profile.type", ["loc", [null, [8, 28], [8, 49]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [8, 17], [8, 58]]], 0, 0], "title", "Confirm Delete", "recordType", "Opportunity", "message", "The selected opportunity will be deleted. Continue?", "onConfirmDelete", "deleteOpt"], ["loc", [null, [7, 4], [12, 36]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -4067,12 +4195,12 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 17,
-                "column": 6
+                "line": 16,
+                "column": 4
               },
               "end": {
-                "line": 22,
-                "column": 6
+                "line": 21,
+                "column": 4
               }
             },
             "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
@@ -4083,7 +4211,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("        ");
+            var el1 = dom.createTextNode("      ");
             dom.appendChild(el0, el1);
             var el1 = dom.createComment("");
             dom.appendChild(el0, el1);
@@ -4096,7 +4224,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["inline", "input", [], ["type", "button", "value", "Save as Draft", "disabled", ["subexpr", "@mut", [["get", "noValidName", ["loc", [null, [20, 19], [20, 30]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui button small right floated", "click", ["subexpr", "action", ["saveDraft"], [], ["loc", [null, [21, 54], [21, 74]]], 0, 0]], ["loc", [null, [19, 8], [21, 76]]], 0, 0]],
+          statements: [["inline", "input", [], ["type", "button", "value", "Save as Draft", "disabled", ["subexpr", "@mut", [["get", "noValidName", ["loc", [null, [19, 17], [19, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui button small right floated", "click", ["subexpr", "action", ["saveDraft"], [], ["loc", [null, [20, 52], [20, 72]]], 0, 0]], ["loc", [null, [18, 6], [20, 74]]], 0, 0]],
           locals: [],
           templates: []
         };
@@ -4107,12 +4235,12 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 16,
-              "column": 4
+              "line": 15,
+              "column": 2
             },
             "end": {
-              "line": 23,
-              "column": 4
+              "line": 22,
+              "column": 2
             }
           },
           "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
@@ -4134,7 +4262,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "ui-popup", [], ["content", "Please provide a Company name."], 0, null, ["loc", [null, [17, 6], [22, 19]]]]],
+        statements: [["block", "ui-popup", [], ["content", "Please provide a Company name."], 0, null, ["loc", [null, [16, 4], [21, 17]]]]],
         locals: [],
         templates: [child0]
       };
@@ -4146,12 +4274,12 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 23,
-              "column": 4
+              "line": 22,
+              "column": 2
             },
             "end": {
-              "line": 26,
-              "column": 4
+              "line": 25,
+              "column": 2
             }
           },
           "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
@@ -4162,7 +4290,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("      ");
+          var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
@@ -4175,7 +4303,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
           return morphs;
         },
-        statements: [["inline", "input", [], ["type", "button", "value", "Save as Draft", "class", "ui button small right floated", "click", ["subexpr", "action", ["saveDraft"], [], ["loc", [null, [25, 12], [25, 32]]], 0, 0]], ["loc", [null, [24, 6], [25, 34]]], 0, 0]],
+        statements: [["inline", "input", [], ["type", "button", "value", "Save as Draft", "class", "ui button small right floated", "click", ["subexpr", "action", ["saveDraft"], [], ["loc", [null, [24, 10], [24, 30]]], 0, 0]], ["loc", [null, [23, 4], [24, 32]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -4187,12 +4315,12 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 37,
-              "column": 4
+              "line": 36,
+              "column": 2
             },
             "end": {
-              "line": 41,
-              "column": 4
+              "line": 40,
+              "column": 2
             }
           },
           "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
@@ -4203,7 +4331,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("      Cancel\n");
+          var el1 = dom.createTextNode("    Cancel\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -4218,37 +4346,99 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
     var child5 = (function () {
       var child0 = (function () {
         var child0 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.7.0",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 61,
+                    "column": 12
+                  },
+                  "end": {
+                    "line": 65,
+                    "column": 12
+                  }
+                },
+                "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
+              },
+              isEmpty: false,
+              arity: 1,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("              ");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createElement("div");
+                dom.setAttribute(el1, "class", "item");
+                var el2 = dom.createTextNode("\n                ");
+                dom.appendChild(el1, el2);
+                var el2 = dom.createComment("");
+                dom.appendChild(el1, el2);
+                var el2 = dom.createTextNode("\n              ");
+                dom.appendChild(el1, el2);
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode("\n");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                var element2 = dom.childAt(fragment, [1]);
+                var morphs = new Array(2);
+                morphs[0] = dom.createAttrMorph(element2, 'data-value');
+                morphs[1] = dom.createMorphAt(element2, 1, 1);
+                return morphs;
+              },
+              statements: [["attribute", "data-value", ["concat", [["subexpr", "map-value", [["get", "mapper", ["loc", [null, [62, 56], [62, 62]]], 0, 0, 0, 0], ["get", "user", ["loc", [null, [62, 63], [62, 67]]], 0, 0, 0, 0]], [], ["loc", [null, [62, 44], [62, 69]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "user.username", ["loc", [null, [63, 16], [63, 33]]], 0, 0, 0, 0]],
+              locals: ["user"],
+              templates: []
+            };
+          })();
           return {
             meta: {
               "revision": "Ember@2.7.0",
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 55,
-                  "column": 10
+                  "line": 57,
+                  "column": 8
                 },
                 "end": {
-                  "line": 59,
-                  "column": 10
+                  "line": 67,
+                  "column": 8
                 }
               },
               "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
             },
             isEmpty: false,
-            arity: 1,
+            arity: 2,
             cachedFragment: null,
             hasRendered: false,
             buildFragment: function buildFragment(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("            ");
+              var el1 = dom.createTextNode("          ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("i");
+              dom.setAttribute(el1, "class", "dropdown icon");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n          ");
               dom.appendChild(el0, el1);
               var el1 = dom.createElement("div");
-              dom.setAttribute(el1, "class", "item");
-              var el2 = dom.createTextNode("\n              ");
+              dom.setAttribute(el1, "class", "default text");
+              var el2 = dom.createTextNode("Select Value");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n          ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("div");
+              dom.setAttribute(el1, "class", "menu");
+              var el2 = dom.createTextNode("\n");
               dom.appendChild(el1, el2);
               var el2 = dom.createComment("");
               dom.appendChild(el1, el2);
-              var el2 = dom.createTextNode("\n            ");
+              var el2 = dom.createTextNode("          ");
               dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
               var el1 = dom.createTextNode("\n");
@@ -4256,15 +4446,13 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               return el0;
             },
             buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var element2 = dom.childAt(fragment, [1]);
-              var morphs = new Array(2);
-              morphs[0] = dom.createAttrMorph(element2, 'data-value');
-              morphs[1] = dom.createMorphAt(element2, 1, 1);
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
               return morphs;
             },
-            statements: [["attribute", "data-value", ["concat", [["get", "user.id", ["loc", [null, [56, 44], [56, 51]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "user.username", ["loc", [null, [57, 14], [57, 31]]], 0, 0, 0, 0]],
-            locals: ["user"],
-            templates: []
+            statements: [["block", "each", [["get", "users", ["loc", [null, [61, 20], [61, 25]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [61, 12], [65, 21]]]]],
+            locals: ["execute", "mapper"],
+            templates: [child0]
           };
         })();
         return {
@@ -4273,12 +4461,12 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 51,
-                "column": 6
+                "line": 53,
+                "column": 4
               },
               "end": {
-                "line": 61,
-                "column": 6
+                "line": 70,
+                "column": 4
               }
             },
             "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
@@ -4289,27 +4477,27 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("        ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("i");
-            dom.setAttribute(el1, "class", "dropdown icon");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n        ");
+            var el1 = dom.createTextNode("      ");
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("div");
-            dom.setAttribute(el1, "class", "default text");
-            var el2 = dom.createTextNode("Select Value");
+            dom.setAttribute(el1, "class", "field gap1 side-padded-fourteen");
+            var el2 = dom.createTextNode("\n        ");
             dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n        ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("div");
-            dom.setAttribute(el1, "class", "menu");
-            var el2 = dom.createTextNode("\n");
+            var el2 = dom.createElement("label");
+            var el3 = dom.createTextNode("User Relation");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n\n");
             dom.appendChild(el1, el2);
             var el2 = dom.createComment("");
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("input");
+            dom.setAttribute(el2, "type", "hidden");
+            dom.setAttribute(el2, "id", "userId");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n      ");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n");
@@ -4317,81 +4505,110 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
+            var element3 = dom.childAt(fragment, [1]);
+            var element4 = dom.childAt(element3, [5]);
+            var morphs = new Array(2);
+            morphs[0] = dom.createMorphAt(element3, 3, 3);
+            morphs[1] = dom.createAttrMorph(element4, 'value');
             return morphs;
           },
-          statements: [["block", "each", [["get", "users", ["loc", [null, [55, 18], [55, 23]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [55, 10], [59, 19]]]]],
+          statements: [["block", "ui-dropdown", [], ["class", "fluid selection", "selected", ["subexpr", "@mut", [["get", "model.user", ["loc", [null, [57, 56], [57, 66]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.userId", ["loc", [null, [57, 89], [57, 101]]], 0, 0, 0, 0]], [], ["loc", [null, [57, 84], [57, 102]]], 0, 0]], [], ["loc", [null, [57, 76], [57, 103]]], 0, 0]], 0, null, ["loc", [null, [57, 8], [67, 24]]]], ["attribute", "value", ["get", "model.userId", ["loc", [null, [68, 49], [68, 61]]], 0, 0, 0, 0], 0, 0, 0, 0]],
           locals: [],
           templates: [child0]
         };
       })();
-      return {
-        meta: {
-          "revision": "Ember@2.7.0",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 48,
-              "column": 2
+      var child1 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.7.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 82,
+                  "column": 10
+                },
+                "end": {
+                  "line": 91,
+                  "column": 10
+                }
+              },
+              "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
             },
-            "end": {
-              "line": 63,
-              "column": 2
-            }
-          },
-          "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("    ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("div");
-          dom.setAttribute(el1, "class", "field gap1");
-          var el2 = dom.createTextNode("\n      ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("label");
-          var el3 = dom.createTextNode("User Relation");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createComment("");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("    ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 3, 3);
-          return morphs;
-        },
-        statements: [["block", "ui-dropdown", [], ["class", "fluid selection", "selected", ["subexpr", "@mut", [["get", "model.createdBy", ["loc", [null, [51, 54], [51, 69]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", ["onDropdownSelect", ["get", "field.name", ["loc", [null, [51, 106], [51, 116]]], 0, 0, 0, 0]], [], ["loc", [null, [51, 79], [51, 117]]], 0, 0]], 0, null, ["loc", [null, [51, 6], [61, 22]]]]],
-        locals: [],
-        templates: [child0]
-      };
-    })();
-    var child6 = (function () {
-      var child0 = (function () {
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("            ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              return morphs;
+            },
+            statements: [["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [85, 20], [85, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "disabled", ["subexpr", "@mut", [["get", "isWinDisabled", ["loc", [null, [86, 21], [86, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button no-border-radius button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [90, 34], [90, 46]]], 0, 0, 0, 0]], [], ["loc", [null, [90, 29], [90, 47]]], 0, 0]], [], ["loc", [null, [90, 21], [90, 48]]], 0, 0]], ["loc", [null, [84, 12], [90, 50]]], 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })();
         return {
           meta: {
             "revision": "Ember@2.7.0",
             "loc": {
               "source": null,
               "start": {
-                "line": 74,
+                "line": 81,
                 "column": 8
               },
               "end": {
-                "line": 83,
+                "line": 92,
+                "column": 8
+              }
+            },
+            "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["block", "ui-popup", [], ["content", "Won can be assigned only if there are a Company and a Product Sales Order Number values."], 0, null, ["loc", [null, [82, 10], [91, 23]]]]],
+          locals: [],
+          templates: [child0]
+        };
+      })();
+      var child2 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.7.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 92,
+                "column": 8
+              },
+              "end": {
+                "line": 100,
                 "column": 8
               }
             },
@@ -4416,92 +4633,12 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [77, 18], [77, 30]]], 0, 0, 0, 0]], [], [], 0, 0], "disabled", ["subexpr", "@mut", [["get", "isWinDisabled", ["loc", [null, [78, 19], [78, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button no-border-radius button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [82, 32], [82, 44]]], 0, 0, 0, 0]], [], ["loc", [null, [82, 27], [82, 45]]], 0, 0]], [], ["loc", [null, [82, 19], [82, 46]]], 0, 0]], ["loc", [null, [76, 10], [82, 48]]], 0, 0]],
+          statements: [["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [94, 18], [94, 30]]], 0, 0, 0, 0]], [], [], 0, 0], "disabled", ["subexpr", "@mut", [["get", "isWinDisabled", ["loc", [null, [95, 19], [95, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [99, 32], [99, 44]]], 0, 0, 0, 0]], [], ["loc", [null, [99, 27], [99, 45]]], 0, 0]], [], ["loc", [null, [99, 19], [99, 46]]], 0, 0]], ["loc", [null, [93, 10], [99, 48]]], 0, 0]],
           locals: [],
           templates: []
         };
       })();
-      return {
-        meta: {
-          "revision": "Ember@2.7.0",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 73,
-              "column": 6
-            },
-            "end": {
-              "line": 84,
-              "column": 6
-            }
-          },
-          "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-          dom.insertBoundary(fragment, 0);
-          dom.insertBoundary(fragment, null);
-          return morphs;
-        },
-        statements: [["block", "ui-popup", [], ["content", "Won can be assigned only if there are a Company and a Product Sales Order Number values."], 0, null, ["loc", [null, [74, 8], [83, 21]]]]],
-        locals: [],
-        templates: [child0]
-      };
-    })();
-    var child7 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.7.0",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 84,
-              "column": 6
-            },
-            "end": {
-              "line": 92,
-              "column": 6
-            }
-          },
-          "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-          return morphs;
-        },
-        statements: [["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [86, 16], [86, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "disabled", ["subexpr", "@mut", [["get", "isWinDisabled", ["loc", [null, [87, 17], [87, 30]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [91, 30], [91, 42]]], 0, 0, 0, 0]], [], ["loc", [null, [91, 25], [91, 43]]], 0, 0]], [], ["loc", [null, [91, 17], [91, 44]]], 0, 0]], ["loc", [null, [85, 8], [91, 46]]], 0, 0]],
-        locals: [],
-        templates: []
-      };
-    })();
-    var child8 = (function () {
-      var child0 = (function () {
+      var child3 = (function () {
         var child0 = (function () {
           var child0 = (function () {
             var child0 = (function () {
@@ -4513,11 +4650,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                       "loc": {
                         "source": null,
                         "start": {
-                          "line": 118,
+                          "line": 125,
                           "column": 22
                         },
                         "end": {
-                          "line": 122,
+                          "line": 129,
                           "column": 22
                         }
                       },
@@ -4551,7 +4688,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                       morphs[1] = dom.createMorphAt(element0, 1, 1);
                       return morphs;
                     },
-                    statements: [["attribute", "data-value", ["concat", [["get", "item", ["loc", [null, [119, 56], [119, 60]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "item", ["loc", [null, [120, 26], [120, 34]]], 0, 0, 0, 0]],
+                    statements: [["attribute", "data-value", ["concat", [["get", "item", ["loc", [null, [126, 56], [126, 60]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "item", ["loc", [null, [127, 26], [127, 34]]], 0, 0, 0, 0]],
                     locals: ["item"],
                     templates: []
                   };
@@ -4562,11 +4699,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                     "loc": {
                       "source": null,
                       "start": {
-                        "line": 114,
+                        "line": 121,
                         "column": 18
                       },
                       "end": {
-                        "line": 124,
+                        "line": 131,
                         "column": 18
                       }
                     },
@@ -4610,7 +4747,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                     morphs[0] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
                     return morphs;
                   },
-                  statements: [["block", "each", [["get", "field.options", ["loc", [null, [118, 30], [118, 43]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [118, 22], [122, 31]]]]],
+                  statements: [["block", "each", [["get", "field.options", ["loc", [null, [125, 30], [125, 43]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [125, 22], [129, 31]]]]],
                   locals: [],
                   templates: [child0]
                 };
@@ -4621,11 +4758,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                   "loc": {
                     "source": null,
                     "start": {
-                      "line": 113,
+                      "line": 120,
                       "column": 16
                     },
                     "end": {
-                      "line": 125,
+                      "line": 132,
                       "column": 16
                     }
                   },
@@ -4648,7 +4785,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                   dom.insertBoundary(fragment, null);
                   return morphs;
                 },
-                statements: [["block", "ui-dropdown", [], ["class", "fluid selection", "selected", ["subexpr", "@mut", [["get", "field.value", ["loc", [null, [114, 66], [114, 77]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", ["onDropdownSelect", ["get", "field.name", ["loc", [null, [114, 114], [114, 124]]], 0, 0, 0, 0]], [], ["loc", [null, [114, 87], [114, 125]]], 0, 0]], 0, null, ["loc", [null, [114, 18], [124, 34]]]]],
+                statements: [["block", "ui-dropdown", [], ["class", "fluid selection", "selected", ["subexpr", "@mut", [["get", "field.value", ["loc", [null, [121, 66], [121, 77]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", ["onDropdownSelect", ["get", "field.name", ["loc", [null, [121, 114], [121, 124]]], 0, 0, 0, 0]], [], ["loc", [null, [121, 87], [121, 125]]], 0, 0]], 0, null, ["loc", [null, [121, 18], [131, 34]]]]],
                 locals: [],
                 templates: [child0]
               };
@@ -4660,11 +4797,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                   "loc": {
                     "source": null,
                     "start": {
-                      "line": 125,
+                      "line": 132,
                       "column": 16
                     },
                     "end": {
-                      "line": 127,
+                      "line": 134,
                       "column": 16
                     }
                   },
@@ -4689,7 +4826,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                   morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                   return morphs;
                 },
-                statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "field.name", ["loc", [null, [126, 31], [126, 41]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "mut", [["subexpr", "get", [["get", "model", ["loc", [null, [126, 58], [126, 63]]], 0, 0, 0, 0], ["get", "field.name", ["loc", [null, [126, 64], [126, 74]]], 0, 0, 0, 0]], [], ["loc", [null, [126, 53], [126, 75]]], 0, 0]], [], ["loc", [null, [126, 48], [126, 76]]], 0, 0], "type", "text"], ["loc", [null, [126, 18], [126, 90]]], 0, 0]],
+                statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "field.name", ["loc", [null, [133, 31], [133, 41]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "mut", [["subexpr", "get", [["get", "model", ["loc", [null, [133, 58], [133, 63]]], 0, 0, 0, 0], ["get", "field.name", ["loc", [null, [133, 64], [133, 74]]], 0, 0, 0, 0]], [], ["loc", [null, [133, 53], [133, 75]]], 0, 0]], [], ["loc", [null, [133, 48], [133, 76]]], 0, 0], "type", "text"], ["loc", [null, [133, 18], [133, 90]]], 0, 0]],
                 locals: [],
                 templates: []
               };
@@ -4700,11 +4837,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 110,
+                    "line": 117,
                     "column": 10
                   },
                   "end": {
-                    "line": 129,
+                    "line": 136,
                     "column": 10
                   }
                 },
@@ -4744,7 +4881,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                 morphs[1] = dom.createMorphAt(element1, 3, 3);
                 return morphs;
               },
-              statements: [["content", "field.label", ["loc", [null, [112, 23], [112, 38]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "field.type", ["loc", [null, [113, 32], [113, 42]]], 0, 0, 0, 0], "dropdown"], [], ["loc", [null, [113, 22], [113, 54]]], 0, 0]], [], 0, 1, ["loc", [null, [113, 16], [127, 23]]]]],
+              statements: [["content", "field.label", ["loc", [null, [119, 23], [119, 38]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "field.type", ["loc", [null, [120, 32], [120, 42]]], 0, 0, 0, 0], "dropdown"], [], ["loc", [null, [120, 22], [120, 54]]], 0, 0]], [], 0, 1, ["loc", [null, [120, 16], [134, 23]]]]],
               locals: [],
               templates: [child0, child1]
             };
@@ -4755,11 +4892,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 106,
+                  "line": 113,
                   "column": 8
                 },
                 "end": {
-                  "line": 131,
+                  "line": 138,
                   "column": 8
                 }
               },
@@ -4794,7 +4931,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               morphs[0] = dom.createMorphAt(fragment, 5, 5, contextualElement);
               return morphs;
             },
-            statements: [["block", "if", [["get", "field.visible", ["loc", [null, [110, 16], [110, 29]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [110, 10], [129, 17]]]]],
+            statements: [["block", "if", [["get", "field.visible", ["loc", [null, [117, 16], [117, 29]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [117, 10], [136, 17]]]]],
             locals: ["field", "index"],
             templates: [child0]
           };
@@ -4805,11 +4942,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 103,
+                "line": 110,
                 "column": 4
               },
               "end": {
-                "line": 134,
+                "line": 141,
                 "column": 4
               }
             },
@@ -4851,8 +4988,105 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 1, 1);
             return morphs;
           },
-          statements: [["content", "group.value", ["loc", [null, [104, 37], [104, 52]]], 0, 0, 0, 0], ["block", "each", [["get", "group.items", ["loc", [null, [106, 16], [106, 27]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [106, 8], [131, 17]]]]],
+          statements: [["content", "group.value", ["loc", [null, [111, 37], [111, 52]]], 0, 0, 0, 0], ["block", "each", [["get", "group.items", ["loc", [null, [113, 16], [113, 27]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [113, 8], [138, 17]]]]],
           locals: ["group"],
+          templates: [child0]
+        };
+      })();
+      var child4 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.7.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 145,
+                  "column": 6
+                },
+                "end": {
+                  "line": 147,
+                  "column": 6
+                }
+              },
+              "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
+            },
+            isEmpty: false,
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("          ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("label");
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode(":");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("span");
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(2);
+              morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+              morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 0, 0);
+              return morphs;
+            },
+            statements: [["content", "evt.type", ["loc", [null, [146, 17], [146, 29]]], 0, 0, 0, 0], ["content", "evt.date", ["loc", [null, [146, 44], [146, 56]]], 0, 0, 0, 0]],
+            locals: ["evt"],
+            templates: []
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.7.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 143,
+                "column": 4
+              },
+              "end": {
+                "line": 148,
+                "column": 4
+              }
+            },
+            "moduleName": "apem/pods/components/opportunities/opt-form/template.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("h3");
+            dom.setAttribute(el1, "class", "ui dividing header");
+            var el2 = dom.createTextNode("Event Log");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["block", "each", [["get", "model.events", ["loc", [null, [145, 14], [145, 26]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [145, 6], [147, 15]]]]],
+          locals: [],
           templates: [child0]
         };
       })();
@@ -4862,11 +5096,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 102,
+              "line": 50,
               "column": 2
             },
             "end": {
-              "line": 135,
+              "line": 151,
               "column": 2
             }
           },
@@ -4878,34 +5112,99 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("\n    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment(" IF ADMIN - CAN CHANGE USER RELATION ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment(" STEPS FIELD ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n    \n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment(" STATUS FIELD ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "field gap1 side-padded-fourteen");
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("label");
+          var el3 = dom.createTextNode("Status");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "row ui buttons");
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("        ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-          dom.insertBoundary(fragment, 0);
-          dom.insertBoundary(fragment, null);
+          var element5 = dom.childAt(fragment, [11, 3]);
+          var morphs = new Array(7);
+          morphs[0] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+          morphs[1] = dom.createMorphAt(fragment, 7, 7, contextualElement);
+          morphs[2] = dom.createMorphAt(element5, 1, 1);
+          morphs[3] = dom.createMorphAt(element5, 3, 3);
+          morphs[4] = dom.createMorphAt(element5, 5, 5);
+          morphs[5] = dom.createMorphAt(fragment, 13, 13, contextualElement);
+          morphs[6] = dom.createMorphAt(fragment, 15, 15, contextualElement);
           return morphs;
         },
-        statements: [["block", "each", [["get", "fieldsByGroup", ["loc", [null, [103, 12], [103, 25]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [103, 4], [134, 13]]]]],
+        statements: [["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [53, 20], [53, 41]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [53, 10], [53, 50]]], 0, 0]], [], 0, null, ["loc", [null, [53, 4], [70, 11]]]], ["inline", "opportunities/stage-step", [], ["stageSteps", ["subexpr", "@mut", [["get", "stages", ["loc", [null, [73, 42], [73, 48]]], 0, 0, 0, 0]], [], [], 0, 0], "opt", ["subexpr", "@mut", [["get", "model", ["loc", [null, [73, 53], [73, 58]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [73, 4], [73, 60]]], 0, 0], ["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [79, 41], [79, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Backburner", "value", "Backburner", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [80, 68], [80, 80]]], 0, 0, 0, 0]], [], ["loc", [null, [80, 63], [80, 81]]], 0, 0]], [], ["loc", [null, [80, 55], [80, 82]]], 0, 0]], ["loc", [null, [79, 8], [80, 84]]], 0, 0], ["block", "if", [["get", "isWinDisabled", ["loc", [null, [81, 14], [81, 27]]], 0, 0, 0, 0]], [], 1, 2, ["loc", [null, [81, 8], [100, 15]]]], ["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [102, 16], [102, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Lost", "value", "Lost", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [106, 30], [106, 42]]], 0, 0, 0, 0]], [], ["loc", [null, [106, 25], [106, 43]]], 0, 0]], [], ["loc", [null, [106, 17], [106, 44]]], 0, 0]], ["loc", [null, [101, 8], [106, 46]]], 0, 0], ["block", "each", [["get", "fieldsByGroup", ["loc", [null, [110, 12], [110, 25]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [110, 4], [141, 13]]]], ["block", "if", [["get", "model.events", ["loc", [null, [143, 10], [143, 22]]], 0, 0, 0, 0]], [], 4, null, ["loc", [null, [143, 4], [148, 11]]]]],
         locals: [],
-        templates: [child0]
+        templates: [child0, child1, child2, child3, child4]
       };
     })();
-    var child9 = (function () {
+    var child6 = (function () {
       return {
         meta: {
           "revision": "Ember@2.7.0",
           "loc": {
             "source": null,
             "start": {
-              "line": 135,
+              "line": 151,
               "column": 2
             },
             "end": {
-              "line": 137,
+              "line": 153,
               "column": 2
             }
           },
@@ -4945,7 +5244,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             "column": 0
           },
           "end": {
-            "line": 148,
+            "line": 166,
             "column": 0
           }
         },
@@ -4957,72 +5256,30 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("form");
-        dom.setAttribute(el1, "class", "ui form opportunity-form");
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment(" HEADER ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "top attached header");
-        var el3 = dom.createComment("fixed");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("h3");
-        dom.setAttribute(el3, "class", "ui left floated header");
-        var el4 = dom.createTextNode("NAO #");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode(" ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment(" <button class=\"ui submit button small right floated\" {{action 'updateRecord'}}>Save</button> ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("br");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("br");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "ui error message");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
+        var el1 = dom.createComment(" HEADER ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "fixed top header form-header-tools");
+        var el2 = dom.createComment("fixed");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createComment(" IF ADMIN - CAN CHANGE USER RELATION ");
+        var el2 = dom.createElement("h3");
+        dom.setAttribute(el2, "class", "ui left floated header");
+        var el3 = dom.createTextNode("NAO #");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(" ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
@@ -5030,47 +5287,37 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createComment(" STEPS FIELD ");
+        var el2 = dom.createComment(" <button class=\"ui submit button small right floated\" {{action 'updateRecord'}}>Save</button> ");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createComment(" STATUS FIELD ");
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("br");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("br");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("form");
+        dom.setAttribute(el1, "class", "ui form opportunity-form");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "field gap1");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("label");
-        var el4 = dom.createTextNode("Status");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "row ui buttons");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
+        dom.setAttribute(el2, "class", "ui error message");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
@@ -5083,7 +5330,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
+        var el1 = dom.createTextNode("\n\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
@@ -5092,30 +5339,23 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element3 = dom.childAt(fragment, [0]);
-        var element4 = dom.childAt(element3, [3]);
-        var element5 = dom.childAt(element4, [2]);
-        var element6 = dom.childAt(element3, [15, 3]);
-        var morphs = new Array(14);
-        morphs[0] = dom.createMorphAt(element5, 1, 1);
-        morphs[1] = dom.createMorphAt(element5, 3, 3);
-        morphs[2] = dom.createMorphAt(element4, 4, 4);
-        morphs[3] = dom.createMorphAt(element4, 6, 6);
-        morphs[4] = dom.createMorphAt(element4, 10, 10);
-        morphs[5] = dom.createMorphAt(element4, 12, 12);
-        morphs[6] = dom.createMorphAt(element4, 14, 14);
-        morphs[7] = dom.createMorphAt(element3, 7, 7);
-        morphs[8] = dom.createMorphAt(element3, 11, 11);
-        morphs[9] = dom.createMorphAt(element6, 1, 1);
-        morphs[10] = dom.createMorphAt(element6, 3, 3);
-        morphs[11] = dom.createMorphAt(element6, 5, 5);
-        morphs[12] = dom.createMorphAt(element3, 17, 17);
-        morphs[13] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        var element6 = dom.childAt(fragment, [2]);
+        var element7 = dom.childAt(element6, [2]);
+        var morphs = new Array(9);
+        morphs[0] = dom.createMorphAt(element7, 1, 1);
+        morphs[1] = dom.createMorphAt(element7, 3, 3);
+        morphs[2] = dom.createMorphAt(element6, 4, 4);
+        morphs[3] = dom.createMorphAt(element6, 6, 6);
+        morphs[4] = dom.createMorphAt(element6, 10, 10);
+        morphs[5] = dom.createMorphAt(element6, 12, 12);
+        morphs[6] = dom.createMorphAt(element6, 14, 14);
+        morphs[7] = dom.createMorphAt(dom.childAt(fragment, [4]), 3, 3);
+        morphs[8] = dom.createMorphAt(fragment, 6, 6, contextualElement);
         return morphs;
       },
-      statements: [["content", "model.id", ["loc", [null, [5, 44], [5, 56]]], 0, 0, 0, 0], ["block", "if", [["get", "model.draft", ["loc", [null, [5, 63], [5, 74]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [5, 57], [5, 89]]]], ["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [6, 20], [6, 41]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [6, 10], [6, 50]]], 0, 0]], [], 1, null, ["loc", [null, [6, 4], [14, 11]]]], ["block", "if", [["get", "noValidName", ["loc", [null, [16, 10], [16, 21]]], 0, 0, 0, 0]], [], 2, 3, ["loc", [null, [16, 4], [26, 11]]]], ["inline", "input", [], ["type", "button", "value", "Save", "disabled", ["subexpr", "@mut", [["get", "hasNoChanges", ["loc", [null, [29, 48], [29, 60]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui submit button small right floated", "click", ["subexpr", "action", ["updateRecord"], [], ["loc", [null, [31, 10], [31, 33]]], 0, 0]], ["loc", [null, [29, 4], [31, 35]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Copy", "disabled", ["subexpr", "@mut", [["get", "model.newRecord", ["loc", [null, [33, 48], [33, 63]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui submit button small right floated", "click", ["subexpr", "action", ["cloneRecord"], [], ["loc", [null, [35, 10], [35, 32]]], 0, 0]], ["loc", [null, [33, 4], [35, 34]]], 0, 0], ["block", "link-to", ["opportunities"], ["disabled", ["subexpr", "@mut", [["get", "model.newRecord", ["loc", [null, [37, 40], [37, 55]]], 0, 0, 0, 0]], [], [], 0, 0], "tagName", "div", "class", "ui small reset button right floated", "activeClass", "", "click", ["subexpr", "action", ["onCancelOptClick"], [], ["loc", [null, [39, 10], [39, 37]]], 0, 0]], 4, null, ["loc", [null, [37, 4], [41, 16]]]], ["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [48, 18], [48, 39]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [48, 8], [48, 48]]], 0, 0]], [], 5, null, ["loc", [null, [48, 2], [63, 9]]]], ["inline", "opportunities/stage-step", [], ["stageSteps", ["subexpr", "@mut", [["get", "stages", ["loc", [null, [66, 40], [66, 46]]], 0, 0, 0, 0]], [], [], 0, 0], "opt", ["subexpr", "@mut", [["get", "model", ["loc", [null, [66, 51], [66, 56]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [66, 2], [66, 58]]], 0, 0], ["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [71, 39], [71, 51]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Backburner", "value", "Backburner", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [72, 66], [72, 78]]], 0, 0, 0, 0]], [], ["loc", [null, [72, 61], [72, 79]]], 0, 0]], [], ["loc", [null, [72, 53], [72, 80]]], 0, 0]], ["loc", [null, [71, 6], [72, 82]]], 0, 0], ["block", "if", [["get", "isWinDisabled", ["loc", [null, [73, 12], [73, 25]]], 0, 0, 0, 0]], [], 6, 7, ["loc", [null, [73, 6], [92, 13]]]], ["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [94, 14], [94, 26]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Lost", "value", "Lost", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [98, 28], [98, 40]]], 0, 0, 0, 0]], [], ["loc", [null, [98, 23], [98, 41]]], 0, 0]], [], ["loc", [null, [98, 15], [98, 42]]], 0, 0]], ["loc", [null, [93, 6], [98, 44]]], 0, 0], ["block", "if", [["get", "fieldsByGroup", ["loc", [null, [102, 8], [102, 21]]], 0, 0, 0, 0]], [], 8, 9, ["loc", [null, [102, 2], [137, 9]]]], ["content", "yield", ["loc", [null, [147, 0], [147, 9]]], 0, 0, 0, 0]],
+      statements: [["content", "model.id", ["loc", [null, [4, 42], [4, 54]]], 0, 0, 0, 0], ["block", "if", [["get", "model.draft", ["loc", [null, [4, 61], [4, 72]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [4, 55], [4, 87]]]], ["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [5, 18], [5, 39]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [5, 8], [5, 48]]], 0, 0]], [], 1, null, ["loc", [null, [5, 2], [13, 9]]]], ["block", "if", [["get", "noValidName", ["loc", [null, [15, 8], [15, 19]]], 0, 0, 0, 0]], [], 2, 3, ["loc", [null, [15, 2], [25, 9]]]], ["inline", "input", [], ["type", "button", "value", "Save", "disabled", ["subexpr", "@mut", [["get", "hasNoChanges", ["loc", [null, [28, 46], [28, 58]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui submit button small right floated", "click", ["subexpr", "action", ["updateRecord"], [], ["loc", [null, [30, 8], [30, 31]]], 0, 0]], ["loc", [null, [28, 2], [30, 33]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Copy", "disabled", ["subexpr", "@mut", [["get", "model.newRecord", ["loc", [null, [32, 46], [32, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui submit button small right floated", "click", ["subexpr", "action", ["cloneRecord"], [], ["loc", [null, [34, 8], [34, 30]]], 0, 0]], ["loc", [null, [32, 2], [34, 32]]], 0, 0], ["block", "link-to", ["opportunities"], ["disabled", ["subexpr", "@mut", [["get", "model.newRecord", ["loc", [null, [36, 38], [36, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "tagName", "div", "class", "ui small reset button right floated", "activeClass", "", "click", ["subexpr", "action", ["onCancelOptClick"], [], ["loc", [null, [38, 8], [38, 35]]], 0, 0]], 4, null, ["loc", [null, [36, 2], [40, 14]]]], ["block", "if", [["get", "fieldsByGroup", ["loc", [null, [50, 8], [50, 21]]], 0, 0, 0, 0]], [], 5, 6, ["loc", [null, [50, 2], [153, 9]]]], ["content", "yield", ["loc", [null, [165, 0], [165, 9]]], 0, 0, 0, 0]],
       locals: [],
-      templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9]
+      templates: [child0, child1, child2, child3, child4, child5, child6]
     };
   })());
 });
@@ -5163,6 +5403,132 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
 });
 define("apem/pods/components/opportunities/stage-step/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 15,
+              "column": 8
+            },
+            "end": {
+              "line": 17,
+              "column": 8
+            }
+          },
+          "moduleName": "apem/pods/components/opportunities/stage-step/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("          ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "description");
+          var el2 = dom.createTextNode("08/29/2016");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 25,
+              "column": 8
+            },
+            "end": {
+              "line": 27,
+              "column": 8
+            }
+          },
+          "moduleName": "apem/pods/components/opportunities/stage-step/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("          ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "description");
+          var el2 = dom.createTextNode("08/29/2016");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child2 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 34,
+              "column": 8
+            },
+            "end": {
+              "line": 36,
+              "column": 8
+            }
+          },
+          "moduleName": "apem/pods/components/opportunities/stage-step/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("          ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "description");
+          var el2 = dom.createTextNode("08/29/2016");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
     return {
       meta: {
         "revision": "Ember@2.7.0",
@@ -5173,7 +5539,7 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
             "column": 0
           },
           "end": {
-            "line": 32,
+            "line": 41,
             "column": 0
           }
         },
@@ -5186,7 +5552,7 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "field gap1");
+        dom.setAttribute(el1, "class", "field gap1 side-padded-fourteen");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("label");
@@ -5218,9 +5584,12 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
         var el6 = dom.createTextNode("Quote");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
+        var el5 = dom.createTextNode("\n          ");
         dom.appendChild(el4, el5);
-        var el5 = dom.createComment(" <div class=\"description\">Choose your shipping options</div> ");
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "description");
+        var el6 = dom.createTextNode("08/29/2016");
+        dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n      ");
         dom.appendChild(el4, el5);
@@ -5249,7 +5618,11 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
         var el6 = dom.createTextNode("Sample");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
+        var el5 = dom.createTextNode("\n");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createComment(" <div class=\"description\">Enter billing information</div> ");
         dom.appendChild(el4, el5);
@@ -5280,7 +5653,11 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
         var el6 = dom.createTextNode("Approval");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
+        var el5 = dom.createTextNode("\n");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("      ");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
@@ -5307,7 +5684,11 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
         var el6 = dom.createTextNode("Production");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
+        var el5 = dom.createTextNode("\n");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("      ");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
@@ -5329,16 +5710,19 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
         var element2 = dom.childAt(element0, [3]);
         var element3 = dom.childAt(element0, [5]);
         var element4 = dom.childAt(element0, [7]);
-        var morphs = new Array(4);
+        var morphs = new Array(7);
         morphs[0] = dom.createElementMorph(element1);
         morphs[1] = dom.createElementMorph(element2);
-        morphs[2] = dom.createElementMorph(element3);
-        morphs[3] = dom.createElementMorph(element4);
+        morphs[2] = dom.createMorphAt(dom.childAt(element2, [3]), 3, 3);
+        morphs[3] = dom.createElementMorph(element3);
+        morphs[4] = dom.createMorphAt(dom.childAt(element3, [3]), 3, 3);
+        morphs[5] = dom.createElementMorph(element4);
+        morphs[6] = dom.createMorphAt(dom.childAt(element4, [3]), 3, 3);
         return morphs;
       },
-      statements: [["element", "action", ["onStepClick", "quote"], [], ["loc", [null, [4, 28], [4, 60]]], 0, 0], ["element", "action", ["onStepClick", "sample"], [], ["loc", [null, [11, 29], [11, 62]]], 0, 0], ["element", "action", ["onStepClick", "approval"], [], ["loc", [null, [18, 31], [18, 66]]], 0, 0], ["element", "action", ["onStepClick", "production"], [], ["loc", [null, [24, 33], [24, 70]]], 0, 0]],
+      statements: [["element", "action", ["onStepClick", "quote"], [], ["loc", [null, [4, 28], [4, 60]]], 0, 0], ["element", "action", ["onStepClick", "sample"], [], ["loc", [null, [11, 29], [11, 62]]], 0, 0], ["block", "if", [["get", "opt.events", ["loc", [null, [15, 14], [15, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [15, 8], [17, 15]]]], ["element", "action", ["onStepClick", "approval"], [], ["loc", [null, [21, 31], [21, 66]]], 0, 0], ["block", "if", [["get", "opt.events", ["loc", [null, [25, 14], [25, 24]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [25, 8], [27, 15]]]], ["element", "action", ["onStepClick", "production"], [], ["loc", [null, [30, 33], [30, 70]]], 0, 0], ["block", "if", [["get", "opt.events", ["loc", [null, [34, 14], [34, 24]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [34, 8], [36, 15]]]]],
       locals: [],
-      templates: []
+      templates: [child0, child1, child2]
     };
   })());
 });
@@ -7136,40 +7520,314 @@ define('apem/pods/opportunities/index/controller', ['exports', 'ember'], functio
     }
   });
 });
-define('apem/pods/opportunities/index/route', ['exports', 'ember', 'ember-cli-pagination/remote/route-mixin'], function (exports, _ember, _emberCliPaginationRemoteRouteMixin) {
-  exports['default'] = _ember['default'].Route.extend(_emberCliPaginationRemoteRouteMixin['default'], {
+define('apem/pods/opportunities/index/route', ['exports', 'ember', 'apem/mixins/infinity-filter'], function (exports, _ember, _apemMixinsInfinityFilter) {
+  // import InfinityRoute from "ember-infinity/mixins/route";
+
+  exports['default'] = _ember['default'].Route.extend(_apemMixinsInfinityFilter['default'], {
     totalPagesParam: "meta.total-pages",
     totalRecordsParam: "meta.total-records",
-    perPage: 25,
+
     breadCrumb: { title: 'Manage Opportunities' },
 
-    model: function model(params) {
-      return _ember['default'].RSVP.hash({
-        fields: this.store.findAll('field'),
-        opportunities: this.findPaged('opportunity', params)
-      });
+    filterParams: null,
+
+    pagingParams: {
+      perPage: 25,
+      startingPage: 1
     },
-    setupController: function setupController(controller, models) {
-      controller.set('fields', models.fields);
-      controller.set('opportunities', models.opportunities);
+
+    fields: function fields() {
+      return this.store.findAll('field');
+    },
+
+    model: function model() {
+      console.log(this.filterParams);
+      return this.infinityFilterModel("opportunity");
+    },
+
+    actions: {
+      pullFilteredCSV: function pullFilteredCSV() {
+        //debugger;
+      },
+
+      // Clear old data and then load the newly queried records.
+      filterOpportunities: function filterOpportunities(params) {
+        console.log(params);
+        this.infinityFilterModel("opportunity", params);
+      },
+
+      clearSearchFilter: function clearSearchFilter() {
+        this.infinityFilterModel("opportunity");
+      }
     }
   });
 });
 define("apem/pods/opportunities/index/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
+      var child0 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.7.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 56,
+                  "column": 14
+                },
+                "end": {
+                  "line": 58,
+                  "column": 14
+                }
+              },
+              "moduleName": "apem/pods/opportunities/index/template.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("                ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              return morphs;
+            },
+            statements: [["content", "opp.id", ["loc", [null, [57, 16], [57, 26]]], 0, 0, 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child1 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.7.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 61,
+                  "column": 14
+                },
+                "end": {
+                  "line": 63,
+                  "column": 14
+                }
+              },
+              "moduleName": "apem/pods/opportunities/index/template.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("                ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              return morphs;
+            },
+            statements: [["content", "opp.apemSalesPerson", ["loc", [null, [62, 16], [62, 39]]], 0, 0, 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child2 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.7.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 66,
+                  "column": 14
+                },
+                "end": {
+                  "line": 68,
+                  "column": 14
+                }
+              },
+              "moduleName": "apem/pods/opportunities/index/template.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("                ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              return morphs;
+            },
+            statements: [["inline", "currency-format", [["get", "opp.potentialAnnualRev", ["loc", [null, [67, 34], [67, 56]]], 0, 0, 0, 0]], [], ["loc", [null, [67, 16], [67, 58]]], 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child3 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.7.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 71,
+                  "column": 14
+                },
+                "end": {
+                  "line": 73,
+                  "column": 14
+                }
+              },
+              "moduleName": "apem/pods/opportunities/index/template.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("                ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              return morphs;
+            },
+            statements: [["content", "opp.productType", ["loc", [null, [72, 16], [72, 35]]], 0, 0, 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.7.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 53,
+                "column": 8
+              },
+              "end": {
+                "line": 76,
+                "column": 8
+              }
+            },
+            "moduleName": "apem/pods/opportunities/index/template.hbs"
+          },
+          isEmpty: false,
+          arity: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("tr");
+            var el2 = dom.createTextNode("\n            ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("            ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n            ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("            ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n            ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("            ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n            ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("            ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n          ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element0 = dom.childAt(fragment, [1]);
+            var morphs = new Array(4);
+            morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
+            morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
+            morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
+            morphs[3] = dom.createMorphAt(dom.childAt(element0, [7]), 1, 1);
+            return morphs;
+          },
+          statements: [["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [56, 60], [56, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 0, null, ["loc", [null, [56, 14], [58, 26]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [61, 60], [61, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 1, null, ["loc", [null, [61, 14], [63, 26]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [66, 60], [66, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 2, null, ["loc", [null, [66, 14], [68, 26]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [71, 60], [71, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 3, null, ["loc", [null, [71, 14], [73, 26]]]]],
+          locals: ["opp"],
+          templates: [child0, child1, child2, child3]
+        };
+      })();
       return {
         meta: {
           "revision": "Ember@2.7.0",
           "loc": {
             "source": null,
             "start": {
-              "line": 18,
-              "column": 4
+              "line": 37,
+              "column": 0
             },
             "end": {
-              "line": 20,
-              "column": 4
+              "line": 84,
+              "column": 0
             }
           },
           "moduleName": "apem/pods/opportunities/index/template.hbs"
@@ -7180,97 +7838,84 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("      ");
+          var el1 = dom.createTextNode("\n  ");
           dom.appendChild(el0, el1);
-          var el1 = dom.createElement("i");
-          dom.setAttribute(el1, "class", "filter icon");
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "opp-table");
+          var el2 = dom.createTextNode("\n\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("table");
+          dom.setAttribute(el2, "class", "ui table ui-table");
+          var el3 = dom.createTextNode("\n\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("thead");
+          var el4 = dom.createTextNode("\n        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("tr");
+          var el5 = dom.createTextNode("\n          ");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("th");
+          var el6 = dom.createTextNode("NAO #");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n          ");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("th");
+          var el6 = dom.createTextNode("Sales Person");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n          ");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("th");
+          var el6 = dom.createTextNode("Revenue");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n          ");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("th");
+          var el6 = dom.createTextNode("Prod Type");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n        ");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n\n      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("tbody");
+          var el4 = dom.createTextNode("\n");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n\n    ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n\n  ");
+          dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
-        },
-        statements: [],
-        locals: [],
-        templates: []
-      };
-    })();
-    var child1 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.7.0",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 34,
-              "column": 0
-            },
-            "end": {
-              "line": 36,
-              "column": 0
-            }
-          },
-          "moduleName": "apem/pods/opportunities/index/template.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("  ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
+          var el1 = dom.createTextNode("\n\n");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          var element1 = dom.childAt(fragment, [1, 1, 3]);
+          var morphs = new Array(2);
+          morphs[0] = dom.createMorphAt(element1, 1, 1);
+          morphs[1] = dom.createMorphAt(element1, 3, 3);
           return morphs;
         },
-        statements: [["inline", "opportunities/opp-table", [], ["model", ["subexpr", "@mut", [["get", "opportunities", ["loc", [null, [35, 34], [35, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "fields", ["subexpr", "@mut", [["get", "fields", ["loc", [null, [35, 55], [35, 61]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [35, 2], [35, 63]]], 0, 0]],
+        statements: [["block", "each", [["get", "model", ["loc", [null, [53, 16], [53, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [53, 8], [76, 17]]]], ["inline", "infinity-loader", [], ["infinityModel", ["subexpr", "@mut", [["get", "model", ["loc", [null, [77, 40], [77, 45]]], 0, 0, 0, 0]], [], [], 0, 0], "scrollable", ".opp-table"], ["loc", [null, [77, 8], [77, 71]]], 0, 0]],
         locals: [],
-        templates: []
-      };
-    })();
-    var child2 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.7.0",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 38,
-              "column": 0
-            },
-            "end": {
-              "line": 40,
-              "column": 0
-            }
-          },
-          "moduleName": "apem/pods/opportunities/index/template.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode(" Grid mockup\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
-        },
-        statements: [],
-        locals: [],
-        templates: []
+        templates: [child0]
       };
     })();
     return {
@@ -7283,7 +7928,7 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
             "column": 0
           },
           "end": {
-            "line": 43,
+            "line": 87,
             "column": 0
           }
         },
@@ -7314,16 +7959,29 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
         var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "ui buttons right floated");
+        dom.setAttribute(el2, "class", "ui buttons right floated download-csv-btn");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n");
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
+        var el3 = dom.createElement("button");
+        dom.setAttribute(el3, "class", "ui icon button dark-gray-bg");
+        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("i");
+        dom.setAttribute(el4, "class", "filter icon");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("  ");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment(" {{#ui-dropdown class=\"ui floating dropdown icon button download-filter-btn\"}}\n      <i class=\"filter icon\"></i>\n    {{/ui-dropdown}} ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -7377,29 +8035,25 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [1]);
-        var element1 = dom.childAt(element0, [7]);
-        var morphs = new Array(8);
-        morphs[0] = dom.createMorphAt(element0, 5, 5);
-        morphs[1] = dom.createMorphAt(element1, 1, 1);
-        morphs[2] = dom.createMorphAt(element1, 3, 3);
+        var element2 = dom.childAt(fragment, [1]);
+        var element3 = dom.childAt(element2, [7]);
+        var element4 = dom.childAt(element3, [3]);
+        var morphs = new Array(7);
+        morphs[0] = dom.createMorphAt(element2, 5, 5);
+        morphs[1] = dom.createMorphAt(element3, 1, 1);
+        morphs[2] = dom.createElementMorph(element4);
         morphs[3] = dom.createMorphAt(dom.childAt(fragment, [5, 1]), 0, 0);
         morphs[4] = dom.createMorphAt(dom.childAt(fragment, [7, 1]), 0, 0);
         morphs[5] = dom.createMorphAt(fragment, 9, 9, contextualElement);
         morphs[6] = dom.createMorphAt(fragment, 11, 11, contextualElement);
-        morphs[7] = dom.createMorphAt(fragment, 13, 13, contextualElement);
         return morphs;
       },
-      statements: [["inline", "adv-search", [], ["class", "column inline-block"], ["loc", [null, [12, 2], [12, 44]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Download CSV", "class", "ui button csv-btn inline block"], ["loc", [null, [15, 4], [17, 44]]], 0, 0], ["block", "ui-dropdown", [], ["class", "ui floating dropdown icon button download-filter-btn"], 0, null, ["loc", [null, [18, 4], [20, 20]]]], ["content", "opportunities.meta.total-revenue", ["loc", [null, [26, 8], [26, 44]]], 0, 0, 0, 0], ["content", "opportunities.meta.total-records", ["loc", [null, [30, 8], [30, 44]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [34, 16], [34, 27]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [34, 6], [34, 35]]], 0, 0]], [], 1, null, ["loc", [null, [34, 0], [36, 7]]]], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [38, 16], [38, 27]]], 0, 0, 0, 0], "grid"], [], ["loc", [null, [38, 6], [38, 35]]], 0, 0]], [], 2, null, ["loc", [null, [38, 0], [40, 7]]]], ["content", "outlet", ["loc", [null, [42, 0], [42, 10]]], 0, 0, 0, 0]],
+      statements: [["inline", "adv-search", [], ["class", "column inline-block", "doSearch", "filterOpportunities", "clearSearchFilter", "clearSearchFilter"], ["loc", [null, [12, 2], [12, 113]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Download CSV", "class", "ui button csv-btn inline block"], ["loc", [null, [15, 4], [17, 44]]], 0, 0], ["element", "action", ["pullFilteredCSV"], [], ["loc", [null, [18, 48], [18, 76]]], 0, 0], ["content", "model.meta.total-revenue", ["loc", [null, [29, 8], [29, 36]]], 0, 0, 0, 0], ["content", "model.meta.total-records", ["loc", [null, [33, 8], [33, 36]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [37, 16], [37, 27]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [37, 6], [37, 35]]], 0, 0]], [], 0, null, ["loc", [null, [37, 0], [84, 7]]]], ["content", "outlet", ["loc", [null, [86, 0], [86, 10]]], 0, 0, 0, 0]],
       locals: [],
-      templates: [child0, child1, child2]
+      templates: [child0]
     };
   })());
 });
@@ -7509,6 +8163,7 @@ define('apem/pods/opportunities/opportunity/detail/route', ['exports', 'ember'],
     setupController: function setupController(controller, model) {
       controller.set('model', model);
       controller.set('fields', this.store.findAll('field'));
+      controller.set('users', this.store.findAll('user'));
     },
 
     actions: {
@@ -7544,8 +8199,11 @@ define('apem/pods/opportunities/opportunity/detail/route', ['exports', 'ember'],
       onOptSave: function onOptSave(opt) {
         var _this3 = this;
 
-        var sessionUser = this.get('identity').get('profile');
-        opt.set('user', sessionUser);
+        if (opt.get('user') == null) {
+          var sessionUser = this.get('identity').get('profile');
+          opt.set('user', sessionUser);
+        }
+
         opt.set('draft', false);
         console.log('Updating Opportunity...');
 
@@ -7571,7 +8229,7 @@ define("apem/pods/opportunities/opportunity/detail/template", ["exports"], funct
             "column": 0
           },
           "end": {
-            "line": 16,
+            "line": 17,
             "column": 0
           }
         },
@@ -7621,7 +8279,7 @@ define("apem/pods/opportunities/opportunity/detail/template", ["exports"], funct
         morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [4, 29], [4, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [4, 6], [4, 43]]], 0, 0], ["inline", "opportunities/opt-form", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [9, 12], [9, 17]]], 0, 0, 0, 0]], [], [], 0, 0], "fields", ["subexpr", "@mut", [["get", "fields", ["loc", [null, [10, 13], [10, 19]]], 0, 0, 0, 0]], [], [], 0, 0], "onOptSave", "onOptSave", "onOptDelete", "onDelete", "onCopy", "copyRecord"], ["loc", [null, [8, 4], [13, 27]]], 0, 0]],
+      statements: [["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [4, 29], [4, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [4, 6], [4, 43]]], 0, 0], ["inline", "opportunities/opt-form", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [9, 12], [9, 17]]], 0, 0, 0, 0]], [], [], 0, 0], "fields", ["subexpr", "@mut", [["get", "fields", ["loc", [null, [10, 13], [10, 19]]], 0, 0, 0, 0]], [], [], 0, 0], "users", ["subexpr", "@mut", [["get", "users", ["loc", [null, [11, 12], [11, 17]]], 0, 0, 0, 0]], [], [], 0, 0], "onOptSave", "onOptSave", "onOptDelete", "onDelete", "onCopy", "copyRecord"], ["loc", [null, [8, 4], [14, 27]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -8844,6 +9502,461 @@ define("apem/templates/components/happy-splitter-bar", ["exports"], function (ex
       statements: [],
       locals: [],
       templates: []
+    };
+  })());
+});
+define("apem/templates/components/infinite-scroll-container", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.7.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 2,
+                "column": 2
+              },
+              "end": {
+                "line": 13,
+                "column": 2
+              }
+            },
+            "moduleName": "apem/templates/components/infinite-scroll-container.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("h3");
+            var el2 = dom.createTextNode("\n      ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n    ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("hr");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("img");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("hr");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "container-body-text");
+            var el2 = dom.createTextNode("\n      ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n    ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("hr");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element0 = dom.childAt(fragment, [5]);
+            var morphs = new Array(3);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
+            morphs[1] = dom.createAttrMorph(element0, 'src');
+            morphs[2] = dom.createUnsafeMorphAt(dom.childAt(fragment, [9]), 1, 1);
+            return morphs;
+          },
+          statements: [["content", "post.title", ["loc", [null, [4, 6], [4, 20]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "post.imageUrl", ["loc", [null, [7, 16], [7, 29]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "post.body", ["loc", [null, [10, 6], [10, 21]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 14,
+              "column": 0
+            }
+          },
+          "moduleName": "apem/templates/components/infinite-scroll-container.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["block", "if", [["get", "post.imageUrl", ["loc", [null, [2, 8], [2, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [2, 2], [13, 9]]]]],
+        locals: ["post"],
+        templates: [child0]
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 16,
+            "column": 0
+          }
+        },
+        "moduleName": "apem/templates/components/infinite-scroll-container.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        morphs[1] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["block", "each", [["get", "model", ["loc", [null, [1, 8], [1, 13]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [14, 9]]]], ["inline", "infinite-scroll", [], ["scrollContainer", ["subexpr", "@mut", [["get", "scrollContainer", ["loc", [null, [15, 34], [15, 49]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [15, 0], [15, 51]]], 0, 0]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
+define("apem/templates/components/infinite-scroll", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 3,
+              "column": 0
+            }
+          },
+          "moduleName": "apem/templates/components/infinite-scroll.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "ember-ic-you", [], ["crossedTheLine", "performInfinite", "triggerDistance", ["subexpr", "@mut", [["get", "triggerDistance", ["loc", [null, [2, 66], [2, 81]]], 0, 0, 0, 0]], [], [], 0, 0], "scrollContainer", ["subexpr", "@mut", [["get", "scrollContainer", ["loc", [null, [2, 98], [2, 113]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 2], [2, 115]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 9
+          }
+        },
+        "moduleName": "apem/templates/components/infinite-scroll.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["block", "if", [["get", "infiniteScrollAvailable", ["loc", [null, [1, 6], [1, 29]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [3, 7]]]], ["content", "yield", ["loc", [null, [5, 0], [5, 9]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
+define("apem/templates/components/infinity-loader", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 3,
+              "column": 0
+            }
+          },
+          "moduleName": "apem/templates/components/infinity-loader.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["content", "yield", ["loc", [null, [2, 2], [2, 11]]], 0, 0, 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.7.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 4,
+                "column": 2
+              },
+              "end": {
+                "line": 6,
+                "column": 2
+              }
+            },
+            "moduleName": "apem/templates/components/infinity-loader.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("span");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+            return morphs;
+          },
+          statements: [["content", "loadedText", ["loc", [null, [5, 10], [5, 24]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child1 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.7.0",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 6,
+                "column": 2
+              },
+              "end": {
+                "line": 8,
+                "column": 2
+              }
+            },
+            "moduleName": "apem/templates/components/infinity-loader.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("span");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+            return morphs;
+          },
+          statements: [["content", "loadingText", ["loc", [null, [7, 10], [7, 25]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 9,
+              "column": 0
+            }
+          },
+          "moduleName": "apem/templates/components/infinity-loader.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["block", "if", [["get", "infinityModel.reachedInfinity", ["loc", [null, [4, 8], [4, 37]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [4, 2], [8, 9]]]]],
+        locals: [],
+        templates: [child0, child1]
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.7.0",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 10,
+            "column": 0
+          }
+        },
+        "moduleName": "apem/templates/components/infinity-loader.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["block", "if", [["get", "hasBlock", ["loc", [null, [1, 6], [1, 14]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [9, 7]]]]],
+      locals: [],
+      templates: [child0, child1]
     };
   })());
 });
@@ -10242,7 +11355,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+2d12f8fd"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+48c97fd1"});
 }
 
 /* jshint ignore:end */

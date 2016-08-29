@@ -29,12 +29,12 @@ class AdminUserSeeder extends Seeder
                 'active'   => true
             ],
 
-            [
+            /*[
                 'username' => 'eric@curiousm.com',
                 'password' => 'stardog182',
                 'type'     => 'Admin',
                 'active'   => true
-            ],
+            ],*/
 
             [
                 'username' => 'andrew@curiousm.com',
@@ -57,7 +57,7 @@ class AdminUserSeeder extends Seeder
                 'active'   => true
             ],
 
-            [
+            /*[
                 'username' => 'Ennio',
                 'password' => 'ennio',
                 'type'     => 'Admin',
@@ -125,7 +125,7 @@ class AdminUserSeeder extends Seeder
                 'password' => 'switch',
                 'type'     => 'User',
                 'active'   => true
-            ]
+            ]*/
         ];
 
         DB::table('users')->delete();

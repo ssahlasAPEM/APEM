@@ -17,7 +17,7 @@ class OpportunitySeeder extends Seeder
 
         $faker = Faker\Factory::create();
 
-        $numOpps = 50;
+        $numOpps = 600;
 
         DB::table('opportunities')->delete();
 
@@ -300,6 +300,7 @@ class OpportunitySeeder extends Seeder
             $newOpp                          = new \app\Models\Opportunity();
             $newOpp->user_id                 = $faker->numberBetween($min = 1, $max = 4);
             $newOpp->draft                   = $faker->numberBetween($min = 0, $max = 1);
+            $newOpp->state                   = 'open';
             $newOpp->status                  = null;
             $newOpp->stage                   = 'quote';
             $newOpp->company                 = $faker->company;
@@ -343,6 +344,7 @@ class OpportunitySeeder extends Seeder
             $newOpp->sample_date             = $faker->date('Y-m-d');
             $newOpp->approval_date           = $faker->date('Y-m-d');
             $newOpp->date_rcvd_prod_order    = $faker->date('Y-m-d');
+            $newOpp->estimated_prod_date     = $faker->date('Y-m-d');
             $newOpp->prod_sales_order_num    = $faker->randomNumber(null);
             $newOpp->reason_for_win          = $faker->bs;
             $newOpp->date_lost               = $faker->date('Y-m-d');

@@ -18,6 +18,7 @@ class CreateOpportunitiesTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->boolean('draft')->default(true);
+            $table->string('state')->default('open');
             $table->string('status')->nullable();
             $table->string('stage')->default('quote');
             $table->string('company')->nullable(); // Nullable
@@ -61,6 +62,7 @@ class CreateOpportunitiesTable extends Migration
             $table->date('sample_date')->nullable();
             $table->date('approval_date')->nullable();
             $table->date('date_rcvd_prod_order')->nullable();
+            $table->date('estimated_prod_date')->nullable();
             $table->string('prod_sales_order_num')->nullable();
             $table->string('reason_for_win')->nullable();
             $table->date('date_lost')->nullable();

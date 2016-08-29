@@ -20,6 +20,7 @@ class Opportunity extends DomainEntity
 
     private $userId;
     private $draft;
+    private $state;
     private $status;
     private $stage;
     private $company;
@@ -63,6 +64,7 @@ class Opportunity extends DomainEntity
     private $sampleDate;
     private $approvalDate;
     private $dateRcvdProdOrder;
+    private $estimatedProdDate;
     private $prodSalesOrderNum;
     private $reasonForWin;
     private $dateLost;
@@ -100,6 +102,22 @@ class Opportunity extends DomainEntity
     public function setDraft($draft)
     {
         $this->draft = $draft;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param mixed $state
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
     }
 
     /**
@@ -756,6 +774,22 @@ class Opportunity extends DomainEntity
     public function setDateRcvdProdOrder($dateRcvdProdOrder)
     {
         $this->dateRcvdProdOrder = $dateRcvdProdOrder;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstimatedProdDate()
+    {
+        return $this->estimatedProdDate;
+    }
+
+    /**
+     * @param mixed $estimatedProdDate
+     */
+    public function setEstimatedProdDate($estimatedProdDate)
+    {
+        $this->estimatedProdDate = $estimatedProdDate;
     }
 
     /**

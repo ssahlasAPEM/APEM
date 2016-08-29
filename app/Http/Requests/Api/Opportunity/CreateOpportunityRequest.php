@@ -35,6 +35,7 @@ class CreateOpportunityRequest extends Request
     {
         return [
             'data.attributes.draft'                   => 'sometimes',
+            'data.attributes.state'                   => 'sometimes',
             'data.attributes.status'                  => 'sometimes',
             'data.attributes.stage'                   => 'sometimes',
             'data.attributes.company'                 => 'sometimes',
@@ -78,6 +79,7 @@ class CreateOpportunityRequest extends Request
             'data.attributes.sample-date'             => 'sometimes',
             'data.attributes.approval-date'           => 'sometimes',
             'data.attributes.date-rcvd-prod-order'    => 'sometimes',
+            'data.attributes.estimated-prod-date'     => 'sometimes',
             'data.attributes.prod-sales-order-num'    => 'sometimes',
             'data.attributes.reason-for-win'          => 'sometimes',
             'data.attributes.date-lost'               => 'sometimes',

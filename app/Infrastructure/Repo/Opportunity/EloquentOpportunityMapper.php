@@ -14,6 +14,7 @@ use app\Exceptions\ForbiddenException;
 use app\Exceptions\InvalidRequestException;
 use app\Infrastructure\AbstractEloquentMapper;
 use app\Models\Event;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -36,41 +37,203 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
      */
     public function findAllPaginatedFiltered($limit, $offset, $filter)
     {
-        if(Auth::user()->type !== 'Admin') {
-            $query = $this->getQueryModel()
-                ->where('user_id','=',Auth::user()->id);
-            $queryRev = $this->getQueryModel()
+        $query    = $this->getQueryModel();
+        $queryRev = $this->getQueryModel();
+
+        if (Auth::user()->type !== 'Admin') {
+            $query    = $query
+                ->where('user_id', '=', Auth::user()->id);
+            $queryRev = $queryRev
                 ->select(
                     DB::raw('sum(potential_annual_rev) as total_revenue')
-                )->where('user_id','=',Auth::user()->id);
+                )->where('user_id', '=', Auth::user()->id);
         } else {
-            $query = $this->getQueryModel()
-                ->where('draft','=',0)
-                ->orWhere('draft','=','1')
-                ->where('user_id','=',Auth::user()->id);
-            $queryRev = $this->getQueryModel()
+            $query    = $query->where(
+                function ($query) {
+                    $query->where('draft', '=', 0)
+                        ->orWhere('draft', '=', '1')
+                        ->where('user_id', '=', Auth::user()->id);
+                }
+            );
+            $queryRev = $queryRev
                 ->select(
                     DB::raw('sum(potential_annual_rev) as total_revenue')
-                );
+                )->where(function ($queryRev) {
+                    $queryRev->where('draft', '=', 0)
+                        ->orWhere('draft', '=', '1')
+                        ->where('user_id', '=', Auth::user()->id);
+                }
+            );
         }
 
-        foreach($filter AS $key => $value) {
-            $dataPoint = str_replace('-', '_', $key);
-            $query = $query->where($dataPoint, 'like', '%'.$value.'%');
-            $queryRev = $queryRev->where($dataPoint, 'like', '%'.$value.'%');
+        foreach ($filter AS $key => $value) {
+
+            if (strlen($value) > 0) {
+                switch ($key) {
+                    case 'lastThirtyDays':
+                        if ($value == 'true') {
+                            $query    = $query->where('created_at', '>=', date(date('Y-m-d'), strtotime("+30 days")));
+                            $queryRev = $queryRev->where('created_at', '>=', date(date('Y-m-d'), strtotime("+30 days")));
+                        }
+                        break;
+                    case 'dateEntered':
+                        $dateEntered = DateTime::createFromFormat('m-d-Y', $value)->format('Y-m-d');
+                        $query       = $query->whereDate('created_at', '=', $dateEntered);
+                        $queryRev    = $queryRev->whereDate('created_at', '=', $dateEntered);
+                        break;
+                    case 'startDate':
+                        $startDate = DateTime::createFromFormat('m-d-Y', $value)->format('Y-m-d');
+                        $query     = $query->where('created_at', '>=', $startDate);
+                        $queryRev  = $queryRev->where('created_at', '>=', $startDate);
+                        break;
+                    case 'endDate':
+                        $endDate  = DateTime::createFromFormat('m-d-Y', $value)->format('Y-m-d');
+                        $query    = $query->where('created_at', '<=', $endDate);
+                        $queryRev = $queryRev->where('created_at', '<=', $endDate);
+                        break;
+                    case 'estimatedProdDate':
+                        $estimatedProdDate = DateTime::createFromFormat('m-d-Y', $value)->format('Y-m-d');
+                        $query             = $query->where('estimated_prod_date', '=', $estimatedProdDate);
+                        $queryRev          = $queryRev->where('estimated_prod_date', '=', $estimatedProdDate);
+                        break;
+                    case 'searchString':
+                        $query    = $query->where(
+                            function ($query) use (&$value) {
+                                $query->where('draft', 'like', '%' . $value . '%')
+                                    ->orWhere('stage', 'like', '%' . $value . '%')
+                                    ->orWhere('company', 'like', '%' . $value . '%')
+                                    ->orWhere('address', 'like', '%' . $value . '%')
+                                    ->orWhere('city', 'like', '%' . $value . '%')
+                                    ->orWhere('state_county', 'like', '%' . $value . '%')
+                                    ->orWhere('mail_code', 'like', '%' . $value . '%')
+                                    ->orWhere('country', 'like', '%' . $value . '%')
+                                    ->orWhere('contact_name', 'like', '%' . $value . '%')
+                                    ->orWhere('contact_title', 'like', '%' . $value . '%')
+                                    ->orWhere('contact_phone', 'like', '%' . $value . '%')
+                                    ->orWhere('contact_email', 'like', '%' . $value . '%')
+                                    ->orWhere('sales_rep_agent', 'like', '%' . $value . '%')
+                                    ->orWhere('distributor', 'like', '%' . $value . '%')
+                                    ->orWhere('apem_sales_person', 'like', '%' . $value . '%')
+                                    ->orWhere('sra_sales_rep', 'like', '%' . $value . '%')
+                                    ->orWhere('distributor_salesperson', 'like', '%' . $value . '%')
+                                    ->orWhere('industry', 'like', '%' . $value . '%')
+                                    ->orWhere('application', 'like', '%' . $value . '%')
+                                    ->orWhere('reason_for_opp', 'like', '%' . $value . '%')
+                                    ->orWhere('function', 'like', '%' . $value . '%')
+                                    ->orWhere('catalog_part_num', 'like', '%' . $value . '%')
+                                    ->orWhere('customer_part_num', 'like', '%' . $value . '%')
+                                    ->orWhere('product_type', 'like', '%' . $value . '%')
+                                    ->orWhere('product_series', 'like', '%' . $value . '%')
+                                    ->orWhere('apem_part_num', 'like', '%' . $value . '%')
+                                    ->orWhere('brief_description', 'like', '%' . $value . '%')
+                                    ->orWhere('extended_description', 'like', '%' . $value . '%')
+                                    ->orWhere('current_supplier', 'like', '%' . $value . '%')
+                                    ->orWhere('competitors', 'like', '%' . $value . '%')
+                                    ->orWhere('year1_sales_vol', 'like', '%' . $value . '%')
+                                    ->orWhere('year2_sales_vol', 'like', '%' . $value . '%')
+                                    ->orWhere('year3_sales_vol', 'like', '%' . $value . '%')
+                                    ->orWhere('currency', 'like', '%' . $value . '%')
+                                    ->orWhere('target_sales_price', 'like', '%' . $value . '%')
+                                    ->orWhere('potential_annual_rev', 'like', '%' . $value . '%')
+                                    ->orWhere('probability_of_win', 'like', '%' . $value . '%')
+                                    ->orWhere('expected_value', 'like', '%' . $value . '%')
+                                    ->orWhere('quote_date', 'like', '%' . $value . '%')
+                                    ->orWhere('sample_date', 'like', '%' . $value . '%')
+                                    ->orWhere('approval_date', 'like', '%' . $value . '%')
+                                    ->orWhere('date_rcvd_prod_order', 'like', '%' . $value . '%')
+                                    ->orWhere('prod_sales_order_num', 'like', '%' . $value . '%')
+                                    ->orWhere('reason_for_win', 'like', '%' . $value . '%')
+                                    ->orWhere('date_lost', 'like', '%' . $value . '%')
+                                    ->orWhere('lost_to_whom', 'like', '%' . $value . '%')
+                                    ->orWhere('reason_for_loss', 'like', '%' . $value . '%')
+                                    ->orWhere('comment_field', 'like', '%' . $value . '%')
+                                    ->orWhere('user_id', 'like', '%' . $value . '%');
+                            }
+                        );
+                        $queryRev = $queryRev->where(
+                            function ($queryRev) use (&$value) {
+                                $queryRev->where('draft', 'like', '%' . $value . '%')
+                                    ->orWhere('stage', 'like', '%' . $value . '%')
+                                    ->orWhere('company', 'like', '%' . $value . '%')
+                                    ->orWhere('address', 'like', '%' . $value . '%')
+                                    ->orWhere('city', 'like', '%' . $value . '%')
+                                    ->orWhere('state_county', 'like', '%' . $value . '%')
+                                    ->orWhere('mail_code', 'like', '%' . $value . '%')
+                                    ->orWhere('country', 'like', '%' . $value . '%')
+                                    ->orWhere('contact_name', 'like', '%' . $value . '%')
+                                    ->orWhere('contact_title', 'like', '%' . $value . '%')
+                                    ->orWhere('contact_phone', 'like', '%' . $value . '%')
+                                    ->orWhere('contact_email', 'like', '%' . $value . '%')
+                                    ->orWhere('sales_rep_agent', 'like', '%' . $value . '%')
+                                    ->orWhere('distributor', 'like', '%' . $value . '%')
+                                    ->orWhere('apem_sales_person', 'like', '%' . $value . '%')
+                                    ->orWhere('sra_sales_rep', 'like', '%' . $value . '%')
+                                    ->orWhere('distributor_salesperson', 'like', '%' . $value . '%')
+                                    ->orWhere('industry', 'like', '%' . $value . '%')
+                                    ->orWhere('application', 'like', '%' . $value . '%')
+                                    ->orWhere('reason_for_opp', 'like', '%' . $value . '%')
+                                    ->orWhere('function', 'like', '%' . $value . '%')
+                                    ->orWhere('catalog_part_num', 'like', '%' . $value . '%')
+                                    ->orWhere('customer_part_num', 'like', '%' . $value . '%')
+                                    ->orWhere('product_type', 'like', '%' . $value . '%')
+                                    ->orWhere('product_series', 'like', '%' . $value . '%')
+                                    ->orWhere('apem_part_num', 'like', '%' . $value . '%')
+                                    ->orWhere('brief_description', 'like', '%' . $value . '%')
+                                    ->orWhere('extended_description', 'like', '%' . $value . '%')
+                                    ->orWhere('current_supplier', 'like', '%' . $value . '%')
+                                    ->orWhere('competitors', 'like', '%' . $value . '%')
+                                    ->orWhere('year1_sales_vol', 'like', '%' . $value . '%')
+                                    ->orWhere('year2_sales_vol', 'like', '%' . $value . '%')
+                                    ->orWhere('year3_sales_vol', 'like', '%' . $value . '%')
+                                    ->orWhere('currency', 'like', '%' . $value . '%')
+                                    ->orWhere('target_sales_price', 'like', '%' . $value . '%')
+                                    ->orWhere('potential_annual_rev', 'like', '%' . $value . '%')
+                                    ->orWhere('probability_of_win', 'like', '%' . $value . '%')
+                                    ->orWhere('expected_value', 'like', '%' . $value . '%')
+                                    ->orWhere('quote_date', 'like', '%' . $value . '%')
+                                    ->orWhere('sample_date', 'like', '%' . $value . '%')
+                                    ->orWhere('approval_date', 'like', '%' . $value . '%')
+                                    ->orWhere('date_rcvd_prod_order', 'like', '%' . $value . '%')
+                                    ->orWhere('prod_sales_order_num', 'like', '%' . $value . '%')
+                                    ->orWhere('reason_for_win', 'like', '%' . $value . '%')
+                                    ->orWhere('date_lost', 'like', '%' . $value . '%')
+                                    ->orWhere('lost_to_whom', 'like', '%' . $value . '%')
+                                    ->orWhere('reason_for_loss', 'like', '%' . $value . '%')
+                                    ->orWhere('comment_field', 'like', '%' . $value . '%')
+                                    ->orWhere('user_id', 'like', '%' . $value . '%');
+                            }
+                        );
+                        break;
+                    case 'searchedState':
+                        $query    = $query->where('state', '=', strtolower($value));
+                        $queryRev = $queryRev->where('state', '=', strtolower($value));
+                        break;
+                    case 'searchedStatus':
+                        $query    = $query->where('status', '=', strtolower($value));
+                        $queryRev = $queryRev->where('status', '=', strtolower($value));
+                        break;
+                    default:
+                        $dataPoint = str_replace('-', '_', $key);
+                        $query     = $query->where($dataPoint, 'like', '%' . $value . '%');
+                        $queryRev  = $queryRev->where($dataPoint, 'like', '%' . $value . '%');
+                }
+            }
         }
 
-        $results = $query
+        $results      = $query
             ->orderBy('id', 'asc')
             ->paginate($limit);
         $totalRevenue = $queryRev->get();
 
-        $collection  = $this->getCollection($results->toArray()['data']);
+        if(Count($totalRevenue) == 0) {
+            $totalRevenue = null;
+        } else {
+            $totalRevenue = $totalRevenue->toArray()[0]['total_revenue'];
+        }
 
-        return $this->addMetaInfo($limit, $offset, $results->total(), $collection, $totalRevenue->toArray()[0]['total_revenue']);
+        $collection = $this->getCollection($results->toArray()['data']);
 
-        // method for lower casing and escaping characters
-        //$escapedName = str_replace(['%', '_'], ['\%', '\_'], strtolower($name));
+        return $this->addMetaInfo($limit, $offset, $results->total(), $collection, $totalRevenue);
     }
 
     /**
@@ -84,36 +247,36 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
      */
     public function findAllPaginated($limit, $page)
     {
-        if(Auth::user()->type !== 'Admin') {
-            $result = $this->getQueryModel()
-                ->where('user_id','=',Auth::user()->id)
+        if (Auth::user()->type !== 'Admin') {
+            $result     = $this->getQueryModel()
+                ->where('user_id', '=', Auth::user()->id)
                 ->orderBy('id', 'asc')
                 ->paginate($limit);
             $collection = $this->getCollection($result->toArray()['data']);
 
-            $queryRev = $this->getQueryModel()
+            $queryRev     = $this->getQueryModel()
                 ->select(
                     DB::raw('sum(potential_annual_rev) as total_revenue')
-                )->where('user_id','=',Auth::user()->id);
+                )->where('user_id', '=', Auth::user()->id);
             $totalRevenue = $queryRev->get();
 
             return $this->addMetaInfo($limit, $page, $result->total(), $collection, $totalRevenue->toArray()[0]['total_revenue']);
         }
 
-        $result = $this->getQueryModel()
-            ->where('draft','=',0)
-            ->orWhere('draft','=','1')
-            ->where('user_id','=',Auth::user()->id)
+        $result     = $this->getQueryModel()
+            ->where('draft', '=', 0)
+            ->orWhere('draft', '=', '1')
+            ->where('user_id', '=', Auth::user()->id)
             ->orderBy('id', 'asc')
             ->paginate($limit);
         $collection = $this->getCollection($result->toArray()['data']);
 
-        $queryRev = $this->getQueryModel()
+        $queryRev     = $this->getQueryModel()
             ->select(
                 DB::raw('sum(potential_annual_rev) as total_revenue')
-            )->where('draft','=',0)
-            ->orWhere('draft','=','1')
-            ->where('user_id','=',Auth::user()->id);
+            )->where('draft', '=', 0)
+            ->orWhere('draft', '=', '1')
+            ->where('user_id', '=', Auth::user()->id);
         $totalRevenue = $queryRev->get();
 
         return $this->addMetaInfo($limit, $page, $result->total(), $collection, $totalRevenue->toArray()[0]['total_revenue']);
@@ -133,9 +296,9 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             $newOpportunity = $this->doStoreMapping($newOpportunity, $opportunity, false);
             $newOpportunity->save();
 
-            $event = new Event();
-            $event->type = "create";
-            $event->date = date('Y-m-d');
+            $event                 = new Event();
+            $event->type           = "create";
+            $event->date           = date('Y-m-d');
             $event->opportunity_id = $newOpportunity->id;
             $event->save();
         } catch (\PDOException $exception) {
@@ -166,7 +329,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         $model = $model->where('id', '=', $object->getId())->first();
 
         // Get current stage and status
-        $currStage = $model->stage;
+        $currStage  = $model->stage;
         $currStatus = $model->status;
 
         if ($model === null) {
@@ -177,25 +340,25 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         $model->save();
 
         // Generate update event
-        $event = new Event();
-        $event->type = "update";
-        $event->date = date('Y-m-d');
+        $event                 = new Event();
+        $event->type           = "update";
+        $event->date           = date('Y-m-d');
         $event->opportunity_id = $model->id;
         $event->save();
 
         // Check if we need to generate a stage / status event
-        if($currStage !== $model->stage) {
-            $event = new Event();
-            $event->type = $currStage;
-            $event->date = date('Y-m-d');
+        if ($currStage !== $model->stage) {
+            $event                 = new Event();
+            $event->type           = $currStage;
+            $event->date           = date('Y-m-d');
             $event->opportunity_id = $model->id;
             $event->save();
         }
 
-        if($currStatus !== $model->status) {
-            $event = new Event();
-            $event->type = $model->status;
-            $event->date = date('Y-m-d');
+        if ($currStatus !== $model->status) {
+            $event                 = new Event();
+            $event->type           = $model->status;
+            $event->date           = date('Y-m-d');
             $event->opportunity_id = $model->id;
             $event->save();
         }

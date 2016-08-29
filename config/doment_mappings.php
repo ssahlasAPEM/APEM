@@ -151,6 +151,7 @@ return [
 
         'jsonToDomainEntity' => [
             'draft'                   => ['Draft', Flags::NONE],
+            'state'                   => ['State', Flags::NONE],
             'status'                  => ['Status', Flags::NONE],
             'stage'                   => ['Stage', Flags::NONE],
             'company'                 => ['Company', Flags::NONE],
@@ -193,6 +194,7 @@ return [
             'sample-date'             => ['SampleDate', Flags::NONE],
             'approval-date'           => ['ApprovalDate', Flags::NONE],
             'date-rcvd-prod-order'    => ['DateRcvdProdOrder', Flags::NONE],
+            'estimated-prod-date'     => ['EstimatedProdDate', Flags::NONE],
             'prod-sales-order-num'    => ['ProdSalesOrderNum', Flags::NONE],
             'reason-for-win'          => ['ReasonForWin', Flags::NONE],
             'date-lost'               => ['DateLost', Flags::NONE],
@@ -204,6 +206,7 @@ return [
 
         'eloquentToDomainEntity' => [
             'draft'                   => ['Draft', Flags::NONE],
+            'state'                   => ['State', Flags::NONE],
             'status'                  => ['Status', Flags::NONE],
             'stage'                   => ['Stage', Flags::NONE],
             'company'                 => ['Company', Flags::NONE],
@@ -246,6 +249,7 @@ return [
             'sample_date'             => ['SampleDate', Flags::NONE],
             'approval_date'           => ['ApprovalDate', Flags::NONE],
             'date_rcvd_prod_order'    => ['DateRcvdProdOrder', Flags::NONE],
+            'estimated_prod_date'     => ['EstimatedProdDate', Flags::NONE],
             'prod_sales_order_num'    => ['ProdSalesOrderNum', Flags::NONE],
             'reason_for_win'          => ['ReasonForWin', Flags::NONE],
             'date_lost'               => ['DateLost', Flags::NONE],
@@ -257,6 +261,7 @@ return [
 
         'objectDiscovery' => [
             'draft'                   => 'Draft',
+            'state'                   => 'State',
             'status'                  => 'Status',
             'stage'                   => 'Stage',
             'company'                 => 'Company',
@@ -299,6 +304,7 @@ return [
             'sample-date'             => 'Sample Date',
             'approval-date'           => 'Approval Date',
             'date-rcvd-prod-order'    => 'DateRcvdProdOrder',
+            'estimated-prod-date'     => 'EstimatedProdDate',
             'prod-sales-order-num'    => 'ProdSalesOrderNum',
             'reason-for-win'          => 'ReasonForWin',
             'date-lost'               => 'DateLost',

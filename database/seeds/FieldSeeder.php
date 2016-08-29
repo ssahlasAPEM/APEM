@@ -696,6 +696,16 @@ class FieldSeeder extends Seeder
                 'visible'  => true
             ],
             [
+                'label'    => 'Estimated Prod Date',
+                'name'     => 'estimatedProdDate',
+                'type'     => 'date',
+                'group'    => 'Milestones',
+                'value'    => null,
+                'options'  => null,
+                'required' => false,
+                'visible'  => true
+            ],
+            [
                 'label'    => 'Prod Sales Order Number',
                 'name'     => 'prodSalesOrderNum',
                 'type'     => 'text',
