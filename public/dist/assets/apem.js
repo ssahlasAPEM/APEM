@@ -1475,8 +1475,12 @@ define("apem/pods/application/template", ["exports"], function (exports) {
 });
 define('apem/pods/components/adv-search/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
+    attributeBindings: ['searchUsed', 'filterParams'],
 
-    searchedStatus: 'Backburner', //default
+    filterParams: null,
+
+    // Defaults
+    searchedStatus: 'Backburner',
     searchedState: 'Open',
     lastThirtyDays: true,
     dateEntered: '',
@@ -1484,7 +1488,27 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
     endDate: '',
     estimatedProdDate: '',
     searchString: '',
+
     searchUsed: false,
+
+    init: function init() {
+      this._super.apply(this, arguments);
+
+      this.set('searchedStatus', this.get('filterParams.searchedStatus'));
+      this.set('searchedState', this.get('filterParams.searchedState'));
+
+      if (this.get('filterParams.lastThirtyDays') === "false") {
+        this.set('lastThirtyDays', false);
+      } else {
+        this.set('lastThirtyDays', true);
+      }
+
+      this.set('dateEntered', this.get('filterParams.dateEntered'));
+      this.set('startDate', this.get('filterParams.startDate'));
+      this.set('endDate', this.get('filterParams.endDate'));
+      this.set('estimatedProdDate', this.get('filterParams.estimatedProdDate'));
+      this.set('searchString', this.get('filterParams.searchString'));
+    },
 
     notUsingDates: (function () {
       console.log('disabled change!!!');
@@ -1507,6 +1531,22 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
     }).property('lastThirtyDays', 'dateEntered', 'startDate', 'endDate'),
 
     actions: {
+      pullEntireCSV: function pullEntireCSV() {
+        this.sendAction('pullEntireCSV');
+      },
+      pullFilteredCSV: function pullFilteredCSV() {
+        var params = {
+          lastThirtyDays: this.get('lastThirtyDays').toString(),
+          dateEntered: this.get('dateEntered'),
+          startDate: this.get('startDate'),
+          endDate: this.get('endDate'),
+          estimatedProdDate: this.get('estimatedProdDate'),
+          searchedStatus: this.get('searchedStatus'),
+          searchedState: this.get('searchedState'),
+          searchString: this.get('searchString')
+        };
+        this.sendAction('pullFilteredCSV', params);
+      },
       clearSearch: function clearSearch() {
         this.toggleProperty('searchUsed');
         this.set('searchString', '');
@@ -1522,17 +1562,16 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
         this.set('endDate', data);
       },
       onEstProductionDate: function onEstProductionDate(data) {
-        debugger;
         this.set('estimatedProdDate', data);
       },
-      onLastThirtyChange: function onLastThirtyChange(value) {
+      onLastThirtyChange: function onLastThirtyChange() {
         this.toggleProperty('lastThirtyDays');
       },
 
       onSearchClick: function onSearchClick() {
         var params = {
-          perPage: 25,
-          startingPage: 1,
+          perPage: '25',
+          startingPage: '1',
           lastThirtyDays: this.get('lastThirtyDays').toString(),
           dateEntered: this.get('dateEntered'),
           startDate: this.get('startDate'),
@@ -1569,7 +1608,7 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
               "column": 2
             },
             "end": {
-              "line": 114,
+              "line": 119,
               "column": 2
             }
           },
@@ -1764,7 +1803,7 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
           morphs[9] = dom.createMorphAt(element4, 3, 3);
           return morphs;
         },
-        statements: [["inline", "ui-checkbox", [], ["label", "New (last 30 days)", "checked", ["subexpr", "@mut", [["get", "lastThirtyDays", ["loc", [null, [16, 20], [16, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", ["onLastThirtyChange", ["get", "lastThirtyDays", ["loc", [null, [17, 50], [17, 64]]], 0, 0, 0, 0]], [], ["loc", [null, [17, 21], [17, 65]]], 0, 0]], ["loc", [null, [14, 10], [17, 67]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "", "inputClass", "seventy-p cust-date-field", "disabled", ["subexpr", "@mut", [["get", "notUsingDateEntered", ["loc", [null, [26, 21], [26, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "adv-search-field", "updatedDate", "onDateEntered"], ["loc", [null, [23, 10], [28, 41]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "Start", "disabled", ["subexpr", "@mut", [["get", "notUsingDateRange", ["loc", [null, [33, 19], [33, 36]]], 0, 0, 0, 0]], [], [], 0, 0], "inputClass", "fifty-p cust-date-field", "class", "adv-search-field", "updatedDate", "onStartDate"], ["loc", [null, [32, 10], [36, 37]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "End", "inputClass", "fifty-p cust-date-field", "disabled", ["subexpr", "@mut", [["get", "notUsingDateRange", ["loc", [null, [40, 21], [40, 38]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "gap1 adv-search-field", "updatedDate", "onEndDate"], ["loc", [null, [37, 10], [42, 37]]], 0, 0], ["inline", "custom-date-picker", [], ["inputClass", "seventy-p cust-date-field", "btnLabel", "", "disabled", ["subexpr", "@mut", [["get", "notUsingEstProdDate", ["loc", [null, [49, 21], [49, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "adv-search-field", "updateDate", "onEstProductionDate"], ["loc", [null, [46, 10], [51, 46]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "searchedStatus", ["loc", [null, [60, 20], [60, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button backburner", "label", "Backburner", "value", "Backburner", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [64, 34], [64, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [64, 29], [64, 49]]], 0, 0]], [], ["loc", [null, [64, 21], [64, 50]]], 0, 0]], ["loc", [null, [58, 10], [64, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [68, 20], [68, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [72, 34], [72, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [72, 29], [72, 49]]], 0, 0]], [], ["loc", [null, [72, 21], [72, 50]]], 0, 0]], ["loc", [null, [66, 10], [72, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [76, 20], [76, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Lost", "value", "Lost", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [80, 34], [80, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [80, 29], [80, 49]]], 0, 0]], [], ["loc", [null, [80, 21], [80, 50]]], 0, 0]], ["loc", [null, [74, 10], [80, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sState", "current", ["subexpr", "@mut", [["get", "searchedState", ["loc", [null, [94, 20], [94, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Open", "value", "Open", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedState", ["loc", [null, [98, 34], [98, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [98, 29], [98, 48]]], 0, 0]], [], ["loc", [null, [98, 21], [98, 49]]], 0, 0]], ["loc", [null, [92, 10], [98, 51]]], 0, 0], ["inline", "ui-radio", [], ["name", "sState", "current", ["subexpr", "@mut", [["get", "searchedState", ["loc", [null, [102, 20], [102, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Closed", "value", "Closed", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedState", ["loc", [null, [106, 34], [106, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [106, 29], [106, 48]]], 0, 0]], [], ["loc", [null, [106, 21], [106, 49]]], 0, 0]], ["loc", [null, [100, 10], [106, 51]]], 0, 0]],
+        statements: [["inline", "ui-checkbox", [], ["class", "toggle", "label", "New (last 30 days)", "checked", ["subexpr", "@mut", [["get", "lastThirtyDays", ["loc", [null, [17, 20], [17, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", ["onLastThirtyChange"], [], ["loc", [null, [18, 21], [18, 50]]], 0, 0]], ["loc", [null, [14, 10], [18, 52]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "", "inputClass", "seventy-p cust-date-field", "disabled", ["subexpr", "@mut", [["get", "notUsingDateEntered", ["loc", [null, [27, 21], [27, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "date", ["subexpr", "@mut", [["get", "dateEntered", ["loc", [null, [28, 17], [28, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "adv-search-field", "updatedDate", "onDateEntered"], ["loc", [null, [24, 10], [30, 41]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "Start", "disabled", ["subexpr", "@mut", [["get", "notUsingDateRange", ["loc", [null, [35, 19], [35, 36]]], 0, 0, 0, 0]], [], [], 0, 0], "date", ["subexpr", "@mut", [["get", "startDate", ["loc", [null, [36, 15], [36, 24]]], 0, 0, 0, 0]], [], [], 0, 0], "inputClass", "fifty-p cust-date-field", "class", "adv-search-field", "updatedDate", "onStartDate"], ["loc", [null, [34, 10], [39, 37]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "End", "inputClass", "fifty-p cust-date-field", "disabled", ["subexpr", "@mut", [["get", "notUsingDateRange", ["loc", [null, [43, 21], [43, 38]]], 0, 0, 0, 0]], [], [], 0, 0], "date", ["subexpr", "@mut", [["get", "endDate", ["loc", [null, [44, 17], [44, 24]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "gap1 adv-search-field", "updatedDate", "onEndDate"], ["loc", [null, [40, 10], [46, 37]]], 0, 0], ["inline", "custom-date-picker", [], ["inputClass", "seventy-p cust-date-field", "btnLabel", "", "disabled", ["subexpr", "@mut", [["get", "notUsingEstProdDate", ["loc", [null, [53, 21], [53, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "date", ["subexpr", "@mut", [["get", "estimatedProdDate", ["loc", [null, [54, 17], [54, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "adv-search-field", "updateDate", "onEstProductionDate"], ["loc", [null, [50, 10], [56, 46]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "searchedStatus", ["loc", [null, [65, 20], [65, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button backburner", "label", "Backburner", "value", "Backburner", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [69, 34], [69, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [69, 29], [69, 49]]], 0, 0]], [], ["loc", [null, [69, 21], [69, 50]]], 0, 0]], ["loc", [null, [63, 10], [69, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "searchedStatus", ["loc", [null, [73, 20], [73, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [77, 34], [77, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [77, 29], [77, 49]]], 0, 0]], [], ["loc", [null, [77, 21], [77, 50]]], 0, 0]], ["loc", [null, [71, 10], [77, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "searchedStatus", ["loc", [null, [81, 20], [81, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Lost", "value", "Lost", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [85, 34], [85, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [85, 29], [85, 49]]], 0, 0]], [], ["loc", [null, [85, 21], [85, 50]]], 0, 0]], ["loc", [null, [79, 10], [85, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sState", "current", ["subexpr", "@mut", [["get", "searchedState", ["loc", [null, [99, 20], [99, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Open", "value", "Open", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedState", ["loc", [null, [103, 34], [103, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [103, 29], [103, 48]]], 0, 0]], [], ["loc", [null, [103, 21], [103, 49]]], 0, 0]], ["loc", [null, [97, 10], [103, 51]]], 0, 0], ["inline", "ui-radio", [], ["name", "sState", "current", ["subexpr", "@mut", [["get", "searchedState", ["loc", [null, [107, 20], [107, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Closed", "value", "Closed", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedState", ["loc", [null, [111, 34], [111, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [111, 29], [111, 48]]], 0, 0]], [], ["loc", [null, [111, 21], [111, 49]]], 0, 0]], ["loc", [null, [105, 10], [111, 51]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -1776,11 +1815,11 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
           "loc": {
             "source": null,
             "start": {
-              "line": 116,
+              "line": 121,
               "column": 2
             },
             "end": {
-              "line": 121,
+              "line": 126,
               "column": 2
             }
           },
@@ -1821,7 +1860,7 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
           morphs[0] = dom.createElementMorph(element0);
           return morphs;
         },
-        statements: [["element", "action", ["clearSearch"], [], ["loc", [null, [117, 82], [117, 106]]], 0, 0]],
+        statements: [["element", "action", ["clearSearch"], [], ["loc", [null, [122, 82], [122, 106]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -1836,7 +1875,7 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 123,
+            "line": 137,
             "column": 0
           }
         },
@@ -1882,6 +1921,38 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "ui buttons right floated download-csv-btn");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("button");
+        dom.setAttribute(el3, "id", "csvBtn");
+        dom.setAttribute(el3, "class", "ui button csv-btn inline block");
+        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        var el4 = dom.createTextNode("Download CSV");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("button");
+        dom.setAttribute(el3, "id", "filteredCsvBtn");
+        dom.setAttribute(el3, "class", "ui icon button dark-gray-bg");
+        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("i");
+        dom.setAttribute(el4, "class", "filter icon");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
@@ -1889,14 +1960,20 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element5 = dom.childAt(fragment, [0]);
-        var morphs = new Array(4);
+        var element6 = dom.childAt(element5, [9]);
+        var element7 = dom.childAt(element6, [1]);
+        var element8 = dom.childAt(element6, [3]);
+        var morphs = new Array(7);
         morphs[0] = dom.createMorphAt(dom.childAt(element5, [1]), 3, 3);
         morphs[1] = dom.createMorphAt(element5, 3, 3);
         morphs[2] = dom.createMorphAt(element5, 5, 5);
         morphs[3] = dom.createMorphAt(element5, 7, 7);
+        morphs[4] = dom.createElementMorph(element7);
+        morphs[5] = dom.createAttrMorph(element8, 'disabled');
+        morphs[6] = dom.createElementMorph(element8);
         return morphs;
       },
-      statements: [["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "searchString", ["loc", [null, [4, 18], [4, 30]]], 0, 0, 0, 0]], [], [], 0, 0], "key-press", ["subexpr", "action", [["subexpr", "mut", [["get", "searchString", ["loc", [null, [4, 54], [4, 66]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 49], [4, 67]]], 0, 0]], [], ["loc", [null, [4, 41], [4, 68]]], 0, 0], "class", "prompt advanced-srch"], ["loc", [null, [4, 4], [4, 99]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Search", "class", "ui button adv-search-btn", "click", ["subexpr", "action", ["onSearchClick"], [], ["loc", [null, [8, 78], [8, 102]]], 0, 0]], ["loc", [null, [8, 2], [8, 104]]], 0, 0], ["block", "ui-dropdown", [], ["class", "ui floating dropdown icon button adv-search-dropdown dark-gray-bg"], 0, null, ["loc", [null, [10, 2], [114, 18]]]], ["block", "if", [["get", "searchUsed", ["loc", [null, [116, 8], [116, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [116, 2], [121, 9]]]]],
+      statements: [["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "searchString", ["loc", [null, [4, 18], [4, 30]]], 0, 0, 0, 0]], [], [], 0, 0], "key-press", ["subexpr", "action", [["subexpr", "mut", [["get", "searchString", ["loc", [null, [4, 54], [4, 66]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 49], [4, 67]]], 0, 0]], [], ["loc", [null, [4, 41], [4, 68]]], 0, 0], "class", "prompt advanced-srch"], ["loc", [null, [4, 4], [4, 99]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Search", "class", "ui button adv-search-btn", "click", ["subexpr", "action", ["onSearchClick"], [], ["loc", [null, [8, 78], [8, 102]]], 0, 0]], ["loc", [null, [8, 2], [8, 104]]], 0, 0], ["block", "ui-dropdown", [], ["class", "ui floating dropdown icon button adv-search-dropdown dark-gray-bg"], 0, null, ["loc", [null, [10, 2], [119, 18]]]], ["block", "if", [["get", "searchUsed", ["loc", [null, [121, 8], [121, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [121, 2], [126, 9]]]], ["element", "action", ["pullEntireCSV"], [], ["loc", [null, [130, 63], [130, 89]]], 0, 0], ["attribute", "disabled", ["get", "enableFilteredCSV", ["loc", [null, [131, 43], [131, 60]]], 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["pullFilteredCSV"], [], ["loc", [null, [131, 99], [131, 127]]], 0, 0]],
       locals: [],
       templates: [child0, child1]
     };
@@ -2097,6 +2174,15 @@ define('apem/pods/components/custom-date-picker/component', ['exports', 'ember']
     classNameBindings: ['class', 'disabled'],
     className: 'custom-date-picker',
     date: null,
+    formattedDate: null,
+
+    init: function init() {
+      this._super.apply(this, arguments);
+
+      if (this.get('date') !== null && this.get('date') !== '') {
+        this.set('formattedDate', window.moment(this.get('date'), 'MM-DD-YYYY').format('MM/DD/YYYY'));
+      }
+    },
 
     actions: {
       clearTheDate: function clearTheDate() {
@@ -2127,11 +2213,11 @@ define("apem/pods/components/custom-date-picker/template", ["exports"], function
           "loc": {
             "source": null,
             "start": {
-              "line": 16,
+              "line": 17,
               "column": 0
             },
             "end": {
-              "line": 18,
+              "line": 19,
               "column": 0
             }
           },
@@ -2159,7 +2245,7 @@ define("apem/pods/components/custom-date-picker/template", ["exports"], function
           morphs[0] = dom.createElementMorph(element0);
           return morphs;
         },
-        statements: [["element", "action", ["clearTheDate"], [], ["loc", [null, [17, 39], [17, 64]]], 0, 0]],
+        statements: [["element", "action", ["clearTheDate"], [], ["loc", [null, [18, 39], [18, 64]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -2174,7 +2260,7 @@ define("apem/pods/components/custom-date-picker/template", ["exports"], function
             "column": 0
           },
           "end": {
-            "line": 19,
+            "line": 20,
             "column": 0
           }
         },
@@ -2226,7 +2312,7 @@ define("apem/pods/components/custom-date-picker/template", ["exports"], function
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "date-picker", [], ["action", ["subexpr", "action", ["updateDate"], ["on", "setDate"], ["loc", [null, [2, 9], [2, 43]]], 0, 0], "placeholder", "", "valueFormat", "YYYY-MM-DD", "format", "YYYY-MM-DD", "utc", false, "allowBlank", true, "buttonClasses", "date-picker-btn", "class", ["subexpr", "@mut", [["get", "inputClass", ["loc", [null, [9, 8], [9, 18]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [1, 0], [9, 20]]], 0, 0], ["element", "action", ["openDatepicker"], [], ["loc", [null, [12, 46], [12, 73]]], 0, 0], ["content", "btnLabel", ["loc", [null, [13, 2], [13, 14]]], 0, 0, 0, 0], ["block", "if", [["get", "date", ["loc", [null, [16, 6], [16, 10]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [16, 0], [18, 7]]]]],
+      statements: [["inline", "date-picker", [], ["action", ["subexpr", "action", ["updateDate"], ["on", "setDate"], ["loc", [null, [2, 9], [2, 43]]], 0, 0], "placeholder", ["subexpr", "@mut", [["get", "formattedDate", ["loc", [null, [3, 14], [3, 27]]], 0, 0, 0, 0]], [], [], 0, 0], "valueFormat", "MM-DD-YYYY", "format", "MM-DD-YYYY", "utc", false, "date", ["subexpr", "@mut", [["get", "date", ["loc", [null, [7, 7], [7, 11]]], 0, 0, 0, 0]], [], [], 0, 0], "allowBlank", true, "buttonClasses", "date-picker-btn", "class", ["subexpr", "@mut", [["get", "inputClass", ["loc", [null, [10, 8], [10, 18]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [1, 0], [10, 20]]], 0, 0], ["element", "action", ["openDatepicker"], [], ["loc", [null, [13, 46], [13, 73]]], 0, 0], ["content", "btnLabel", ["loc", [null, [14, 2], [14, 14]]], 0, 0, 0, 0], ["block", "if", [["get", "date", ["loc", [null, [17, 6], [17, 10]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [17, 0], [19, 7]]]]],
       locals: [],
       templates: [child0]
     };
@@ -3927,9 +4013,39 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
     stages: [{ 'label': 'quote', 'id': 1 }, { 'label': 'sample', 'id': 2 }, { 'label': 'approval', 'id': 3 }, { 'label': 'production', 'id': 4 }],
 
     // Init function
-    // init() {
-    //   this._super(...arguments);
-    // },
+    init: function init() {
+      var _this = this;
+
+      this._super.apply(this, arguments);
+
+      var opp = this.get('model');
+      //let theEvents = opp.get('events.content');
+      var otherEvents = _ember['default'].A([]);
+
+      opp.get('events').then(function (events) {
+        events.forEach(function (event) {
+
+          if (event.type === 'quote') {
+            _this.set('quoteEvent', event);
+          } else if (event.type === 'sample') {
+            _this.set('sampleEvent', event);
+          } else if (event.type === 'approval') {
+            _this.set('approvalEvent', event);
+          } else if (event.type === 'production') {
+            _this.set('productionEvent', event);
+          } else {
+            otherEvents.pushObject(event);
+          }
+        });
+      });
+      console.log(otherEvents);
+
+      // RALI - otherEvents (non stage events) show at the bottom of NAO form. The other four event types match stages, the above variables
+      // would go to the stage-step component and display editor text fields to update the respective event. This is where I'm at.
+      // We have events now at least.
+
+      this.set('nonStageEvents', otherEvents);
+    },
 
     // OBSERVERS ---------------------
 
@@ -3943,42 +4059,12 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
       }
     }).property('model.hasDirtyAttributes'),
 
-    //observing the table's hasDirtyAttributes to manage the delete button's disabled property
-    hasEvents: (function () {
-      var model = this.get('model');
-      var otherEvents = [];
-      var events = this.get('model.events');
-
-      if (events) {
-
-        // Rali ... need to figure out how to get the events, set the ones not related to stage in their own array so we can parse them in the event log...
-        // pass the ones that are event-related into the component for state-step...
-
-        for (event in events) {
-          if (event.type == 'quote') {
-            this.set('quoteEvent', event);
-          } else if (event.type == 'sample') {
-            this.set('sampleEvent', event);
-          } else if (event.type == 'approval') {
-            this.set('approvalEvent', event);
-          } else if (event.type == 'production') {
-            this.set('productionEvent', event);
-          } else {
-            otherEvents.push(event);
-          }
-        }
-
-        this.set('nonStageEvents', otherEvents);
-
-        if (otherEvents.length > 0) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
+    /*hasEvents: Ember.computed('model.events', 'model.events.[]', function () {
+      if (this.get('model.events').length > 0) {
+        return true;
       }
-    }).property('hasEvents'),
+      return false;
+    }),*/
 
     /* This property is used by the template to disable the opportunity status Won
     button unless the opportunity has a "sales order number" and a "company name" */
@@ -7557,8 +7643,24 @@ define("apem/pods/fields/template", ["exports"], function (exports) {
 });
 define('apem/pods/opportunities/index/controller', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller.extend({
-
     defaultView: 'list',
+    isFiltering: false,
+
+    pagingParams: {
+      perPage: '25',
+      startingPage: '1'
+    },
+
+    filterParams: {
+      searchedStatus: 'Backburner', //default
+      searchedState: 'Open',
+      lastThirtyDays: true,
+      dateEntered: '',
+      startDate: '',
+      endDate: '',
+      estimatedProdDate: '',
+      searchString: ''
+    },
 
     actions: {
       showGridView: function showGridView() {
@@ -7572,68 +7674,114 @@ define('apem/pods/opportunities/index/controller', ['exports', 'ember'], functio
     }
   });
 });
-define('apem/pods/opportunities/index/route', ['exports', 'ember', 'apem/mixins/infinity-filter', 'apem/config/environment'], function (exports, _ember, _apemMixinsInfinityFilter, _apemConfigEnvironment) {
-  // import InfinityRoute from "ember-infinity/mixins/route";
-
-  exports['default'] = _ember['default'].Route.extend(_apemMixinsInfinityFilter['default'], {
+define('apem/pods/opportunities/index/route', ['exports', 'ember', 'apem/config/environment', 'ember-infinity/mixins/route'], function (exports, _ember, _apemConfigEnvironment, _emberInfinityMixinsRoute) {
+  exports['default'] = _ember['default'].Route.extend(_emberInfinityMixinsRoute['default'], {
     appConfig: _apemConfigEnvironment['default'],
     totalPagesParam: "meta.total-pages",
     totalRecordsParam: "meta.total-records",
-
     breadCrumb: { title: 'Manage Opportunities' },
 
-    filterParams: null,
-
     pagingParams: {
-      perPage: 25,
-      startingPage: 1
+      perPage: '25',
+      startingPage: '1'
     },
+
+    filterParams: {
+      searchedStatus: 'Backburner', //default
+      searchedState: 'Open',
+      lastThirtyDays: true,
+      dateEntered: '',
+      startDate: '',
+      endDate: '',
+      estimatedProdDate: '',
+      searchString: ''
+    },
+
+    enableFilteredCSV: (function () {
+      return this.get('filterParams') === null ? true : false;
+    }).property('filterParams'),
 
     fields: function fields() {
       return this.store.findAll('field');
     },
 
     model: function model() {
-      console.log(this.filterParams);
-      return this.infinityFilterModel("opportunity");
+      //console.log(this.filterParams);
+      var extraParams = this.get('filterParams'),
+          pagingParams = this.get('pagingParams');
+
+      if (this.get('isFiltering')) {
+        return this.infinityModel("opportunity", extraParams);
+      } else {
+        return this.infinityModel("opportunity", pagingParams);
+      }
     },
 
     actions: {
-
-      pullFilteredCSV: function pullFilteredCSV() {
-        debugger;
+      // Clear old data and then load the newly queried records.
+      filterOpportunities: function filterOpportunities(params) {
+        this.controller.set('filterParams', params);
+        this.controller.set('isFiltering', true);
+        this.set('filterParams', params);
+        this.set('isFiltering', true);
+        this.refresh();
+        // this.infinityModel("opportunity", params);
       },
-      pullEntireCSV: function pullEntireCSV(button) {
-        debugger;
+
+      clearSearchFilter: function clearSearchFilter() {
+        this.controller.set('filterParams', null);
+        this.controller.set('isFiltering', false);
+        this.set('filterParams', null);
+        this.set('isFiltering', true);
+        this.refresh();
+      },
+
+      pullFilteredCSV: function pullFilteredCSV(params) {
+
+        var button = _ember['default'].$('#filteredCsvBtn');
+        button.addClass('loading');
+
+        var loginURL = this.get('appConfig').APP.apiUrl;
+        var paramString = Object.keys(params).map(function (key) {
+          return key + '=' + params[key];
+        }).join('&');
+        var url = loginURL + '/api/v1/opportunities/csv' + '?' + paramString;
+
+        _ember['default'].$.ajax({
+          url: url
+        }).then(function (resolve) {
+          button.removeClass('loading');
+          var anchor = document.createElement('a');
+          anchor.href = resolve['csv-download'] + '?download';
+          anchor.target = '_blank';
+          anchor.click();
+        });
+      },
+
+      pullEntireCSV: function pullEntireCSV() {
+
+        var button = _ember['default'].$('#csvBtn');
+        button.addClass('loading');
+
         var loginURL = this.get('appConfig').APP.apiUrl;
         var url = loginURL + '/api/v1/opportunities/csv';
+
         _ember['default'].$.ajax({
           url: url
           // your other details...
         }).then(function (resolve) {
-          _ember['default'].$.ajax({
-            url: resolve['csv-download'] + '?download'
-            // your other details...
-          });
-          // this.set('controller.isLoading', false);
-          // process the result...
+          button.removeClass('loading');
+          var anchor = document.createElement('a');
+          anchor.href = resolve['csv-download'] + '?download';
+          anchor.target = '_blank';
+          anchor.click();
         });
-      },
-      // Clear old data and then load the newly queried records.
-      filterOpportunities: function filterOpportunities(params) {
-        console.log(params);
-        this.infinityFilterModel("opportunity", params).then(function (data) {
-          debugger;
-          // this.get('store').pushPayload(data);
-        });
-      },
-
-      clearSearchFilter: function clearSearchFilter() {
-        this.infinityFilterModel("opportunity");
       }
     }
   });
 });
+
+//import InfinityFilter from 'apem/mixins/infinity-filter';
 define("apem/pods/opportunities/index/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
@@ -7645,11 +7793,11 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 54,
+                  "line": 52,
                   "column": 14
                 },
                 "end": {
-                  "line": 56,
+                  "line": 54,
                   "column": 14
                 }
               },
@@ -7674,7 +7822,7 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["content", "opp.id", ["loc", [null, [55, 16], [55, 26]]], 0, 0, 0, 0]],
+            statements: [["content", "opp.id", ["loc", [null, [53, 16], [53, 26]]], 0, 0, 0, 0]],
             locals: [],
             templates: []
           };
@@ -7686,11 +7834,11 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 59,
+                  "line": 57,
                   "column": 14
                 },
                 "end": {
-                  "line": 61,
+                  "line": 59,
                   "column": 14
                 }
               },
@@ -7715,7 +7863,7 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["content", "opp.apemSalesPerson", ["loc", [null, [60, 16], [60, 39]]], 0, 0, 0, 0]],
+            statements: [["content", "opp.apemSalesPerson", ["loc", [null, [58, 16], [58, 39]]], 0, 0, 0, 0]],
             locals: [],
             templates: []
           };
@@ -7727,11 +7875,11 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 64,
+                  "line": 62,
                   "column": 14
                 },
                 "end": {
-                  "line": 66,
+                  "line": 64,
                   "column": 14
                 }
               },
@@ -7756,7 +7904,7 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["inline", "currency-format", [["get", "opp.potentialAnnualRev", ["loc", [null, [65, 34], [65, 56]]], 0, 0, 0, 0]], [], ["loc", [null, [65, 16], [65, 58]]], 0, 0]],
+            statements: [["inline", "currency-format", [["get", "opp.potentialAnnualRev", ["loc", [null, [63, 34], [63, 56]]], 0, 0, 0, 0]], [], ["loc", [null, [63, 16], [63, 58]]], 0, 0]],
             locals: [],
             templates: []
           };
@@ -7768,11 +7916,11 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 69,
+                  "line": 67,
                   "column": 14
                 },
                 "end": {
-                  "line": 71,
+                  "line": 69,
                   "column": 14
                 }
               },
@@ -7797,7 +7945,48 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["content", "opp.productType", ["loc", [null, [70, 16], [70, 35]]], 0, 0, 0, 0]],
+            statements: [["content", "opp.productType", ["loc", [null, [68, 16], [68, 35]]], 0, 0, 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child4 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.7.0",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 72,
+                  "column": 14
+                },
+                "end": {
+                  "line": 74,
+                  "column": 14
+                }
+              },
+              "moduleName": "apem/pods/opportunities/index/template.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("                ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              return morphs;
+            },
+            statements: [["inline", "moment-format", [["get", "opp.estimatedProdDate", ["loc", [null, [73, 32], [73, 53]]], 0, 0, 0, 0], "MMMM Do, YYYY"], [], ["loc", [null, [73, 16], [73, 71]]], 0, 0]],
             locals: [],
             templates: []
           };
@@ -7808,11 +7997,11 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
             "loc": {
               "source": null,
               "start": {
-                "line": 51,
+                "line": 49,
                 "column": 8
               },
               "end": {
-                "line": 74,
+                "line": 77,
                 "column": 8
               }
             },
@@ -7867,6 +8056,16 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
             var el3 = dom.createTextNode("            ");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n            ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode("            ");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n          ");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
@@ -7876,16 +8075,17 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
             var element0 = dom.childAt(fragment, [1]);
-            var morphs = new Array(4);
+            var morphs = new Array(5);
             morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
             morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
             morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
             morphs[3] = dom.createMorphAt(dom.childAt(element0, [7]), 1, 1);
+            morphs[4] = dom.createMorphAt(dom.childAt(element0, [9]), 1, 1);
             return morphs;
           },
-          statements: [["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [54, 60], [54, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 0, null, ["loc", [null, [54, 14], [56, 26]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [59, 60], [59, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 1, null, ["loc", [null, [59, 14], [61, 26]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [64, 60], [64, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 2, null, ["loc", [null, [64, 14], [66, 26]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [69, 60], [69, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 3, null, ["loc", [null, [69, 14], [71, 26]]]]],
+          statements: [["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [52, 60], [52, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 0, null, ["loc", [null, [52, 14], [54, 26]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [57, 60], [57, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 1, null, ["loc", [null, [57, 14], [59, 26]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [62, 60], [62, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 2, null, ["loc", [null, [62, 14], [64, 26]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [67, 60], [67, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 3, null, ["loc", [null, [67, 14], [69, 26]]]], ["block", "link-to", ["opportunities.opportunity.detail", ["get", "opp", ["loc", [null, [72, 60], [72, 63]]], 0, 0, 0, 0]], ["class", "row-link"], 4, null, ["loc", [null, [72, 14], [74, 26]]]]],
           locals: ["opp"],
-          templates: [child0, child1, child2, child3]
+          templates: [child0, child1, child2, child3, child4]
         };
       })();
       return {
@@ -7894,11 +8094,11 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
           "loc": {
             "source": null,
             "start": {
-              "line": 35,
+              "line": 32,
               "column": 0
             },
             "end": {
-              "line": 82,
+              "line": 85,
               "column": 0
             }
           },
@@ -7948,6 +8148,12 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
           var el6 = dom.createTextNode("Prod Type");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n          ");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("th");
+          var el6 = dom.createTextNode("Est. Prod Date");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
           var el5 = dom.createTextNode("\n        ");
           dom.appendChild(el4, el5);
           dom.appendChild(el3, el4);
@@ -7985,7 +8191,7 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
           morphs[1] = dom.createMorphAt(element1, 3, 3);
           return morphs;
         },
-        statements: [["block", "each", [["get", "model", ["loc", [null, [51, 16], [51, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [51, 8], [74, 17]]]], ["inline", "infinity-loader", [], ["infinityModel", ["subexpr", "@mut", [["get", "model", ["loc", [null, [75, 40], [75, 45]]], 0, 0, 0, 0]], [], [], 0, 0], "scrollable", ".opp-table"], ["loc", [null, [75, 8], [75, 71]]], 0, 0]],
+        statements: [["block", "each", [["get", "model", ["loc", [null, [49, 16], [49, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [49, 8], [77, 17]]]], ["inline", "infinity-loader", [], ["infinityModel", ["subexpr", "@mut", [["get", "model", ["loc", [null, [78, 40], [78, 45]]], 0, 0, 0, 0]], [], [], 0, 0], "scrollable", ".opp-table"], ["loc", [null, [78, 8], [78, 71]]], 0, 0]],
         locals: [],
         templates: [child0]
       };
@@ -8000,7 +8206,7 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
             "column": 0
           },
           "end": {
-            "line": 85,
+            "line": 88,
             "column": 0
           }
         },
@@ -8027,39 +8233,6 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
         var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "ui buttons right floated download-csv-btn");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("button");
-        dom.setAttribute(el3, "id", "csvBtn");
-        dom.setAttribute(el3, "class", "ui button csv-btn inline block");
-        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-        var el4 = dom.createTextNode("Download CSV");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("button");
-        dom.setAttribute(el3, "class", "ui icon button dark-gray-bg");
-        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("i");
-        dom.setAttribute(el4, "class", "filter icon");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment(" {{#ui-dropdown class=\"ui floating dropdown icon button download-filter-btn\"}}\n      <i class=\"filter icon\"></i>\n    {{/ui-dropdown}} ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
@@ -8115,21 +8288,15 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element2 = dom.childAt(fragment, [1]);
-        var element3 = dom.childAt(element2, [7]);
-        var element4 = dom.childAt(element3, [1]);
-        var element5 = dom.childAt(element3, [3]);
-        var morphs = new Array(7);
-        morphs[0] = dom.createMorphAt(element2, 5, 5);
-        morphs[1] = dom.createElementMorph(element4);
-        morphs[2] = dom.createElementMorph(element5);
-        morphs[3] = dom.createMorphAt(dom.childAt(fragment, [5, 1]), 0, 0);
-        morphs[4] = dom.createMorphAt(dom.childAt(fragment, [7, 1]), 0, 0);
-        morphs[5] = dom.createMorphAt(fragment, 9, 9, contextualElement);
-        morphs[6] = dom.createMorphAt(fragment, 11, 11, contextualElement);
+        var morphs = new Array(5);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 5, 5);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [5, 1]), 0, 0);
+        morphs[2] = dom.createMorphAt(dom.childAt(fragment, [7, 1]), 0, 0);
+        morphs[3] = dom.createMorphAt(fragment, 9, 9, contextualElement);
+        morphs[4] = dom.createMorphAt(fragment, 11, 11, contextualElement);
         return morphs;
       },
-      statements: [["inline", "adv-search", [], ["class", "column inline-block", "doSearch", "filterOpportunities", "clearSearchFilter", "clearSearchFilter"], ["loc", [null, [12, 2], [12, 113]]], 0, 0], ["element", "action", ["pullEntireCSV", ["get", "target.id", ["loc", [null, [15, 88], [15, 97]]], 0, 0, 0, 0]], [], ["loc", [null, [15, 63], [15, 99]]], 0, 0], ["element", "action", ["pullFilteredCSV"], [], ["loc", [null, [16, 48], [16, 76]]], 0, 0], ["content", "model.meta.total-revenue", ["loc", [null, [27, 8], [27, 36]]], 0, 0, 0, 0], ["content", "model.meta.total-records", ["loc", [null, [31, 8], [31, 36]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [35, 16], [35, 27]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [35, 6], [35, 35]]], 0, 0]], [], 0, null, ["loc", [null, [35, 0], [82, 7]]]], ["content", "outlet", ["loc", [null, [84, 0], [84, 10]]], 0, 0, 0, 0]],
+      statements: [["inline", "adv-search", [], ["class", "column", "filterParams", ["subexpr", "@mut", [["get", "filterParams", ["loc", [null, [14, 17], [14, 29]]], 0, 0, 0, 0]], [], [], 0, 0], "searchUsed", ["subexpr", "@mut", [["get", "isFiltering", ["loc", [null, [15, 15], [15, 26]]], 0, 0, 0, 0]], [], [], 0, 0], "doSearch", "filterOpportunities", "clearSearchFilter", "clearSearchFilter", "pullEntireCSV", "pullEntireCSV", "pullFilteredCSV", "pullFilteredCSV"], ["loc", [null, [12, 2], [19, 39]]], 0, 0], ["content", "model.meta.total-revenue", ["loc", [null, [24, 8], [24, 36]]], 0, 0, 0, 0], ["content", "model.meta.total-records", ["loc", [null, [28, 8], [28, 36]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [32, 16], [32, 27]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [32, 6], [32, 35]]], 0, 0]], [], 0, null, ["loc", [null, [32, 0], [85, 7]]]], ["content", "outlet", ["loc", [null, [87, 0], [87, 10]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -8198,7 +8365,7 @@ define('apem/pods/opportunities/new/route', ['exports', 'ember'], function (expo
     redirect: function redirect() {
       var _this = this;
 
-      var astor = this.store;
+      //let astor = this.store;
       var newOpportunity = this.store.createRecord('opportunity'),
           ident = this.get('identity').get('profile');
       // let theUser = ident.get('profile');
@@ -8244,14 +8411,6 @@ define('apem/pods/opportunities/opportunity/detail/route', ['exports', 'ember'],
       controller.set('model', model);
       controller.set('fields', this.store.findAll('field'));
       controller.set('users', this.store.findAll('user'));
-    },
-
-    events: function events() {
-      return this.store.findAll('event');
-    },
-
-    afterModel: function afterModel(model) {
-      var myEvents = model.get('events');
     },
 
     actions: {
@@ -8317,7 +8476,7 @@ define("apem/pods/opportunities/opportunity/detail/template", ["exports"], funct
             "column": 0
           },
           "end": {
-            "line": 18,
+            "line": 17,
             "column": 0
           }
         },
@@ -8367,7 +8526,7 @@ define("apem/pods/opportunities/opportunity/detail/template", ["exports"], funct
         morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [4, 29], [4, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [4, 6], [4, 43]]], 0, 0], ["inline", "opportunities/opt-form", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [9, 12], [9, 17]]], 0, 0, 0, 0]], [], [], 0, 0], "fields", ["subexpr", "@mut", [["get", "fields", ["loc", [null, [10, 13], [10, 19]]], 0, 0, 0, 0]], [], [], 0, 0], "users", ["subexpr", "@mut", [["get", "users", ["loc", [null, [11, 12], [11, 17]]], 0, 0, 0, 0]], [], [], 0, 0], "events", ["subexpr", "@mut", [["get", "events", ["loc", [null, [12, 13], [12, 19]]], 0, 0, 0, 0]], [], [], 0, 0], "onOptSave", "onOptSave", "onOptDelete", "onDelete", "onCopy", "copyRecord"], ["loc", [null, [8, 4], [15, 27]]], 0, 0]],
+      statements: [["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [4, 29], [4, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [4, 6], [4, 43]]], 0, 0], ["inline", "opportunities/opt-form", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [9, 12], [9, 17]]], 0, 0, 0, 0]], [], [], 0, 0], "fields", ["subexpr", "@mut", [["get", "fields", ["loc", [null, [10, 13], [10, 19]]], 0, 0, 0, 0]], [], [], 0, 0], "users", ["subexpr", "@mut", [["get", "users", ["loc", [null, [11, 12], [11, 17]]], 0, 0, 0, 0]], [], [], 0, 0], "onOptSave", "onOptSave", "onOptDelete", "onDelete", "onCopy", "copyRecord"], ["loc", [null, [8, 4], [14, 27]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -11443,7 +11602,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.local:8000","name":"apem","version":"0.0.0+5f48223f"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+e6be62e9"});
 }
 
 /* jshint ignore:end */

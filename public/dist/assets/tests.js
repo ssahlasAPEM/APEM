@@ -1399,7 +1399,7 @@ define('apem/tests/pods/components/adv-search/component.jshint', ['exports'], fu
   QUnit.module('JSHint - pods/components/adv-search/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/components/adv-search/component.js should pass jshint.\npods/components/adv-search/component.js: line 58, col 7, Forgotten \'debugger\' statement?\npods/components/adv-search/component.js: line 61, col 24, \'value\' is defined but never used.\n\n2 errors');
+    assert.ok(true, 'pods/components/adv-search/component.js should pass jshint.');
   });
 });
 define('apem/tests/pods/components/confirm-delete/component.jshint', ['exports'], function (exports) {
@@ -1480,7 +1480,7 @@ define('apem/tests/pods/components/opportunities/opt-form/component.jshint', ['e
   QUnit.module('JSHint - pods/components/opportunities/opt-form/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/components/opportunities/opt-form/component.js should pass jshint.\npods/components/opportunities/opt-form/component.js: line 58, col 11, Creating global \'for\' variable. Should be \'for (var event ...\'.\npods/components/opportunities/opt-form/component.js: line 59, col 25, Expected \'===\' and instead saw \'==\'.\npods/components/opportunities/opt-form/component.js: line 61, col 33, Expected \'===\' and instead saw \'==\'.\npods/components/opportunities/opt-form/component.js: line 63, col 33, Expected \'===\' and instead saw \'==\'.\npods/components/opportunities/opt-form/component.js: line 65, col 33, Expected \'===\' and instead saw \'==\'.\npods/components/opportunities/opt-form/component.js: line 72, col 46, Missing semicolon.\npods/components/opportunities/opt-form/component.js: line 49, col 9, \'model\' is defined but never used.\n\n7 errors');
+    assert.ok(true, 'pods/components/opportunities/opt-form/component.js should pass jshint.');
   });
 });
 define('apem/tests/pods/components/opportunities/stage-step/component.jshint', ['exports'], function (exports) {
@@ -1615,7 +1615,7 @@ define('apem/tests/pods/opportunities/index/route.jshint', ['exports'], function
   QUnit.module('JSHint - pods/opportunities/index/route.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/opportunities/index/route.js should pass jshint.\npods/opportunities/index/route.js: line 33, col 7, Forgotten \'debugger\' statement?\npods/opportunities/index/route.js: line 36, col 7, Forgotten \'debugger\' statement?\npods/opportunities/index/route.js: line 35, col 19, \'button\' is defined but never used.\npods/opportunities/index/route.js: line 55, col 9, Forgotten \'debugger\' statement?\npods/opportunities/index/route.js: line 54, col 69, \'data\' is defined but never used.\n\n5 errors');
+    assert.ok(true, 'pods/opportunities/index/route.js should pass jshint.');
   });
 });
 define('apem/tests/pods/opportunities/new/route.jshint', ['exports'], function (exports) {
@@ -1624,7 +1624,7 @@ define('apem/tests/pods/opportunities/new/route.jshint', ['exports'], function (
   QUnit.module('JSHint - pods/opportunities/new/route.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/opportunities/new/route.js should pass jshint.\npods/opportunities/new/route.js: line 8, col 9, \'astor\' is defined but never used.\n\n1 error');
+    assert.ok(true, 'pods/opportunities/new/route.js should pass jshint.');
   });
 });
 define('apem/tests/pods/opportunities/opportunity/controller.jshint', ['exports'], function (exports) {
@@ -1642,7 +1642,7 @@ define('apem/tests/pods/opportunities/opportunity/detail/route.jshint', ['export
   QUnit.module('JSHint - pods/opportunities/opportunity/detail/route.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/opportunities/opportunity/detail/route.js should pass jshint.\npods/opportunities/opportunity/detail/route.js: line 18, col 8, \'myEvents\' is defined but never used.\n\n1 error');
+    assert.ok(true, 'pods/opportunities/opportunity/detail/route.js should pass jshint.');
   });
 });
 define('apem/tests/pods/opportunities/opportunity/index/route.jshint', ['exports'], function (exports) {
