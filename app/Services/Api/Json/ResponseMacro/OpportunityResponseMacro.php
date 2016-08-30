@@ -43,6 +43,10 @@ class OpportunityResponseMacro extends AbstractResponseMacro
         $relationships->user->links          = new \stdClass();
         $relationships->user->links->related = URL::to('/') . "/api/v1/users/" . $serviceResponse->getUserId();
 
+        $relationships->events                 = new \stdClass();
+        $relationships->events->links          = new \stdClass();
+        $relationships->events->links->related = URL::to('/') . "/api/v1/opportunities/" . $serviceResponse->getUserId() . "/events";
+
         return $relationships;
     }
 }

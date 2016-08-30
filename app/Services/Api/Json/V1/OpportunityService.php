@@ -86,7 +86,7 @@ class OpportunityService extends RESTFULService
      *
      * @return mixed
      */
-    public function find($dbId)
+    /*public function find($dbId)
     {
         try {
             $oppEntity = $this->getInterface()->find($dbId);
@@ -97,5 +97,5 @@ class OpportunityService extends RESTFULService
         } catch (\Exception $exception) {
             return $this->errorResponseFactory->makeErrorResponse($exception);
         }
-    }
+    }*/
 }

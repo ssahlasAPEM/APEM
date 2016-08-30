@@ -7,6 +7,7 @@
  * Time: 3:19 PM
  */
 
+use app\Core\Event\Model\Event;
 use app\Http\Requests\Api\ListRequest;
 use app\Http\Requests\Api\Opportunity\CreateOpportunityRequest;
 use app\Http\Requests\Api\Opportunity\UpdateOpportunityRequest;
@@ -177,5 +178,35 @@ class OpportunityController extends AbstractApiController
         })->store('xls', storage_path('../public/downloads'));
 
         return response()->namedJsonRoot('csv-download', URL::to('/') . '/downloads/' . Auth::user()->id . '_nao_opportunities.xls');
+    }
+
+    /**
+     * Fetch Relationships for the Opportunity Object
+     *
+     * @param $dbId
+     * @param $relationshipType
+     *
+     * @return
+     */
+    public function relationships($dbId, $relationshipType)
+    {
+        switch ($relationshipType) {
+            case 'events':
+                $relatedClass = Event::class;
+                break;
+
+            default:
+                return response()->jsonAPIResponse(
+                    new ErrorResponse(
+                        "Invalid relationship type",
+                        "$relationshipType objects are not related to opportunities",
+                        400
+                    )
+                );
+        }
+
+        $response = $this->service->fetchRelated($relatedClass, $dbId, null, null, null);
+
+        return response()->jsonAPIResponse($response);
     }
 }
