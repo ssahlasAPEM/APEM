@@ -28,7 +28,7 @@ class OpportunityService extends RESTFULService
     }
 
     /**
-     * Fetch a single page of data
+     * Fetch a single page of data, filtered
      *
      * @param $limit
      * @param $offset
@@ -40,6 +40,40 @@ class OpportunityService extends RESTFULService
     {
         try {
             $array = $this->interface->findAllPaginatedFiltered($limit, $offset, $filter);
+
+            return $array;
+        } catch (\Exception $exception) {
+            return $this->errorResponseFactory->makeErrorResponse($exception);
+        }
+    }
+
+    /**
+     * Fetch all data
+     *
+     * @return mixed
+     */
+    public function fetchAll()
+    {
+        try {
+            $array = $this->interface->findAll();
+
+            return $array;
+        } catch (\Exception $exception) {
+            return $this->errorResponseFactory->makeErrorResponse($exception);
+        }
+    }
+
+    /**
+     * Fetch all data, filtered
+     *
+     * @param $filter
+     *
+     * @return mixed
+     */
+    public function fetchAllFiltered($filter)
+    {
+        try {
+            $array = $this->interface->findAllPaginatedFiltered(null, null, $filter);
 
             return $array;
         } catch (\Exception $exception) {

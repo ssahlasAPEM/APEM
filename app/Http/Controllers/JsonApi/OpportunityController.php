@@ -43,7 +43,9 @@ class OpportunityController extends AbstractApiController
      */
     public function index(ListRequest $request, $raw = false)
     {
-        $filter = [];
+        $filter = null;
+        $per_page = $request->get('per_page');
+        $page = $request->get('page');
 
         if ($request->get('lastThirtyDays') !== null && $request->get('lastThirtyDays') !== '') {
             $filter['lastThirtyDays'] = $request->get('lastThirtyDays');
@@ -78,31 +80,26 @@ class OpportunityController extends AbstractApiController
         }
 
         if (is_null($filter)) {
-            $response = $this->service->fetchPage(
-                $request->get('per_page'),
-                $request->get('page')
-            );
+            if(is_null($page) || is_null($per_page)) {
+                $response = $this->service->fetchAll();
+            } elseif(!is_null($page) || !is_null($per_page)) {
+                $response = $this->service->fetchPage(
+                    $request->get('per_page'),
+                    $request->get('page')
+                );
+            }
         } elseif (!is_null($filter)) {
-            if (!is_null($request->get('per_page')) && !is_null($request->get('page'))) {
+            if(is_null($page) || is_null($per_page)) {
+                $response = $this->service->fetchAllFiltered(
+                    $filter
+                );
+            } elseif(!is_null($page) || !is_null($per_page)) {
                 $response = $this->service->fetchPageFiltered(
                     $request->get('per_page'),
                     $request->get('page'),
                     $filter
                 );
-
-                if($raw === true) {
-                    return $response;
-                }
-
-                return response()->jsonAPIResponse($response);
             }
-            return response()->jsonAPIResponse(
-                new ErrorResponse(
-                    "Invalid request",
-                    "Pagination parameters 'per_page' and 'page' required.",
-                    400
-                )
-            );
         }
 
         if($raw === true) {

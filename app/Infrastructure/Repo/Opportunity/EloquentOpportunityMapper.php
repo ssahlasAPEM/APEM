@@ -35,7 +35,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
      * @return mixed
      * @throws \Exception
      */
-    public function findAllPaginatedFiltered($limit, $offset, $filter)
+    public function findAllPaginatedFiltered($limit = null, $offset = null, $filter)
     {
         $query    = $this->getQueryModel();
         $queryRev = $this->getQueryModel();
@@ -220,9 +220,6 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             }
         }
 
-        $results      = $query
-            ->orderBy('id', 'asc')
-            ->paginate($limit);
         $totalRevenue = $queryRev->get();
 
         if(Count($totalRevenue) == 0) {
@@ -231,9 +228,19 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             $totalRevenue = $totalRevenue->toArray()[0]['total_revenue'];
         }
 
-        $collection = $this->getCollection($results->toArray()['data']);
-
-        return $this->addMetaInfo($limit, $offset, $results->total(), $collection, $totalRevenue);
+        if(!is_null($limit) && !is_null($offset)) {
+            $results      = $query
+                ->orderBy('id', 'asc')
+                ->paginate($limit);
+            $collection = $this->getCollection($results->toArray()['data']);
+            return $this->addMetaInfo($limit, $offset, $results->total(), $collection, $totalRevenue);
+        } elseif(is_null($limit) && is_null($offset)) {
+            $results      = $query
+                ->orderBy('id', 'asc')
+                ->get();
+            $collection = $this->getCollection($results->toArray());
+            return $this->addMetaInfo(null, null, null, $collection, $totalRevenue);
+        }
     }
 
     /**
@@ -280,6 +287,54 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         $totalRevenue = $queryRev->get();
 
         return $this->addMetaInfo($limit, $page, $result->total(), $collection, $totalRevenue->toArray()[0]['total_revenue']);
+    }
+
+    /**
+     * @return OpportunityCollection
+     */
+    public function findAll()
+    {
+        $query = $this->getQueryModel();
+        $queryRev = $this->getQueryModel();
+
+        if (Auth::user()->type !== 'Admin') {
+            $query    = $query
+                ->where('user_id', '=', Auth::user()->id);
+            $queryRev = $queryRev
+                ->select(
+                    DB::raw('sum(potential_annual_rev) as total_revenue')
+                )->where('user_id', '=', Auth::user()->id);
+        } else {
+            $query    = $query->where(
+                function ($query) {
+                    $query->where('draft', '=', 0)
+                        ->orWhere('draft', '=', '1')
+                        ->where('user_id', '=', Auth::user()->id);
+                }
+            );
+            $queryRev = $queryRev
+                ->select(
+                    DB::raw('sum(potential_annual_rev) as total_revenue')
+                )->where(function ($queryRev) {
+                    $queryRev->where('draft', '=', 0)
+                        ->orWhere('draft', '=', '1')
+                        ->where('user_id', '=', Auth::user()->id);
+                }
+                );
+        }
+
+        $results = $query->get();
+        $totalRevenue = $queryRev->get();
+
+        if(Count($totalRevenue) == 0) {
+            $totalRevenue = null;
+        } else {
+            $totalRevenue = $totalRevenue->toArray()[0]['total_revenue'];
+        }
+
+        $collection = $this->getCollection($results->toArray());
+
+        return $this->addMetaInfo(null, null, null, $collection, $totalRevenue);
     }
 
     /**
