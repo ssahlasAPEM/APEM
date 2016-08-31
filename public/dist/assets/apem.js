@@ -1482,7 +1482,7 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
     // Defaults
     searchedStatus: 'Backburner',
     searchedState: 'Open',
-    lastThirtyDays: true,
+    lastThirtyDays: false,
     dateEntered: '',
     startDate: '',
     endDate: '',
@@ -1497,9 +1497,9 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
       this.set('searchedStatus', this.get('filterParams.searchedStatus'));
       this.set('searchedState', this.get('filterParams.searchedState'));
 
-      if (this.get('filterParams.lastThirtyDays') === "false") {
+      if (this.get('filterParams.lastThirtyDays') === "false" || this.get('filterParams.lastThirtyDays') === false) {
         this.set('lastThirtyDays', false);
-      } else {
+      } else if (this.get('filterParams.lastThirtyDays') === "true" || this.get('filterParams.lastThirtyDays') === true) {
         this.set('lastThirtyDays', true);
       }
 
@@ -1511,17 +1511,22 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
     },
 
     notUsingDates: (function () {
-      console.log('notUsingDates triggered!!!');
+      // console.log('notUsingDates triggered!!!');
       return this.get('lastThirtyDays');
     }).property('lastThirtyDays'),
 
     notUsingDateEntered: (function () {
-      console.log('notUsingDateEntered triggered!!!');
+      // console.log('notUsingDateEntered triggered!!!');
+      // let a = this.get('lastThirtyDays'),
+      // b = this.get('startDate'),
+      // c = this.get('endDate'),
+      // d = this.get('estimatedProdDate');
+      // debugger;
       return this.get('lastThirtyDays') === true || this.get('startDate') !== '' || this.get('endDate') !== '' || this.get('estimatedProdDate') !== '' ? true : false;
     }).property('lastThirtyDays', 'startDate', 'endDate', 'estimatedProdDate'),
 
     notUsingDateRange: (function () {
-      console.log('notUsingDateRange triggered!!!');
+      // console.log('notUsingDateRange triggered!!!');
       return this.get('lastThirtyDays') === true || this.get('dateEntered') !== '' || this.get('estimatedProdDate') !== '' ? true : false;
     }).property('lastThirtyDays', 'dateEntered', 'estimatedProdDate'),
 
@@ -2187,7 +2192,7 @@ define('apem/pods/components/custom-date-picker/component', ['exports', 'ember']
     actions: {
       clearTheDate: function clearTheDate() {
         this.$('.date-picker__button').text(null);
-        this.set('date', null);
+        this.set('date', '');
         this.sendAction('updatedDate', '');
       },
       updateDate: function updateDate(action) {
@@ -5566,7 +5571,7 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
           if (!myEvt) {
             myEvt = _this.get('store').createRecord('event', {
               date: today,
-              type: value,
+              type: item.label,
               opportunity: _this.opt
             });
             myEvt.save().then(function (data) {
@@ -5577,7 +5582,7 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
           if (!myEvt) {
             myEvt = _this.get('store').createRecord('event', {
               date: today,
-              type: value,
+              type: item.label,
               opportunity: _this.opt
             });
             myEvt.save().then(function (data) {
@@ -7790,7 +7795,7 @@ define('apem/pods/opportunities/index/controller', ['exports', 'ember'], functio
     filterParams: {
       searchedStatus: 'Backburner', //default
       searchedState: 'Open',
-      lastThirtyDays: true,
+      lastThirtyDays: false,
       dateEntered: '',
       startDate: '',
       endDate: '',
@@ -7825,7 +7830,7 @@ define('apem/pods/opportunities/index/route', ['exports', 'ember', 'apem/config/
     filterParams: {
       searchedStatus: 'Backburner', //default
       searchedState: 'Open',
-      lastThirtyDays: true,
+      lastThirtyDays: false,
       dateEntered: '',
       startDate: '',
       endDate: '',
@@ -11734,7 +11739,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+973f0410"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+1c37b319"});
 }
 
 /* jshint ignore:end */
