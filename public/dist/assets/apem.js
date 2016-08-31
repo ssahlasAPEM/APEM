@@ -1511,17 +1511,17 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
     },
 
     notUsingDates: (function () {
-      console.log('disabled change!!!');
+      console.log('notUsingDates triggered!!!');
       return this.get('lastThirtyDays');
     }).property('lastThirtyDays'),
 
     notUsingDateEntered: (function () {
-      // console.log('manage date entered!!!');
+      console.log('notUsingDateEntered triggered!!!');
       return this.get('lastThirtyDays') === true || this.get('startDate') !== '' || this.get('endDate') !== '' || this.get('estimatedProdDate') !== '' ? true : false;
     }).property('lastThirtyDays', 'startDate', 'endDate', 'estimatedProdDate'),
 
     notUsingDateRange: (function () {
-      // console.log('manage date entered!!!');
+      console.log('notUsingDateRange triggered!!!');
       return this.get('lastThirtyDays') === true || this.get('dateEntered') !== '' || this.get('estimatedProdDate') !== '' ? true : false;
     }).property('lastThirtyDays', 'dateEntered', 'estimatedProdDate'),
 
@@ -2180,7 +2180,7 @@ define('apem/pods/components/custom-date-picker/component', ['exports', 'ember']
       this._super.apply(this, arguments);
 
       if (this.get('date') !== null && this.get('date') !== '') {
-        this.set('formattedDate', window.moment(this.get('date'), 'MM-DD-YYYY').format('MM/DD/YYYY'));
+        this.set('formattedDate', window.moment(this.get('date'), 'MM-DD-YYYY').format('MM-DD-YYYY'));
       }
     },
 
@@ -2188,11 +2188,11 @@ define('apem/pods/components/custom-date-picker/component', ['exports', 'ember']
       clearTheDate: function clearTheDate() {
         this.$('.date-picker__button').text(null);
         this.set('date', null);
-        this.sendAction('updatedDate', null);
+        this.sendAction('updatedDate', '');
       },
       updateDate: function updateDate(action) {
 
-        var newDate = window.moment(action._d, 'ddd MMM DD YYYY HH:mm:ss Z').format('MM/DD/YYYY');
+        var newDate = window.moment(action._d, 'ddd MMM DD YYYY HH:mm:ss Z').format('MM-DD-YYYY');
         var searchServiceFormat = window.moment(action._d, 'ddd MMM DD YYYY HH:mm:ss Z').format('MM-DD-YYYY');
         this.$('.date-picker__button').text(newDate);
         this.set('date', newDate);
@@ -4012,6 +4012,11 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
     //possible opportunity stages - an array used to controll and properly render the stage steps in the form
     stages: [{ 'label': 'quote', 'id': 1 }, { 'label': 'sample', 'id': 2 }, { 'label': 'approval', 'id': 3 }, { 'label': 'production', 'id': 4 }],
 
+    didReceiveAttrs: function didReceiveAttrs() {
+      this._super.apply(this, arguments);
+      //  debugger;
+    },
+
     // Init function
     init: function init() {
       var _this = this;
@@ -4024,24 +4029,28 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
 
       opp.get('events').then(function (events) {
         events.forEach(function (event) {
-
-          if (event.type === 'quote') {
+          var type = event.get('type');
+          console.log(event);
+          if (type === 'quote') {
             _this.set('quoteEvent', event);
-          } else if (event.type === 'sample') {
+          } else if (type === 'sample') {
             _this.set('sampleEvent', event);
-          } else if (event.type === 'approval') {
+          } else if (type === 'approval') {
             _this.set('approvalEvent', event);
-          } else if (event.type === 'production') {
+          } else if (type === 'production') {
             _this.set('productionEvent', event);
           } else {
+            //this.set('quoteEvent', event);//this is for tests in case there is no stage event
             otherEvents.pushObject(event);
           }
         });
       });
       console.log(otherEvents);
 
-      // RALI - otherEvents (non stage events) show at the bottom of NAO form. The other four event types match stages, the above variables
-      // would go to the stage-step component and display editor text fields to update the respective event. This is where I'm at.
+      // RALI - otherEvents (ie: non stage events) show at the bottom of NAO form.
+      // The other four event types match stages, the above variables
+      // would go to the stage-step component and display editor text fields
+      // to update the respective event. This is where I'm at.
       // We have events now at least.
 
       this.set('nonStageEvents', otherEvents);
@@ -4059,12 +4068,13 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
       }
     }).property('model.hasDirtyAttributes'),
 
-    /*hasEvents: Ember.computed('model.events', 'model.events.[]', function () {
-      if (this.get('model.events').length > 0) {
-        return true;
-      }
-      return false;
-    }),*/
+    // hasEvents: Ember.computed('model.events', 'model.events.[]', function () {
+    //   console.log('hasEvents RAN!!!!');
+    //   if (this.get('model.events').length > 0) {
+    //     return true;
+    //   }
+    //   return false;
+    // }).property('model.events'),
 
     /* This property is used by the template to disable the opportunity status Won
     button unless the opportunity has a "sales order number" and a "company name" */
@@ -4515,10 +4525,10 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                 return el0;
               },
               buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                var element2 = dom.childAt(fragment, [1]);
+                var element3 = dom.childAt(fragment, [1]);
                 var morphs = new Array(2);
-                morphs[0] = dom.createAttrMorph(element2, 'data-value');
-                morphs[1] = dom.createMorphAt(element2, 1, 1);
+                morphs[0] = dom.createAttrMorph(element3, 'data-value');
+                morphs[1] = dom.createMorphAt(element3, 1, 1);
                 return morphs;
               },
               statements: [["attribute", "data-value", ["concat", [["subexpr", "map-value", [["get", "mapper", ["loc", [null, [62, 56], [62, 62]]], 0, 0, 0, 0], ["get", "user", ["loc", [null, [62, 63], [62, 67]]], 0, 0, 0, 0]], [], ["loc", [null, [62, 44], [62, 69]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "user.username", ["loc", [null, [63, 16], [63, 33]]], 0, 0, 0, 0]],
@@ -4635,11 +4645,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var element3 = dom.childAt(fragment, [1]);
-            var element4 = dom.childAt(element3, [5]);
+            var element4 = dom.childAt(fragment, [1]);
+            var element5 = dom.childAt(element4, [5]);
             var morphs = new Array(2);
-            morphs[0] = dom.createMorphAt(element3, 3, 3);
-            morphs[1] = dom.createAttrMorph(element4, 'value');
+            morphs[0] = dom.createMorphAt(element4, 3, 3);
+            morphs[1] = dom.createAttrMorph(element5, 'value');
             return morphs;
           },
           statements: [["block", "ui-dropdown", [], ["class", "fluid selection", "selected", ["subexpr", "@mut", [["get", "model.user", ["loc", [null, [57, 56], [57, 66]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.userId", ["loc", [null, [57, 89], [57, 101]]], 0, 0, 0, 0]], [], ["loc", [null, [57, 84], [57, 102]]], 0, 0]], [], ["loc", [null, [57, 76], [57, 103]]], 0, 0]], 0, null, ["loc", [null, [57, 8], [67, 24]]]], ["attribute", "value", ["get", "model.userId", ["loc", [null, [68, 49], [68, 61]]], 0, 0, 0, 0], 0, 0, 0, 0]],
@@ -4655,11 +4665,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 82,
+                  "line": 88,
                   "column": 10
                 },
                 "end": {
-                  "line": 91,
+                  "line": 97,
                   "column": 10
                 }
               },
@@ -4684,7 +4694,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [85, 20], [85, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "disabled", ["subexpr", "@mut", [["get", "isWinDisabled", ["loc", [null, [86, 21], [86, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button no-border-radius button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [90, 34], [90, 46]]], 0, 0, 0, 0]], [], ["loc", [null, [90, 29], [90, 47]]], 0, 0]], [], ["loc", [null, [90, 21], [90, 48]]], 0, 0]], ["loc", [null, [84, 12], [90, 50]]], 0, 0]],
+            statements: [["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [91, 20], [91, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "disabled", ["subexpr", "@mut", [["get", "isWinDisabled", ["loc", [null, [92, 21], [92, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button no-border-radius button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [96, 34], [96, 46]]], 0, 0, 0, 0]], [], ["loc", [null, [96, 29], [96, 47]]], 0, 0]], [], ["loc", [null, [96, 21], [96, 48]]], 0, 0]], ["loc", [null, [90, 12], [96, 50]]], 0, 0]],
             locals: [],
             templates: []
           };
@@ -4695,11 +4705,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 81,
+                "line": 87,
                 "column": 8
               },
               "end": {
-                "line": 92,
+                "line": 98,
                 "column": 8
               }
             },
@@ -4722,7 +4732,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "ui-popup", [], ["content", "Won can be assigned only if there are a Company and a Product Sales Order Number values."], 0, null, ["loc", [null, [82, 10], [91, 23]]]]],
+          statements: [["block", "ui-popup", [], ["content", "Won can be assigned only if there are a Company and a Product Sales Order Number values."], 0, null, ["loc", [null, [88, 10], [97, 23]]]]],
           locals: [],
           templates: [child0]
         };
@@ -4734,11 +4744,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 92,
+                "line": 98,
                 "column": 8
               },
               "end": {
-                "line": 100,
+                "line": 106,
                 "column": 8
               }
             },
@@ -4763,7 +4773,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [94, 18], [94, 30]]], 0, 0, 0, 0]], [], [], 0, 0], "disabled", ["subexpr", "@mut", [["get", "isWinDisabled", ["loc", [null, [95, 19], [95, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [99, 32], [99, 44]]], 0, 0, 0, 0]], [], ["loc", [null, [99, 27], [99, 45]]], 0, 0]], [], ["loc", [null, [99, 19], [99, 46]]], 0, 0]], ["loc", [null, [93, 10], [99, 48]]], 0, 0]],
+          statements: [["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [100, 18], [100, 30]]], 0, 0, 0, 0]], [], [], 0, 0], "disabled", ["subexpr", "@mut", [["get", "isWinDisabled", ["loc", [null, [101, 19], [101, 32]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [105, 32], [105, 44]]], 0, 0, 0, 0]], [], ["loc", [null, [105, 27], [105, 45]]], 0, 0]], [], ["loc", [null, [105, 19], [105, 46]]], 0, 0]], ["loc", [null, [99, 10], [105, 48]]], 0, 0]],
           locals: [],
           templates: []
         };
@@ -4780,11 +4790,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                       "loc": {
                         "source": null,
                         "start": {
-                          "line": 125,
+                          "line": 131,
                           "column": 22
                         },
                         "end": {
-                          "line": 129,
+                          "line": 135,
                           "column": 22
                         }
                       },
@@ -4812,13 +4822,13 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                       return el0;
                     },
                     buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                      var element0 = dom.childAt(fragment, [1]);
+                      var element1 = dom.childAt(fragment, [1]);
                       var morphs = new Array(2);
-                      morphs[0] = dom.createAttrMorph(element0, 'data-value');
-                      morphs[1] = dom.createMorphAt(element0, 1, 1);
+                      morphs[0] = dom.createAttrMorph(element1, 'data-value');
+                      morphs[1] = dom.createMorphAt(element1, 1, 1);
                       return morphs;
                     },
-                    statements: [["attribute", "data-value", ["concat", [["get", "item", ["loc", [null, [126, 56], [126, 60]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "item", ["loc", [null, [127, 26], [127, 34]]], 0, 0, 0, 0]],
+                    statements: [["attribute", "data-value", ["concat", [["get", "item", ["loc", [null, [132, 56], [132, 60]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "item", ["loc", [null, [133, 26], [133, 34]]], 0, 0, 0, 0]],
                     locals: ["item"],
                     templates: []
                   };
@@ -4829,11 +4839,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                     "loc": {
                       "source": null,
                       "start": {
-                        "line": 121,
+                        "line": 127,
                         "column": 18
                       },
                       "end": {
-                        "line": 131,
+                        "line": 137,
                         "column": 18
                       }
                     },
@@ -4877,7 +4887,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                     morphs[0] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
                     return morphs;
                   },
-                  statements: [["block", "each", [["get", "field.options", ["loc", [null, [125, 30], [125, 43]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [125, 22], [129, 31]]]]],
+                  statements: [["block", "each", [["get", "field.options", ["loc", [null, [131, 30], [131, 43]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [131, 22], [135, 31]]]]],
                   locals: [],
                   templates: [child0]
                 };
@@ -4888,11 +4898,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                   "loc": {
                     "source": null,
                     "start": {
-                      "line": 120,
+                      "line": 126,
                       "column": 16
                     },
                     "end": {
-                      "line": 132,
+                      "line": 138,
                       "column": 16
                     }
                   },
@@ -4915,7 +4925,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                   dom.insertBoundary(fragment, null);
                   return morphs;
                 },
-                statements: [["block", "ui-dropdown", [], ["class", "fluid selection", "selected", ["subexpr", "@mut", [["get", "field.value", ["loc", [null, [121, 66], [121, 77]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", ["onDropdownSelect", ["get", "field.name", ["loc", [null, [121, 114], [121, 124]]], 0, 0, 0, 0]], [], ["loc", [null, [121, 87], [121, 125]]], 0, 0]], 0, null, ["loc", [null, [121, 18], [131, 34]]]]],
+                statements: [["block", "ui-dropdown", [], ["class", "fluid selection", "selected", ["subexpr", "@mut", [["get", "field.value", ["loc", [null, [127, 66], [127, 77]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", ["onDropdownSelect", ["get", "field.name", ["loc", [null, [127, 114], [127, 124]]], 0, 0, 0, 0]], [], ["loc", [null, [127, 87], [127, 125]]], 0, 0]], 0, null, ["loc", [null, [127, 18], [137, 34]]]]],
                 locals: [],
                 templates: [child0]
               };
@@ -4927,11 +4937,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                   "loc": {
                     "source": null,
                     "start": {
-                      "line": 132,
+                      "line": 138,
                       "column": 16
                     },
                     "end": {
-                      "line": 134,
+                      "line": 140,
                       "column": 16
                     }
                   },
@@ -4956,7 +4966,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                   morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                   return morphs;
                 },
-                statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "field.name", ["loc", [null, [133, 31], [133, 41]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "mut", [["subexpr", "get", [["get", "model", ["loc", [null, [133, 58], [133, 63]]], 0, 0, 0, 0], ["get", "field.name", ["loc", [null, [133, 64], [133, 74]]], 0, 0, 0, 0]], [], ["loc", [null, [133, 53], [133, 75]]], 0, 0]], [], ["loc", [null, [133, 48], [133, 76]]], 0, 0], "type", "text"], ["loc", [null, [133, 18], [133, 90]]], 0, 0]],
+                statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "field.name", ["loc", [null, [139, 31], [139, 41]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "mut", [["subexpr", "get", [["get", "model", ["loc", [null, [139, 58], [139, 63]]], 0, 0, 0, 0], ["get", "field.name", ["loc", [null, [139, 64], [139, 74]]], 0, 0, 0, 0]], [], ["loc", [null, [139, 53], [139, 75]]], 0, 0]], [], ["loc", [null, [139, 48], [139, 76]]], 0, 0], "type", "text"], ["loc", [null, [139, 18], [139, 90]]], 0, 0]],
                 locals: [],
                 templates: []
               };
@@ -4967,11 +4977,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 117,
+                    "line": 123,
                     "column": 10
                   },
                   "end": {
-                    "line": 136,
+                    "line": 142,
                     "column": 10
                   }
                 },
@@ -5005,13 +5015,13 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                 return el0;
               },
               buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                var element1 = dom.childAt(fragment, [1]);
+                var element2 = dom.childAt(fragment, [1]);
                 var morphs = new Array(2);
-                morphs[0] = dom.createMorphAt(dom.childAt(element1, [1]), 0, 0);
-                morphs[1] = dom.createMorphAt(element1, 3, 3);
+                morphs[0] = dom.createMorphAt(dom.childAt(element2, [1]), 0, 0);
+                morphs[1] = dom.createMorphAt(element2, 3, 3);
                 return morphs;
               },
-              statements: [["content", "field.label", ["loc", [null, [119, 23], [119, 38]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "field.type", ["loc", [null, [120, 32], [120, 42]]], 0, 0, 0, 0], "dropdown"], [], ["loc", [null, [120, 22], [120, 54]]], 0, 0]], [], 0, 1, ["loc", [null, [120, 16], [134, 23]]]]],
+              statements: [["content", "field.label", ["loc", [null, [125, 23], [125, 38]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "field.type", ["loc", [null, [126, 32], [126, 42]]], 0, 0, 0, 0], "dropdown"], [], ["loc", [null, [126, 22], [126, 54]]], 0, 0]], [], 0, 1, ["loc", [null, [126, 16], [140, 23]]]]],
               locals: [],
               templates: [child0, child1]
             };
@@ -5022,11 +5032,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 113,
+                  "line": 119,
                   "column": 8
                 },
                 "end": {
-                  "line": 138,
+                  "line": 144,
                   "column": 8
                 }
               },
@@ -5061,7 +5071,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               morphs[0] = dom.createMorphAt(fragment, 5, 5, contextualElement);
               return morphs;
             },
-            statements: [["block", "if", [["get", "field.visible", ["loc", [null, [117, 16], [117, 29]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [117, 10], [136, 17]]]]],
+            statements: [["block", "if", [["get", "field.visible", ["loc", [null, [123, 16], [123, 29]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [123, 10], [142, 17]]]]],
             locals: ["field", "index"],
             templates: [child0]
           };
@@ -5072,11 +5082,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 110,
+                "line": 116,
                 "column": 4
               },
               "end": {
-                "line": 141,
+                "line": 148,
                 "column": 4
               }
             },
@@ -5108,7 +5118,9 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             var el2 = dom.createTextNode("\n\n      ");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
+            var el1 = dom.createComment("END GRID");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n\n    ");
             dom.appendChild(el0, el1);
             return el0;
           },
@@ -5118,7 +5130,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 1, 1);
             return morphs;
           },
-          statements: [["content", "group.value", ["loc", [null, [111, 37], [111, 52]]], 0, 0, 0, 0], ["block", "each", [["get", "group.items", ["loc", [null, [113, 16], [113, 27]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [113, 8], [138, 17]]]]],
+          statements: [["content", "group.value", ["loc", [null, [117, 37], [117, 52]]], 0, 0, 0, 0], ["block", "each", [["get", "group.items", ["loc", [null, [119, 16], [119, 27]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [119, 8], [144, 17]]]]],
           locals: ["group"],
           templates: [child0]
         };
@@ -5131,11 +5143,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 146,
+                  "line": 154,
                   "column": 8
                 },
                 "end": {
-                  "line": 148,
+                  "line": 156,
                   "column": 8
                 }
               },
@@ -5149,13 +5161,16 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               var el0 = dom.createDocumentFragment();
               var el1 = dom.createTextNode("            ");
               dom.appendChild(el0, el1);
-              var el1 = dom.createElement("label");
-              var el2 = dom.createComment("");
-              dom.appendChild(el1, el2);
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode(":");
-              dom.appendChild(el0, el1);
               var el1 = dom.createElement("span");
+              var el2 = dom.createElement("label");
+              dom.setAttribute(el2, "class", "bold capitalize");
+              var el3 = dom.createComment("");
+              dom.appendChild(el2, el3);
+              var el3 = dom.createTextNode(" Date");
+              dom.appendChild(el2, el3);
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode(": ");
+              dom.appendChild(el1, el2);
               var el2 = dom.createComment("");
               dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
@@ -5164,12 +5179,13 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               return el0;
             },
             buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var element0 = dom.childAt(fragment, [1]);
               var morphs = new Array(2);
-              morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
-              morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 0, 0);
+              morphs[0] = dom.createMorphAt(dom.childAt(element0, [0]), 0, 0);
+              morphs[1] = dom.createMorphAt(element0, 2, 2);
               return morphs;
             },
-            statements: [["content", "evt.type", ["loc", [null, [147, 19], [147, 31]]], 0, 0, 0, 0], ["content", "evt.date", ["loc", [null, [147, 46], [147, 58]]], 0, 0, 0, 0]],
+            statements: [["content", "evt.type", ["loc", [null, [155, 49], [155, 61]]], 0, 0, 0, 0], ["inline", "moment-format", [["get", "evt.date", ["loc", [null, [155, 92], [155, 100]]], 0, 0, 0, 0], "MMMM Do, YYYY"], [], ["loc", [null, [155, 76], [155, 118]]], 0, 0]],
             locals: ["evt"],
             templates: []
           };
@@ -5180,11 +5196,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 143,
+                "line": 151,
                 "column": 4
               },
               "end": {
-                "line": 150,
+                "line": 158,
                 "column": 4
               }
             },
@@ -5200,7 +5216,9 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("h3");
             dom.setAttribute(el1, "class", "ui dividing header");
-            var el2 = dom.createTextNode("Event Log");
+            var el2 = dom.createTextNode("Event Log ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n      ");
@@ -5219,11 +5237,12 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [3]), 1, 1);
+            var morphs = new Array(2);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
+            morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 1, 1);
             return morphs;
           },
-          statements: [["block", "each", [["get", "nonStageEvents", ["loc", [null, [146, 16], [146, 30]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [146, 8], [148, 17]]]]],
+          statements: [["content", "model.events.length", ["loc", [null, [152, 47], [152, 70]]], 0, 0, 0, 0], ["block", "each", [["get", "nonStageEvents", ["loc", [null, [154, 16], [154, 30]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [154, 8], [156, 17]]]]],
           locals: [],
           templates: [child0]
         };
@@ -5238,7 +5257,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               "column": 2
             },
             "end": {
-              "line": 152,
+              "line": 160,
               "column": 2
             }
           },
@@ -5306,7 +5325,9 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
+          var el1 = dom.createComment(" END EACH group ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n\n");
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
@@ -5315,18 +5336,18 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element5 = dom.childAt(fragment, [11, 3]);
+          var element6 = dom.childAt(fragment, [11, 3]);
           var morphs = new Array(7);
           morphs[0] = dom.createMorphAt(fragment, 3, 3, contextualElement);
           morphs[1] = dom.createMorphAt(fragment, 7, 7, contextualElement);
-          morphs[2] = dom.createMorphAt(element5, 1, 1);
-          morphs[3] = dom.createMorphAt(element5, 3, 3);
-          morphs[4] = dom.createMorphAt(element5, 5, 5);
+          morphs[2] = dom.createMorphAt(element6, 1, 1);
+          morphs[3] = dom.createMorphAt(element6, 3, 3);
+          morphs[4] = dom.createMorphAt(element6, 5, 5);
           morphs[5] = dom.createMorphAt(fragment, 13, 13, contextualElement);
-          morphs[6] = dom.createMorphAt(fragment, 15, 15, contextualElement);
+          morphs[6] = dom.createMorphAt(fragment, 16, 16, contextualElement);
           return morphs;
         },
-        statements: [["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [53, 20], [53, 41]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [53, 10], [53, 50]]], 0, 0]], [], 0, null, ["loc", [null, [53, 4], [70, 11]]]], ["inline", "opportunities/stage-step", [], ["stageSteps", ["subexpr", "@mut", [["get", "stages", ["loc", [null, [73, 42], [73, 48]]], 0, 0, 0, 0]], [], [], 0, 0], "opt", ["subexpr", "@mut", [["get", "model", ["loc", [null, [73, 53], [73, 58]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [73, 4], [73, 60]]], 0, 0], ["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [79, 41], [79, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Backburner", "value", "Backburner", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [80, 68], [80, 80]]], 0, 0, 0, 0]], [], ["loc", [null, [80, 63], [80, 81]]], 0, 0]], [], ["loc", [null, [80, 55], [80, 82]]], 0, 0]], ["loc", [null, [79, 8], [80, 84]]], 0, 0], ["block", "if", [["get", "isWinDisabled", ["loc", [null, [81, 14], [81, 27]]], 0, 0, 0, 0]], [], 1, 2, ["loc", [null, [81, 8], [100, 15]]]], ["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [102, 16], [102, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Lost", "value", "Lost", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [106, 30], [106, 42]]], 0, 0, 0, 0]], [], ["loc", [null, [106, 25], [106, 43]]], 0, 0]], [], ["loc", [null, [106, 17], [106, 44]]], 0, 0]], ["loc", [null, [101, 8], [106, 46]]], 0, 0], ["block", "each", [["get", "fieldsByGroup", ["loc", [null, [110, 12], [110, 25]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [110, 4], [141, 13]]]], ["block", "if", [["get", "hasEvents", ["loc", [null, [143, 10], [143, 19]]], 0, 0, 0, 0]], [], 4, null, ["loc", [null, [143, 4], [150, 11]]]]],
+        statements: [["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [53, 20], [53, 41]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [53, 10], [53, 50]]], 0, 0]], [], 0, null, ["loc", [null, [53, 4], [70, 11]]]], ["inline", "opportunities/stage-step", [], ["stageSteps", ["subexpr", "@mut", [["get", "stages", ["loc", [null, [74, 17], [74, 23]]], 0, 0, 0, 0]], [], [], 0, 0], "opt", ["subexpr", "@mut", [["get", "model", ["loc", [null, [75, 10], [75, 15]]], 0, 0, 0, 0]], [], [], 0, 0], "quoteEvent", ["subexpr", "@mut", [["get", "quoteEvent", ["loc", [null, [76, 17], [76, 27]]], 0, 0, 0, 0]], [], [], 0, 0], "sampleEvent", ["subexpr", "@mut", [["get", "sampleEvent", ["loc", [null, [77, 18], [77, 29]]], 0, 0, 0, 0]], [], [], 0, 0], "approvalEvent", ["subexpr", "@mut", [["get", "approvalEvent", ["loc", [null, [78, 20], [78, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "productionEvent", ["subexpr", "@mut", [["get", "productionEvent", ["loc", [null, [79, 22], [79, 37]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [73, 4], [79, 39]]], 0, 0], ["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [85, 41], [85, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Backburner", "value", "Backburner", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [86, 68], [86, 80]]], 0, 0, 0, 0]], [], ["loc", [null, [86, 63], [86, 81]]], 0, 0]], [], ["loc", [null, [86, 55], [86, 82]]], 0, 0]], ["loc", [null, [85, 8], [86, 84]]], 0, 0], ["block", "if", [["get", "isWinDisabled", ["loc", [null, [87, 14], [87, 27]]], 0, 0, 0, 0]], [], 1, 2, ["loc", [null, [87, 8], [106, 15]]]], ["inline", "ui-radio", [], ["name", "status", "current", ["subexpr", "@mut", [["get", "model.status", ["loc", [null, [108, 16], [108, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Lost", "value", "Lost", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "model.status", ["loc", [null, [112, 30], [112, 42]]], 0, 0, 0, 0]], [], ["loc", [null, [112, 25], [112, 43]]], 0, 0]], [], ["loc", [null, [112, 17], [112, 44]]], 0, 0]], ["loc", [null, [107, 8], [112, 46]]], 0, 0], ["block", "each", [["get", "fieldsByGroup", ["loc", [null, [116, 12], [116, 25]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [116, 4], [148, 13]]]], ["block", "if", [["get", "nonStageEvents", ["loc", [null, [151, 10], [151, 24]]], 0, 0, 0, 0]], [], 4, null, ["loc", [null, [151, 4], [158, 11]]]]],
         locals: [],
         templates: [child0, child1, child2, child3, child4]
       };
@@ -5338,11 +5359,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 152,
+              "line": 160,
               "column": 2
             },
             "end": {
-              "line": 154,
+              "line": 162,
               "column": 2
             }
           },
@@ -5382,7 +5403,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             "column": 0
           },
           "end": {
-            "line": 167,
+            "line": 175,
             "column": 0
           }
         },
@@ -5477,21 +5498,21 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element6 = dom.childAt(fragment, [2]);
-        var element7 = dom.childAt(element6, [2]);
+        var element7 = dom.childAt(fragment, [2]);
+        var element8 = dom.childAt(element7, [2]);
         var morphs = new Array(9);
-        morphs[0] = dom.createMorphAt(element7, 1, 1);
-        morphs[1] = dom.createMorphAt(element7, 3, 3);
-        morphs[2] = dom.createMorphAt(element6, 4, 4);
-        morphs[3] = dom.createMorphAt(element6, 6, 6);
-        morphs[4] = dom.createMorphAt(element6, 10, 10);
-        morphs[5] = dom.createMorphAt(element6, 12, 12);
-        morphs[6] = dom.createMorphAt(element6, 14, 14);
+        morphs[0] = dom.createMorphAt(element8, 1, 1);
+        morphs[1] = dom.createMorphAt(element8, 3, 3);
+        morphs[2] = dom.createMorphAt(element7, 4, 4);
+        morphs[3] = dom.createMorphAt(element7, 6, 6);
+        morphs[4] = dom.createMorphAt(element7, 10, 10);
+        morphs[5] = dom.createMorphAt(element7, 12, 12);
+        morphs[6] = dom.createMorphAt(element7, 14, 14);
         morphs[7] = dom.createMorphAt(dom.childAt(fragment, [4]), 3, 3);
         morphs[8] = dom.createMorphAt(fragment, 6, 6, contextualElement);
         return morphs;
       },
-      statements: [["content", "model.id", ["loc", [null, [4, 42], [4, 54]]], 0, 0, 0, 0], ["block", "if", [["get", "model.draft", ["loc", [null, [4, 61], [4, 72]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [4, 55], [4, 87]]]], ["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [5, 18], [5, 39]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [5, 8], [5, 48]]], 0, 0]], [], 1, null, ["loc", [null, [5, 2], [13, 9]]]], ["block", "if", [["get", "noValidName", ["loc", [null, [15, 8], [15, 19]]], 0, 0, 0, 0]], [], 2, 3, ["loc", [null, [15, 2], [25, 9]]]], ["inline", "input", [], ["type", "button", "value", "Save", "disabled", ["subexpr", "@mut", [["get", "hasNoChanges", ["loc", [null, [28, 46], [28, 58]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui submit button small right floated", "click", ["subexpr", "action", ["updateRecord"], [], ["loc", [null, [30, 8], [30, 31]]], 0, 0]], ["loc", [null, [28, 2], [30, 33]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Copy", "disabled", ["subexpr", "@mut", [["get", "model.newRecord", ["loc", [null, [32, 46], [32, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui submit button small right floated", "click", ["subexpr", "action", ["cloneRecord"], [], ["loc", [null, [34, 8], [34, 30]]], 0, 0]], ["loc", [null, [32, 2], [34, 32]]], 0, 0], ["block", "link-to", ["opportunities"], ["disabled", ["subexpr", "@mut", [["get", "model.newRecord", ["loc", [null, [36, 38], [36, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "tagName", "div", "class", "ui small reset button right floated", "activeClass", "", "click", ["subexpr", "action", ["onCancelOptClick"], [], ["loc", [null, [38, 8], [38, 35]]], 0, 0]], 4, null, ["loc", [null, [36, 2], [40, 14]]]], ["block", "if", [["get", "fieldsByGroup", ["loc", [null, [50, 8], [50, 21]]], 0, 0, 0, 0]], [], 5, 6, ["loc", [null, [50, 2], [154, 9]]]], ["content", "yield", ["loc", [null, [166, 0], [166, 9]]], 0, 0, 0, 0]],
+      statements: [["content", "model.id", ["loc", [null, [4, 42], [4, 54]]], 0, 0, 0, 0], ["block", "if", [["get", "model.draft", ["loc", [null, [4, 61], [4, 72]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [4, 55], [4, 87]]]], ["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [5, 18], [5, 39]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [5, 8], [5, 48]]], 0, 0]], [], 1, null, ["loc", [null, [5, 2], [13, 9]]]], ["block", "if", [["get", "noValidName", ["loc", [null, [15, 8], [15, 19]]], 0, 0, 0, 0]], [], 2, 3, ["loc", [null, [15, 2], [25, 9]]]], ["inline", "input", [], ["type", "button", "value", "Save", "disabled", ["subexpr", "@mut", [["get", "hasNoChanges", ["loc", [null, [28, 46], [28, 58]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui submit button small right floated", "click", ["subexpr", "action", ["updateRecord"], [], ["loc", [null, [30, 8], [30, 31]]], 0, 0]], ["loc", [null, [28, 2], [30, 33]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Copy", "disabled", ["subexpr", "@mut", [["get", "model.newRecord", ["loc", [null, [32, 46], [32, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui submit button small right floated", "click", ["subexpr", "action", ["cloneRecord"], [], ["loc", [null, [34, 8], [34, 30]]], 0, 0]], ["loc", [null, [32, 2], [34, 32]]], 0, 0], ["block", "link-to", ["opportunities"], ["disabled", ["subexpr", "@mut", [["get", "model.newRecord", ["loc", [null, [36, 38], [36, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "tagName", "div", "class", "ui small reset button right floated", "activeClass", "", "click", ["subexpr", "action", ["onCancelOptClick"], [], ["loc", [null, [38, 8], [38, 35]]], 0, 0]], 4, null, ["loc", [null, [36, 2], [40, 14]]]], ["block", "if", [["get", "fieldsByGroup", ["loc", [null, [50, 8], [50, 21]]], 0, 0, 0, 0]], [], 5, 6, ["loc", [null, [50, 2], [162, 9]]]], ["content", "yield", ["loc", [null, [174, 0], [174, 9]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6]
     };
@@ -5499,9 +5520,23 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
 });
 define('apem/pods/components/opportunities/stage-step/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
+    store: _ember['default'].inject.service(),
     stageSteps: [],
     //current opportunity
     opt: null,
+    quoteEvent: null,
+    sampleEvent: null,
+    approvalEvent: null,
+    productionEvent: null,
+
+    click: function click(event) {
+      var targetAttr = event.target.attributes;
+      for (var i = 0, attLen = targetAttr.length; i < attLen; i++) {
+        if (targetAttr[i].nodeValue === 'quote' || targetAttr[i].nodeValue === 'sample' || targetAttr[i].nodeValue === 'approval' || targetAttr[i].nodeValue === 'production') {
+          this.onStepClick(targetAttr[i].nodeValue);
+        }
+      }
+    },
 
     didRender: function didRender() {
       this._super.apply(this, arguments);
@@ -5509,17 +5544,65 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
       this.markSteps();
     },
 
-    actions: {
-      onStepClick: function onStepClick(value) {
-        this.opt.set('stage', value);
-        this.markSteps();
-      }
+    onStepClick: function onStepClick(value) {
+      var _this = this;
+
+      this.opt.set('stage', value);
+
+      this.markSteps();
+
+      var sSteps = this.stageSteps;
+      var eventedStepId = sSteps.findBy('label', this.opt.get('stage')).id - 1;
+      sSteps.forEach(function (item) {
+        var me = _this;
+        var eventName = item.label + 'Event';
+        var today = window.moment(Date().toString(), 'ddd MMM DD YYYY HH:mm:ss Z').format('MM-DD-YYYY');
+        var myEvt = _this.get(eventName);
+        // console.log(`${item}`);
+        if (item.id === eventedStepId) {
+          //Remark Aug 31st Ralica M.: using the stageSteps hardcoded array,
+          //we find the current step's type by looking at the label and get the
+          //appropriate stage attribute from the component to asign today's date.
+          if (!myEvt) {
+            myEvt = _this.get('store').createRecord('event', {
+              date: today,
+              type: value,
+              opportunity: _this.opt
+            });
+            myEvt.save().then(function (data) {
+              me.set(eventName, data);
+            });
+          }
+        } else if (item.id < eventedStepId) {
+          if (!myEvt) {
+            myEvt = _this.get('store').createRecord('event', {
+              date: today,
+              type: value,
+              opportunity: _this.opt
+            });
+            myEvt.save().then(function (data) {
+              me.set(eventName, data);
+            });
+          }
+        } else {
+          //delete anything before the clicked date
+          if (myEvt) {
+            _this.deleteUncheckedEvents(myEvt); //myEvt.destroyRecord();
+          }
+        }
+      });
+    },
+
+    deleteUncheckedEvents: function deleteUncheckedEvents(event) {
+      var eventName = event.get('type') + 'Event';
+      this.set(eventName, null);
+      event.destroyRecord();
     },
 
     markSteps: function markSteps() {
       var selectedStepId = this.stageSteps.findBy('label', this.opt.get('stage')).id;
       var sSteps = this.stageSteps;
-      // debugger;
+
       sSteps.forEach(function (item) {
         // console.log(`${item}`);
         if (item.id === selectedStepId) {
@@ -5529,13 +5612,19 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
         } else if (item.id < selectedStepId) {
           _ember['default'].$('.' + item.label + '-step-icn').removeClass('hide-me');
           _ember['default'].$('.' + item.label + '.step').removeClass('active');
-          // show step as checked
-          // Ember.$('.'+item.label+'-step')
         } else {
-            _ember['default'].$('.' + item.label + '-step-icn').addClass('hide-me');
-            _ember['default'].$('.' + item.label + '.step').removeClass('active');
-          }
+          _ember['default'].$('.' + item.label + '-step-icn').addClass('hide-me');
+          _ember['default'].$('.' + item.label + '.step').removeClass('active');
+        }
       });
+    },
+
+    actions: {
+      updateStageDate: function updateStageDate(event, date) {
+        var formattedDate = window.moment(date, 'YYYY-MM-DD').format('MM-DD-YYYY');
+        event.set('date', formattedDate);
+        event.save();
+      }
     }
   });
 });
@@ -5548,11 +5637,11 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
           "loc": {
             "source": null,
             "start": {
-              "line": 15,
+              "line": 8,
               "column": 8
             },
             "end": {
-              "line": 17,
+              "line": 23,
               "column": 8
             }
           },
@@ -5568,17 +5657,23 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
           dom.setAttribute(el1, "class", "description");
-          var el2 = dom.createTextNode("08/29/2016");
+          var el2 = dom.createTextNode("\n            ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n          ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
           return el0;
         },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
+          return morphs;
         },
-        statements: [],
+        statements: [["inline", "date-picker", [["get", "bubble", ["loc", [null, [11, 14], [11, 20]]], 0, 0, 0, 0]], ["action", ["subexpr", "action", ["updateStageDate", ["get", "quoteEvent", ["loc", [null, [12, 47], [12, 57]]], 0, 0, 0, 0]], [], ["loc", [null, [12, 21], [12, 58]]], 0, 0], "placeholder", ["subexpr", "@mut", [["get", "quoteEvent.date", ["loc", [null, [13, 26], [13, 41]]], 0, 0, 0, 0]], [], [], 0, 0], "valueFormat", "MM-DD-YYYY", "format", "MM-DD-YYYY", "utc", false, "time", false, "date", ["subexpr", "@mut", [["get", "quoteEvent.date", ["loc", [null, [18, 19], [18, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "allowBlank", true, "class", "label-like-date-picker", "buttonClasses", "label-like"], ["loc", [null, [10, 12], [21, 42]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -5590,11 +5685,11 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
           "loc": {
             "source": null,
             "start": {
-              "line": 25,
+              "line": 30,
               "column": 8
             },
             "end": {
-              "line": 27,
+              "line": 42,
               "column": 8
             }
           },
@@ -5608,19 +5703,18 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
           var el0 = dom.createDocumentFragment();
           var el1 = dom.createTextNode("          ");
           dom.appendChild(el0, el1);
-          var el1 = dom.createElement("div");
-          dom.setAttribute(el1, "class", "description");
-          var el2 = dom.createTextNode("08/29/2016");
-          dom.appendChild(el1, el2);
+          var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
           return el0;
         },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
         },
-        statements: [],
+        statements: [["inline", "date-picker", [], ["action", ["subexpr", "action", ["updateStageDate", ["get", "quoteEvent", ["loc", [null, [32, 45], [32, 55]]], 0, 0, 0, 0]], [], ["loc", [null, [32, 19], [32, 56]]], 0, 0], "placeholder", ["subexpr", "@mut", [["get", "sampleEvent.date", ["loc", [null, [33, 24], [33, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "valueFormat", "MM-DD-YYYY", "format", "MM-DD-YYYY", "utc", false, "time", false, "date", ["subexpr", "@mut", [["get", "sampleEvent.date", ["loc", [null, [38, 17], [38, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "allowBlank", true, "class", "label-like-date-picker", "buttonClasses", "label-like"], ["loc", [null, [31, 10], [41, 40]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -5632,11 +5726,11 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
           "loc": {
             "source": null,
             "start": {
-              "line": 34,
+              "line": 50,
               "column": 8
             },
             "end": {
-              "line": 36,
+              "line": 62,
               "column": 8
             }
           },
@@ -5650,19 +5744,59 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
           var el0 = dom.createDocumentFragment();
           var el1 = dom.createTextNode("          ");
           dom.appendChild(el0, el1);
-          var el1 = dom.createElement("div");
-          dom.setAttribute(el1, "class", "description");
-          var el2 = dom.createTextNode("08/29/2016");
-          dom.appendChild(el1, el2);
+          var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
           return el0;
         },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
         },
-        statements: [],
+        statements: [["inline", "date-picker", [], ["action", ["subexpr", "action", ["updateStageDate", ["get", "quoteEvent", ["loc", [null, [52, 45], [52, 55]]], 0, 0, 0, 0]], [], ["loc", [null, [52, 19], [52, 56]]], 0, 0], "placeholder", ["subexpr", "@mut", [["get", "approvalEvent.date", ["loc", [null, [53, 24], [53, 42]]], 0, 0, 0, 0]], [], [], 0, 0], "valueFormat", "MM-DD-YYYY", "format", "MM-DD-YYYY", "utc", false, "time", false, "date", ["subexpr", "@mut", [["get", "approvalEvent.date", ["loc", [null, [58, 17], [58, 35]]], 0, 0, 0, 0]], [], [], 0, 0], "allowBlank", true, "class", "label-like-date-picker", "buttonClasses", "label-like"], ["loc", [null, [51, 10], [61, 40]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child3 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.0",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 70,
+              "column": 8
+            },
+            "end": {
+              "line": 82,
+              "column": 8
+            }
+          },
+          "moduleName": "apem/pods/components/opportunities/stage-step/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "date-picker", [], ["action", ["subexpr", "action", ["updateStageDate", ["get", "quoteEvent", ["loc", [null, [72, 43], [72, 53]]], 0, 0, 0, 0]], [], ["loc", [null, [72, 17], [72, 54]]], 0, 0], "placeholder", ["subexpr", "@mut", [["get", "productionEvent.date", ["loc", [null, [73, 22], [73, 42]]], 0, 0, 0, 0]], [], [], 0, 0], "valueFormat", "MM-DD-YYYY", "format", "MM-DD-YYYY", "utc", false, "time", false, "date", ["subexpr", "@mut", [["get", "productionEvent.date", ["loc", [null, [78, 15], [78, 35]]], 0, 0, 0, 0]], [], [], 0, 0], "allowBlank", true, "class", "label-like-date-picker", "buttonClasses", "label-like"], ["loc", [null, [71, 8], [81, 38]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -5677,7 +5811,7 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
             "column": 0
           },
           "end": {
-            "line": 41,
+            "line": 87,
             "column": 0
           }
         },
@@ -5705,31 +5839,31 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3, "class", "quote step");
-        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        dom.setAttribute(el3, "value", "quote");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("i");
         dom.setAttribute(el4, "class", "green check icon quote-step-icn hidden");
+        dom.setAttribute(el4, "value", "quote");
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("div");
         dom.setAttribute(el4, "class", "content");
+        dom.setAttribute(el4, "value", "quote");
         var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("div");
         dom.setAttribute(el5, "class", "title");
+        dom.setAttribute(el5, "value", "quote");
         var el6 = dom.createTextNode("Quote");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n          ");
+        var el5 = dom.createTextNode("\n");
         dom.appendChild(el4, el5);
-        var el5 = dom.createElement("div");
-        dom.setAttribute(el5, "class", "description");
-        var el6 = dom.createTextNode("08/29/2016");
-        dom.appendChild(el5, el6);
+        var el5 = dom.createComment("");
         dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
+        var el5 = dom.createTextNode("      ");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
@@ -5739,20 +5873,23 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3, "class", "sample step");
-        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        dom.setAttribute(el3, "value", "sample");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("i");
         dom.setAttribute(el4, "class", "green check icon sample-step-icn hidden");
+        dom.setAttribute(el4, "value", "sample");
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("div");
         dom.setAttribute(el4, "class", "content");
+        dom.setAttribute(el4, "value", "sample");
         var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("div");
         dom.setAttribute(el5, "class", "title");
+        dom.setAttribute(el5, "value", "sample");
         var el6 = dom.createTextNode("Sample");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
@@ -5774,20 +5911,23 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3, "class", "approval step");
-        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        dom.setAttribute(el3, "value", "approval");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("i");
         dom.setAttribute(el4, "class", "green check icon approval-step-icn hidden");
+        dom.setAttribute(el4, "value", "approval");
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("div");
         dom.setAttribute(el4, "class", "content");
+        dom.setAttribute(el4, "value", "approval");
         var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("div");
         dom.setAttribute(el5, "class", "title");
+        dom.setAttribute(el5, "value", "approval");
         var el6 = dom.createTextNode("Approval");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
@@ -5801,24 +5941,27 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
         var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
+        var el3 = dom.createTextNode("\n    \n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3, "class", "production step");
-        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        dom.setAttribute(el3, "value", "production");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("i");
         dom.setAttribute(el4, "class", "green check icon production-step-icn hidden");
+        dom.setAttribute(el4, "value", "production");
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("div");
         dom.setAttribute(el4, "class", "content");
+        dom.setAttribute(el4, "value", "production");
         var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("div");
         dom.setAttribute(el5, "class", "title");
+        dom.setAttribute(el5, "value", "production");
         var el6 = dom.createTextNode("Production");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
@@ -5844,23 +5987,16 @@ define("apem/pods/components/opportunities/stage-step/template", ["exports"], fu
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [0, 3]);
-        var element1 = dom.childAt(element0, [1]);
-        var element2 = dom.childAt(element0, [3]);
-        var element3 = dom.childAt(element0, [5]);
-        var element4 = dom.childAt(element0, [7]);
-        var morphs = new Array(7);
-        morphs[0] = dom.createElementMorph(element1);
-        morphs[1] = dom.createElementMorph(element2);
-        morphs[2] = dom.createMorphAt(dom.childAt(element2, [3]), 3, 3);
-        morphs[3] = dom.createElementMorph(element3);
-        morphs[4] = dom.createMorphAt(dom.childAt(element3, [3]), 3, 3);
-        morphs[5] = dom.createElementMorph(element4);
-        morphs[6] = dom.createMorphAt(dom.childAt(element4, [3]), 3, 3);
+        var morphs = new Array(4);
+        morphs[0] = dom.createMorphAt(dom.childAt(element0, [1, 3]), 3, 3);
+        morphs[1] = dom.createMorphAt(dom.childAt(element0, [3, 3]), 3, 3);
+        morphs[2] = dom.createMorphAt(dom.childAt(element0, [5, 3]), 3, 3);
+        morphs[3] = dom.createMorphAt(dom.childAt(element0, [7, 3]), 3, 3);
         return morphs;
       },
-      statements: [["element", "action", ["onStepClick", "quote"], [], ["loc", [null, [4, 28], [4, 60]]], 0, 0], ["element", "action", ["onStepClick", "sample"], [], ["loc", [null, [11, 29], [11, 62]]], 0, 0], ["block", "if", [["get", "opt.events", ["loc", [null, [15, 14], [15, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [15, 8], [17, 15]]]], ["element", "action", ["onStepClick", "approval"], [], ["loc", [null, [21, 31], [21, 66]]], 0, 0], ["block", "if", [["get", "opt.events", ["loc", [null, [25, 14], [25, 24]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [25, 8], [27, 15]]]], ["element", "action", ["onStepClick", "production"], [], ["loc", [null, [30, 33], [30, 70]]], 0, 0], ["block", "if", [["get", "opt.events", ["loc", [null, [34, 14], [34, 24]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [34, 8], [36, 15]]]]],
+      statements: [["block", "if", [["get", "quoteEvent", ["loc", [null, [8, 14], [8, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [8, 8], [23, 15]]]], ["block", "if", [["get", "sampleEvent", ["loc", [null, [30, 14], [30, 25]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [30, 8], [42, 15]]]], ["block", "if", [["get", "approvalEvent", ["loc", [null, [50, 14], [50, 27]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [50, 8], [62, 15]]]], ["block", "if", [["get", "productionEvent", ["loc", [null, [70, 14], [70, 29]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [70, 8], [82, 15]]]]],
       locals: [],
-      templates: [child0, child1, child2]
+      templates: [child0, child1, child2, child3]
     };
   })());
 });
@@ -7696,10 +7832,6 @@ define('apem/pods/opportunities/index/route', ['exports', 'ember', 'apem/config/
       estimatedProdDate: '',
       searchString: ''
     },
-
-    enableFilteredCSV: (function () {
-      return this.get('filterParams') === null ? true : false;
-    }).property('filterParams'),
 
     fields: function fields() {
       return this.store.findAll('field');
@@ -11602,7 +11734,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+e6be62e9"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+973f0410"});
 }
 
 /* jshint ignore:end */

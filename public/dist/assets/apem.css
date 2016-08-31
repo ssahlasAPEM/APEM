@@ -1,3 +1,10 @@
+.capitalize{
+      text-transform: capitalize;
+}
+
+.bold{
+  font-weight: bold;
+}
 .clear-date-btn{
   width: 30px;
   vertical-align: middle;
@@ -33,9 +40,34 @@
   overflow: auto;
   width: 100%;
 }
+
+/* STAGE COMPONENT and children*/
+.label-like{
+  background: transparent;
+  border: none;
+  padding-left: 0px;
+  text-align: left;
+  outline:none;
+}
+.label-like-date-picker{
+  border:none !important;
+  box-shadow: none;
+  outline:none;
+}
+/*.stage-date-editor:hover{
+  background: #fff !important;
+  border: 1px solid #22242626 !important;
+}*/
+/*.stage-date-editor{
+  background-color: transparent !important;
+  border: none !important;
+  font-weight: bold;
+}*/
+
+
 .opportunity-form{
-  max-height: calc(100vh - 112px);
-  height: calc(100% - 40px);
+  max-height: calc(100vh - 130px);
+  height: calc(100vh - 130px);
   overflow: auto;
   overflow-x: hidden;
 }
@@ -190,6 +222,7 @@
 }
 .ui.four.steps > .step {
     width: 25%;
+    min-height: 42px;
     /*height: 36px;*/
     padding: 6px;
 }

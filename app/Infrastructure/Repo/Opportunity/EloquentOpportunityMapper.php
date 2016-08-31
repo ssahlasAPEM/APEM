@@ -72,8 +72,8 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
                 switch ($key) {
                     case 'lastThirtyDays':
                         if ($value == 'true') {
-                            $query    = $query->where('created_at', '>=', date(date('Y-m-d'), strtotime("+30 days")));
-                            $queryRev = $queryRev->where('created_at', '>=', date(date('Y-m-d'), strtotime("+30 days")));
+                            $query    = $query->whereDate('created_at', '>=', date('Y-m-d', strtotime("-30 days")));
+                            $queryRev = $queryRev->whereDate('created_at', '>=', date('Y-m-d', strtotime("-30 days")));
                         }
                         break;
                     case 'dateEntered':
@@ -83,18 +83,18 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
                         break;
                     case 'startDate':
                         $startDate = DateTime::createFromFormat('m/d/Y', $value)->format('Y-m-d');
-                        $query     = $query->where('created_at', '>=', $startDate);
-                        $queryRev  = $queryRev->where('created_at', '>=', $startDate);
+                        $query     = $query->whereDate('created_at', '>=', $startDate);
+                        $queryRev  = $queryRev->whereDate('created_at', '>=', $startDate);
                         break;
                     case 'endDate':
                         $endDate  = DateTime::createFromFormat('m/d/Y', $value)->format('Y-m-d');
-                        $query    = $query->where('created_at', '<=', $endDate);
-                        $queryRev = $queryRev->where('created_at', '<=', $endDate);
+                        $query    = $query->whereDate('created_at', '<=', $endDate);
+                        $queryRev = $queryRev->whereDate('created_at', '<=', $endDate);
                         break;
                     case 'estimatedProdDate':
                         $estimatedProdDate = DateTime::createFromFormat('m/d/Y', $value)->format('Y-m-d');
-                        $query             = $query->where('estimated_prod_date', '=', $estimatedProdDate);
-                        $queryRev          = $queryRev->where('estimated_prod_date', '=', $estimatedProdDate);
+                        $query             = $query->whereDate('estimated_prod_date', '=', $estimatedProdDate);
+                        $queryRev          = $queryRev->whereDate('estimated_prod_date', '=', $estimatedProdDate);
                         break;
                     case 'searchString':
                         $query    = $query->where(

@@ -351,6 +351,7 @@ class OpportunitySeeder extends Seeder
             $newOpp->lost_to_whom            = $faker->company;
             $newOpp->reason_for_loss         = null;
             $newOpp->comment_field           = $faker->bs;
+            $newOpp->created_at              = $faker->dateTimeThisYear($max = 'now');
             $newOpp->save();
 
             $createEvent       = new \app\Models\Event();
