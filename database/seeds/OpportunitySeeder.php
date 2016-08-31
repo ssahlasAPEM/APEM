@@ -340,21 +340,21 @@ class OpportunitySeeder extends Seeder
             $newOpp->potential_annual_rev    = $faker->randomNumber(null);
             $newOpp->probability_of_win      = $faker->randomNumber(null);
             $newOpp->expected_value          = $faker->randomNumber(null);
-            $newOpp->quote_date              = $faker->date('Y-m-d');
-            $newOpp->sample_date             = $faker->date('Y-m-d');
-            $newOpp->approval_date           = $faker->date('Y-m-d');
-            $newOpp->date_rcvd_prod_order    = $faker->date('Y-m-d');
-            $newOpp->estimated_prod_date     = $faker->date('Y-m-d');
+            $newOpp->quote_date              = $faker->dateTimeThisYear($max = 'now');
+            $newOpp->sample_date             = $faker->dateTimeThisYear($max = 'now');
+            $newOpp->approval_date           = $faker->dateTimeThisYear($max = 'now');
+            $newOpp->date_rcvd_prod_order    = $faker->dateTimeThisYear($max = 'now');
+            $newOpp->estimated_prod_date     = $faker->dateTimeThisYear($max = 'now');
             $newOpp->prod_sales_order_num    = $faker->randomNumber(null);
             $newOpp->reason_for_win          = $faker->bs;
-            $newOpp->date_lost               = $faker->date('Y-m-d');
+            $newOpp->date_lost               = $faker->dateTimeThisYear($max = 'now');
             $newOpp->lost_to_whom            = $faker->company;
             $newOpp->reason_for_loss         = null;
             $newOpp->comment_field           = $faker->bs;
             $newOpp->save();
 
             $createEvent       = new \app\Models\Event();
-            $createEvent->date = $faker->date('Y-m-d');
+            $createEvent->date = $faker->dateTimeThisYear($max = 'now');
             $createEvent->type = "create";
             $createEvent->opportunity_id = $newOpp->id;
             $createEvent->save();

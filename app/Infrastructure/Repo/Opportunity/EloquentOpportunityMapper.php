@@ -77,22 +77,22 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
                         }
                         break;
                     case 'dateEntered':
-                        $dateEntered = DateTime::createFromFormat('m-d-Y', $value)->format('Y-m-d');
+                        $dateEntered = DateTime::createFromFormat('m/d/Y', $value)->format('Y-m-d');
                         $query       = $query->whereDate('created_at', '=', $dateEntered);
                         $queryRev    = $queryRev->whereDate('created_at', '=', $dateEntered);
                         break;
                     case 'startDate':
-                        $startDate = DateTime::createFromFormat('m-d-Y', $value)->format('Y-m-d');
+                        $startDate = DateTime::createFromFormat('m/d/Y', $value)->format('Y-m-d');
                         $query     = $query->where('created_at', '>=', $startDate);
                         $queryRev  = $queryRev->where('created_at', '>=', $startDate);
                         break;
                     case 'endDate':
-                        $endDate  = DateTime::createFromFormat('m-d-Y', $value)->format('Y-m-d');
+                        $endDate  = DateTime::createFromFormat('m/d/Y', $value)->format('Y-m-d');
                         $query    = $query->where('created_at', '<=', $endDate);
                         $queryRev = $queryRev->where('created_at', '<=', $endDate);
                         break;
                     case 'estimatedProdDate':
-                        $estimatedProdDate = DateTime::createFromFormat('m-d-Y', $value)->format('Y-m-d');
+                        $estimatedProdDate = DateTime::createFromFormat('m/d/Y', $value)->format('Y-m-d');
                         $query             = $query->where('estimated_prod_date', '=', $estimatedProdDate);
                         $queryRev          = $queryRev->where('estimated_prod_date', '=', $estimatedProdDate);
                         break;
