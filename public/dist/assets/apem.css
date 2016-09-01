@@ -101,7 +101,7 @@
   width: 70%;
 }
 .small-placeholder{
-  width: 35.546%;
+  width: calc( 58% - 340px);
   display: inline-block;
 }
 .adv-srch-start-date-input{
@@ -426,12 +426,14 @@
 
 /* Infinity-loaded table styles */
 .ui.table.table-head {
+  table-layout:fixed;
   margin-bottom: 0px;
   border-bottom: 0px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
 }
 .ui.table.table-body {
+  table-layout:fixed;
   margin-top: 0px;
   border-top: 0px;
   border-top-left-radius: 0px;
@@ -442,9 +444,16 @@
   padding-bottom: 25px;
 }
 
+@media (min-width: 769px) and (max-width:991px) {
+  .mobile.tablet.only.row.home-navbar{
+    display:none;
+  }
+}
+
 @media (max-width: 768px) {
   .small-placeholder{
     width: 26%;
+    width: calc( 58% - 340px);
     display: inline-block;
   }
 .meta{

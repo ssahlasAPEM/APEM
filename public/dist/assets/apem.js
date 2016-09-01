@@ -2195,7 +2195,7 @@ define("apem/pods/components/confirm-delete/template", ["exports"], function (ex
         morphs[4] = dom.createMorphAt(fragment, 3, 3, contextualElement);
         return morphs;
       },
-      statements: [["attribute", "class", ["concat", ["ui right floated small button ", ["subexpr", "if", [["get", "isDisabled", ["loc", [null, [1, 50], [1, 60]]], 0, 0, 0, 0], "disabled"], [], ["loc", [null, [1, 45], [1, 73]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["openConfirmation"], [], ["loc", [null, [1, 75], [1, 104]]], 0, 0], ["content", "recordType", ["loc", [null, [2, 35], [2, 49]]], 0, 0, 0, 0], ["block", "ui-modal", [], ["name", "confirm-delete", "class", "modal confirm-delete-modal"], 0, null, ["loc", [null, [5, 0], [14, 13]]]], ["content", "yield", ["loc", [null, [15, 0], [15, 9]]], 0, 0, 0, 0]],
+      statements: [["attribute", "class", ["concat", ["ui right floated small btn-margin4 button ", ["subexpr", "if", [["get", "isDisabled", ["loc", [null, [1, 62], [1, 72]]], 0, 0, 0, 0], "disabled"], [], ["loc", [null, [1, 57], [1, 85]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["openConfirmation"], [], ["loc", [null, [1, 87], [1, 116]]], 0, 0], ["content", "recordType", ["loc", [null, [2, 35], [2, 49]]], 0, 0, 0, 0], ["block", "ui-modal", [], ["name", "confirm-delete", "class", "modal confirm-delete-modal"], 0, null, ["loc", [null, [5, 0], [14, 13]]]], ["content", "yield", ["loc", [null, [15, 0], [15, 9]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -3312,7 +3312,7 @@ define('apem/pods/components/manage-password/component', ['exports', 'ember'], f
       //add validation to form
       _ember['default'].$('#' + this.elementId + ' .manage-password-pop .managePasswords').form({
         inline: true,
-        on: 'blur',
+        // on:'blur',
         fields: {
           mppassword: {
             identifier: 'mppassword',
@@ -3474,7 +3474,7 @@ define("apem/pods/components/manage-password/template", ["exports"], function (e
           var el3 = dom.createTextNode("\n\n      ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("div");
-          dom.setAttribute(el3, "class", "ui button right floated green");
+          dom.setAttribute(el3, "class", "ui submit button right floated green");
           dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
           var el4 = dom.createElement("i");
           dom.setAttribute(el4, "class", "check icon");
@@ -3527,7 +3527,7 @@ define("apem/pods/components/manage-password/template", ["exports"], function (e
           morphs[5] = dom.createMorphAt(dom.childAt(fragment, [5]), 1, 1);
           return morphs;
         },
-        statements: [["content", "sessionUser.username", ["loc", [null, [6, 63], [6, 87]]], 0, 0, 0, 0], ["inline", "input", [], ["name", "mppassword", "value", ["subexpr", "@mut", [["get", "sessionUser.password", ["loc", [null, [13, 40], [13, 60]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "password"], ["loc", [null, [13, 8], [13, 79]]], 0, 0], ["inline", "input", [], ["name", "mpPasswordVerify", "value", ["subexpr", "@mut", [["get", "sessionUser.passwordVerify", ["loc", [null, [18, 46], [18, 72]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "password"], ["loc", [null, [18, 8], [18, 90]]], 0, 0], ["element", "action", ["submitNewPassword"], [], ["loc", [null, [21, 49], [21, 79]]], 0, 0], ["element", "action", ["cancelModal"], [], ["loc", [null, [22, 43], [22, 67]]], 0, 0], ["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [29, 29], [29, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [29, 6], [29, 43]]], 0, 0]],
+        statements: [["content", "sessionUser.username", ["loc", [null, [6, 63], [6, 87]]], 0, 0, 0, 0], ["inline", "input", [], ["name", "mppassword", "value", ["subexpr", "@mut", [["get", "sessionUser.password", ["loc", [null, [13, 40], [13, 60]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "password", "autofocus", "false"], ["loc", [null, [13, 8], [13, 96]]], 0, 0], ["inline", "input", [], ["name", "mpPasswordVerify", "value", ["subexpr", "@mut", [["get", "sessionUser.passwordVerify", ["loc", [null, [18, 46], [18, 72]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "password", "autofocus", "false"], ["loc", [null, [18, 8], [18, 108]]], 0, 0], ["element", "action", ["submitNewPassword"], [], ["loc", [null, [21, 56], [21, 86]]], 0, 0], ["element", "action", ["cancelModal"], [], ["loc", [null, [22, 43], [22, 67]]], 0, 0], ["inline", "error-message", [], ["errors", ["subexpr", "@mut", [["get", "serverErrors", ["loc", [null, [29, 29], [29, 41]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [29, 6], [29, 43]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -4041,6 +4041,7 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
   exports['default'] = _ember['default'].Component.extend({
     identity: _ember['default'].inject.service(),
     store: _ember['default'].inject.service(),
+    //events:Ember.inject.service(),
     // routing: Ember.inject.service('-routing'),
 
     //used addon ember-group-by to group our fields array by model attr group.
@@ -4059,13 +4060,8 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
     //possible opportunity stages - an array used to controll and properly render the stage steps in the form
     stages: [{ 'label': 'quote', 'id': 1 }, { 'label': 'sample', 'id': 2 }, { 'label': 'approval', 'id': 3 }, { 'label': 'production', 'id': 4 }],
 
-    // didReceiveAttrs(){
-    //   this._super(...arguments);
-    // //  debugger;
-    // },
-
     // Init function
-    init: function init() {
+    didReceiveAttrs: function didReceiveAttrs() {
       var _this = this;
 
       this._super.apply(this, arguments);
@@ -4076,6 +4072,7 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
       this.set('productionEvent', null);
 
       var opp = this.get('model');
+
       //let theEvents = opp.get('events.content');
       var otherEvents = _ember['default'].A([]);
 
@@ -4109,7 +4106,6 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
     },
 
     // OBSERVERS ---------------------
-
     //observing the table's hasDirtyAttributes to manage the delete button's disabled property
     hasNoChanges: (function () {
       var model = this.get('model');
@@ -4166,11 +4162,11 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
             // );
           }
         });
-
+        debugger;
         //add validation to form
         _ember['default'].$('.opportunity-form').form({
           inline: false,
-          on: 'blur',
+
           fields: requiredFormValidations
         });
 
@@ -4290,6 +4286,7 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
             opt.set('user', opt.get('userId'));
             opt.set('userId', opt.get('user.id'));
           }
+          var events = this.get('events');
 
           this.sendAction('onOptSave', opt);
         }
@@ -4374,7 +4371,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           morphs[0] = dom.createMorphAt(fragment, 3, 3, contextualElement);
           return morphs;
         },
-        statements: [["inline", "confirm-delete", [], ["isDisabled", ["subexpr", "not-equal", [["get", "identity.profile.type", ["loc", [null, [8, 28], [8, 49]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [8, 17], [8, 58]]], 0, 0], "title", "Confirm Delete", "recordType", "Opportunity", "message", "The selected opportunity will be deleted. Continue?", "onConfirmDelete", "deleteOpt"], ["loc", [null, [7, 4], [12, 36]]], 0, 0]],
+        statements: [["inline", "confirm-delete", [], ["isDisabled", ["subexpr", "not-equal", [["get", "identity.profile.type", ["loc", [null, [8, 28], [8, 49]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [8, 17], [8, 58]]], 0, 0], "title", "Confirm Delete", "recordType", "Opportunity", "message", "The selected opportunity will be deleted. Continue?", "onConfirmDelete", "deleteOpt"], ["loc", [null, [7, 4], [12, 35]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -4391,7 +4388,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
                 "column": 4
               },
               "end": {
-                "line": 21,
+                "line": 20,
                 "column": 4
               }
             },
@@ -4416,7 +4413,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["inline", "input", [], ["type", "button", "value", "Save as Draft", "disabled", ["subexpr", "@mut", [["get", "noValidName", ["loc", [null, [19, 17], [19, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui button small right floated", "click", ["subexpr", "action", ["saveDraft"], [], ["loc", [null, [20, 52], [20, 72]]], 0, 0]], ["loc", [null, [18, 6], [20, 74]]], 0, 0]],
+          statements: [["inline", "input", [], ["type", "button", "value", "Save as Draft", "class", "ui button small right floated btn-margin4", "click", ["subexpr", "action", ["saveDraft"], [], ["loc", [null, [19, 64], [19, 84]]], 0, 0]], ["loc", [null, [18, 6], [19, 86]]], 0, 0]],
           locals: [],
           templates: []
         };
@@ -4431,7 +4428,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               "column": 2
             },
             "end": {
-              "line": 22,
+              "line": 21,
               "column": 2
             }
           },
@@ -4454,7 +4451,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "ui-popup", [], ["content", "Please provide a Company name."], 0, null, ["loc", [null, [16, 4], [21, 17]]]]],
+        statements: [["block", "ui-popup", [], ["content", "Please provide a Company name."], 0, null, ["loc", [null, [16, 4], [20, 17]]]]],
         locals: [],
         templates: [child0]
       };
@@ -4466,11 +4463,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 22,
+              "line": 21,
               "column": 2
             },
             "end": {
-              "line": 25,
+              "line": 24,
               "column": 2
             }
           },
@@ -4495,7 +4492,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
           return morphs;
         },
-        statements: [["inline", "input", [], ["type", "button", "value", "Save as Draft", "class", "ui button small right floated", "click", ["subexpr", "action", ["saveDraft"], [], ["loc", [null, [24, 10], [24, 30]]], 0, 0]], ["loc", [null, [23, 4], [24, 32]]], 0, 0]],
+        statements: [["inline", "input", [], ["type", "button", "value", "Save as Draft", "class", "ui button small right floated btn-margin4", "click", ["subexpr", "action", ["saveDraft"], [], ["loc", [null, [23, 10], [23, 30]]], 0, 0]], ["loc", [null, [22, 4], [23, 32]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -4507,7 +4504,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
           "loc": {
             "source": null,
             "start": {
-              "line": 36,
+              "line": 35,
               "column": 2
             },
             "end": {
@@ -5268,9 +5265,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("h3");
             dom.setAttribute(el1, "class", "ui dividing header");
-            var el2 = dom.createTextNode("Event Log ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createComment("");
+            var el2 = dom.createTextNode("Event Log");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n      ");
@@ -5289,12 +5284,11 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(2);
-            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
-            morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 1, 1);
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [3]), 1, 1);
             return morphs;
           },
-          statements: [["content", "model.events.length", ["loc", [null, [152, 47], [152, 70]]], 0, 0, 0, 0], ["block", "each", [["get", "nonStageEvents", ["loc", [null, [154, 16], [154, 30]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [154, 8], [156, 17]]]]],
+          statements: [["block", "each", [["get", "nonStageEvents", ["loc", [null, [154, 16], [154, 30]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [154, 8], [156, 17]]]]],
           locals: [],
           templates: [child0]
         };
@@ -5492,6 +5486,10 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("TOOLTIP ON DISABLED BUTTON:");
+        dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
@@ -5556,15 +5554,15 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
         morphs[0] = dom.createMorphAt(element8, 1, 1);
         morphs[1] = dom.createMorphAt(element8, 3, 3);
         morphs[2] = dom.createMorphAt(element7, 4, 4);
-        morphs[3] = dom.createMorphAt(element7, 6, 6);
-        morphs[4] = dom.createMorphAt(element7, 10, 10);
-        morphs[5] = dom.createMorphAt(element7, 12, 12);
-        morphs[6] = dom.createMorphAt(element7, 14, 14);
+        morphs[3] = dom.createMorphAt(element7, 8, 8);
+        morphs[4] = dom.createMorphAt(element7, 12, 12);
+        morphs[5] = dom.createMorphAt(element7, 14, 14);
+        morphs[6] = dom.createMorphAt(element7, 16, 16);
         morphs[7] = dom.createMorphAt(dom.childAt(fragment, [4]), 3, 3);
         morphs[8] = dom.createMorphAt(fragment, 6, 6, contextualElement);
         return morphs;
       },
-      statements: [["content", "model.id", ["loc", [null, [4, 42], [4, 54]]], 0, 0, 0, 0], ["block", "if", [["get", "model.draft", ["loc", [null, [4, 61], [4, 72]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [4, 55], [4, 87]]]], ["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [5, 18], [5, 39]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [5, 8], [5, 48]]], 0, 0]], [], 1, null, ["loc", [null, [5, 2], [13, 9]]]], ["block", "if", [["get", "noValidName", ["loc", [null, [15, 8], [15, 19]]], 0, 0, 0, 0]], [], 2, 3, ["loc", [null, [15, 2], [25, 9]]]], ["inline", "input", [], ["type", "button", "value", "Save", "disabled", ["subexpr", "@mut", [["get", "hasNoChanges", ["loc", [null, [28, 46], [28, 58]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui submit button small right floated", "click", ["subexpr", "action", ["updateRecord"], [], ["loc", [null, [30, 8], [30, 31]]], 0, 0]], ["loc", [null, [28, 2], [30, 33]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Copy", "disabled", ["subexpr", "@mut", [["get", "model.newRecord", ["loc", [null, [32, 46], [32, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui submit button small right floated", "click", ["subexpr", "action", ["cloneRecord"], [], ["loc", [null, [34, 8], [34, 30]]], 0, 0]], ["loc", [null, [32, 2], [34, 32]]], 0, 0], ["block", "link-to", ["opportunities"], ["disabled", ["subexpr", "@mut", [["get", "model.newRecord", ["loc", [null, [36, 38], [36, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "tagName", "div", "class", "ui small reset button right floated", "activeClass", "", "click", ["subexpr", "action", ["onCancelOptClick"], [], ["loc", [null, [38, 8], [38, 35]]], 0, 0]], 4, null, ["loc", [null, [36, 2], [40, 14]]]], ["block", "if", [["get", "fieldsByGroup", ["loc", [null, [50, 8], [50, 21]]], 0, 0, 0, 0]], [], 5, 6, ["loc", [null, [50, 2], [162, 9]]]], ["content", "yield", ["loc", [null, [174, 0], [174, 9]]], 0, 0, 0, 0]],
+      statements: [["content", "model.id", ["loc", [null, [4, 42], [4, 54]]], 0, 0, 0, 0], ["block", "if", [["get", "model.draft", ["loc", [null, [4, 61], [4, 72]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [4, 55], [4, 87]]]], ["block", "if", [["subexpr", "is-equal", [["get", "identity.profile.type", ["loc", [null, [5, 18], [5, 39]]], 0, 0, 0, 0], "Admin"], [], ["loc", [null, [5, 8], [5, 48]]], 0, 0]], [], 1, null, ["loc", [null, [5, 2], [13, 9]]]], ["block", "if", [["get", "noValidName", ["loc", [null, [15, 8], [15, 19]]], 0, 0, 0, 0]], [], 2, 3, ["loc", [null, [15, 2], [24, 9]]]], ["inline", "input", [], ["type", "button", "value", "Save", "disabled", ["subexpr", "@mut", [["get", "hasNoChanges", ["loc", [null, [27, 46], [27, 58]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui submit button small right floated btn-margin4", "click", ["subexpr", "action", ["updateRecord"], [], ["loc", [null, [29, 8], [29, 31]]], 0, 0]], ["loc", [null, [27, 2], [29, 33]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Copy", "disabled", ["subexpr", "@mut", [["get", "model.newRecord", ["loc", [null, [31, 46], [31, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "ui submit button small right floated btn-margin4", "click", ["subexpr", "action", ["cloneRecord"], [], ["loc", [null, [33, 8], [33, 30]]], 0, 0]], ["loc", [null, [31, 2], [33, 32]]], 0, 0], ["block", "link-to", ["opportunities"], ["disabled", ["subexpr", "@mut", [["get", "model.newRecord", ["loc", [null, [35, 38], [35, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "tagName", "div", "class", "ui small reset button right floated btn-margin4", "activeClass", "", "click", ["subexpr", "action", ["onCancelOptClick"], [], ["loc", [null, [38, 8], [38, 35]]], 0, 0]], 4, null, ["loc", [null, [35, 2], [40, 14]]]], ["block", "if", [["get", "fieldsByGroup", ["loc", [null, [50, 8], [50, 21]]], 0, 0, 0, 0]], [], 5, 6, ["loc", [null, [50, 2], [162, 9]]]], ["content", "yield", ["loc", [null, [174, 0], [174, 9]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6]
     };
@@ -11849,7 +11847,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+22de6c70"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+e069559c"});
 }
 
 /* jshint ignore:end */

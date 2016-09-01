@@ -1480,7 +1480,7 @@ define('apem/tests/pods/components/opportunities/opt-form/component.jshint', ['e
   QUnit.module('JSHint - pods/components/opportunities/opt-form/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/opportunities/opt-form/component.js should pass jshint.');
+    assert.ok(false, 'pods/components/opportunities/opt-form/component.js should pass jshint.\npods/components/opportunities/opt-form/component.js: line 134, col 7, Forgotten \'debugger\' statement?\npods/components/opportunities/opt-form/component.js: line 258, col 13, \'events\' is defined but never used.\n\n2 errors');
   });
 });
 define('apem/tests/pods/components/opportunities/stage-step/component.jshint', ['exports'], function (exports) {
