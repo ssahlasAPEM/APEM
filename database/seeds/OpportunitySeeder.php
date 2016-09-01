@@ -296,9 +296,11 @@ class OpportunitySeeder extends Seeder
             'Zimbabwe'
         ];
 
+        $userArray = \app\Models\User::all();
+
         for ($i = 0; $i < $numOpps; $i ++) {
             $newOpp                          = new \app\Models\Opportunity();
-            $newOpp->user_id                 = $faker->numberBetween($min = 1, $max = 4);
+            $newOpp->user_id                 = $userArray[$faker->numberBetween($min = 0, $max = 3)]->id;
             $newOpp->draft                   = $faker->numberBetween($min = 0, $max = 1);
             $newOpp->state                   = 'open';
             $newOpp->status                  = 'backburner';
