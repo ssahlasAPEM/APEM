@@ -100,6 +100,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
                         $query    = $query->where(
                             function ($query) use (&$value) {
                                 $query->where('draft', 'like', '%' . $value . '%')
+                                    ->orWhere('id', 'like', '%' . $value . '%')
                                     ->orWhere('stage', 'like', '%' . $value . '%')
                                     ->orWhere('company', 'like', '%' . $value . '%')
                                     ->orWhere('address', 'like', '%' . $value . '%')
@@ -153,6 +154,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
                         $queryRev = $queryRev->where(
                             function ($queryRev) use (&$value) {
                                 $queryRev->where('draft', 'like', '%' . $value . '%')
+                                    ->orWhere('id', 'like', '%' . $value . '%')
                                     ->orWhere('stage', 'like', '%' . $value . '%')
                                     ->orWhere('company', 'like', '%' . $value . '%')
                                     ->orWhere('address', 'like', '%' . $value . '%')
