@@ -402,6 +402,20 @@ define('apem/helpers/date-picker-day-classes', ['exports', 'ember-date-component
     }
   });
 });
+define('apem/helpers/format-currency', ['exports', 'ember-format-currency/helpers/format-currency'], function (exports, _emberFormatCurrencyHelpersFormatCurrency) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormatCurrencyHelpersFormatCurrency['default'];
+    }
+  });
+  Object.defineProperty(exports, 'formatCurrency', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormatCurrencyHelpersFormatCurrency.formatCurrency;
+    }
+  });
+});
 define('apem/helpers/format-date', ['exports', 'ember-intl/helpers/format-date'], function (exports, _emberIntlHelpersFormatDate) {
   /**
    * Copyright 2015, Yahoo! Inc.
@@ -1509,7 +1523,13 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
       this.set('estimatedProdDate', this.get('filterParams.estimatedProdDate'));
       this.set('searchString', this.get('filterParams.searchString'));
     },
-
+    // click:function(event){
+    //   if(event.target.id === 'dropTrigger'){
+    //     let parent = event.target.offsetParent;
+    //     parent.fireEvent('drop');
+    //     debugger;
+    //   }
+    // },
     notUsingDates: (function () {
       // console.log('notUsingDates triggered!!!');
       return this.get('lastThirtyDays');
@@ -1536,6 +1556,12 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
     }).property('lastThirtyDays', 'dateEntered', 'startDate', 'endDate'),
 
     actions: {
+      onDropdownBeforeShow: function onDropdownBeforeShow(component) {
+        if (event.target.id !== 'dropTrigger') {
+          return false;
+        }
+        console.log(event.target);
+      },
       pullEntireCSV: function pullEntireCSV() {
         this.sendAction('pullEntireCSV');
       },
@@ -1609,12 +1635,12 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
           "loc": {
             "source": null,
             "start": {
-              "line": 10,
-              "column": 2
+              "line": 3,
+              "column": 0
             },
             "end": {
-              "line": 119,
-              "column": 2
+              "line": 124,
+              "column": 0
             }
           },
           "moduleName": "apem/pods/components/adv-search/template.hbs"
@@ -1625,10 +1651,35 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("    ");
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "ui icon input adv-search-input");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("i");
+          dom.setAttribute(el2, "class", "search icon adv-search-icon-left");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment(" <input class=\"prompt search advanced-search\" type=\"text\" > ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n\n    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("i");
-          dom.setAttribute(el1, "class", "dropdown icon");
+          dom.setAttribute(el1, "id", "dropTrigger");
+          dom.setAttribute(el1, "class", "dropdown icon dark-gray-bg");
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n      ");
           dom.appendChild(el0, el1);
@@ -1791,24 +1842,26 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element1 = dom.childAt(fragment, [3]);
+          var element1 = dom.childAt(fragment, [7]);
           var element2 = dom.childAt(element1, [5]);
           var element3 = dom.childAt(element1, [11, 1]);
           var element4 = dom.childAt(element1, [13, 3]);
-          var morphs = new Array(10);
-          morphs[0] = dom.createMorphAt(dom.childAt(element1, [1]), 1, 1);
-          morphs[1] = dom.createMorphAt(dom.childAt(element1, [3]), 3, 3);
-          morphs[2] = dom.createMorphAt(element2, 4, 4);
-          morphs[3] = dom.createMorphAt(element2, 6, 6);
-          morphs[4] = dom.createMorphAt(dom.childAt(element1, [7]), 4, 4);
-          morphs[5] = dom.createMorphAt(element3, 1, 1);
-          morphs[6] = dom.createMorphAt(element3, 3, 3);
-          morphs[7] = dom.createMorphAt(element3, 5, 5);
-          morphs[8] = dom.createMorphAt(element4, 1, 1);
-          morphs[9] = dom.createMorphAt(element4, 3, 3);
+          var morphs = new Array(12);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 3, 3);
+          morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+          morphs[2] = dom.createMorphAt(dom.childAt(element1, [1]), 1, 1);
+          morphs[3] = dom.createMorphAt(dom.childAt(element1, [3]), 3, 3);
+          morphs[4] = dom.createMorphAt(element2, 4, 4);
+          morphs[5] = dom.createMorphAt(element2, 6, 6);
+          morphs[6] = dom.createMorphAt(dom.childAt(element1, [7]), 4, 4);
+          morphs[7] = dom.createMorphAt(element3, 1, 1);
+          morphs[8] = dom.createMorphAt(element3, 3, 3);
+          morphs[9] = dom.createMorphAt(element3, 5, 5);
+          morphs[10] = dom.createMorphAt(element4, 1, 1);
+          morphs[11] = dom.createMorphAt(element4, 3, 3);
           return morphs;
         },
-        statements: [["inline", "ui-checkbox", [], ["class", "toggle", "label", "New (last 30 days)", "checked", ["subexpr", "@mut", [["get", "lastThirtyDays", ["loc", [null, [17, 20], [17, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", ["onLastThirtyChange"], [], ["loc", [null, [18, 21], [18, 50]]], 0, 0]], ["loc", [null, [14, 10], [18, 52]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "", "inputClass", "seventy-p cust-date-field", "disabled", ["subexpr", "@mut", [["get", "notUsingDateEntered", ["loc", [null, [27, 21], [27, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "date", ["subexpr", "@mut", [["get", "dateEntered", ["loc", [null, [28, 17], [28, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "adv-search-field", "updatedDate", "onDateEntered"], ["loc", [null, [24, 10], [30, 41]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "Start", "disabled", ["subexpr", "@mut", [["get", "notUsingDateRange", ["loc", [null, [35, 19], [35, 36]]], 0, 0, 0, 0]], [], [], 0, 0], "date", ["subexpr", "@mut", [["get", "startDate", ["loc", [null, [36, 15], [36, 24]]], 0, 0, 0, 0]], [], [], 0, 0], "inputClass", "fifty-p cust-date-field", "class", "adv-search-field", "updatedDate", "onStartDate"], ["loc", [null, [34, 10], [39, 37]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "End", "inputClass", "fifty-p cust-date-field", "disabled", ["subexpr", "@mut", [["get", "notUsingDateRange", ["loc", [null, [43, 21], [43, 38]]], 0, 0, 0, 0]], [], [], 0, 0], "date", ["subexpr", "@mut", [["get", "endDate", ["loc", [null, [44, 17], [44, 24]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "gap1 adv-search-field", "updatedDate", "onEndDate"], ["loc", [null, [40, 10], [46, 37]]], 0, 0], ["inline", "custom-date-picker", [], ["inputClass", "seventy-p cust-date-field", "btnLabel", "", "disabled", ["subexpr", "@mut", [["get", "notUsingEstProdDate", ["loc", [null, [53, 21], [53, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "date", ["subexpr", "@mut", [["get", "estimatedProdDate", ["loc", [null, [54, 17], [54, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "adv-search-field", "updateDate", "onEstProductionDate"], ["loc", [null, [50, 10], [56, 46]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "searchedStatus", ["loc", [null, [65, 20], [65, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button backburner", "label", "Backburner", "value", "Backburner", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [69, 34], [69, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [69, 29], [69, 49]]], 0, 0]], [], ["loc", [null, [69, 21], [69, 50]]], 0, 0]], ["loc", [null, [63, 10], [69, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "searchedStatus", ["loc", [null, [73, 20], [73, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [77, 34], [77, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [77, 29], [77, 49]]], 0, 0]], [], ["loc", [null, [77, 21], [77, 50]]], 0, 0]], ["loc", [null, [71, 10], [77, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "searchedStatus", ["loc", [null, [81, 20], [81, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Lost", "value", "Lost", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [85, 34], [85, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [85, 29], [85, 49]]], 0, 0]], [], ["loc", [null, [85, 21], [85, 50]]], 0, 0]], ["loc", [null, [79, 10], [85, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sState", "current", ["subexpr", "@mut", [["get", "searchedState", ["loc", [null, [99, 20], [99, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Open", "value", "Open", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedState", ["loc", [null, [103, 34], [103, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [103, 29], [103, 48]]], 0, 0]], [], ["loc", [null, [103, 21], [103, 49]]], 0, 0]], ["loc", [null, [97, 10], [103, 51]]], 0, 0], ["inline", "ui-radio", [], ["name", "sState", "current", ["subexpr", "@mut", [["get", "searchedState", ["loc", [null, [107, 20], [107, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Closed", "value", "Closed", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedState", ["loc", [null, [111, 34], [111, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [111, 29], [111, 48]]], 0, 0]], [], ["loc", [null, [111, 21], [111, 49]]], 0, 0]], ["loc", [null, [105, 10], [111, 51]]], 0, 0]],
+        statements: [["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "searchString", ["loc", [null, [9, 18], [9, 30]]], 0, 0, 0, 0]], [], [], 0, 0], "key-press", ["subexpr", "action", [["subexpr", "mut", [["get", "searchString", ["loc", [null, [9, 54], [9, 66]]], 0, 0, 0, 0]], [], ["loc", [null, [9, 49], [9, 67]]], 0, 0]], [], ["loc", [null, [9, 41], [9, 68]]], 0, 0], "class", "prompt advanced-srch"], ["loc", [null, [9, 4], [9, 99]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Search", "class", "ui button adv-search-btn", "click", ["subexpr", "action", ["onSearchClick"], [], ["loc", [null, [13, 78], [13, 102]]], 0, 0]], ["loc", [null, [13, 2], [13, 104]]], 0, 0], ["inline", "ui-checkbox", [], ["class", "toggle", "label", "New (last 30 days)", "checked", ["subexpr", "@mut", [["get", "lastThirtyDays", ["loc", [null, [22, 20], [22, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "onChange", ["subexpr", "action", ["onLastThirtyChange"], [], ["loc", [null, [23, 21], [23, 50]]], 0, 0]], ["loc", [null, [19, 10], [23, 52]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "", "inputClass", "seventy-p cust-date-field", "disabled", ["subexpr", "@mut", [["get", "notUsingDateEntered", ["loc", [null, [32, 21], [32, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "date", ["subexpr", "@mut", [["get", "dateEntered", ["loc", [null, [33, 17], [33, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "adv-search-field", "updatedDate", "onDateEntered"], ["loc", [null, [29, 10], [35, 41]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "Start", "disabled", ["subexpr", "@mut", [["get", "notUsingDateRange", ["loc", [null, [40, 19], [40, 36]]], 0, 0, 0, 0]], [], [], 0, 0], "date", ["subexpr", "@mut", [["get", "startDate", ["loc", [null, [41, 15], [41, 24]]], 0, 0, 0, 0]], [], [], 0, 0], "inputClass", "fifty-p cust-date-field", "class", "adv-search-field", "updatedDate", "onStartDate"], ["loc", [null, [39, 10], [44, 37]]], 0, 0], ["inline", "custom-date-picker", [], ["btnLabel", "End", "inputClass", "fifty-p cust-date-field", "disabled", ["subexpr", "@mut", [["get", "notUsingDateRange", ["loc", [null, [48, 21], [48, 38]]], 0, 0, 0, 0]], [], [], 0, 0], "date", ["subexpr", "@mut", [["get", "endDate", ["loc", [null, [49, 17], [49, 24]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "gap1 adv-search-field", "updatedDate", "onEndDate"], ["loc", [null, [45, 10], [51, 37]]], 0, 0], ["inline", "custom-date-picker", [], ["inputClass", "seventy-p cust-date-field", "btnLabel", "", "disabled", ["subexpr", "@mut", [["get", "notUsingEstProdDate", ["loc", [null, [58, 21], [58, 40]]], 0, 0, 0, 0]], [], [], 0, 0], "date", ["subexpr", "@mut", [["get", "estimatedProdDate", ["loc", [null, [59, 17], [59, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "adv-search-field", "updateDate", "onEstProductionDate"], ["loc", [null, [55, 10], [61, 46]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "searchedStatus", ["loc", [null, [70, 20], [70, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button backburner", "label", "Backburner", "value", "Backburner", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [74, 34], [74, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [74, 29], [74, 49]]], 0, 0]], [], ["loc", [null, [74, 21], [74, 50]]], 0, 0]], ["loc", [null, [68, 10], [74, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "searchedStatus", ["loc", [null, [78, 20], [78, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Won", "value", "Won", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [82, 34], [82, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [82, 29], [82, 49]]], 0, 0]], [], ["loc", [null, [82, 21], [82, 50]]], 0, 0]], ["loc", [null, [76, 10], [82, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sStatus", "current", ["subexpr", "@mut", [["get", "searchedStatus", ["loc", [null, [86, 20], [86, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Lost", "value", "Lost", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedStatus", ["loc", [null, [90, 34], [90, 48]]], 0, 0, 0, 0]], [], ["loc", [null, [90, 29], [90, 49]]], 0, 0]], [], ["loc", [null, [90, 21], [90, 50]]], 0, 0]], ["loc", [null, [84, 10], [90, 52]]], 0, 0], ["inline", "ui-radio", [], ["name", "sState", "current", ["subexpr", "@mut", [["get", "searchedState", ["loc", [null, [104, 20], [104, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Open", "value", "Open", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedState", ["loc", [null, [108, 34], [108, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [108, 29], [108, 48]]], 0, 0]], [], ["loc", [null, [108, 21], [108, 49]]], 0, 0]], ["loc", [null, [102, 10], [108, 51]]], 0, 0], ["inline", "ui-radio", [], ["name", "sState", "current", ["subexpr", "@mut", [["get", "searchedState", ["loc", [null, [112, 20], [112, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "make-me-button button", "label", "Closed", "value", "Closed", "onChange", ["subexpr", "action", [["subexpr", "mut", [["get", "searchedState", ["loc", [null, [116, 34], [116, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [116, 29], [116, 48]]], 0, 0]], [], ["loc", [null, [116, 21], [116, 49]]], 0, 0]], ["loc", [null, [110, 10], [116, 51]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -1820,11 +1873,11 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
           "loc": {
             "source": null,
             "start": {
-              "line": 121,
+              "line": 126,
               "column": 2
             },
             "end": {
-              "line": 126,
+              "line": 131,
               "column": 2
             }
           },
@@ -1865,7 +1918,7 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
           morphs[0] = dom.createElementMorph(element0);
           return morphs;
         },
-        statements: [["element", "action", ["clearSearch"], [], ["loc", [null, [122, 82], [122, 106]]], 0, 0]],
+        statements: [["element", "action", ["clearSearch"], [], ["loc", [null, [127, 82], [127, 106]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -1880,7 +1933,7 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 137,
+            "line": 142,
             "column": 0
           }
         },
@@ -1892,93 +1945,67 @@ define("apem/pods/components/adv-search/template", ["exports"], function (export
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment(" <div class=\"advanced-search-component\"> ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "advanced-search-component");
-        var el2 = dom.createTextNode("\n  ");
+        dom.setAttribute(el1, "class", "ui buttons right floated download-csv-btn");
+        var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "ui icon input adv-search-input");
-        var el3 = dom.createTextNode("\n    ");
+        var el2 = dom.createElement("button");
+        dom.setAttribute(el2, "id", "csvBtn");
+        dom.setAttribute(el2, "class", "ui button csv-btn inline block");
+        dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        var el3 = dom.createTextNode("Download CSV");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("button");
+        dom.setAttribute(el2, "id", "filteredCsvBtn");
+        dom.setAttribute(el2, "class", "ui icon button dark-gray-bg");
+        dom.setAttribute(el2, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
+        var el3 = dom.createTextNode("\n      ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("i");
-        dom.setAttribute(el3, "class", "search icon adv-search-icon-left");
+        dom.setAttribute(el3, "class", "filter icon");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment(" <input class=\"prompt search advanced-search\" type=\"text\" > ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n  ");
+        var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "ui buttons right floated download-csv-btn");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("button");
-        dom.setAttribute(el3, "id", "csvBtn");
-        dom.setAttribute(el3, "class", "ui button csv-btn inline block");
-        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-        var el4 = dom.createTextNode("Download CSV");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("button");
-        dom.setAttribute(el3, "id", "filteredCsvBtn");
-        dom.setAttribute(el3, "class", "ui icon button dark-gray-bg");
-        dom.setAttribute(el3, "style", "touch-action: manipulation; -ms-touch-action: manipulation;");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("i");
-        dom.setAttribute(el4, "class", "filter icon");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n");
-        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment(" </div> ");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element5 = dom.childAt(fragment, [0]);
-        var element6 = dom.childAt(element5, [9]);
-        var element7 = dom.childAt(element6, [1]);
-        var element8 = dom.childAt(element6, [3]);
-        var morphs = new Array(7);
-        morphs[0] = dom.createMorphAt(dom.childAt(element5, [1]), 3, 3);
-        morphs[1] = dom.createMorphAt(element5, 3, 3);
-        morphs[2] = dom.createMorphAt(element5, 5, 5);
-        morphs[3] = dom.createMorphAt(element5, 7, 7);
+        var element5 = dom.childAt(fragment, [6]);
+        var element6 = dom.childAt(element5, [1]);
+        var element7 = dom.childAt(element5, [3]);
+        var morphs = new Array(5);
+        morphs[0] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        morphs[1] = dom.createMorphAt(fragment, 4, 4, contextualElement);
+        morphs[2] = dom.createElementMorph(element6);
+        morphs[3] = dom.createAttrMorph(element7, 'disabled');
         morphs[4] = dom.createElementMorph(element7);
-        morphs[5] = dom.createAttrMorph(element8, 'disabled');
-        morphs[6] = dom.createElementMorph(element8);
         return morphs;
       },
-      statements: [["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "searchString", ["loc", [null, [4, 18], [4, 30]]], 0, 0, 0, 0]], [], [], 0, 0], "key-press", ["subexpr", "action", [["subexpr", "mut", [["get", "searchString", ["loc", [null, [4, 54], [4, 66]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 49], [4, 67]]], 0, 0]], [], ["loc", [null, [4, 41], [4, 68]]], 0, 0], "class", "prompt advanced-srch"], ["loc", [null, [4, 4], [4, 99]]], 0, 0], ["inline", "input", [], ["type", "button", "value", "Search", "class", "ui button adv-search-btn", "click", ["subexpr", "action", ["onSearchClick"], [], ["loc", [null, [8, 78], [8, 102]]], 0, 0]], ["loc", [null, [8, 2], [8, 104]]], 0, 0], ["block", "ui-dropdown", [], ["class", "ui floating dropdown icon button adv-search-dropdown dark-gray-bg"], 0, null, ["loc", [null, [10, 2], [119, 18]]]], ["block", "if", [["get", "searchUsed", ["loc", [null, [121, 8], [121, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [121, 2], [126, 9]]]], ["element", "action", ["pullEntireCSV"], [], ["loc", [null, [130, 63], [130, 89]]], 0, 0], ["attribute", "disabled", ["get", "enableFilteredCSV", ["loc", [null, [131, 43], [131, 60]]], 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["pullFilteredCSV"], [], ["loc", [null, [131, 99], [131, 127]]], 0, 0]],
+      statements: [["block", "ui-dropdown", [], ["onShow", ["subexpr", "action", ["onDropdownBeforeShow"], [], ["loc", [null, [3, 22], [3, 53]]], 0, 0], "showOnFocus", false, "class", "ui floating dropdown icon button adv-search-dropdown advanced-search-component"], 0, null, ["loc", [null, [3, 0], [124, 16]]]], ["block", "if", [["get", "searchUsed", ["loc", [null, [126, 8], [126, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [126, 2], [131, 9]]]], ["element", "action", ["pullEntireCSV"], [], ["loc", [null, [135, 63], [135, 89]]], 0, 0], ["attribute", "disabled", ["get", "enableFilteredCSV", ["loc", [null, [136, 43], [136, 60]]], 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["pullFilteredCSV"], [], ["loc", [null, [136, 99], [136, 127]]], 0, 0]],
       locals: [],
       templates: [child0, child1]
     };
@@ -4017,16 +4044,21 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
     //possible opportunity stages - an array used to controll and properly render the stage steps in the form
     stages: [{ 'label': 'quote', 'id': 1 }, { 'label': 'sample', 'id': 2 }, { 'label': 'approval', 'id': 3 }, { 'label': 'production', 'id': 4 }],
 
-    didReceiveAttrs: function didReceiveAttrs() {
-      this._super.apply(this, arguments);
-      //  debugger;
-    },
+    // didReceiveAttrs(){
+    //   this._super(...arguments);
+    // //  debugger;
+    // },
 
     // Init function
     init: function init() {
       var _this = this;
 
       this._super.apply(this, arguments);
+      //null events which are left from previous record.
+      this.set('quoteEvent', null);
+      this.set('sampleEvent', null);
+      this.set('approvalEvent', null);
+      this.set('productionEvent', null);
 
       var opp = this.get('model');
       //let theEvents = opp.get('events.content');
@@ -5534,6 +5566,27 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
     approvalEvent: null,
     productionEvent: null,
 
+    didReceiveAttrs: function didReceiveAttrs() {
+      this._super.apply(this, arguments);
+      for (var i = 0, attrLen = arguments.length; i < attrLen; i++) {
+        var newAttrs = arguments[i].newAttrs;
+        if (newAttrs) {
+          if (newAttrs.opt.value.get('newRecord')) {
+            /* set all events to null because this is a new record.*/
+            this.set('quoteEvent', null);
+            this.set('sampleEvent', null);
+            this.set('approvalEvent', null);
+            this.set('productionEvent', null);
+          }
+        }
+      }
+    },
+
+    /* A basic to every component click action handler which allows us to recognise
+     click event targets. We need thi because the semantic step ui triggers a click
+     without regard to wether a child element is clicked or a step ui element is clicked.
+     We need to know when the user clicks on the datepicker and when the user just changes
+     the opt's stage attribute.*/
     click: function click(event) {
       var targetAttr = event.target.attributes;
       for (var i = 0, attLen = targetAttr.length; i < attLen; i++) {
@@ -5548,7 +5601,7 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
       console.log('OPT DETAIL RENDER');
       this.markSteps();
     },
-
+    /* Called by the click action handler. */
     onStepClick: function onStepClick(value) {
       var _this = this;
 
@@ -5598,12 +5651,15 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
       });
     },
 
+    /* Triggered when there are leftover events in the opt which will not be used
+    after the current user change to the stage step component.*/
     deleteUncheckedEvents: function deleteUncheckedEvents(event) {
       var eventName = event.get('type') + 'Event';
       this.set(eventName, null);
       event.destroyRecord();
     },
 
+    /* A method used to manage css styles of the stage step UI*/
     markSteps: function markSteps() {
       var selectedStepId = this.stageSteps.findBy('label', this.opt.get('stage')).id;
       var sSteps = this.stageSteps;
@@ -8041,7 +8097,7 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["inline", "currency-format", [["get", "opp.potentialAnnualRev", ["loc", [null, [63, 34], [63, 56]]], 0, 0, 0, 0]], [], ["loc", [null, [63, 16], [63, 58]]], 0, 0]],
+            statements: [["inline", "format-currency", [["get", "opp.potentialAnnualRev", ["loc", [null, [63, 34], [63, 56]]], 0, 0, 0, 0]], [], ["loc", [null, [63, 16], [63, 58]]], 0, 0]],
             locals: [],
             templates: []
           };
@@ -8433,7 +8489,7 @@ define("apem/pods/opportunities/index/template", ["exports"], function (exports)
         morphs[4] = dom.createMorphAt(fragment, 11, 11, contextualElement);
         return morphs;
       },
-      statements: [["inline", "adv-search", [], ["class", "column", "filterParams", ["subexpr", "@mut", [["get", "filterParams", ["loc", [null, [14, 17], [14, 29]]], 0, 0, 0, 0]], [], [], 0, 0], "searchUsed", ["subexpr", "@mut", [["get", "isFiltering", ["loc", [null, [15, 15], [15, 26]]], 0, 0, 0, 0]], [], [], 0, 0], "doSearch", "filterOpportunities", "clearSearchFilter", "clearSearchFilter", "pullEntireCSV", "pullEntireCSV", "pullFilteredCSV", "pullFilteredCSV"], ["loc", [null, [12, 2], [19, 39]]], 0, 0], ["content", "model.meta.total-revenue", ["loc", [null, [24, 8], [24, 36]]], 0, 0, 0, 0], ["content", "model.meta.total-records", ["loc", [null, [28, 8], [28, 36]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [32, 16], [32, 27]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [32, 6], [32, 35]]], 0, 0]], [], 0, null, ["loc", [null, [32, 0], [85, 7]]]], ["content", "outlet", ["loc", [null, [87, 0], [87, 10]]], 0, 0, 0, 0]],
+      statements: [["inline", "adv-search", [], ["class", "column", "filterParams", ["subexpr", "@mut", [["get", "filterParams", ["loc", [null, [14, 17], [14, 29]]], 0, 0, 0, 0]], [], [], 0, 0], "searchUsed", ["subexpr", "@mut", [["get", "isFiltering", ["loc", [null, [15, 15], [15, 26]]], 0, 0, 0, 0]], [], [], 0, 0], "doSearch", "filterOpportunities", "clearSearchFilter", "clearSearchFilter", "pullEntireCSV", "pullEntireCSV", "pullFilteredCSV", "pullFilteredCSV"], ["loc", [null, [12, 2], [19, 39]]], 0, 0], ["inline", "format-currency", [["get", "model.meta.total-revenue", ["loc", [null, [24, 26], [24, 50]]], 0, 0, 0, 0]], [], ["loc", [null, [24, 8], [24, 52]]], 0, 0], ["content", "model.meta.total-records", ["loc", [null, [28, 8], [28, 36]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "is-equal", [["get", "defaultView", ["loc", [null, [32, 16], [32, 27]]], 0, 0, 0, 0], "list"], [], ["loc", [null, [32, 6], [32, 35]]], 0, 0]], [], 0, null, ["loc", [null, [32, 0], [85, 7]]]], ["content", "outlet", ["loc", [null, [87, 0], [87, 10]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -11739,7 +11795,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+1c37b319"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+1b246248"});
 }
 
 /* jshint ignore:end */

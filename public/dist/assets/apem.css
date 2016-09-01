@@ -53,6 +53,7 @@
   border:none !important;
   box-shadow: none;
   outline:none;
+  width: 82px;
 }
 /*.stage-date-editor:hover{
   background: #fff !important;
@@ -63,9 +64,14 @@
   border: none !important;
   font-weight: bold;
 }*/
-
-
+.confirm-delete-modal{
+  padding:10px;
+}
+.btn-margin4{
+  margin:2px 0 2px 8px !important;
+}
 .opportunity-form{
+  width:100%;
   max-height: calc(100vh - 130px);
   height: calc(100vh - 130px);
   overflow: auto;
@@ -260,7 +266,9 @@
   margin: 0 !important;
 }
 .adv-search-dropdown{
+  padding: 0px !important;
   height: 37px;
+  background:transparent !important;
   margin-left: -8px !important;
   border-bottom-left-radius: 0px !important;
   border-top-left-radius: 0px !important;
@@ -271,6 +279,14 @@
 }
 .adv-search-input{
   vertical-align: top;
+  height: 100% !important;
+}
+#dropTrigger{
+  padding: 12px 12px 12px 12px;
+  height: 100%;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  margin-left: -7px;
 }
 .adv-search-icon-left{
   left:0;
@@ -281,11 +297,11 @@
   border-radius: 0px !important;
   margin-left: -4px !important;
 }
-.menu.adv-search-menu.transition.visible {
-    /*left: -264px;*/
+/*.menu.adv-search-menu.transition.visible {
     left: -307px;
     width: 337px;
-}
+}*/
+
 .date-picker-btn{
   padding: 0.7em;
   width: 100%;
@@ -440,9 +456,10 @@
       width: 100%;
   }
 }
-@media (max-width:400px) {
+@media (max-width:414px) {
+
   .advanced-search-component{
-    margin:12px 0;
+    margin:12px 0 !important;
   }
   .download-csv-btn{
     width:100%;
