@@ -108,7 +108,7 @@ class CollectionMeta
      */
     public function setTotalRevenue($totalRevenue)
     {
-        setlocale(LC_MONETARY, 'en_US');
-        $this->totalRevenue = money_format('$%!n', $totalRevenue);
+        /*setlocale(LC_MONETARY, 'en_US');*/
+        $this->totalRevenue = /*money_format('$%!n', */$totalRevenue/*)*/;
     }
 }
