@@ -302,7 +302,7 @@ class OpportunitySeeder extends Seeder
             $newOpp                          = new \app\Models\Opportunity();
             $newOpp->user_id                 = $userArray[$faker->numberBetween($min = 0, $max = 3)]->id;
             $newOpp->draft                   = $faker->numberBetween($min = 0, $max = 1);
-            $newOpp->state                   = 'open';
+            $newOpp->state                   = 'Open';
             $newOpp->status                  = '';
             $newOpp->stage                   = 'quote';
             $newOpp->company                 = $faker->company;
