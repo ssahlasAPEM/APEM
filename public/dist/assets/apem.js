@@ -1605,11 +1605,15 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
         };
         this.sendAction('pullFilteredCSV', params);
       },
+
       clearSearch: function clearSearch() {
         this.toggleProperty('searchUsed');
         this.set('searchString', '');
-        this.set('searchedStatus', ''), this.set('searchedState', ''), this.sendAction('clearSearchFilter');
+        this.set('searchedStatus', '');
+        this.set('searchedState', '');
+        this.sendAction('clearSearchFilter');
       },
+
       onDateEntered: function onDateEntered(data) {
         this.set('dateEntered', data);
       },
@@ -4077,8 +4081,6 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
   exports['default'] = _ember['default'].Component.extend({
     identity: _ember['default'].inject.service(),
     store: _ember['default'].inject.service(),
-    //events:Ember.inject.service(),
-    // routing: Ember.inject.service('-routing'),
 
     //used addon ember-group-by to group our fields array by model attr group.
     fieldsByGroup: (0, _emberGroupBy['default'])('fields', 'group'),
@@ -5140,7 +5142,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               dom.setAttribute(el2, "class", "bold capitalize");
               var el3 = dom.createComment("");
               dom.appendChild(el2, el3);
-              var el3 = dom.createTextNode(" Date");
+              var el3 = dom.createTextNode(" ");
               dom.appendChild(el2, el3);
               dom.appendChild(el1, el2);
               var el2 = dom.createTextNode(": ");
@@ -5159,7 +5161,7 @@ define("apem/pods/components/opportunities/opt-form/template", ["exports"], func
               morphs[1] = dom.createMorphAt(element0, 2, 2);
               return morphs;
             },
-            statements: [["content", "evt.type", ["loc", [null, [182, 49], [182, 61]]], 0, 0, 0, 0], ["inline", "moment-format", [["get", "evt.date", ["loc", [null, [182, 92], [182, 100]]], 0, 0, 0, 0], "MMMM Do, YYYY"], [], ["loc", [null, [182, 76], [182, 118]]], 0, 0]],
+            statements: [["content", "evt.type", ["loc", [null, [182, 49], [182, 61]]], 0, 0, 0, 0], ["inline", "moment-format", [["get", "evt.date", ["loc", [null, [182, 88], [182, 96]]], 0, 0, 0, 0], "MMMM Do, YYYY"], [], ["loc", [null, [182, 72], [182, 114]]], 0, 0]],
             locals: ["evt"],
             templates: []
           };
@@ -5544,22 +5546,6 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
     approvalEvent: null,
     productionEvent: null,
 
-    didReceiveAttrs: function didReceiveAttrs() {
-      this._super.apply(this, arguments);
-      for (var i = 0, attrLen = arguments.length; i < attrLen; i++) {
-        var newAttrs = arguments[i].newAttrs;
-        if (newAttrs) {
-          if (newAttrs.opt.value.get('newRecord')) {
-            /* set all events to null because this is a new record.*/
-            this.set('quoteEvent', null);
-            this.set('sampleEvent', null);
-            this.set('approvalEvent', null);
-            this.set('productionEvent', null);
-          }
-        }
-      }
-    },
-
     /* A basic to every component click action handler which allows us to recognise
      click event targets. We need thi because the semantic step ui triggers a click
      without regard to wether a child element is clicked or a step ui element is clicked.
@@ -5621,7 +5607,7 @@ define('apem/pods/components/opportunities/stage-step/component', ['exports', 'e
               me.set(eventName, data);
             });
           }
-        } else if (value == 'production' && item.id == eventedStepId + 1) {
+        } else if (value === 'production' && item.id === eventedStepId + 1) {
           // If this is the last stage, we also want to set the date on this stage
           if (!myEvt) {
             myEvt = _this.get('store').createRecord('event', {
@@ -8091,7 +8077,7 @@ define('apem/pods/opportunities/index/route', ['exports', 'ember', 'apem/config/
           button.removeClass('loading');
           var anchor = document.createElement('a');
           anchor.href = resolve['csv-download'] + '?download';
-          anchor.target = '_blank';
+          anchor.target = 'self';
           anchor.click();
         });
       },
@@ -8111,7 +8097,7 @@ define('apem/pods/opportunities/index/route', ['exports', 'ember', 'apem/config/
           button.removeClass('loading');
           var anchor = document.createElement('a');
           anchor.href = resolve['csv-download'] + '?download';
-          anchor.target = '_blank';
+          anchor.target = 'self';
           anchor.click();
         });
       }
@@ -11948,7 +11934,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+51da85ac"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+ec32fde2"});
 }
 
 /* jshint ignore:end */
