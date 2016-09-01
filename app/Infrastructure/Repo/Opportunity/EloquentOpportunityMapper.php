@@ -391,6 +391,13 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             throw new ObjectNotFoundException($this->targetClass(), $object->getId());
         }
 
+        // If the new status is "Won", check to make sure required params exist
+        if($object->getStatus() == "Won") {
+            if(is_null($object->getProdSalesOrderNum()) || is_null($object->getCompany()) || $object->getCompany() == "" || $object->getProdSalesOrderNum() == "") {
+                throw new InvalidRequestException("Company and Sales Order Number is Required before this can be switched to a 'Won' status.");
+            }
+        }
+
         $model = $this->doStoreMapping($model, $object, true);
         $model->save();
 
