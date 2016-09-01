@@ -1523,7 +1523,6 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
     //   if(event.target.id === 'dropTrigger'){
     //     let parent = event.target.offsetParent;
     //     parent.fireEvent('drop');
-    //     debugger;
     //   }
     // },
     notUsingDates: (function () {
@@ -1537,7 +1536,6 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
       // b = this.get('startDate'),
       // c = this.get('endDate'),
       // d = this.get('estimatedProdDate');
-      // debugger;
       return this.get('lastThirtyDays') === true || this.get('startDate') !== '' || this.get('endDate') !== '' || this.get('estimatedProdDate') !== '' ? true : false;
     }).property('lastThirtyDays', 'startDate', 'endDate', 'estimatedProdDate'),
 
@@ -4162,7 +4160,7 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
             // );
           }
         });
-        debugger;
+
         //add validation to form
         _ember['default'].$('.opportunity-form').form({
           inline: false,
@@ -4286,7 +4284,7 @@ define('apem/pods/components/opportunities/opt-form/component', ['exports', 'emb
             opt.set('user', opt.get('userId'));
             opt.set('userId', opt.get('user.id'));
           }
-          var events = this.get('events');
+          //let events = this.get('events');
 
           this.sendAction('onOptSave', opt);
         }
@@ -11847,7 +11845,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+e069559c"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+4b5a4689"});
 }
 
 /* jshint ignore:end */
