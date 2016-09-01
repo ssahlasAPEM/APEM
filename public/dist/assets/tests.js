@@ -1399,7 +1399,7 @@ define('apem/tests/pods/components/adv-search/component.jshint', ['exports'], fu
   QUnit.module('JSHint - pods/components/adv-search/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/adv-search/component.js should pass jshint.');
+    assert.ok(false, 'pods/components/adv-search/component.js should pass jshint.\npods/components/adv-search/component.js: line 139, col 42, Expected an assignment or function call and instead saw an expression.\n\n1 error');
   });
 });
 define('apem/tests/pods/components/confirm-delete/component.jshint', ['exports'], function (exports) {
@@ -1489,7 +1489,7 @@ define('apem/tests/pods/components/opportunities/stage-step/component.jshint', [
   QUnit.module('JSHint - pods/components/opportunities/stage-step/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/opportunities/stage-step/component.js should pass jshint.');
+    assert.ok(false, 'pods/components/opportunities/stage-step/component.js should pass jshint.\npods/components/opportunities/stage-step/component.js: line 93, col 25, Expected \'===\' and instead saw \'==\'.\npods/components/opportunities/stage-step/component.js: line 93, col 52, Expected \'===\' and instead saw \'==\'.\n\n2 errors');
   });
 });
 define('apem/tests/pods/components/ui-form/ui-checkbox/component.jshint', ['exports'], function (exports) {
