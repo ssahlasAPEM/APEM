@@ -8111,6 +8111,24 @@ define('apem/pods/opportunities/index/route', ['exports', 'ember', 'apem/config/
       sortTable: function sortTable(column) {
         var me = this;
         var currFilter = this.get('filterParams');
+
+        if (currFilter === null) {
+          currFilter = {
+            searchedStatus: '', //default
+            searchedState: '',
+            lastThirtyDays: false,
+            dateEntered: '',
+            startDate: '',
+            endDate: '',
+            estimatedProdDate: '',
+            searchString: '',
+            orderBy: '',
+            orderDir: ''
+          };
+          this.set('filterParams', currFilter);
+          currFilter = this.get('filterParams');
+        }
+
         currFilter.orderBy = column;
         if (currFilter.orderDir === '') {
           currFilter.orderDir = 'asc';
@@ -12264,7 +12282,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+69e50094"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+da166f43"});
 }
 
 /* jshint ignore:end */
