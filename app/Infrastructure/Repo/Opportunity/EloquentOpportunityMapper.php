@@ -66,10 +66,19 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             );
         }
 
+        // Add orderBy and orderDir vars here to be set within loop
+        $orderBy = null;
+        $orderDir = null;
         foreach ($filter AS $key => $value) {
 
             if (strlen($value) > 0) {
                 switch ($key) {
+                    case 'orderBy':
+                        $orderBy = $value;
+                        break;
+                    case 'orderDir':
+                        $orderDir = $value;
+                        break;
                     case 'lastThirtyDays':
                         if ($value == 'true') {
                             $query    = $query->whereDate('created_at', '>=', date('Y-m-d', strtotime("-30 days")));
@@ -231,15 +240,27 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         }
 
         if(!is_null($limit) && !is_null($offset)) {
-            $results      = $query
-                ->orderBy('id', 'asc')
-                ->paginate($limit);
+            if(is_null($orderBy) || is_null($orderDir) || $orderBy == '' || $orderDir == '') {
+                $results      = $query
+                    ->orderBy('id', 'asc')
+                    ->paginate($limit);
+            } else {
+                $results      = $query
+                    ->orderBy($orderBy, $orderDir)
+                    ->paginate($limit);
+            }
             $collection = $this->getCollection($results->toArray()['data']);
             return $this->addMetaInfo($limit, $offset, $results->total(), $collection, $totalRevenue);
         } elseif(is_null($limit) && is_null($offset)) {
-            $results      = $query
-                ->orderBy('id', 'asc')
-                ->get();
+            if(is_null($orderBy) || is_null($orderDir) || $orderBy == '' || $orderDir == '') {
+                $results      = $query
+                    ->orderBy('id', 'asc')
+                    ->get();
+            } else {
+                $results      = $query
+                    ->orderBy($orderBy, $orderDir)
+                    ->get();
+            }
             $collection = $this->getCollection($results->toArray());
             return $this->addMetaInfo(null, null, null, $collection, $totalRevenue);
         }

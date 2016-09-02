@@ -48,6 +48,14 @@ class OpportunityController extends AbstractApiController
         $per_page = $request->get('per_page');
         $page = $request->get('page');
 
+        if ($request->get('orderBy') !== null && $request->get('orderBy') !== '') {
+            $filter['orderBy'] = $request->get('orderBy');
+        }
+
+        if ($request->get('orderDir') !== null && $request->get('orderDir') !== '') {
+            $filter['orderDir'] = $request->get('orderDir');
+        }
+
         if ($request->get('lastThirtyDays') !== null && $request->get('lastThirtyDays') !== '') {
             $filter['lastThirtyDays'] = $request->get('lastThirtyDays');
         }
