@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <base href="/" />
-<meta name="apem/config/environment" content="%7B%22modulePrefix%22%3A%22apem%22%2C%22environment%22%3A%22development%22%2C%22baseURL%22%3A%22/%22%2C%22podModulePrefix%22%3A%22apem/pods%22%2C%22locationType%22%3A%22history%22%2C%22contentSecurityPolicy%22%3A%7B%22default-src%22%3A%22%27self%27%20*%22%2C%22script-src%22%3A%22%27unsafe-inline%27%20%27unsafe-eval%27%20%27self%27%20https%3A//notify.bugsnag.com%20*%22%2C%22font-src%22%3A%22%27self%27%20*%20data%3A%3B%22%2C%22connect-src%22%3A%22%27self%27%20*%22%2C%22img-src%22%3A%22%27self%27%20data%3A%20*%22%2C%22style-src%22%3A%22%27unsafe-inline%27%20%27self%27%20*%22%2C%22media-src%22%3A%22%27self%27%20*%22%7D%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22usingCors%22%3Atrue%2C%22apiUrl%22%3A%22http%3A//apem.herokuapp.com%22%2C%22name%22%3A%22apem%22%2C%22version%22%3A%220.0.0+da166f43%22%7D%2C%22ember-cli-mirage%22%3A%7B%22enabled%22%3Afalse%2C%22usingProxy%22%3Afalse%7D%2C%22contentSecurityPolicyHeader%22%3A%22Content-Security-Policy-Report-Only%22%2C%22something%22%3A%22test%22%7D" />
+<meta name="apem/config/environment" content="%7B%22modulePrefix%22%3A%22apem%22%2C%22environment%22%3A%22development%22%2C%22baseURL%22%3A%22/%22%2C%22podModulePrefix%22%3A%22apem/pods%22%2C%22locationType%22%3A%22history%22%2C%22contentSecurityPolicy%22%3A%7B%22default-src%22%3A%22%27self%27%20*%22%2C%22script-src%22%3A%22%27unsafe-inline%27%20%27unsafe-eval%27%20%27self%27%20https%3A//notify.bugsnag.com%20*%22%2C%22font-src%22%3A%22%27self%27%20*%20data%3A%3B%22%2C%22connect-src%22%3A%22%27self%27%20*%22%2C%22img-src%22%3A%22%27self%27%20data%3A%20*%22%2C%22style-src%22%3A%22%27unsafe-inline%27%20%27self%27%20*%22%2C%22media-src%22%3A%22%27self%27%20*%22%7D%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22usingCors%22%3Atrue%2C%22apiUrl%22%3A%22http%3A//apem.herokuapp.com%22%2C%22name%22%3A%22apem%22%2C%22version%22%3A%220.0.0+a05332a3%22%7D%2C%22ember-cli-mirage%22%3A%7B%22enabled%22%3Afalse%2C%22usingProxy%22%3Afalse%7D%2C%22contentSecurityPolicyHeader%22%3A%22Content-Security-Policy-Report-Only%22%2C%22something%22%3A%22test%22%7D" />
 
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/apem.css">
@@ -29,6 +29,7 @@
       /*width: 2.28571429rem;
       height: 2.28571429rem;*/
       width: 50px;
+      height: 50px;
       left: 49.94%;
       margin: 0 0 0 -6.342857rem;
       margin-top: 39.80vh;
@@ -46,11 +47,12 @@
       text-align: center;
       margin-top: 40vh;
     }
-    .loading-spin:after {
+
+    .loading-spin:after{
       position: absolute;
       content: '';
       top: 0;
-      left: 50%;
+      left: 49.94%;
       -webkit-animation: loader .6s linear;
       animation: loader .6s linear;
       -webkit-animation-iteration-count: infinite;
@@ -61,12 +63,6 @@
       border-width: .2em;
       box-shadow: 0 0 0 1px #0000;
     }
-    /*.loading-spin.loader {
-      width: auto!important;
-      height: auto!important;
-      text-align: center;
-      font-style: normal;
-    }*/
     </style>
 
     
