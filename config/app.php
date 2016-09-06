@@ -166,7 +166,7 @@ return [
         \Collective\Html\HtmlServiceProvider::class,
         \Collective\Bus\BusServiceProvider::class,
         \Maatwebsite\Excel\ExcelServiceProvider::class,
-
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
     ],
 
     /*
