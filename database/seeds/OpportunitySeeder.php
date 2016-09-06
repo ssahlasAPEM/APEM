@@ -786,7 +786,7 @@ class OpportunitySeeder extends Seeder
             $newOpp->contact_phone           = $faker->phoneNumber;
             $newOpp->contact_email           = $faker->email;
             $newOpp->sales_rep_agent         = $faker->name;
-            $newOpp->distributor             = $faker->company;
+            $newOpp->distributor             = $suppliers[ array_rand($suppliers) ][0];
             $newOpp->apem_sales_person       = $apemSalesPerson[ array_rand($apemSalesPerson) ];
             $newOpp->sra_sales_rep           = $faker->name;
             $newOpp->distributor_salesperson = $faker->name;
