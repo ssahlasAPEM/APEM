@@ -1,6 +1,7 @@
 <?php namespace app\Exceptions;
 
 use app\Http\ErrorResponseFactory;
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -31,7 +32,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $error)
     {
-        //app('Bugsnag')->notifyException($error, []);
+        Bugsnag::notifyException($error);
         //return parent::report($error);
     }
 

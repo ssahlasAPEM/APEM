@@ -149,6 +149,11 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
+         * Bugsnag
+         */
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
+
+        /*
          * Application Service Providers...
          */
         app\Providers\AppServiceProvider::class,
@@ -166,7 +171,6 @@ return [
         \Collective\Html\HtmlServiceProvider::class,
         \Collective\Bus\BusServiceProvider::class,
         \Maatwebsite\Excel\ExcelServiceProvider::class,
-        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
     ],
 
     /*
@@ -186,6 +190,7 @@ return [
         'Artisan'   => Illuminate\Support\Facades\Artisan::class,
         'Auth'      => Illuminate\Support\Facades\Auth::class,
         'Blade'     => Illuminate\Support\Facades\Blade::class,
+        'Bugsnag'   => \Bugsnag\BugsnagLaravel\BugsnagFacade::class,
         'Cache'     => Illuminate\Support\Facades\Cache::class,
         'Config'    => Illuminate\Support\Facades\Config::class,
         'Cookie'    => Illuminate\Support\Facades\Cookie::class,
