@@ -766,6 +766,32 @@ class OpportunitySeeder extends Seeder
             'Unknown'
         ];
 
+        $salesRepAgent = [
+            'FR- Firm 1',
+            'FR- Firm 2',
+            'FR- Firm 3',
+            'FR- Firm 4',
+            'FR- Firm 5',
+            'US- All-Tech',
+            'US- APEM Direct',
+            'US- Synergy Sales',
+            'US- ECS (Electronic Component Sales)',
+            'US- W28',
+            'US- Intercompany',
+            'US- Xtronics',
+            'US- Dytec-NCI',
+            'US- Graham Performance Tech',
+            'US- Rendell Sales',
+            'US- Synergistic Component Sales',
+            'US- ODonnell',
+            'US- Mindshare',
+            'US- Recht Associates',
+            'US- CentraMark',
+            'US- Wallace',
+            'US- English Damco Sales Co. ',
+            'US- Centech Inc.'
+        ];
+
         $userArray = \app\Models\User::all();
 
         for ($i = 0; $i < $numOpps; $i ++) {
@@ -785,7 +811,7 @@ class OpportunitySeeder extends Seeder
             $newOpp->contact_title           = $faker->title;
             $newOpp->contact_phone           = $faker->phoneNumber;
             $newOpp->contact_email           = $faker->email;
-            $newOpp->sales_rep_agent         = $faker->name;
+            $newOpp->sales_rep_agent         = $salesRepAgent[ array_rand($salesRepAgent) ];
             $newOpp->distributor             = $suppliers[ array_rand($suppliers) ][0];
             $newOpp->apem_sales_person       = $apemSalesPerson[ array_rand($apemSalesPerson) ];
             $newOpp->sra_sales_rep           = $faker->name;
@@ -802,7 +828,7 @@ class OpportunitySeeder extends Seeder
             $newOpp->apem_part_num           = $faker->randomNumber(null);
             $newOpp->brief_description       = $faker->bs;
             $newOpp->extended_description    = $faker->bs;
-            $newOpp->current_supplier        = $suppliers[ array_rand($suppliers) ][0];
+            $newOpp->current_supplier        = $competitors[ array_rand($competitors) ][0];
             $newOpp->competitors             = $competitors[ array_rand($competitors) ][0];
             $newOpp->year1_sales_vol         = $faker->randomNumber(null);
             $newOpp->year2_sales_vol         = $faker->randomNumber(null);
@@ -820,7 +846,7 @@ class OpportunitySeeder extends Seeder
             $newOpp->prod_sales_order_num    = $faker->randomNumber(null);
             $newOpp->reason_for_win          = $faker->bs;
             $newOpp->date_lost               = $faker->dateTimeThisYear($max = 'now');
-            $newOpp->lost_to_whom            = $faker->company;
+            $newOpp->lost_to_whom            = $competitors[ array_rand($competitors) ][0];
             $newOpp->reason_for_loss         = null;
             $newOpp->comment_field           = $faker->bs;
             $newOpp->created_at              = $faker->dateTimeThisYear($max = 'now');
