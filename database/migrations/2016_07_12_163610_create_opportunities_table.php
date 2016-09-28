@@ -22,7 +22,6 @@ class CreateOpportunitiesTable extends Migration
             $table->string('status')->nullable();
             $table->string('stage')->default('quote');
             $table->string('company')->nullable();
-            $table->string('cust_project_name')->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('state_county')->nullable();
