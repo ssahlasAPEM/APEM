@@ -39,28 +39,28 @@ class AdminUserSeeder extends Seeder
             [
                 'username' => 'NeilMurphy',
                 'password' => 'NeilMurphy',
-                'type'     => 'Admin',
+                'type'     => 'User',
                 'active'   => true
             ],
 
             [
                 'username' => 'BobPiotrowski',
                 'password' => 'BobPiotrowski',
-                'type'     => 'Admin',
+                'type'     => 'User',
                 'active'   => true
             ],
 
             [
                 'username' => 'BryanMurphy',
                 'password' => 'BryanMurphy',
-                'type'     => 'Admin',
+                'type'     => 'User',
                 'active'   => true
             ],
 
             [
                 'username' => 'PeterBrouillette',
                 'password' => 'PeterBrouillette',
-                'type'     => 'Admin',
+                'type'     => 'User',
                 'active'   => true
             ],
 
@@ -81,7 +81,7 @@ class AdminUserSeeder extends Seeder
             [
                 'username' => 'StephenSahlas',
                 'password' => 'StephenSahlas',
-                'type'     => 'User',
+                'type'     => 'Admin',
                 'active'   => true
             ],
 
