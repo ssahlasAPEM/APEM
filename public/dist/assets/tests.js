@@ -1402,6 +1402,15 @@ define('apem/tests/pods/components/adv-search/component.jshint', ['exports'], fu
     assert.ok(true, 'pods/components/adv-search/component.js should pass jshint.');
   });
 });
+define('apem/tests/pods/components/confirm-cancel/component.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint - pods/components/confirm-cancel/component.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/confirm-cancel/component.js should pass jshint.');
+  });
+});
 define('apem/tests/pods/components/confirm-delete/component.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -1699,15 +1708,6 @@ define('apem/tests/pods/users/index/route.jshint', ['exports'], function (export
     assert.ok(true, 'pods/users/index/route.js should pass jshint.');
   });
 });
-define('apem/tests/pods/users/new/controller.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint - pods/users/new/controller.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'pods/users/new/controller.js should pass jshint.');
-  });
-});
 define('apem/tests/pods/users/new/route.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -1733,15 +1733,6 @@ define('apem/tests/pods/users/user/controller.jshint', ['exports'], function (ex
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'pods/users/user/controller.js should pass jshint.');
-  });
-});
-define('apem/tests/pods/users/user/detail/controller.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint - pods/users/user/detail/controller.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'pods/users/user/detail/controller.js should pass jshint.');
   });
 });
 define('apem/tests/pods/users/user/detail/route.jshint', ['exports'], function (exports) {

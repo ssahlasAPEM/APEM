@@ -1,23 +1,29 @@
+
 .ember-application .loading-spin.no-ember {
   display: none;
 }
+.no-before:before{
+  display:none;
+}
 .spacer {
-    width: calc(100% - 650px);
+    width: calc(100% - 658px);
     display: inline-block;
 }
-.right.floated .del-btn{
-  float:right;
+.no-padding{
+  padding:0px;
 }
-.right.floated .del-btn:after{
-  clear:both;
+.form-header-tools {
+    min-height: 0px !important;
 }
 .capitalize{
   text-transform: capitalize;
 }
 .new-nao-btn{
-  margin-left: auto;
-  padding: 6px;
-  margin-right: auto;
+  margin-left: auto !important;
+  margin-bottom: auto !important;
+  margin-top: auto !important;
+  /*padding: 6px;*/
+  height: 37px;
 }
 .bold{
   font-weight: bold;
@@ -31,34 +37,47 @@
 .dark-gray-bg{
   background: #c3c3c3 !important;
 }
-.side-padded-fourteen{
-  padding-left: 14px;
-  padding-right: 14px;
-}
 .backburner label{
   position: absolute !important;
   left: 13px;
 }
-.pusher-window {
+
+body{
   height:100vh;
   overflow: hidden;
 }
-.fixed-content{
-  height: calc(100% - 60px);
+.pusher-window {
+  height: 100vh;/* calc(100vh - 60px);*/
   overflow: hidden;
 }
+.fixed-content{
+  /*margin-top: 48px;*/
+  height: calc(100% - 48px);
+  overflow: auto;
+}
+.main-grid{
+  overflow: auto;
+  height: 100%;
+}
+/*.ember-application{
+  overflow:hidden;
+  height: 100%;
+}
+
+
 .opp-table, .usr-table{
   height: calc(100% - 160px);
   overflow: auto;
   width: 100%;
-}
+}*/
+
 .fld-table {
   height: 100%;
   width: 100%;
 }
 .fld-table .table-wrap{
   height: 100%;
-  overflow: auto;
+  /*overflow: auto;*/
   width: 100%;
 }
 
@@ -80,6 +99,12 @@
   position: relative;
   z-index:1;
 }
+
+.right-confirm-btn{
+  float: right;
+  margin-right: 0em;
+  margin-left: 0.25em;
+}
 /*.stage-date-editor:hover{
   background: #fff !important;
   border: 1px solid #22242626 !important;
@@ -89,7 +114,7 @@
   border: none !important;
   font-weight: bold;
 }*/
-.confirm-delete-modal{
+.confirm-delete-modal, .confirm-cancel-modal{
   padding:10px;
 }
 .btn-margin4{
@@ -97,30 +122,34 @@
 }
 .opportunity-form{
   width:100%;
-  max-height: calc(100vh - 130px);
-  height: calc(100vh - 130px);
-  overflow: auto;
-  overflow-x: hidden;
+  /*max-height: calc(100vh - 130px);
+  height: calc(100vh - 130px);*/
+  /*overflow: auto;
+  overflow-x: hidden;*/
 }
-.form-heder-margin{
+/*.form-heder-margin{
   margin-top: 60px;
-}
-.form-header-tools{
+}*/
+/*.form-header-tools{
   padding: 0 14px;
-  position: fixed;
-  top: 70px;
+  top: 60px;
   left: 0;
   right: 18px;
   float: right;
   z-index: 800;
   padding-bottom: 4px;
+}*/
+.opt-detail-title{
+  font-weight: bold;
+  font-size: 18px;
 }
 .form-header-tools-bg{
   background-color: white;
 }
 .logo-wrapper{
   width: 260px;
-  height: 49px;
+  height: 48px;
+  overflow: hidden;
   background: white;
   //padding-top: 10%;
   //padding-bottom: 10%;
@@ -132,7 +161,10 @@
   width: auto;
 }
 .seventy-p{
-  width: 70%;
+    width: calc(100% - 60px);
+}
+.fifty-p{
+  width: calc(100% - 97px);
 }
 .small-placeholder{
   width: calc( 58% - 340px);
@@ -186,9 +218,8 @@
 .sm-margin-btn{
   margin-left: 8px !important;
 }
-/* Target all children of home-sidebar*/
-.home-sidebar *{
-
+.ui.table td {
+  word-wrap: break-word;
 }
 .home-sidebar, .home-navbar{
   background-color: white !important;
@@ -196,7 +227,6 @@
 .home-sidebar img{
   display:block;
   margin:0 auto;
-  //width: 100%;
 }
 .home-sidebar.ui.vertical.menu .active.item, .home-sidebar.ui.vertical.menu .active.item:hover,
 .home-sidebar.ui.vertical.menu .item:hover{
@@ -211,9 +241,14 @@
   margin-bottom: 4px;
 }
 .nav-header-menu{
-  height: 50px !important;
+  /*height: 50px !important;*/
   border-radius: 0px !important;
   border-left: 0px !important;
+  /*position: fixed;
+  z-index: 9;
+  left: 0;
+  right: 0;*/
+  /*top: 58px;*/
 }
 .nav-header-menu .item:before{
   width: 0px !important;
@@ -239,11 +274,16 @@
   width: calc(100% - 260px);
   background: #fdfdfd;
 }
-
+i.trash.icon.no-padding {
+    margin-bottom: 3px;
+}
 .ui-main .ui-content {
   padding: 20px;
 }
 
+button.ui.small.button.del-btn {
+    padding-top: 11px;
+}
 .ui.attached.menu {
   height: 100px;
   padding-left: 0px;
@@ -452,6 +492,10 @@
 .no-border-radius{
   border-radius: 0 !important;
 }
+.no-border, .no-box-shadow{
+  box-shadow: none !important;
+  border: none !important;
+}
 
 /* Link styles */
 .ui.vertical.menu .menu .item, a, a:hover, a:active, a:visited {
@@ -477,6 +521,23 @@
 .table-wrap .ui.table.table-body {
   padding-bottom: 25px;
 }
+
+.ui.sortable.table thead th.sorted {
+    white-space: normal;
+    word-wrap: normal;
+}
+
+.top .fixed{
+  position: fixed;
+  left: 0;
+  right: 0;
+}
+.ui.right.stackable.menu.no-border.no-box-shadow button,
+.ui.right.stackable.menu.no-border.no-box-shadow input {
+    margin-bottom: 6px;
+}
+/*MEDIA ********************************************/
+
 @media (max-width:970px) {
 
 }
@@ -492,6 +553,10 @@
   }
 }
 @media (min-width: 840px){
+  /*.fixed-content {
+      height: calc(100vh - 150px);
+  }*/
+
   .adv-search-dropdown{
     margin-bottom:14px;
   }
@@ -534,20 +599,37 @@
   }
 }
 @media (min-width: 769px) {
+  /* Hide home navbar from this point down the width size.
+  This should be performed with semantic but it does not work to perfection
+  so the below fix was included.*/
   .mobile.tablet.only.row.home-navbar{
     display:none;
   }
-}
 
+}
+@media (max-width: 769px) {
+  .del-btn{
+    width: 100%;
+  }
+  .conf-delte{
+    margin-right: 3px;
+  }
+}
 @media (max-width: 768px) {
+  /*.pusher-window {
+       height: auto;
+      overflow: auto;
+  }*/
   .adv-search-dropdown{
     width: auto;
   }
   .meta{
     padding-left: 10px;
+    font-size: 18px;
+    /*font-weight: 500;*/
   }
   .meta span{
-    font-size: 16px;
+    font-size: 20px;
   }
   .download-csv-btn{
     float:right !important;
@@ -600,10 +682,44 @@
   .nav-header-menu{
     height: auto !important;
   }
+  .form-header-tools{
+    top:100px;
+  }
+  .fixed-content {
+      height: calc(100% - 188px);
+      /*margin-top: 108px;*/
+  }
+  .ui.steps .step > .icon {
+    display: inline-block;
+    float: left;
+  }
+  .ui.steps .step > .content {
+    display: inline-block;
+    float: left;
+  }
 }
+@media only screen and (max-width: 767px){
+  .ui.table:not(.unstackable) tr {
+      box-shadow: none !important;
+  }
+}
+@media (min-width:769px) and (max-width: 900px) {
+  .step .title{
+    font-size: 1em !important;
+  }
+  .step .description{
+    font-size: 0.8em !important;
+  }
+  .ui.steps .step > .icon {
+    font-size: 1em;
+    margin: 0 2px 0 6px;
+  }
+}
+
 @media (max-width:576px) {
   .adv-search-dropdown{
-    width: 100%;
+    width: calc(100% - 14px);
+    margin-left: 0 !important;
   }
   .download-csv-btn{
     float:none !important;
@@ -621,11 +737,7 @@
   .download-csv-btn{
     width:100%;
   }
-  .secondary-header-dropdown-item{
-    position: absolute !important;
-    right: 0px;
-    top: 0px;
-  }
+
 }
 
 
