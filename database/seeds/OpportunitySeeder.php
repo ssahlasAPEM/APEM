@@ -802,7 +802,7 @@ class OpportunitySeeder extends Seeder
         ];
 
         $userArray = \app\Models\User::all();
-
+/*
         for ($i = 0; $i < $numOpps; $i ++) {
             $newOpp                          = new \app\Models\Opportunity();
             $newOpp->user_id                 = $userArray[$faker->numberBetween($min = 0, $max = 3)]->id;
@@ -867,6 +867,7 @@ class OpportunitySeeder extends Seeder
             $createEvent->opportunity_id = $newOpp->id;
             $createEvent->save();
         }
+*/
     }
 
 }
