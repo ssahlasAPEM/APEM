@@ -18,45 +18,46 @@ class CreateOpportunitiesTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->boolean('draft')->default(true);
-            $table->string('state')->default('open');
+            $table->string('state')->default('Open');
             $table->string('status')->nullable();
             $table->string('stage')->default('quote');
-            $table->string('company')->nullable(); // Nullable
+            $table->string('company')->nullable();
+            $table->string('cust_project_name')->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('state_county')->nullable();
             $table->string('mail_code')->nullable();
-            $table->string('country')->nullable(); // Nullable
+            $table->string('country')->nullable();
             $table->string('contact_name')->nullable();
             $table->string('contact_title')->nullable();
             $table->string('contact_phone')->nullable();
             $table->string('contact_email')->nullable();
             $table->string('sales_rep_agent')->nullable();
             $table->string('distributor')->nullable();
-            $table->string('apem_sales_person')->nullable(); // Nullable
+            $table->string('apem_sales_person')->nullable();
             $table->string('sra_sales_rep')->nullable();
             $table->string('distributor_salesperson')->nullable();
-            $table->string('industry')->nullable(); // Nullable
-            $table->string('application')->nullable(); // Nullable
-            $table->string('reason_for_opp')->nullable(); // Nullable
+            $table->string('industry')->nullable();
+            $table->string('application')->nullable();
+            $table->string('reason_for_opp')->nullable();
             $table->string('function')->nullable();
-            $table->string('catalog_product')->nullable();
+            $table->boolean('catalog_product')->default(false);
             $table->string('catalog_part_num')->nullable();
             $table->string('customer_part_num')->nullable();
-            $table->string('product_type')->nullable(); // Nullable
-            $table->string('product_series')->nullable(); // Nullable
+            $table->string('product_type')->nullable();
+            $table->string('product_series')->nullable();
             $table->string('apem_part_num')->nullable();
             $table->string('brief_description')->nullable();
             $table->string('extended_description')->nullable();
-            $table->string('current_supplier')->nullable(); // Nullable
-            $table->string('competitors')->nullable(); // Nullable
-            $table->string('year1_sales_vol')->nullable(); // Nullable
-            $table->string('year2_sales_vol')->nullable(); // Nullable
+            $table->string('current_supplier')->nullable();
+            $table->string('competitors')->nullable();
+            $table->string('year1_sales_vol')->nullable();
+            $table->string('year2_sales_vol')->nullable();
             $table->string('year3_sales_vol')->nullable();
             $table->string('currency')->nullable();
-            $table->string('target_sales_price')->nullable(); // Nullable
+            $table->string('target_sales_price')->nullable();
             $table->string('potential_annual_rev')->nullable();
-            $table->string('probability_of_win')->nullable(); // Nullable
+            $table->string('probability_of_win')->nullable();
             $table->string('expected_value')->nullable();
             $table->date('quote_date')->nullable();
             $table->date('sample_date')->nullable();

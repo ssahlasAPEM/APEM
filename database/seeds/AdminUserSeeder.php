@@ -29,27 +29,6 @@ class AdminUserSeeder extends Seeder
                 'active'   => true
             ],
 
-            /*[
-                'username' => 'eric@curiousm.com',
-                'password' => 'stardog182',
-                'type'     => 'Admin',
-                'active'   => true
-            ],*/
-
-            [
-                'username' => 'andrew@curiousm.com',
-                'password' => 'password',
-                'type'     => 'Admin',
-                'active'   => true
-            ],
-
-            [
-                'username' => 'ralica@curiousm.com',
-                'password' => 'password',
-                'type'     => 'Admin',
-                'active'   => true
-            ],
-
             [
                 'username' => 'TestHarness',
                 'password' => 'X9Z2gPd9',
@@ -57,75 +36,61 @@ class AdminUserSeeder extends Seeder
                 'active'   => true
             ],
 
-            /*[
-                'username' => 'Ennio',
-                'password' => 'ennio',
+            [
+                'username' => 'NeilMurphy',
+                'password' => 'NeilMurphy',
                 'type'     => 'Admin',
                 'active'   => true
             ],
 
             [
-                'username' => 'Peter',
-                'password' => 'peter',
+                'username' => 'BobPiotrowski',
+                'password' => 'BobPiotrowski',
                 'type'     => 'Admin',
                 'active'   => true
             ],
 
             [
-                'username' => 'Steve',
-                'password' => 'steve',
+                'username' => 'BryanMurphy',
+                'password' => 'BryanMurphy',
                 'type'     => 'Admin',
                 'active'   => true
             ],
 
             [
-                'username' => 'EVerderese',
-                'password' => 'victoria',
+                'username' => 'PeterBrouillette',
+                'password' => 'PeterBrouillette',
                 'type'     => 'Admin',
                 'active'   => true
             ],
 
             [
-                'username' => 'Ahomonoff',
-                'password' => 'ahomonoff',
+                'username' => 'AllenHomonoff',
+                'password' => 'AllenHomonoff',
                 'type'     => 'User',
                 'active'   => true
             ],
 
             [
-                'username' => 'Crobinson',
-                'password' => 'crobinson',
+                'username' => 'BambiTierney',
+                'password' => 'BambiTierney',
                 'type'     => 'User',
                 'active'   => true
             ],
 
             [
-                'username' => 'Mpalmerino',
-                'password' => 'mpalmerino',
+                'username' => 'StephenSahlas',
+                'password' => 'StephenSahlas',
                 'type'     => 'User',
                 'active'   => true
             ],
 
             [
-                'username' => 'Pbrouillette',
-                'password' => 'pbrouillette',
+                'username' => 'TonySolis',
+                'password' => 'TonySolis',
                 'type'     => 'User',
                 'active'   => true
-            ],
-
-            [
-                'username' => 'Tbillings',
-                'password' => 'tbillings',
-                'type'     => 'User',
-                'active'   => true
-            ],
-
-            [
-                'username' => 'tsolis',
-                'password' => 'switch',
-                'type'     => 'User',
-                'active'   => true
-            ]*/
+            ]
         ];
 
         DB::table('users')->delete();
