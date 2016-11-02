@@ -40,7 +40,7 @@ class CreateOpportunitiesTable extends Migration
             $table->string('application')->nullable();
             $table->string('reason_for_opp')->nullable();
             $table->string('function')->nullable();
-            $table->boolean('catalog_product')->default(false);
+            $table->boolean('catalog_product')->default(true);
             $table->string('catalog_part_num')->nullable();
             $table->string('customer_part_num')->nullable();
             $table->string('product_type')->nullable();

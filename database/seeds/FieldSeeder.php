@@ -1286,7 +1286,7 @@ class FieldSeeder extends Seeder
                 'required' => false,
                 'visible'  => true
             ],
-            [
+            /*[
                 'label'    => 'Quote Date',
                 'name'     => 'quoteDate',
                 'type'     => 'date',
@@ -1325,7 +1325,7 @@ class FieldSeeder extends Seeder
                 'options'  => null,
                 'required' => false,
                 'visible'  => true
-            ],
+            ],*/
             [
                 'label'    => 'Estimated Prod Date',
                 'name'     => 'estimatedProdDate',
@@ -1363,9 +1363,8 @@ class FieldSeeder extends Seeder
                 'required' => false,
                 'visible'  => true
             ],
-
             [
-                'label'    => 'DateLost',
+                'label'    => 'Date Lost',
                 'name'     => 'dateLost',
                 'type'     => 'date',
                 'group'    => 'Milestones',
