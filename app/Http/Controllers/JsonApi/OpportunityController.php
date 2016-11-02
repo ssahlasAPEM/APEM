@@ -91,23 +91,27 @@ class OpportunityController extends AbstractApiController
         if (is_null($filter)) {
             if(is_null($page) || is_null($per_page)) {
                 $response = $this->service->fetchAll();
+                dd("test1");
             } elseif(!is_null($page) || !is_null($per_page)) {
                 $response = $this->service->fetchPage(
                     $request->get('per_page'),
                     $request->get('page')
                 );
+                dd("test2");
             }
         } elseif (!is_null($filter)) {
             if(is_null($page) || is_null($per_page)) {
                 $response = $this->service->fetchAllFiltered(
                     $filter
                 );
+                dd("test3");
             } elseif(!is_null($page) || !is_null($per_page)) {
                 $response = $this->service->fetchPageFiltered(
                     $request->get('per_page'),
                     $request->get('page'),
                     $filter
                 );
+                dd("test4");
             }
         }
 
@@ -176,7 +180,6 @@ class OpportunityController extends AbstractApiController
     public function generateCSV(ListRequest $request)
     {
         $results = $this->index($request, true);
-        dd($results);
 
         Excel::create(Auth::user()->id . '_nao_opportunities', function($excel) use (&$results) {
             $excel->sheet('NAO Opportunities', function($sheet) use (&$results) {
