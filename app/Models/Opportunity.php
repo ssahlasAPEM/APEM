@@ -83,4 +83,10 @@ class Opportunity extends Model
         'updated_at',
         'deleted_at'
     ];
+
+    /* We need to disable date mutators, because they brake toArray function on this model */
+    public function getDates()
+    {
+        return array();
+    }
 }
