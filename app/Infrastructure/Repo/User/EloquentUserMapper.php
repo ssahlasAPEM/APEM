@@ -36,7 +36,7 @@ class EloquentUserMapper extends AbstractEloquentMapper implements UserInterface
     public function find($dbId)
     {
         if(Auth::user()->type !== 'Admin' && Auth::user()->id !== $dbId) {
-            throw new ForbiddenException("Not Authorized.");
+            throw new ForbiddenException("Not Authorized. " . Auth::user()->id . " : " . $dbId);
         }
 
         return parent::find($dbId);
