@@ -51,4 +51,12 @@ class User extends \app\User
         'updated_at',
         'deleted_at'
     ];
+
+    /**
+     * Get the opportunities for the user.
+     */
+    public function opportunities()
+    {
+        return $this->hasMany('app\Models\Opportunity');
+    }
 }

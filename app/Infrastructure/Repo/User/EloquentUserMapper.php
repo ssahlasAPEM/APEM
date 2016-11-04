@@ -36,7 +36,7 @@ class EloquentUserMapper extends AbstractEloquentMapper implements UserInterface
     public function find($dbId)
     {
         if(Auth::user()->type != 'Admin' && Auth::user()->id != $dbId) {
-            throw new ForbiddenException("Not Authorized. " . Auth::user()->id . " : " . $dbId);
+            throw new ForbiddenException("Not Authorized.");
         }
 
         return parent::find($dbId);
@@ -53,7 +53,7 @@ class EloquentUserMapper extends AbstractEloquentMapper implements UserInterface
      */
     public function update(DomainEntity $object)
     {
-        if(Auth::user()->type !== 'Admin' && Auth::user()->id != $object->getId()) {
+        if(Auth::user()->type != 'Admin' && Auth::user()->id != $object->getId()) {
             throw new ForbiddenException("Not Authorized.");
         }
 
@@ -72,7 +72,7 @@ class EloquentUserMapper extends AbstractEloquentMapper implements UserInterface
      */
     public function searchByNamePaginated($limit, $offset, $name)
     {
-        if(Auth::user()->type !== 'Admin') {
+        if(Auth::user()->type != 'Admin') {
             throw new ForbiddenException("Not Authorized.");
         }
 
@@ -97,7 +97,7 @@ class EloquentUserMapper extends AbstractEloquentMapper implements UserInterface
      */
     public function findAllPaginated($limit, $page)
     {
-        if(Auth::user()->type !== 'Admin') {
+        if(Auth::user()->type != 'Admin') {
             throw new ForbiddenException("Not Authorized.");
         }
 
@@ -113,7 +113,7 @@ class EloquentUserMapper extends AbstractEloquentMapper implements UserInterface
      */
     public function create($user)
     {
-        if(Auth::user()->type !== 'Admin') {
+        if(Auth::user()->type != 'Admin') {
             throw new ForbiddenException("Not Authorized.");
         }
 
@@ -141,7 +141,7 @@ class EloquentUserMapper extends AbstractEloquentMapper implements UserInterface
      */
     public function findAll()
     {
-        if(Auth::user()->type !== 'Admin') {
+        if(Auth::user()->type != 'Admin') {
             throw new ForbiddenException("Not Authorized.");
         }
         return parent::findall();

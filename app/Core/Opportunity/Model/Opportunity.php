@@ -10,6 +10,7 @@
 use app\Core\DomainEntity;
 use app\Core\Event\Model\Event;
 use app\Exceptions\InvalidRequestException;
+use app\Models\User;
 
 /**
  * Class Opportunity
@@ -19,6 +20,7 @@ class Opportunity extends DomainEntity
 {
 
     private $userId;
+    private $userName;
     private $draft;
     private $state;
     private $status;
@@ -73,8 +75,8 @@ class Opportunity extends DomainEntity
     private $commentField;
 
     /**
-     * @return mixed
-     */
+ * @return mixed
+ */
     public function getUserId()
     {
         return $this->userId;
@@ -86,6 +88,21 @@ class Opportunity extends DomainEntity
     public function setUserId($userId)
     {
         $this->userId = $userId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserName()
+    {
+        $user = User::where('id','=',$this->userId)->first();
+        $this->userName = $user->username;
+        return $this->userName;
+    }
+    public function setUserName()
+    {
+        $user = User::where('id','=',$this->userId)->first();
+        $this->userName = $user->username;
     }
 
     /**

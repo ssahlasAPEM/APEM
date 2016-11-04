@@ -202,6 +202,7 @@ return [
             'reason-for-loss'         => ['ReasonForLoss', Flags::NONE],
             'comment-field'           => ['CommentField', Flags::NONE],
             'user-id'                 => ['UserId', Flags::NONE],
+            'user-name'               => ['UserName', Flags::NONE],
         ],
 
         'eloquentToDomainEntity' => [
@@ -257,6 +258,7 @@ return [
             'reason_for_loss'         => ['ReasonForLoss', Flags::NONE],
             'comment_field'           => ['CommentField', Flags::NONE],
             'user_id'                 => ['UserId', Flags::NONE],
+            'user_name'               => ['UserName', Flags::NONE],
         ],
 
         'objectDiscovery' => [
@@ -312,6 +314,7 @@ return [
             'reason-for-loss'         => 'ReasonForLoss',
             'comment-field'           => 'CommentField',
             'user-id'                 => 'UserId',
+            'user-name'                 => 'UserName',
         ],
 
         'responseType' => ['opportunity', 'opportunities'],

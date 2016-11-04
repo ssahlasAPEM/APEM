@@ -40,7 +40,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         $query    = $this->getQueryModel();
         $queryRev = $this->getQueryModel();
 
-        if (Auth::user()->type !== 'Admin') {
+        if (Auth::user()->type != 'Admin') {
             $query    = $query
                 ->where('user_id', '=', Auth::user()->id);
             $queryRev = $queryRev
@@ -277,7 +277,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
      */
     public function findAllPaginated($limit, $page)
     {
-        if (Auth::user()->type !== 'Admin') {
+        if (Auth::user()->type != 'Admin') {
             $result     = $this->getQueryModel()
                 ->where('user_id', '=', Auth::user()->id)
                 ->orderBy('id', 'asc')
@@ -320,7 +320,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         $query = $this->getQueryModel();
         $queryRev = $this->getQueryModel();
 
-        if (Auth::user()->type !== 'Admin') {
+        if (Auth::user()->type != 'Admin') {
             $query    = $query
                 ->where('user_id', '=', Auth::user()->id);
             $queryRev = $queryRev

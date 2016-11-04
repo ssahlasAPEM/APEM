@@ -84,6 +84,14 @@ class Opportunity extends Model
         'deleted_at'
     ];
 
+    /**
+     * Get the user for this opportunity.
+     */
+    public function user()
+    {
+        return $this->belongsTo('app\Models\User');
+    }
+
     /* We need to disable date mutators, because they brake toArray function on this model */
     public function getDates()
     {
