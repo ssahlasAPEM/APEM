@@ -395,26 +395,26 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
                 && $newOpportunity->target_sales_price != null
                 && $newOpportunity->target_sales_price != ""
             ) {
-                $newOpportunity->expected_value = number_format((floatval(preg_replace('/[\$,]/', '', $newOpportunity->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $newOpportunity->target_sales_price))), 2, '.', ',');
+                $newOpportunity->expected_value = floatval(preg_replace('/[\$,]/', '', $newOpportunity->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $newOpportunity->target_sales_price));
             }
-            switch($model->probability_of_win) {
+            switch($newOpportunity->probability_of_win) {
                 case '0%':
-                    $model->potential_annual_rev = number_format(0, 2, '.', ',');
+                    $newOpportunity->potential_annual_rev = 0;
                     break;
                 case '25%':
-                    $model->potential_annual_rev = number_format((str_replace(',','',$model->expected_value) * .25), 2, '.', ',');
+                    $newOpportunity->potential_annual_rev = $newOpportunity->expected_value * .25;
                     break;
                 case '50%':
-                    $model->potential_annual_rev = number_format((str_replace(',','',$model->expected_value) * .50), 2, '.', ',');
+                    $newOpportunity->potential_annual_rev = $newOpportunity->expected_value * .50;
                     break;
                 case '75%':
-                    $model->potential_annual_rev = number_format((str_replace(',','',$model->expected_value) * .75), 2, '.', ',');
+                    $newOpportunity->potential_annual_rev = $newOpportunity->expected_value * .75;
                     break;
                 case '100%':
-                    $model->potential_annual_rev = number_format((str_replace(',','',$model->expected_value) * 1), 2, '.', ',');
+                    $newOpportunity->potential_annual_rev = $newOpportunity->expected_value * 1;
                     break;
                 default:
-                    $model->potential_annual_rev = number_format(0, 2, '.', ',');
+                    $newOpportunity->potential_annual_rev = 0;
                     break;
             }
 
@@ -476,26 +476,26 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             && $model->target_sales_price != null
             && $model->target_sales_price != ""
         ) {
-            $model->expected_value = number_format((floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price))), 2, '.', ',');
+            $model->expected_value = floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price));
         }
         switch($model->probability_of_win) {
             case '0%':
-                $model->potential_annual_rev = number_format(0, 2, '.', ',');
+                $model->potential_annual_rev = 0;
                 break;
             case '25%':
-                $model->potential_annual_rev = number_format((str_replace(',','',$model->expected_value) * .25), 2, '.', ',');
+                $model->potential_annual_rev = $model->expected_value * .25;
                 break;
             case '50%':
-                $model->potential_annual_rev = number_format((str_replace(',','',$model->expected_value) * .50), 2, '.', ',');
+                $model->potential_annual_rev = $model->expected_value * .50;
                 break;
             case '75%':
-                $model->potential_annual_rev = number_format((str_replace(',','',$model->expected_value) * .75), 2, '.', ',');
+                $model->potential_annual_rev = $model->expected_value * .75;
                 break;
             case '100%':
-                $model->potential_annual_rev = number_format((str_replace(',','',$model->expected_value) * 1), 2, '.', ',');
+                $model->potential_annual_rev = $model->expected_value * 1;
                 break;
             default:
-                $model->potential_annual_rev = number_format(0, 2, '.', ',');
+                $model->potential_annual_rev = 0;
                 break;
         }
 
