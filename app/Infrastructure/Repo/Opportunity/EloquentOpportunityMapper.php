@@ -389,26 +389,41 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
                 $model->estimated_prod_date = DateTime::createFromFormat('m-d-Y', $model->estimated_prod_date)->format('Y-m-d');
             }
 
+            // Manually update calculated fields.
+            if($newOpportunity->year2_sales_vol != null
+                && $newOpportunity->year2_sales_vol != ""
+                && $newOpportunity->target_sales_price != null
+                && $newOpportunity->target_sales_price != ""
+            ) {
+                $newOpportunity->expected_value = number_format((floatval(preg_replace('/[\$,]/', '', $newOpportunity->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $newOpportunity->target_sales_price))), 2, '.', ',');
+            }
+            switch($newOpportunity->probability_of_win) {
+                case '0%':
+                    $newOpportunity->potential_annual_rev = 0;
+                    break;
+                case '25%':
+                    $newOpportunity->potential_annual_rev = $newOpportunity->expected_value * .25;
+                    break;
+                case '50%':
+                    $newOpportunity->potential_annual_rev = $newOpportunity->expected_value * .50;
+                    break;
+                case '75%':
+                    $newOpportunity->potential_annual_rev = $newOpportunity->expected_value * .75;
+                    break;
+                case '100%':
+                    $newOpportunity->potential_annual_rev = $newOpportunity->expected_value * 1;
+                    break;
+                default:
+                    $newOpportunity->potential_annual_rev = 0;
+                    break;
+            }
+
             $newOpportunity->save();
 
             $event                 = new Event();
             $event->type           = "create";
             $event->date           = date('Y-m-d');
             $event->opportunity_id = $newOpportunity->id;
-
-            // Manually update calculated fields.
-            if($model->year2_sales_vol != null
-                && $model->year2_sales_vol != ""
-                && $model->target_sales_price != null
-                && $model->target_sales_price != ""
-            ) {
-                $model->expected_value = number_format((floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price))), 2, '.', ',');
-            }
-            $model->potential_annual_rev = number_format((((
-                        floatval(preg_replace('/[\$,]/', '', $model->year1_sales_vol))
-                        + floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol))
-                        + floatval(preg_replace('/[\$,]/', '', $model->year3_sales_vol))
-                    ) / 3 ) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price))), 2, '.', ',');
 
             $event->save();
         } catch (\PDOException $exception) {
@@ -463,11 +478,26 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         ) {
             $model->expected_value = number_format((floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price))), 2, '.', ',');
         }
-        $model->potential_annual_rev = number_format((((
-                floatval(preg_replace('/[\$,]/', '', $model->year1_sales_vol))
-                + floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol))
-                + floatval(preg_replace('/[\$,]/', '', $model->year3_sales_vol))
-            ) / 3 ) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price))), 2, '.', ',');
+        switch($model->probability_of_win) {
+            case '0%':
+                $model->potential_annual_rev = 0;
+                break;
+            case '25%':
+                $model->potential_annual_rev = $model->expected_value * .25;
+                break;
+            case '50%':
+                $model->potential_annual_rev = $model->expected_value * .50;
+                break;
+            case '75%':
+                $model->potential_annual_rev = $model->expected_value * .75;
+                break;
+            case '100%':
+                $model->potential_annual_rev = $model->expected_value * 1;
+                break;
+            default:
+                $model->potential_annual_rev = 0;
+                break;
+        }
 
         // Fix the dates from date pickers
         $dateLost = DateTime::createFromFormat('m/d/Y', $model->date_lost);
