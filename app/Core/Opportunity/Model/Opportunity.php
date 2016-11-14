@@ -862,7 +862,9 @@ class Opportunity extends DomainEntity
     public function setDateLost($dateLost)
     {
         if(request()->method() == 'GET') {
-            $this->dateLost = DateTime::createFromFormat('Y-m-d', $dateLost)->format('m/d/Y');
+            if($dateLost != null) {
+                $this->dateLost = DateTime::createFromFormat('Y-m-d', $dateLost)->format('m/d/Y');
+            }
         } else {
             $this->dateLost = $dateLost;
         }
