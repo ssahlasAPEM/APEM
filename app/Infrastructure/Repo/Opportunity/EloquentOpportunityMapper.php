@@ -397,6 +397,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             ) {
                 $newOpportunity->expected_value = number_format((floatval(preg_replace('/[\$,]/', '', $newOpportunity->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $newOpportunity->target_sales_price))), 2, '.', ',');
             }
+            dd($newOpportunity->expected_value);
             switch($newOpportunity->probability_of_win) {
                 case '0%':
                     $newOpportunity->potential_annual_rev = 0;
