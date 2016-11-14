@@ -378,6 +378,21 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             $event->type           = "create";
             $event->date           = date('Y-m-d');
             $event->opportunity_id = $newOpportunity->id;
+
+            // Manually update calculated fields.
+            if($model->year2_sales_vol != null
+                && $model->year2_sales_vol != ""
+                && $model->target_sales_price != null
+                && $model->target_sales_price != ""
+            ) {
+                $model->expected_value = number_format((floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price))), 2, '.', ',');
+            }
+            $model->potential_annual_rev = number_format((((
+                        floatval(preg_replace('/[\$,]/', '', $model->year1_sales_vol))
+                        + floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol))
+                        + floatval(preg_replace('/[\$,]/', '', $model->year3_sales_vol))
+                    ) / 3 ) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price))), 2, '.', ',');
+
             $event->save();
         } catch (\PDOException $exception) {
             if ($exception->getCode() === 23505) {
@@ -422,6 +437,21 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         }
 
         $model = $this->doStoreMapping($model, $object, true);
+
+        // Manually update calculated fields.
+        if($model->year2_sales_vol != null
+            && $model->year2_sales_vol != ""
+            && $model->target_sales_price != null
+            && $model->target_sales_price != ""
+        ) {
+            $model->expected_value = number_format((floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price))), 2, '.', ',');
+        }
+        $model->potential_annual_rev = number_format((((
+                floatval(preg_replace('/[\$,]/', '', $model->year1_sales_vol))
+                + floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol))
+                + floatval(preg_replace('/[\$,]/', '', $model->year3_sales_vol))
+            ) / 3 ) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price))), 2, '.', ',');
+
         $model->save();
 
         // Generate update event
