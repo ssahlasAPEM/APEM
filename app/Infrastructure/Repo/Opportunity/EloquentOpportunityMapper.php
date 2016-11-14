@@ -372,6 +372,23 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         try {
             $newOpportunity = $this->getQueryModel();
             $newOpportunity = $this->doStoreMapping($newOpportunity, $opportunity, false);
+
+            // Fix the dates from date pickers
+            $newOpportunity->date_lost = DateTime::createFromFormat('m-d-Y', $newOpportunity->date_lost)->format('Y-m-d');
+            $newOpportunity->estimated_prod_date = DateTime::createFromFormat('m-d-Y', $newOpportunity->estimated_prod_date)->format('Y-m-d');
+
+            // Fix the dates from date pickers
+            try {
+                $model->date_lost = DateTime::createFromFormat('m/d/Y', $model->date_lost)->format('Y-m-d');
+            } catch(\Exception $e) {
+                $model->date_lost = DateTime::createFromFormat('m-d-Y', $model->date_lost)->format('Y-m-d');
+            }
+            try {
+                $model->estimated_prod_date = DateTime::createFromFormat('m/d/Y', $model->estimated_prod_date)->format('Y-m-d');
+            } catch(\Exception $e) {
+                $model->estimated_prod_date = DateTime::createFromFormat('m-d-Y', $model->estimated_prod_date)->format('Y-m-d');
+            }
+
             $newOpportunity->save();
 
             $event                 = new Event();
@@ -451,6 +468,29 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
                 + floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol))
                 + floatval(preg_replace('/[\$,]/', '', $model->year3_sales_vol))
             ) / 3 ) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price))), 2, '.', ',');
+
+        // Fix the dates from date pickers
+        $dateLost = DateTime::createFromFormat('m/d/Y', $model->date_lost);
+        if($dateLost == false) {
+            if($model->date_lost == '') {
+                $model->date_lost = null;
+            } else {
+                $model->date_lost = DateTime::createFromFormat('m-d-Y', $model->date_lost)->format('Y-m-d');
+            }
+        } else {
+            $model->date_lost = $dateLost->format('Y-m-d');
+        }
+
+        $estimatedProdDate = DateTime::createFromFormat('m/d/Y', $model->estimated_prod_date);
+        if($estimatedProdDate == false) {
+            if($model->estimated_prod_date == '') {
+                $model->estimated_prod_date = null;
+            } else {
+                $model->estimated_prod_date = DateTime::createFromFormat('m-d-Y', $model->estimated_prod_date)->format('Y-m-d');
+            }
+        } else {
+            $model->estimated_prod_date = $estimatedProdDate->format('Y-m-d');
+        }
 
         $model->save();
 

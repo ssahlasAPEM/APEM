@@ -11,6 +11,7 @@ use app\Core\DomainEntity;
 use app\Core\Event\Model\Event;
 use app\Exceptions\InvalidRequestException;
 use app\Models\User;
+use DateTime;
 
 /**
  * Class Opportunity
@@ -806,7 +807,13 @@ class Opportunity extends DomainEntity
      */
     public function setEstimatedProdDate($estimatedProdDate)
     {
-        $this->estimatedProdDate = $estimatedProdDate;
+        if(request()->method() == 'GET') {
+            if($estimatedProdDate != null) {
+                $this->estimatedProdDate = DateTime::createFromFormat('Y-m-d', $estimatedProdDate)->format('m/d/Y');
+            }
+        } else {
+            $this->estimatedProdDate = $estimatedProdDate;
+        }
     }
 
     /**
@@ -854,7 +861,11 @@ class Opportunity extends DomainEntity
      */
     public function setDateLost($dateLost)
     {
-        $this->dateLost = $dateLost;
+        if(request()->method() == 'GET') {
+            $this->dateLost = DateTime::createFromFormat('Y-m-d', $dateLost)->format('m/d/Y');
+        } else {
+            $this->dateLost = $dateLost;
+        }
     }
 
     /**
