@@ -374,8 +374,8 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             $newOpportunity = $this->doStoreMapping($newOpportunity, $opportunity, false);
 
             // Fix the dates from date pickers
-            $newOpportunity->date_lost = null;
-            $newOpportunity->estimated_prod_date = null;
+            /*$newOpportunity->date_lost = DateTime::createFromFormat('m-d-Y', $newOpportunity->date_lost)->format('Y-m-d');
+            $newOpportunity->estimated_prod_date = DateTime::createFromFormat('m-d-Y', $newOpportunity->estimated_prod_date)->format('Y-m-d');
 
             // Fix the dates from date pickers
             try {
@@ -387,7 +387,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
                 $model->estimated_prod_date = DateTime::createFromFormat('m/d/Y', $model->estimated_prod_date)->format('Y-m-d');
             } catch(\Exception $e) {
                 $model->estimated_prod_date = DateTime::createFromFormat('m-d-Y', $model->estimated_prod_date)->format('Y-m-d');
-            }
+            }*/
 
             // Manually update calculated fields.
             if($newOpportunity->year2_sales_vol != null
