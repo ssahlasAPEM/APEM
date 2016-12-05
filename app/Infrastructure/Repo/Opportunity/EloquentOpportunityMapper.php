@@ -372,7 +372,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         try {
             $newOpportunity = $this->getQueryModel();
             $newOpportunity = $this->doStoreMapping($newOpportunity, $opportunity, false);
-
+dd($newOpportunity);
             // Fix the dates from date pickers
             $newOpportunity->date_lost = DateTime::createFromFormat('m-d-Y', $newOpportunity->date_lost)->format('Y-m-d');
             $newOpportunity->estimated_prod_date = DateTime::createFromFormat('m-d-Y', $newOpportunity->estimated_prod_date)->format('Y-m-d');
