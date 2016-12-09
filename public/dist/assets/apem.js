@@ -1583,7 +1583,7 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
           this.doTheSearch();
         }
       },
-      onDropdownBeforeShow: function onDropdownBeforeShow() {
+      onDropdownBeforeShow: function onDropdownBeforeShow(event) {
         if (event.target.id !== 'dropTrigger') {
           return false;
         }
@@ -12618,7 +12618,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+eac4c68f"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+da142e53"});
 }
 
 /* jshint ignore:end */
