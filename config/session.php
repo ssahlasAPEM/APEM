@@ -135,7 +135,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN','apem.app'),
+    'domain' => env('SESSION_DOMAIN','nao.apem.com'),
 
     /*
     |--------------------------------------------------------------------------
