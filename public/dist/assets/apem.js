@@ -1583,11 +1583,11 @@ define('apem/pods/components/adv-search/component', ['exports', 'ember'], functi
           this.doTheSearch();
         }
       },
-      onDropdownBeforeShow: function onDropdownBeforeShow(event) {
-        if (event.target.id !== 'dropTrigger') {
+      onDropdownBeforeShow: function onDropdownBeforeShow() {
+        if (this.target.id !== 'dropTrigger') {
           return false;
         }
-        console.log(event.target);
+        console.log(this.target);
       },
       pullEntireCSV: function pullEntireCSV() {
         this.sendAction('pullEntireCSV');
