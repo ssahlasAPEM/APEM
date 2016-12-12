@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <base href="/" />
-<meta name="apem/config/environment" content="%7B%22modulePrefix%22%3A%22apem%22%2C%22environment%22%3A%22production%22%2C%22baseURL%22%3A%22/%22%2C%22podModulePrefix%22%3A%22apem/pods%22%2C%22locationType%22%3A%22history%22%2C%22contentSecurityPolicy%22%3A%7B%22default-src%22%3A%22%27self%27%20*%22%2C%22script-src%22%3A%22%27unsafe-inline%27%20%27unsafe-eval%27%20%27self%27%20https%3A//notify.bugsnag.com%20*%22%2C%22font-src%22%3A%22%27self%27%20*%20data%3A%3B%22%2C%22connect-src%22%3A%22%27self%27%20*%22%2C%22img-src%22%3A%22%27self%27%20data%3A%20*%22%2C%22style-src%22%3A%22%27unsafe-inline%27%20%27self%27%20*%22%2C%22media-src%22%3A%22%27self%27%20*%22%7D%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22usingCors%22%3Atrue%2C%22apiUrl%22%3A%22http%3A//nao.apem.com%22%2C%22name%22%3A%22apem%22%2C%22version%22%3A%220.0.0+3ac3c96c%22%7D%2C%22ember-cli-mirage%22%3A%7B%22enabled%22%3Afalse%2C%22usingProxy%22%3Afalse%7D%2C%22contentSecurityPolicyHeader%22%3A%22Content-Security-Policy-Report-Only%22%2C%22something%22%3A%22test%22%7D" />
+<meta name="apem/config/environment" content="%7B%22modulePrefix%22%3A%22apem%22%2C%22environment%22%3A%22production%22%2C%22baseURL%22%3A%22/%22%2C%22podModulePrefix%22%3A%22apem/pods%22%2C%22locationType%22%3A%22history%22%2C%22contentSecurityPolicy%22%3A%7B%22default-src%22%3A%22%27self%27%20*%22%2C%22script-src%22%3A%22%27unsafe-inline%27%20%27unsafe-eval%27%20%27self%27%20https%3A//notify.bugsnag.com%20*%22%2C%22font-src%22%3A%22%27self%27%20*%20data%3A%3B%22%2C%22connect-src%22%3A%22%27self%27%20*%22%2C%22img-src%22%3A%22%27self%27%20data%3A%20*%22%2C%22style-src%22%3A%22%27unsafe-inline%27%20%27self%27%20*%22%2C%22media-src%22%3A%22%27self%27%20*%22%7D%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22usingCors%22%3Atrue%2C%22apiUrl%22%3A%22http%3A//nao.apem.com%22%2C%22name%22%3A%22apem%22%2C%22version%22%3A%220.0.0+25fc6d4a%22%7D%2C%22ember-cli-mirage%22%3A%7B%22enabled%22%3Afalse%2C%22usingProxy%22%3Afalse%7D%2C%22contentSecurityPolicyHeader%22%3A%22Content-Security-Policy-Report-Only%22%2C%22something%22%3A%22test%22%7D" />
 
     <link rel="stylesheet" href="assets/vendor.css" integrity="sha256-ZWOUt050zAI6qizDa8DRT8aTkqyzSLbh2NiinmAdVm0= sha512-k6NSndpWy9DBf1K9AhGGQE1ZPeUA5kw4Ws1p8uNXjtyZJ0Wf3jbz0DI/rc6sIetqPPCFDY/Zd33Gga4UYigoIg==" >
     <link rel="stylesheet" href="assets/apem.css" integrity="sha256-sXwdESEejwwTFjc6XKVX5iKPVWLHG43GH9y03yC6fm4= sha512-QuoEvbTyKYcPhE0DznwqeGTeXBNMQa9V/lvjSXA1Y1+lBzAW1eVZLnWSnWbK3AgCHLBcm/xn76ATEkVh70pW0Q==" >
@@ -72,7 +72,7 @@
 
     <div class="loading-spin no-ember"></div>
     <script src="assets/vendor.js" integrity="sha256-uWMHrc/Go43Hd1moanODHndIyS/NTcVXYqmQaQdyfDw= sha512-vA5XOupdv6qg+PvL8e2LyST5I5dMuQgObrwsNtiD76kKc9Kz5NdnbZVg6DM/xHi+gs581z+THz4gyEb7HQDXnw==" ></script>
-    <script src="assets/apem.js" integrity="sha256-icrwEjRAeyOvK9rFoc9amt5PYQRILakEm2TieUhtVjc= sha512-d9zvA5bNvJ8aOmBbhv5Eb+tZgfD51DSm3mgFrfJp+zEf2pJgmB8LfLu2u9sstT7VFJnFC/tunLBIHd5RNnUdQg==" ></script>
+    <script src="assets/apem.js" integrity="sha256-6aHMYlgd+KyyWDeSz/c1YIxL9Jm2FH5lsL4c6Nq7bPI= sha512-44Rot53I1SglkdZ/QNKCF87Tb53M/yb3Uh3imfos06d5bJkPuzsklxARecgLysR6a/NB8mLicXhjIDkgDwfYsA==" ></script>
 
     
   </body>
