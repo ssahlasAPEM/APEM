@@ -176,6 +176,7 @@ class OpportunityController extends AbstractApiController
     public function generateCSV(ListRequest $request)
     {
         $results = $this->index($request, true);
+        $results = array_map('cleanValues', $results);
 
         Excel::create(Auth::user()->id . '_nao_opportunities', function($excel) use (&$results) {
             $excel->sheet('NAO Opportunities', function($sheet) use (&$results) {
@@ -186,6 +187,13 @@ class OpportunityController extends AbstractApiController
         })->store('xls', storage_path('../public/downloads'));
 
         return response()->namedJsonRoot('csv-download', URL::to('/') . '/downloads/' . Auth::user()->id . '_nao_opportunities.xls');
+    }
+
+    // Cleans the CSV output
+    protected function cleanValues( $value ) {
+        $cleaned = trim($value);
+        $cleaned = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $cleaned);
+        return $cleaned;
     }
 
     /**

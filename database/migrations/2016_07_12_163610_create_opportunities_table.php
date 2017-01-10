@@ -55,7 +55,7 @@ class CreateOpportunitiesTable extends Migration
             $table->string('year3_sales_vol')->nullable();
             $table->string('currency')->nullable();
             $table->string('target_sales_price')->nullable();
-            $table->string('potential_annual_rev')->nullable();
+            $table->float('potential_annual_rev')->nullable();
             $table->string('probability_of_win')->nullable();
             $table->string('expected_value')->nullable();
             $table->date('quote_date')->nullable();
