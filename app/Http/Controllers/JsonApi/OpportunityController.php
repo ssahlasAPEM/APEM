@@ -176,13 +176,13 @@ class OpportunityController extends AbstractApiController
     public function generateCSV(ListRequest $request)
     {
         $results = $this->index($request, true);
+        $results = json_encode($results);
+        $results = json_decode($results, true);
         $results = array_map(array($this, 'cleanValues'), $results);
 
         Excel::create(Auth::user()->id . '_nao_opportunities', function($excel) use (&$results) {
             $excel->sheet('NAO Opportunities', function($sheet) use (&$results) {
-                $data = json_encode($results);
-                $data = json_decode($data, true);
-                $sheet->fromArray($data);
+                $sheet->fromArray($results);
             });
         })->store('xls', storage_path('../public/downloads'));
 
