@@ -190,10 +190,13 @@ class OpportunityController extends AbstractApiController
     }
 
     // Cleans the CSV output
-    public function cleanValues( $value ) {
-        $cleaned = trim($value);
-        $cleaned = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $cleaned);
-        return $cleaned;
+    public function cleanValues( $array ) {
+
+        foreach($array AS $key => $value) {
+            $array[$key] = trim(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value));
+        }
+
+        return $array;
     }
 
     /**
