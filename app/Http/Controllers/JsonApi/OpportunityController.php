@@ -216,7 +216,7 @@ class OpportunityController extends AbstractApiController
                     $array[$key] = date( 'dd/mm/YYYY', $date );
                     break;
                 case 'probability_of_win':
-                    $array[$key] = str_replace('%', '', $value) / 100;;
+                    $array[$key] = intval(str_replace('%', '', $value)) / 100;;
                     break;
                 default:
                     break;
