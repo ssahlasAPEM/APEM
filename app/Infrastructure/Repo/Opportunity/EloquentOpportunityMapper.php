@@ -476,26 +476,26 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             && $model->target_sales_price != null
             && $model->target_sales_price != ""
         ) {
-            $model->expected_value = floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price));
+            $model->potential_annual_revenue = floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price));
         }
         switch($model->probability_of_win) {
             case '0%':
-                $model->potential_annual_rev = 0;
+                $model->expected_value = 0;
                 break;
             case '25%':
-                $model->potential_annual_rev = $model->expected_value * .25;
+                $model->expected_value = $model->potential_annual_revenue * .25;
                 break;
             case '50%':
-                $model->potential_annual_rev = $model->expected_value * .50;
+                $model->expected_value = $model->potential_annual_revenue * .50;
                 break;
             case '75%':
-                $model->potential_annual_rev = $model->expected_value * .75;
+                $model->expected_value = $model->potential_annual_revenue * .75;
                 break;
             case '100%':
-                $model->potential_annual_rev = $model->expected_value * 1;
+                $model->expected_value = $model->potential_annual_revenue * 1;
                 break;
             default:
-                $model->potential_annual_rev = 0;
+                $model->expected_value = 0;
                 break;
         }
 
