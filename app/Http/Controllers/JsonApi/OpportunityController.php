@@ -193,7 +193,34 @@ class OpportunityController extends AbstractApiController
     public function cleanValues( $array ) {
 
         foreach($array AS $key => $value) {
-            $array[$key] = trim(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value));
+            $value = trim(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value));
+            $array[$key] = $value;
+
+            switch($key) {
+                case 'year1_sales_vol':
+                case 'year2_sales_vol':
+                case 'year3_sales_vol':
+                case 'target_sales_price':
+                case 'potential_annual_rev':
+                case 'expected_value':
+                    $array[$key] = floatval($value);
+                    break;
+                case 'quote_date':
+                case 'sample_date':
+                case 'approval_date':
+                case 'date_rcvd_prod_order':
+                case 'estimated_prod_date':
+                case 'created_at':
+                case 'updated_at':
+                    $date = strtotime( $value );
+                    $array[$key] = date( 'dd/mm/YYYY', $date );
+                    break;
+                case 'probability_of_win':
+                    $array[$key] = str_replace('%', '', $value) / 100;;
+                    break;
+                default:
+                    break;
+            }
         }
 
         return $array;
