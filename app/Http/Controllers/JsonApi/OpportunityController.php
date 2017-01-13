@@ -212,7 +212,7 @@ class OpportunityController extends AbstractApiController
                 case 'estimated_prod_date':
                 case 'created_at':
                 case 'updated_at':
-                    if(!is_null($value)) {
+                    if(!is_null($value) && $value != '') {
                         $date          = strtotime($value);
                         $array[ $key ] = date('Y-m-d', $date);
                     }
