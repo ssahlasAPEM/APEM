@@ -203,7 +203,7 @@ class OpportunityController extends AbstractApiController
                 case 'target_sales_price':
                 case 'potential_annual_rev':
                 case 'expected_value':
-                    $array[$key] = floatval($value);
+                    $array[$key] = floatval(str_replace(',', '', $value));
                     break;
                 case 'quote_date':
                 case 'sample_date':
