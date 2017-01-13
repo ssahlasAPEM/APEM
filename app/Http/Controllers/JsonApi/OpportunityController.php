@@ -212,8 +212,10 @@ class OpportunityController extends AbstractApiController
                 case 'estimated_prod_date':
                 case 'created_at':
                 case 'updated_at':
-                    $date = strtotime( $value );
-                    $array[$key] = date( 'd-m-Y', $date );
+                    if(!is_null($value)) {
+                        $date          = strtotime($value);
+                        $array[ $key ] = date('Y-m-d', $date);
+                    }
                     break;
                 case 'probability_of_win':
                     $array[$key] = intval(str_replace('%', '', $value)) / 100;
