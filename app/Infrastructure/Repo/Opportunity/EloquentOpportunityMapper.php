@@ -395,26 +395,26 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
                 && $newOpportunity->target_sales_price != null
                 && $newOpportunity->target_sales_price != ""
             ) {
-                $newOpportunity->expected_value = floatval(preg_replace('/[\$,]/', '', $newOpportunity->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $newOpportunity->target_sales_price));
+                $newOpportunity->potential_annual_rev = floatval(preg_replace('/[\$,]/', '', $newOpportunity->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $newOpportunity->target_sales_price));
             }
             switch($newOpportunity->probability_of_win) {
                 case '0%':
-                    $newOpportunity->potential_annual_rev = 0;
+                    $newOpportunity->expected_value = 0;
                     break;
                 case '25%':
-                    $newOpportunity->potential_annual_rev = $newOpportunity->expected_value * .25;
+                    $newOpportunity->expected_value = $newOpportunity->potential_annual_rev * .25;
                     break;
                 case '50%':
-                    $newOpportunity->potential_annual_rev = $newOpportunity->expected_value * .50;
+                    $newOpportunity->expected_value = $newOpportunity->potential_annual_rev * .50;
                     break;
                 case '75%':
-                    $newOpportunity->potential_annual_rev = $newOpportunity->expected_value * .75;
+                    $newOpportunity->expected_value = $newOpportunity->potential_annual_rev * .75;
                     break;
                 case '100%':
-                    $newOpportunity->potential_annual_rev = $newOpportunity->expected_value * 1;
+                    $newOpportunity->expected_value = $newOpportunity->potential_annual_rev * 1;
                     break;
                 default:
-                    $newOpportunity->potential_annual_rev = 0;
+                    $newOpportunity->expected_value = 0;
                     break;
             }
 
