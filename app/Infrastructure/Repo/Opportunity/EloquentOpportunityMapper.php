@@ -476,23 +476,23 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             && $model->target_sales_price != null
             && $model->target_sales_price != ""
         ) {
-            $model->potential_annual_revenue = floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price));
+            $model->potential_annual_rev = floatval(preg_replace('/[\$,]/', '', $model->year2_sales_vol)) * floatval(preg_replace('/[\$,]/', '', $model->target_sales_price));
         }
         switch($model->probability_of_win) {
             case '0%':
                 $model->expected_value = 0;
                 break;
             case '25%':
-                $model->expected_value = $model->potential_annual_revenue * .25;
+                $model->expected_value = $model->potential_annual_rev * .25;
                 break;
             case '50%':
-                $model->expected_value = $model->potential_annual_revenue * .50;
+                $model->expected_value = $model->potential_annual_rev * .50;
                 break;
             case '75%':
-                $model->expected_value = $model->potential_annual_revenue * .75;
+                $model->expected_value = $model->potential_annual_rev * .75;
                 break;
             case '100%':
-                $model->expected_value = $model->potential_annual_revenue * 1;
+                $model->expected_value = $model->potential_annual_rev * 1;
                 break;
             default:
                 $model->expected_value = 0;
