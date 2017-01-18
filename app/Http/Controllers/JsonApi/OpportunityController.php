@@ -224,7 +224,7 @@ class OpportunityController extends AbstractApiController
                     break;
             }
         }
-
+        
         return $array;
     }
 
