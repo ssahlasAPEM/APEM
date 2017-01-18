@@ -184,7 +184,7 @@ class OpportunityController extends AbstractApiController
             $excel->sheet('NAO Opportunities', function($sheet) use (&$results) {
                 $sheet->fromArray($results);
             });
-        })->store('xls', storage_path('../public/downloads'));
+        })->store('csv', storage_path('../public/downloads'));
 
         return response()->namedJsonRoot('csv-download', URL::to('/') . '/downloads/' . Auth::user()->id . '_nao_opportunities.csv');
     }
