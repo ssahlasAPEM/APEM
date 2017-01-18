@@ -182,6 +182,16 @@ class OpportunityController extends AbstractApiController
 
         Excel::create(Auth::user()->id . '_nao_opportunities', function($excel) use (&$results) {
             $excel->sheet('NAO Opportunities', function($sheet) use (&$results) {
+                $sheet->setColumnFormat(array(
+                    'quote_date' => 'dd/mm/yy',
+                    'sample_date' => 'dd/mm/yy',
+                    'approval_date' => 'dd/mm/yy',
+                    'date_rcvd_prod_order' => 'dd/mm/yy',
+                    'estimated_prod_date' => 'dd/mm/yy',
+                    'created_at' => 'dd/mm/yy',
+                    'updated_at' => 'dd/mm/yy',
+                    'date_lost' => 'dd/mm/yy'
+                ));
                 $sheet->fromArray($results);
             });
         })->store('xls', storage_path('../public/downloads'));
@@ -213,10 +223,10 @@ class OpportunityController extends AbstractApiController
                 case 'created_at':
                 case 'updated_at':
                 case 'date_lost':
-                    if(!is_null($value) && $value != '') {
+                    /*if(!is_null($value) && $value != '') {
                         $date          = strtotime($value);
                         $array[ $key ] = date('n/j/Y', $date);
-                    }
+                    }*/
                     break;
                 case 'probability_of_win':
                     $array[$key] = intval(str_replace('%', '', $value)) / 100;
