@@ -182,21 +182,11 @@ class OpportunityController extends AbstractApiController
 
         Excel::create(Auth::user()->id . '_nao_opportunities', function($excel) use (&$results) {
             $excel->sheet('NAO Opportunities', function($sheet) use (&$results) {
-                $sheet->setColumnFormat(array(
-                    'AS' => 'dd/MM/yy',
-                    'AT' => 'dd/MM/yy',
-                    'AU' => 'dd/MM/yy',
-                    'AV' => 'dd/MM/yy',
-                    'AW' => 'dd/MM/yy',
-                    'BE' => 'dd/MM/yy',
-                    'BF' => 'dd/MM/yy',
-                    'AZ' => 'dd/MM/yy'
-                ));
                 $sheet->fromArray($results);
             });
         })->store('xls', storage_path('../public/downloads'));
 
-        return response()->namedJsonRoot('csv-download', URL::to('/') . '/downloads/' . Auth::user()->id . '_nao_opportunities.xls');
+        return response()->namedJsonRoot('csv-download', URL::to('/') . '/downloads/' . Auth::user()->id . '_nao_opportunities.csv');
     }
 
     // Cleans the CSV output
