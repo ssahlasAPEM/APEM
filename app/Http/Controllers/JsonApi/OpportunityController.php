@@ -183,14 +183,14 @@ class OpportunityController extends AbstractApiController
         Excel::create(Auth::user()->id . '_nao_opportunities', function($excel) use (&$results) {
             $excel->sheet('NAO Opportunities', function($sheet) use (&$results) {
                 $sheet->setColumnFormat(array(
-                    'quote_date' => 'dd/mm/yy',
-                    'sample_date' => 'dd/mm/yy',
-                    'approval_date' => 'dd/mm/yy',
-                    'date_rcvd_prod_order' => 'dd/mm/yy',
-                    'estimated_prod_date' => 'dd/mm/yy',
-                    'created_at' => 'dd/mm/yy',
-                    'updated_at' => 'dd/mm/yy',
-                    'date_lost' => 'dd/mm/yy'
+                    'AS' => 'dd/mm/yy',
+                    'AT' => 'dd/mm/yy',
+                    'AU' => 'dd/mm/yy',
+                    'AV' => 'dd/mm/yy',
+                    'AW' => 'dd/mm/yy',
+                    'BE' => 'dd/mm/yy',
+                    'BF' => 'dd/mm/yy',
+                    'AZ' => 'dd/mm/yy'
                 ));
                 $sheet->fromArray($results);
             });
