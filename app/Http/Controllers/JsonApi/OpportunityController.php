@@ -214,7 +214,7 @@ class OpportunityController extends AbstractApiController
                 case 'updated_at':
                     if(!is_null($value) && $value != '') {
                         $date          = strtotime($value);
-                        $array[ $key ] = date('Y-m-d', $date);
+                        $array[ $key ] = date('n/j/Y', $date);
                     }
                     break;
                 case 'probability_of_win':
