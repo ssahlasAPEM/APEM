@@ -242,7 +242,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         if(!is_null($limit) && !is_null($offset)) {
             if(is_null($orderBy) || is_null($orderDir) || $orderBy == '' || $orderDir == '') {
                 $results      = $query
-                    ->orderBy('id', 'asc')
+                    ->orderBy('id', 'desc')
                     ->paginate($limit);
             } else {
                 $results      = $query
@@ -254,7 +254,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         } elseif(is_null($limit) && is_null($offset)) {
             if(is_null($orderBy) || is_null($orderDir) || $orderBy == '' || $orderDir == '') {
                 $results      = $query
-                    ->orderBy('id', 'asc')
+                    ->orderBy('id', 'desc')
                     ->get();
             } else {
                 $results      = $query
@@ -280,7 +280,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         if (Auth::user()->type != 'Admin') {
             $result     = $this->getQueryModel()
                 ->where('user_id', '=', Auth::user()->id)
-                ->orderBy('id', 'asc')
+                ->orderBy('id', 'desc')
                 ->paginate($limit);
             $collection = $this->getCollection($result->toArray()['data']);
 
@@ -297,7 +297,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             ->where('draft', '=', 0)
             ->orWhere('draft', '=', '1')
             ->where('user_id', '=', Auth::user()->id)
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->paginate($limit);
         $collection = $this->getCollection($result->toArray()['data']);
 
