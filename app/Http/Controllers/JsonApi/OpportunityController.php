@@ -191,7 +191,7 @@ class OpportunityController extends AbstractApiController
 
     // Cleans the CSV output
     public function cleanValues( $array ) {
-        var_dump($array);
+
         foreach($array AS $key => $value) {
             $value = trim(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value));
             $array[$key] = $value;
@@ -206,29 +206,9 @@ class OpportunityController extends AbstractApiController
                     $array[$key] = floatval(str_replace(',', '', $value));
                     break;
                 case 'quote_date':
-                    if(!is_null($value) && $value != '') {
-                        $date          = strtotime($value);
-                        $array[ $key ] = date('m/d/y', $date);
-                    }
-                    break;
                 case 'sample_date':
-                    if(!is_null($value) && $value != '') {
-                        $date          = strtotime($value);
-                        $array[ $key ] = date('m/d/y', $date);
-                    }
-                    break;
                 case 'approval_date':
-                    if(!is_null($value) && $value != '') {
-                        $date          = strtotime($value);
-                        $array[ $key ] = date('m/d/y', $date);
-                    }
-                    break;
                 case 'date_rcvd_prod_order':
-                    if(!is_null($value) && $value != '') {
-                        $date          = strtotime($value);
-                        $array[ $key ] = date('m/d/y', $date);
-                    }
-                    break;
                 case 'estimated_prod_date':
                 case 'created_at':
                 case 'updated_at':

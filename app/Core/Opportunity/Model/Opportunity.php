@@ -8,10 +8,9 @@
  */
 
 use app\Core\DomainEntity;
-use app\Core\Event\Model\Event;
 use app\Exceptions\InvalidRequestException;
 use app\Models\User;
-use app\Models\Event AS EventModel;
+use app\Core\Event\Model\Event;
 use DateTime;
 
 /**
@@ -77,32 +76,8 @@ class Opportunity extends DomainEntity
     private $commentField;
 
     /**
-     * DomainEntity constructor.
-     *
-     * @param null $dbId
+     * @return mixed
      */
-    public function __construct($dbId = null)
-    {
-        parent::__construct($dbId);
-
-        $events = EventModel::where('opportunity_id','=',$dbId)->get();
-        foreach($events as $event) {
-            switch($event->type) {
-                case 'quote':
-                    $this->setQuoteDate($event->date);
-                case 'sample':
-                    $this->setSampleDate($event->date);
-                case 'approval':
-                    $this->setApprovalDate($event->date);
-                default:
-                    $this->setDateRcvdProdOrder($event->date);
-            }
-        }
-    }
-
-    /**
- * @return mixed
- */
     public function getUserId()
     {
         return $this->userId;
@@ -760,12 +735,7 @@ class Opportunity extends DomainEntity
      */
     public function getQuoteDate()
     {
-        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','quote')->first();
-        if($event) {
-            return $event->date;
-        } else {
-            return null;
-        }
+        return $this->quoteDate;
     }
 
     /**
@@ -773,12 +743,7 @@ class Opportunity extends DomainEntity
      */
     public function setQuoteDate($quoteDate)
     {
-        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','quote')->first();
-        if($event) {
-            $this->quoteDate = $event->date;
-        } else {
-            $this->quoteDate = null;
-        }
+        $this->quoteDate = $quoteDate;
     }
 
     /**
@@ -786,12 +751,7 @@ class Opportunity extends DomainEntity
      */
     public function getSampleDate()
     {
-        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','sample')->first();
-        if($event) {
-            return $event->date;
-        } else {
-            return null;
-        }
+        return $this->sampleDate;
     }
 
     /**
@@ -799,12 +759,7 @@ class Opportunity extends DomainEntity
      */
     public function setSampleDate($sampleDate)
     {
-        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','sample')->first();
-        if($event) {
-            $this->sampleDate = $event->date;
-        } else {
-            $this->sampleDate = null;
-        }
+        $this->sampleDate = $sampleDate;
     }
 
     /**
@@ -812,12 +767,7 @@ class Opportunity extends DomainEntity
      */
     public function getApprovalDate()
     {
-        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','approval')->first();
-        if($event) {
-            return $event->date;
-        } else {
-            return null;
-        }
+        return $this->approvalDate;
     }
 
     /**
@@ -825,12 +775,7 @@ class Opportunity extends DomainEntity
      */
     public function setApprovalDate($approvalDate)
     {
-        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','approval')->first();
-        if($event) {
-            $this->approvalDate = $event->date;
-        } else {
-            $this->approvalDate = null;
-        }
+        $this->approvalDate = $approvalDate;
     }
 
     /**
@@ -838,12 +783,7 @@ class Opportunity extends DomainEntity
      */
     public function getDateRcvdProdOrder()
     {
-        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','production')->first();
-        if($event) {
-            return $event->date;
-        } else {
-            return null;
-        }
+        return $this->dateRcvdProdOrder;
     }
 
     /**
@@ -851,12 +791,7 @@ class Opportunity extends DomainEntity
      */
     public function setDateRcvdProdOrder($dateRcvdProdOrder)
     {
-        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','production')->first();
-        if($event) {
-            $this->dateRcvdProdOrder = $event->date;
-        } else {
-            $this->dateRcvdProdOrder = null;
-        }
+        $this->dateRcvdProdOrder = $dateRcvdProdOrder;
     }
 
     /**

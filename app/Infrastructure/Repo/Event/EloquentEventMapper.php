@@ -12,6 +12,7 @@ use app\Core\Event\Repository\EventInterface;
 use app\Exceptions\ForbiddenException;
 use app\Exceptions\InvalidRequestException;
 use app\Infrastructure\AbstractEloquentMapper;
+use app\Models\Opportunity;
 
 /**
  * Class EloquentEventMapper
@@ -40,6 +41,25 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
 
             throw $exception;
         }
+
+        $opportunity = Opportunity::where('id','=',$newEvent->opportunity_id);
+        switch($newEvent->type) {
+            case 'quote':
+                $opportunity->quote_date = $newEvent->date;
+                break;
+            case 'approval':
+                $opportunity->approval_date = $newEvent->date;
+                break;
+            case 'sample':
+                $opportunity->sample_date = $newEvent->date;
+                break;
+            case 'production':
+                $opportunity->date_rcvd_prod_order = $newEvent->date;
+                break;
+            default:
+                break;
+        }
+        $opportunity->save();
 
         $obj = $this->createObject($newEvent->toArray());
 

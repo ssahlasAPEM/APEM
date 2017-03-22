@@ -538,6 +538,24 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
             $event->date           = date('Y-m-d');
             $event->opportunity_id = $model->id;
             $event->save();
+
+            switch($currStage) {
+                case 'quote':
+                    $model->quote_date = $event->date;
+                    break;
+                case 'approval':
+                    $model->approval_date = $event->date;
+                    break;
+                case 'sample':
+                    $model->sample_date = $event->date;
+                    break;
+                case 'production':
+                    $model->date_rcvd_prod_order = $event->date;
+                    break;
+                default:
+                    break;
+            }
+            $model->save();
         }
 
         if ($currStatus !== $model->status) {
