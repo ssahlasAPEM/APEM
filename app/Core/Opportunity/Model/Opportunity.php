@@ -84,7 +84,8 @@ class Opportunity extends DomainEntity
     {
         parent::__construct($dbId);
 
-        $events = Event::class->where('opportunity_id','=',$dbId)->all();
+        $evtClass = Event::class;
+        $events = $evtClass->where('opportunity_id','=',$dbId)->all();
 
         foreach($events as $event) {
             switch($event->type) {
