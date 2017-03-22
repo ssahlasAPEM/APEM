@@ -773,7 +773,12 @@ class Opportunity extends DomainEntity
      */
     public function setQuoteDate($quoteDate)
     {
-        $this->quoteDate = $quoteDate;
+        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','quote')->first();
+        if($event) {
+            $this->quoteDate = $event->date;
+        } else {
+            $this->quoteDate = null;
+        }
     }
 
     /**
@@ -794,7 +799,12 @@ class Opportunity extends DomainEntity
      */
     public function setSampleDate($sampleDate)
     {
-        $this->sampleDate = $sampleDate;
+        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','sample')->first();
+        if($event) {
+            $this->sampleDate = $event->date;
+        } else {
+            $this->sampleDate = null;
+        }
     }
 
     /**
@@ -815,7 +825,12 @@ class Opportunity extends DomainEntity
      */
     public function setApprovalDate($approvalDate)
     {
-        $this->approvalDate = $approvalDate;
+        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','approval')->first();
+        if($event) {
+            $this->approvalDate = $event->date;
+        } else {
+            $this->approvalDate = null;
+        }
     }
 
     /**
@@ -836,7 +851,12 @@ class Opportunity extends DomainEntity
      */
     public function setDateRcvdProdOrder($dateRcvdProdOrder)
     {
-        $this->dateRcvdProdOrder = $dateRcvdProdOrder;
+        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','production')->first();
+        if($event) {
+            $this->dateRcvdProdOrder = $event->date;
+        } else {
+            $this->dateRcvdProdOrder = null;
+        }
     }
 
     /**
