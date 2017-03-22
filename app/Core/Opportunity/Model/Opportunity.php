@@ -86,17 +86,20 @@ class Opportunity extends DomainEntity
         parent::__construct($dbId);
 
         $events = EventModel::where('opportunity_id','=',$dbId)->get();
-var_dump($events);
         foreach($events as $event) {
             switch($event->type) {
                 case 'quote':
                     $this->setQuoteDate($event->date);
+                    $this->save();
                 case 'sample':
                     $this->setSampleDate($event->date);
+                    $this->save();
                 case 'approval':
                     $this->setApprovalDate($event->date);
+                    $this->save();
                 default:
                     $this->setDateRcvdProdOrder($event->date);
+                    $this->save();
             }
         }
     }
