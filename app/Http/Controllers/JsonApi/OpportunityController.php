@@ -191,7 +191,7 @@ class OpportunityController extends AbstractApiController
 
     // Cleans the CSV output
     public function cleanValues( $array ) {
-
+        var_dump($array);
         foreach($array AS $key => $value) {
             $value = trim(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $value));
             $array[$key] = $value;
