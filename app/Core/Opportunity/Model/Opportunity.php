@@ -11,6 +11,7 @@ use app\Core\DomainEntity;
 use app\Core\Event\Model\Event;
 use app\Exceptions\InvalidRequestException;
 use app\Models\User;
+use app\Models\Event AS EventModel;
 use DateTime;
 
 /**
@@ -84,7 +85,7 @@ class Opportunity extends DomainEntity
     {
         parent::__construct($dbId);
 
-        $events = Event::where('opportunity_id','=',$dbId)->get();
+        $events = EventModel::where('opportunity_id','=',$dbId)->get();
 
         foreach($events as $event) {
             switch($event->type) {
