@@ -760,7 +760,7 @@ class Opportunity extends DomainEntity
      */
     public function getQuoteDate()
     {
-        $event = EventModel::where('opportunity_id','=',$dbId)->where('type','=','quote')->first();
+        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','quote')->first();
         if($event->date) {
             return $event->date;
         } else {
@@ -781,7 +781,7 @@ class Opportunity extends DomainEntity
      */
     public function getSampleDate()
     {
-        $event = EventModel::where('opportunity_id','=',$dbId)->where('type','=','sample')->first();
+        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','sample')->first();
         if($event->date) {
             return $event->date;
         } else {
@@ -802,7 +802,7 @@ class Opportunity extends DomainEntity
      */
     public function getApprovalDate()
     {
-        $event = EventModel::where('opportunity_id','=',$dbId)->where('type','=','approval')->first();
+        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','approval')->first();
         if($event->date) {
             return $event->date;
         } else {
@@ -823,7 +823,7 @@ class Opportunity extends DomainEntity
      */
     public function getDateRcvdProdOrder()
     {
-        $event = EventModel::where('opportunity_id','=',$dbId)->where('type','=','production')->first();
+        $event = EventModel::where('opportunity_id','=',$this->getId())->where('type','=','production')->first();
         if($event->date) {
             return $event->date;
         } else {
