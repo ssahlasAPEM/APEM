@@ -8,9 +8,9 @@
  */
 
 use app\Core\DomainEntity;
+use app\Core\Event\Model\Event;
 use app\Exceptions\InvalidRequestException;
 use app\Models\User;
-use app\Models\Event;
 use DateTime;
 
 /**
