@@ -90,16 +90,12 @@ class Opportunity extends DomainEntity
             switch($event->type) {
                 case 'quote':
                     $this->setQuoteDate($event->date);
-                    $this->save();
                 case 'sample':
                     $this->setSampleDate($event->date);
-                    $this->save();
                 case 'approval':
                     $this->setApprovalDate($event->date);
-                    $this->save();
                 default:
                     $this->setDateRcvdProdOrder($event->date);
-                    $this->save();
             }
         }
     }
@@ -764,7 +760,12 @@ class Opportunity extends DomainEntity
      */
     public function getQuoteDate()
     {
-        return $this->quoteDate;
+        $event = EventModel::where('opportunity_id','=',$dbId)->where('type','=','quote')->first();
+        if($event->date) {
+            return $event->date;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -780,7 +781,12 @@ class Opportunity extends DomainEntity
      */
     public function getSampleDate()
     {
-        return $this->sampleDate;
+        $event = EventModel::where('opportunity_id','=',$dbId)->where('type','=','sample')->first();
+        if($event->date) {
+            return $event->date;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -796,7 +802,12 @@ class Opportunity extends DomainEntity
      */
     public function getApprovalDate()
     {
-        return $this->approvalDate;
+        $event = EventModel::where('opportunity_id','=',$dbId)->where('type','=','approval')->first();
+        if($event->date) {
+            return $event->date;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -812,7 +823,12 @@ class Opportunity extends DomainEntity
      */
     public function getDateRcvdProdOrder()
     {
-        return $this->dateRcvdProdOrder;
+        $event = EventModel::where('opportunity_id','=',$dbId)->where('type','=','production')->first();
+        if($event->date) {
+            return $event->date;
+        } else {
+            return null;
+        }
     }
 
     /**
