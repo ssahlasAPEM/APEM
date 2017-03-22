@@ -86,7 +86,7 @@ class Opportunity extends DomainEntity
         parent::__construct($dbId);
 
         $events = EventModel::where('opportunity_id','=',$dbId)->get();
-
+var_dump($events);
         foreach($events as $event) {
             switch($event->type) {
                 case 'quote':
