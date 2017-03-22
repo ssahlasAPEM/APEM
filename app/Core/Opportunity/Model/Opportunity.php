@@ -76,6 +76,31 @@ class Opportunity extends DomainEntity
     private $commentField;
 
     /**
+     * DomainEntity constructor.
+     *
+     * @param null $dbId
+     */
+    public function __construct($dbId = null)
+    {
+        parent::__construct($dbId);
+
+        $events = Event::class->where('opportunity_id','=',$dbId)->all();
+
+        foreach($events as $event) {
+            switch($event->type) {
+                case 'quote':
+                    $this->setQuoteDate($event->date);
+                case 'sample':
+                    $this->setSampleDate($event->date);
+                case 'approval':
+                    $this->setApprovalDate($event->date);
+                default:
+                    $this->setDateRcvdProdOrder($event->date);
+            }
+        }
+    }
+
+    /**
  * @return mixed
  */
     public function getUserId()
