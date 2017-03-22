@@ -42,7 +42,7 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
             throw $exception;
         }
 
-        $opportunity = Opportunity::where('id','=',$newEvent->opportunity_id);
+        $opportunity = Opportunity::where('id','=',$newEvent->opportunity_id)->first();
         switch($newEvent->type) {
             case 'quote':
                 $opportunity->quote_date = $newEvent->date;
