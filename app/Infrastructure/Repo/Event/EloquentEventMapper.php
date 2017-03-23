@@ -46,16 +46,16 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         $opportunity = Opportunity::where('id','=',$newEvent->opportunity_id)->first();
         switch($newEvent->type) {
             case 'quote':
-                $opportunity->quote_date = $newEvent->date;
+                $opportunity->quote_date = $newEvent->created_at;
                 break;
             case 'approval':
-                $opportunity->approval_date = $newEvent->date;
+                $opportunity->approval_date = $newEvent->created_at;
                 break;
             case 'sample':
-                $opportunity->sample_date = $newEvent->date;
+                $opportunity->sample_date = $newEvent->created_at;
                 break;
             case 'production':
-                $opportunity->date_rcvd_prod_order = $newEvent->date;
+                $opportunity->date_rcvd_prod_order = $newEvent->created_at;
                 break;
             default:
                 break;
@@ -91,16 +91,16 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         $opportunity = Opportunity::where('id','=',$model->opportunity_id)->first();
         switch($model->type) {
             case 'quote':
-                $opportunity->quote_date = $model->date;
+                $opportunity->quote_date = $model->created_at;
                 break;
             case 'approval':
-                $opportunity->approval_date = $model->date;
+                $opportunity->approval_date = $model->created_at;
                 break;
             case 'sample':
-                $opportunity->sample_date = $model->date;
+                $opportunity->sample_date = $model->created_at;
                 break;
             case 'production':
-                $opportunity->date_rcvd_prod_order = $model->date;
+                $opportunity->date_rcvd_prod_order = $model->created_at;
                 break;
             default:
                 break;
