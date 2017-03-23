@@ -7,6 +7,7 @@
  * Time: 4:00 PM
  */
 
+use app\Core\DomainEntity;
 use app\Core\Event\Model\Event;
 use app\Core\Event\Repository\EventInterface;
 use app\Exceptions\ForbiddenException;
@@ -62,6 +63,51 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         $opportunity->save();
 
         $obj = $this->createObject($newEvent->toArray());
+
+        return $obj;
+    }
+
+    /**
+     * Updates an existing DomainEntity object and returns it
+     *
+     * @param DomainEntity $object
+     *
+     * @return DomainEntity
+     * @throws ObjectNotFoundException
+     * @throws \Exception
+     */
+    public function update(DomainEntity $object)
+    {
+        $model = $this->getQueryModel();
+        $model = $model->where('id', '=', $object->getId())->first();
+
+        if ($model === null) {
+            throw new ObjectNotFoundException($this->targetClass(), $object->getId());
+        }
+
+        $model = $this->doStoreMapping($model, $object, true);
+        $model->save();
+
+        $opportunity = Opportunity::where('id','=',$model->opportunity_id)->first();
+        switch($model->type) {
+            case 'quote':
+                $opportunity->quote_date = $model->date;
+                break;
+            case 'approval':
+                $opportunity->approval_date = $model->date;
+                break;
+            case 'sample':
+                $opportunity->sample_date = $model->date;
+                break;
+            case 'production':
+                $opportunity->date_rcvd_prod_order = $model->date;
+                break;
+            default:
+                break;
+        }
+        $opportunity->save();
+
+        $obj = $this->createObject($model->toArray());
 
         return $obj;
     }
