@@ -91,16 +91,16 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         $opportunity = Opportunity::where('id','=',$model->opportunity_id)->first();
         switch($model->type) {
             case 'quote':
-                $opportunity->quote_date = $model->created_at;
+                $opportunity->quote_date = $model->updated_at;
                 break;
             case 'approval':
-                $opportunity->approval_date = $model->created_at;
+                $opportunity->approval_date = $model->updated_at;
                 break;
             case 'sample':
-                $opportunity->sample_date = $model->created_at;
+                $opportunity->sample_date = $model->updated_at;
                 break;
             case 'production':
-                $opportunity->date_rcvd_prod_order = $model->created_at;
+                $opportunity->date_rcvd_prod_order = $model->updated_at;
                 break;
             default:
                 break;
