@@ -14,6 +14,7 @@ use app\Exceptions\ForbiddenException;
 use app\Exceptions\InvalidRequestException;
 use app\Infrastructure\AbstractEloquentMapper;
 use app\Models\Opportunity;
+use Faker\Provider\DateTime;
 
 /**
  * Class EloquentEventMapper
@@ -35,7 +36,7 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
             $newEvent = $this->getQueryModel();
             $newEvent = $this->doStoreMapping($newEvent, $event, false);
             $newEvent->save();
-            $newEvent = date('Y-m-d', strtotime($newEvent->date));
+            $newEvent->date = date('Y-m-d', strtotime($newEvent->date));
             $newEvent->save();
         } catch (\PDOException $exception) {
             if ($exception->getCode() === 23505) {
@@ -90,7 +91,7 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         $model = $this->doStoreMapping($model, $object, true);
         $model->save();
 
-        $model = date('Y-m-d', strtotime($model->date));
+        $model->date = date('Y-m-d', strtotime($model->date));
         $model->save();
 
         $opportunity = Opportunity::where('id','=',$model->opportunity_id)->first();
