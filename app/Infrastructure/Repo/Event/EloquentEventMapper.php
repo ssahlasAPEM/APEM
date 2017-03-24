@@ -37,9 +37,9 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
             $newEvent = $this->doStoreMapping($newEvent, $event, false);
             $newEvent->save();
 
-            $tmpDate = strtotime($newEvent->date);
-            $tmpDate = date('Y-m-d',$tmpDate);
-            $newEvent->date = date('Y-m-d',$tmpDate);
+            $tmpDate = DateTime::createFromFormat('m-d-Y', $newEvent->date);
+            return $tmpDate;
+            
             $newEvent->save();
         } catch (\PDOException $exception) {
             if ($exception->getCode() === 23505) {
