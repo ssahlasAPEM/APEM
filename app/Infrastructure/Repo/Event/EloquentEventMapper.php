@@ -34,7 +34,8 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         try {
             $newEvent = $this->getQueryModel();
             $newEvent = $this->doStoreMapping($newEvent, $event, false);
-            $newEvent->date = date('Y-m-d');
+            $newEvent->save();
+            $newEvent = date('Y-m-d', strtotime($newEvent->date));
             $newEvent->save();
         } catch (\PDOException $exception) {
             if ($exception->getCode() === 23505) {
@@ -77,7 +78,7 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
      * @throws ObjectNotFoundException
      * @throws \Exception
      */
-    /*public function update(DomainEntity $object)
+    public function update(DomainEntity $object)
     {
         $model = $this->getQueryModel();
         $model = $model->where('id', '=', $object->getId())->first();
@@ -87,6 +88,9 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         }
 
         $model = $this->doStoreMapping($model, $object, true);
+        $model->save();
+
+        $model = date('Y-m-d', strtotime($model->date));
         $model->save();
 
         $opportunity = Opportunity::where('id','=',$model->opportunity_id)->first();
@@ -111,7 +115,7 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         $obj = $this->createObject($model->toArray());
 
         return $obj;
-    }*/
+    }
 
     /**
      * Finds Events that contain this specific $opportunityId
