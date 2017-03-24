@@ -36,7 +36,10 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
             $newEvent = $this->getQueryModel();
             $newEvent = $this->doStoreMapping($newEvent, $event, false);
             $newEvent->save();
-            $newEvent->date = date('Y-m-d', DateTime::createFromFormat('m-d-Y', $newEvent->date));
+
+            $tmpDate = strtotime($newEvent->date);
+            $tmpDate = date('Y-m-d',$tmpDate);
+            $newEvent->date = date('Y-m-d',$tmpDate);
             $newEvent->save();
         } catch (\PDOException $exception) {
             if ($exception->getCode() === 23505) {
@@ -91,7 +94,9 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         $model = $this->doStoreMapping($model, $object, true);
         $model->save();
 
-        $model->date = date('Y-m-d', DateTime::createFromFormat('m-d-Y', $model->date));
+        $tmpDate = strtotime($model->date);
+        $tmpDate = date('Y-m-d',$tmpDate);
+        $model->date = date('Y-m-d',$tmpDate);
         $model->save();
 
         $opportunity = Opportunity::where('id','=',$model->opportunity_id)->first();
