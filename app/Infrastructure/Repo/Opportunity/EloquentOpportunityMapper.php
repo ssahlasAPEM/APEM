@@ -532,13 +532,13 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         $event->save();
 
         // Check if we need to generate a stage / status event
-        if ($currStage !== $model->stage) {
+        /*if ($currStage !== $model->stage) {
             $event                 = new Event();
             $event->type           = $currStage;
             $event->date           = date('Y-m-d');
             $event->opportunity_id = $model->id;
             $event->save();
-        }
+        }*/
 
         if ($currStatus !== $model->status) {
             $event                 = new Event();
