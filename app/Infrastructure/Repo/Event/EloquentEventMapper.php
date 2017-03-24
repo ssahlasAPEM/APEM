@@ -14,7 +14,7 @@ use app\Exceptions\ForbiddenException;
 use app\Exceptions\InvalidRequestException;
 use app\Infrastructure\AbstractEloquentMapper;
 use app\Models\Opportunity;
-use Faker\Provider\DateTime;
+use DateTime;
 
 /**
  * Class EloquentEventMapper
@@ -38,8 +38,7 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
             $newEvent->save();
 
             $tmpDate = DateTime::createFromFormat('m-d-Y', $newEvent->date);
-            return $tmpDate;
-            
+            $newEvent->date = $tmpDate->format('m/d/Y');
             $newEvent->save();
         } catch (\PDOException $exception) {
             if ($exception->getCode() === 23505) {
@@ -52,16 +51,16 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         $opportunity = Opportunity::where('id','=',$newEvent->opportunity_id)->first();
         switch($newEvent->type) {
             case 'quote':
-                $opportunity->quote_date = $newEvent->created_at;
+                $opportunity->quote_date = $newEvent->date;
                 break;
             case 'approval':
-                $opportunity->approval_date = $newEvent->created_at;
+                $opportunity->approval_date = $newEvent->date;
                 break;
             case 'sample':
-                $opportunity->sample_date = $newEvent->created_at;
+                $opportunity->sample_date = $newEvent->date;
                 break;
             case 'production':
-                $opportunity->date_rcvd_prod_order = $newEvent->created_at;
+                $opportunity->date_rcvd_prod_order = $newEvent->date;
                 break;
             default:
                 break;
@@ -94,24 +93,23 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         $model = $this->doStoreMapping($model, $object, true);
         $model->save();
 
-        $tmpDate = strtotime($model->date);
-        $tmpDate = date('Y-m-d',$tmpDate);
-        $model->date = date('Y-m-d',$tmpDate);
+        $tmpDate = DateTime::createFromFormat('m-d-Y', $model->date);
+        $model->date = $tmpDate->format('m/d/Y');
         $model->save();
 
         $opportunity = Opportunity::where('id','=',$model->opportunity_id)->first();
         switch($model->type) {
             case 'quote':
-                $opportunity->quote_date = $model->updated_at;
+                $opportunity->quote_date = $model->date;
                 break;
             case 'approval':
-                $opportunity->approval_date = $model->updated_at;
+                $opportunity->approval_date = $model->date;
                 break;
             case 'sample':
-                $opportunity->sample_date = $model->updated_at;
+                $opportunity->sample_date = $model->date;
                 break;
             case 'production':
-                $opportunity->date_rcvd_prod_order = $model->updated_at;
+                $opportunity->date_rcvd_prod_order = $model->date;
                 break;
             default:
                 break;
