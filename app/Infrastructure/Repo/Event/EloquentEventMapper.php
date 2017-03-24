@@ -38,6 +38,7 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
             $newEvent->save();
 
             $tmpDate = DateTime::createFromFormat('m-d-Y', $newEvent->date);
+            $tmpOppDate = $tmpDate;
             $newEvent->date = $tmpDate->format('m/d/Y');
             $newEvent->save();
         } catch (\PDOException $exception) {
@@ -51,16 +52,16 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         $opportunity = Opportunity::where('id','=',$newEvent->opportunity_id)->first();
         switch($newEvent->type) {
             case 'quote':
-                $opportunity->quote_date = $newEvent->date;
+                $opportunity->quote_date = $tmpDate;
                 break;
             case 'approval':
-                $opportunity->approval_date = $newEvent->date;
+                $opportunity->approval_date = $tmpDate;
                 break;
             case 'sample':
-                $opportunity->sample_date = $newEvent->date;
+                $opportunity->sample_date = $tmpDate;
                 break;
             case 'production':
-                $opportunity->date_rcvd_prod_order = $newEvent->date;
+                $opportunity->date_rcvd_prod_order = $tmpDate;
                 break;
             default:
                 break;
