@@ -76,7 +76,7 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
      * @throws ObjectNotFoundException
      * @throws \Exception
      */
-    public function update(DomainEntity $object)
+    /*public function update(DomainEntity $object)
     {
         $model = $this->getQueryModel();
         $model = $model->where('id', '=', $object->getId())->first();
@@ -110,7 +110,7 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
         $obj = $this->createObject($model->toArray());
 
         return $obj;
-    }
+    }*/
 
     /**
      * Finds Events that contain this specific $opportunityId
