@@ -12622,7 +12622,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://apem.herokuapp.com","name":"apem","version":"0.0.0+a46f9261"});
+  require("apem/app")["default"].create({"usingCors":true,"apiUrl":"http://nao.apem.com","name":"apem","version":"0.0.0+a46f9261"});
 }
 
 /* jshint ignore:end */
