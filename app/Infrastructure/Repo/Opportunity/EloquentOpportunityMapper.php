@@ -422,7 +422,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
 
             $event                 = new Event();
             $event->type           = "create";
-            $event->date           = date('Y-m-d');
+            $event->date           = date('m/d/Y');
             $event->opportunity_id = $newOpportunity->id;
 
             $event->save();
@@ -527,7 +527,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         // Generate update event
         $event                 = new Event();
         $event->type           = "update";
-        $event->date           = date('Y-m-d');
+        $event->date           = date('m/d/Y');
         $event->opportunity_id = $model->id;
         $event->save();
 
@@ -543,7 +543,7 @@ class EloquentOpportunityMapper extends AbstractEloquentMapper implements Opport
         if ($currStatus !== $model->status) {
             $event                 = new Event();
             $event->type           = $model->status;
-            $event->date           = date('Y-m-d');
+            $event->date           = date('m/d/Y');
             $event->opportunity_id = $model->id;
             $event->save();
         }

@@ -38,7 +38,6 @@ class EloquentEventMapper extends AbstractEloquentMapper implements EventInterfa
             $newEvent->save();
 
             $tmpDate = DateTime::createFromFormat('m-d-Y', $newEvent->date);
-            $tmpOppDate = $tmpDate;
             $newEvent->date = $tmpDate->format('m/d/Y');
             $newEvent->save();
         } catch (\PDOException $exception) {
